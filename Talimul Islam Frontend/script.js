@@ -4,7 +4,7 @@ let currentEmail = '';
 let otpTimer;
 
 // API URL - আপনার সার্ভার URL এখানে সেট করুন
-const API_URL = 'https://talimul-islam.onrender.com';
+const API_URL = 'https://talimul-islam.onrender.com/send-otp';
 
 // Save users to localStorage
 function saveUsers() {
@@ -409,3 +409,58 @@ function validateEmail(email) {
 
 // Initialize the page
 toggleForm('login');
+
+
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Reset error messages
+    document.querySelectorAll('.error-message').forEach(el => {
+        el.classList.remove('show-error');
+    });
+
+    const name = document.getElementById('signupName').value.trim();
+    const password = document.getElementById('signupPassword').value;
+    const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+    let isValid = true;
+
+    // Validation
+    if (!name) {
+        showError('signupNameError', 'নাম আবশ্যক');
+        isValid = false;
+    }
+
+    if (!password || password.length < 6) {
+        showError('signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
+        isValid = false;
+    }
+
+    if (password !== confirmPassword) {
+        showError('signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না');
+        isValid = false;
+    }
+
+    if (!isValid) return;
+
+    // Save user to localStorage
+    const newUser = {
+        name: name,
+        email: currentEmail,
+        password: password
+    };
+
+    users.push(newUser);
+    saveUsers();
+
+    // Show success modal
+    openModal();
+});
+
+
+
+
+
+
+
+
