@@ -4,7 +4,7 @@ let currentEmail = '';
 let otpTimer;
 
 // API URL - আপনার সার্ভার URL এখানে সেট করুন
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://talimul-islam.onrender.com';
 
 // Save users to localStorage
 function saveUsers() {
