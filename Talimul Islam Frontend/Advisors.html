@@ -1,0 +1,3631 @@
+<!DOCTYPE html>
+<html lang="bn">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <title>উপদেষ্টা - ইসলামিক চিন্তাশীল</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            padding-top: 60px; /* নেভবার হাইট অনুযায়ী অ্যাডজাস্ট করুন */
+        }
+        
+        /* =============================================
+           নেভিগেশন বার স্টাইল
+        ============================================= */
+        nav {
+            width: 100%;
+            height: 60px; /* ছোট ডিভাইসের জন্য কমানো হয়েছে */
+            background-color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 90;
+            padding: 0 15px; /* পাশের প্যাডিং কমানো হয়েছে */
+        }
+        
+        /* লেফট সেকশন - লোগো এবং মেনু আইটেম */
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        /* লোগো স্টাইল */
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: #6A35F2;
+            text-decoration: none;
+        }
+        
+        .logo img {
+            max-width: 120px; /* মোবাইলে লোগো সাইজ কমানো */
+            height: auto;
+        }
+        
+        /* মেনু আইটেম কন্টেইনার */
+        .menu-items {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .menu-item {
+            list-style: none;
+            position: relative;
+        }
+        
+        .menu-link {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .menu-link:hover {
+            color: #6A35F2;
+        }
+        
+        /* মেনু আইটেম হোভার আন্ডারলাইন */
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 50%;
+            background-color: #6A35F2;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .menu-link:hover::after {
+            width: 100%;
+        }
+        
+        /* ড্রপডাউন মেনু */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 25px;
+            left: -20px;
+            width: 160px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 8px 0;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: dropdownFade 0.3s ease forwards;
+        }
+        
+        .menu-item:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .dropdown-item {
+            list-style: none;
+        }
+        
+        .dropdown-link {
+            display: block;
+            padding: 8px 16px;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .dropdown-link:hover {
+            background-color: rgba(106, 53, 242, 0.1);
+            color: #6A35F2;
+            transform: translateX(5px);
+        }
+        
+        /* সেন্টার সেকশন - সার্চ বক্স */
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        /* সার্চ বক্স স্টাইল */
+        .search-container {
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+        
+        .search-box {
+            width: 100%;
+            height: 40px;
+            border-radius: 5px;
+            border: 1px solid #dfe1e5;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus-within {
+            box-shadow: 0 1px 6px rgba(106, 53, 242, 0.2);
+            border-color: #6A35F2;
+            background-color: #fff;
+        }
+        
+        .search-icon {
+            color: #5f6368;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 14px;
+            color: #202124;
+        }
+        
+        .search-input::placeholder {
+            color: #5f6368;
+            opacity: 0.8;
+        }
+        
+        /* রাইট সেকশন - ইউটিলিটি আইটেম */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* আইকনগুলোর মধ্যে গ্যাপ কমানো */
+        }
+        
+        /* থিম টগল স্টাইল */
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #5f6368;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background-color: rgba(106, 53, 242, 0.1);
+            color: #6A35F2;
+        }
+        
+        /* ভাষা টগল স্টাইল */
+        .language-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: #5f6368;
+            font-size: 14px;
+            padding: 5px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .language-toggle span {
+            display: none; /* মোবাইলে টেক্সট লুকানো */
+        }
+        
+        .language-toggle:hover {
+            background-color: rgba(106, 53, 242, 0.1);
+            color: #6A35F2;
+        }
+        
+        /* কার্ট আইকন স্টাইল */
+        .cart-icon {
+            position: relative;
+            color: #5f6368;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-icon:hover {
+            color: #6A35F2;
+            background-color: rgba(106, 53, 242, 0.1);
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #6A35F2;
+            color: white;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* লগইন বাটন স্টাইল */
+        .login-button {
+            background-color: #6A35F2;
+            color: white;
+            border: none;
+            padding: 6px 15px; /* ছোট করা হয়েছে */
+            border-radius: 50px;
+            font-size: 13px; /* ছোট করা হয়েছে */
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .login-button:hover {
+            background-color: #5628d8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(106, 53, 242, 0.2);
+        }
+        
+        /* হ্যামবার্গার মেনু স্টাইল */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 100;
+            width: 30px;
+            height: 30px;
+            position: relative;
+            padding: 5px;
+        }
+        
+        .hamburger div {
+            width: 20px;
+            height: 2px;
+            background-color: #333;
+            margin: 4px 0;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* মোবাইল সার্চ আইকন */
+        .mobile-search-icon {
+            display: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            color: #5f6368;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-search-icon:hover {
+            background-color: rgba(106, 53, 242, 0.1);
+            color: #6A35F2;
+        }
+        
+        /* ফুল স্ক্রিন সার্চ ওভারলে */
+        .fullscreen-search {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .fullscreen-search.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .fullscreen-search-container {
+            width: 90%;
+            max-width: 600px;
+        }
+        
+        .fullscreen-search-box {
+            width: 100%;
+            height: 50px;
+            border-radius: 5px;
+            border: 2px solid #6A35F2;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 4px 20px rgba(106, 53, 242, 0.15);
+        }
+        
+        .fullscreen-search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 16px;
+            color: #202124;
+            padding: 0 10px;
+        }
+        
+        .fullscreen-search-close {
+            cursor: pointer;
+            padding: 5px;
+            color: #5f6368;
+            transition: all 0.3s ease;
+        }
+        
+        .fullscreen-search-close:hover {
+            color: #6A35F2;
+            transform: rotate(90deg);
+        }
+        
+        /* মোবাইল রেসপনসিভ স্টাইল - সম্পূর্ণ পরিবর্তিত */
+        @media screen and (max-width: 1024px) {
+            body {
+                padding-top: 60px; /* নেভবার হাইট অনুযায়ী অ্যাডজাস্ট করুন */
+            }
+            
+            nav {
+                padding: 0 10px;
+                height: 60px;
+            }
+            
+            .nav-left {
+                gap: 5px;
+            }
+            
+            .logo img {
+                max-width: 110px;
+            }
+            
+            /* সাইডবার এর বিকল্প স্টাইল */
+            .menu-items {
+                position: fixed;
+                top: 0;
+                left: -280px;
+                width: 280px;
+                height: 100vh;
+                background-color: white;
+                flex-direction: column;
+                padding: 80px 20px 30px;
+                gap: 5px;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease-in-out;
+                z-index: 95;
+                overflow-y: auto;
+            }
+            
+            .menu-items.active {
+                left: 0;
+                overflow: auto;        
+  scrollbar-width: none;  
+  -ms-overflow-style: none; 
+            }
+            
+            /* হ্যামবার্গার মেনু দেখাও */
+            .hamburger {
+                display: block;
+                margin-right: 5px;
+            }
+            
+            /* হ্যামবার্গার টু X এনিমেশন */
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 5px);
+            }
+            
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -5px);
+            }
+            
+            /* নেভবার সেন্টার হাইড */
+            .nav-center {
+                display: none;
+            }
+            
+            /* মোবাইল সার্চ আইকন দেখাও */
+            .mobile-search-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            /* লগইন বাটন */
+            .login-button {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+            
+            /* ছোট ডিসপ্লেতে ভাষা বাটন থেকে টেক্সট লুকাও */
+            .language-toggle span {
+                display: none;
+            }
+            
+            /* মোবাইলে ড্রপডাউন মেনু পজিশন */
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                width: 100%;
+                border-radius: 6px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                background-color: #f5f5f5;
+                animation: none;
+                transform: none;
+                opacity: 1;
+                display: none;
+            }
+            
+            .menu-item.show-dropdown .dropdown-menu {
+                display: block;
+            }
+            
+            .dropdown-link:hover {
+                transform: translateX(5px);
+            }
+            
+            /* মেনু আইটেম ডিসপ্লে */
+            .menu-item {
+                width: 100%;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            .menu-link {
+                width: 100%;
+                display: block;
+                padding: 12px 0;
+            }
+            
+            /* মেনু আইটেম হোভার আন্ডারলাইন */
+            .menu-link::after {
+                display: none;
+            }
+            
+            /* অভারলে - সাইডবার অপেন হলে */
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 90;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            /* মোবাইলে ড্রপডাউন টগল আইকন */
+            .dropdown-toggle {
+                float: right;
+                transition: transform 0.3s ease;
+            }
+            
+            .menu-item.show-dropdown .dropdown-toggle {
+                transform: rotate(180deg);
+            }
+            
+            /* আইকনগুলো কম্প্যাক্ট করুন */
+            .nav-right {
+                gap: 5px;
+            }
+            
+            .theme-toggle, .cart-icon, .mobile-search-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+        }
+        
+        /* আরও ছোট মোবাইল ডিভাইসের জন্য অতিরিক্ত অ্যাডজাস্টমেন্ট */
+        @media screen and (max-width: 360px) {
+            .nav-right {
+                gap: 3px;
+            }
+            
+            .logo img {
+                max-width: 100px;
+            }
+            
+            .login-button {
+                padding: 4px 10px;
+                font-size: 11px;
+            }
+            
+            .theme-toggle, .cart-icon, .mobile-search-icon, .language-toggle {
+                width: 24px;
+                height: 24px;
+                font-size: 13px;
+                padding: 0;
+            }
+        }
+        
+        /* এনিমেশন কি-ফ্রেম */
+        @keyframes dropdownFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ডার্ক থিম স্টাইল */
+        body.dark-theme {
+            background-color: #121212;
+            color: #f5f5f5;
+        }
+        
+        body.dark-theme nav {
+            background-color: #1f1f1f;
+            border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        body.dark-theme .menu-link {
+            color: #e0e0e0;
+        }
+        
+        body.dark-theme .search-box {
+            background-color: #2d2d2d;
+            border-color: #3d3d3d;
+        }
+        
+        body.dark-theme .search-input {
+            color: #e0e0e0;
+        }
+        
+        body.dark-theme .search-input::placeholder {
+            color: #aaa;
+        }
+        
+        body.dark-theme .dropdown-menu {
+            background-color: #2d2d2d;
+        }
+        
+        body.dark-theme .dropdown-link {
+            color: #e0e0e0;
+        }
+        
+        body.dark-theme .dropdown-link:hover {
+            background-color: rgba(106, 53, 242, 0.2);
+        }
+        
+        body.dark-theme .theme-toggle,
+        body.dark-theme .language-toggle,
+        body.dark-theme .cart-icon {
+            color: #aaa;
+        }
+        
+        body.dark-theme .hamburger div {
+            background-color: #e0e0e0;
+        }
+        
+        body.dark-theme .mobile-search-icon {
+            background-color: transparent;
+            color: #aaa;
+        }
+        
+        body.dark-theme .fullscreen-search {
+            background-color: rgba(31, 31, 31, 0.95);
+        }
+        
+        body.dark-theme .fullscreen-search-box {
+            background-color: #2d2d2d;
+        }
+        
+        body.dark-theme .fullscreen-search-input {
+            color: #e0e0e0;
+        }
+        
+        body.dark-theme .menu-item {
+            border-bottom-color: #2d2d2d;
+        }
+
+        /* একটিভ মেনু আইটেম স্টাইল */
+        .menu-link.active {
+           color: #6A35F2;
+           font-weight: 600;
+         }
+            
+        /* একটিভ মেনু আইটেমের আন্ডারলাইন রিমুভ */
+        .menu-link.active::after {
+            display: none;
+        }
+    </style> 
+    <!-- নেভিগেশন বার -->
+    <nav>
+        <!-- বাম সাইড - লোগো এবং মেনু -->
+        <div class="nav-left">
+            <!-- হ্যামবার্গার মেনু বাটন (মোবাইল) -->
+            <div class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+            
+            <!-- লোগো -->
+            <a href="Talimul Islam Academi.html" class="logo"><img src="img/ChatGPT Image.png" alt="img" width="140px"></a>
+            
+            <!-- মেনু আইটেম -->
+            <ul class="menu-items">
+                <li class="menu-item">
+                    <a href="Talimul Islam Academi.html" class="menu-link">হোম</a>
+                </li>
+                <li class="menu-item">
+                    <a href="blog page.html" class="menu-link">ব্লগ</a>
+                </li> 
+                <li class="menu-item">
+                    <a href="About us.html" class="menu-link">আমাদের সম্পর্কে</a>
+                </li>
+                <li class="menu-item dropdown">
+                    <a href="javascript:void(0)" class="menu-link">কোর্স <i class="fas fa-chevron-down dropdown-toggle" style="font-size: 10px;"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item">
+                            <a href="Search.html" class="dropdown-link">সকল কোর্স</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="Live course.html" class="dropdown-link">লাইভ কোর্স</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="Book.html" class="menu-link">বই</a>
+                </li>
+                <li class="menu-item">
+                    <a href="Teacher.html" class="menu-link">শিক্ষক</a>
+                </li>
+                <li class="menu-item">
+                    <a href="Advisors.html" class="menu-link">উপদেষ্টা</a>
+                </li>
+                <li class="menu-item">
+                    <a href="Contact.html" class="menu-link">যোগাযোগ</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- সেন্টার - সার্চ বক্স -->
+        <div class="nav-center">
+            <div class="search-container">
+                <div class="search-box">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <input 
+                        type="text" 
+                        class="search-input"
+                        placeholder="কোর্স সার্চ করুন..." 
+                        autocomplete="off">
+                </div>
+            </div>
+        </div>
+        
+        <!-- ডান সাইড - ইউটিলিটি বাটন -->
+        <div class="nav-right">
+            <!-- মোবাইল সার্চ আইকন -->
+            <div class="mobile-search-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            
+            <!-- থিম টগল -->
+            <button class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+            
+            <!-- ভাষা পরিবর্তন -->
+            <button class="language-toggle">
+                <i class="fas fa-globe"></i>
+                <span>বাংলা</span>
+            </button>
+            
+            <!-- কার্ট আইকন -->
+            <a href="cart.html" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-badge">0</span>
+            </a>
+            
+            <!-- লগইন বাটন -->
+            <a href="Login.html" class="login-button">লগইন</a>
+        </div>
+    </nav>
+        
+<!-- সিলেক্টেড -->
+<script>
+    // বর্তমান URL থেকে একটিভ পেজ নির্ধারণ
+    document.addEventListener('DOMContentLoaded', function() {
+        // সব মেনু লিংক নিয়ে আসা
+        const menuLinks = document.querySelectorAll('.menu-link');
+        
+        // বর্তমান পেজের URL পাথনেম
+        const currentPath = window.location.pathname;
+        
+        // একটি ট্র্যাকিং ভ্যারিয়েবল - কোন মেনু আইটেম একটিভ হয়েছে কিনা তা ট্র্যাক করতে
+        let hasActiveMenuItem = false;
+        
+        // বিশেষ পেজগুলি আগে চেক করি - "আমাদের সম্পর্কে" এবং "ব্লগ"
+        menuLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            
+            // ভিজিবল টেক্সট কনটেন্ট চেক করা (লিংক টেক্সট)
+            const linkText = link.textContent.trim();
+            
+            // সঠিক পেজ URL চেক করা
+            if (href === currentPath || 
+                currentPath.endsWith(href) || 
+                (href !== 'javascript:void(0)' && href !== 'Talimul Islam Academi.html' && currentPath.includes(href))) {
+                link.classList.add('active');
+                hasActiveMenuItem = true;
+            }
+            
+            // বিশেষ পেজের জন্য অতিরিক্ত চেক
+            if ((linkText === 'আমাদের সম্পর্কে' && (currentPath.includes('About') || currentPath.includes('about'))) || 
+                (linkText === 'ব্লগ' && (currentPath.includes('blog') || currentPath.includes('Blog')))) {
+                link.classList.add('active');
+                hasActiveMenuItem = true;
+            }
+        });
+        
+        // ড্রপডাউন মেনু আইটেমগুলোর জন্য অতিরিক্ত চেক
+        const dropdownLinks = document.querySelectorAll('.dropdown-link');
+        
+        dropdownLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPath || currentPath.endsWith(href) || (href !== '#' && currentPath.includes(href))) {
+                link.classList.add('active');
+                
+                // প্যারেন্ট ড্রপডাউন মেনুকেও একটিভ করা
+                const parentDropdown = link.closest('.dropdown');
+                if (parentDropdown) {
+                    const parentLink = parentDropdown.querySelector('.menu-link');
+                    if (parentLink) {
+                        parentLink.classList.add('active');
+                    }
+                }
+                hasActiveMenuItem = true;
+            }
+        });
+        
+        // হোম পেজের স্পেশাল কেস (শুধুমাত্র যদি অন্য কোন আইটেম একটিভ না হয়ে থাকে)
+        if (!hasActiveMenuItem) {
+            const isHomePage = currentPath === '/' || 
+                              currentPath === '/index.html' || 
+                              currentPath === '' || 
+                              currentPath.endsWith('Talimul Islam Academi.html') ||
+                              currentPath.endsWith('/');
+                              
+            if (isHomePage) {
+                const homeLink = document.querySelector('.menu-link[href="Talimul Islam Academi.html"]');
+                if (homeLink) {
+                    homeLink.classList.add('active');
+                }
+            }
+        }
+        
+        // ক্লিক ইভেন্ট হ্যান্ডলার যুক্ত করা
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // ড্রপডাউন টগল লিংক এর ক্ষেত্রে একটিভ ক্লাস না যুক্ত করা
+                if (link.parentElement.classList.contains('dropdown') && window.innerWidth <= 1024) {
+                    e.preventDefault(); // ড্রপডাউন টগল করার জন্য ডিফল্ট বিহেভিয়ার বাধা দেওয়া
+                    return;
+                }
+                
+                // সব লিংক থেকে একটিভ ক্লাস রিমুভ
+                menuLinks.forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // ক্লিক করা লিংকে একটিভ ক্লাস যুক্ত
+                link.classList.add('active');
+            });
+        });
+        
+        // মোবাইল ড্রপডাউন টগল ফাংশনালিটি
+        const dropdownItems = document.querySelectorAll('.menu-item.dropdown');
+        dropdownItems.forEach(item => {
+            const dropdownToggle = item.querySelector('.dropdown-toggle');
+            if (dropdownToggle) {
+                dropdownToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    item.classList.toggle('show-dropdown');
+                });
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // ড্রপডাউন মেনু আইটেমগুলোর জন্য অতিরিক্ত চেক
+    const dropdownLinks = document.querySelectorAll('.dropdown-link');
+        
+        dropdownLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPath || currentPath.endsWith(href) || (href !== '#' && currentPath.includes(href))) {
+                link.classList.add('active');
+                
+                // প্যারেন্ট ড্রপডাউন মেনুকেও একটিভ করা
+                const parentDropdown = link.closest('.dropdown-item').closest('.dropdown-menu').closest('.menu-item');
+                if (parentDropdown) {
+                    const parentLink = parentDropdown.querySelector('.menu-link');
+                    if (parentLink) {
+                        parentLink.classList.add('active');
+                    }
+                }
+                hasActiveMenuItem = true;
+            }
+        });
+        
+        // বিশেষভাবে কোর্স সাব-পেজগুলি চেক করা
+        if (currentPath.includes('course') || currentPath.includes('Course') || 
+            currentPath.includes('all-courses') || currentPath.includes('Live course')) {
+            // কোর্স ড্রপডাউন মেনুকে একটিভ করা
+            const courseDropdown = document.querySelector('.menu-item.dropdown .menu-link');
+            if (courseDropdown) {
+                courseDropdown.classList.add('active');
+                hasActiveMenuItem = true;
+            }
+        }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    /* সার্চ পেজ স্টাইল */
+    .search-header {
+        background-color: #f5f7fa;
+        padding: 2rem 1rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .search-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    .search-title {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+    
+    .search-query {
+        font-weight: bold;
+        color: #3182ce;
+    }
+    
+    .results-count {
+        color: #666;
+        margin-bottom: 2rem;
+    }
+    
+    .search-results {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+    
+    .no-results {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 4rem 1rem;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
+    
+    .no-results-icon {
+        font-size: 3rem;
+        color: #cbd5e0;
+        margin-bottom: 1rem;
+    }
+    
+    .no-results h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+    
+    .no-results p {
+        color: #666;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    /* মোবাইল সার্চ ওভারলে স্টাইল */
+    .fullscreen-search {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.98);
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .fullscreen-search.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .fullscreen-search-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 0 1rem;
+    }
+    
+    .fullscreen-search-box {
+        display: flex;
+        width: 100%;
+        max-width: 600px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 0.75rem 1rem;
+        position: relative;
+    }
+    
+    .search-icon {
+        color: #3182ce;
+        font-size: 1.25rem;
+        margin-right: 0.75rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .fullscreen-search-input {
+        flex-grow: 1;
+        border: none;
+        font-size: 1.25rem;
+        outline: none;
+        background: transparent;
+    }
+    
+    .fullscreen-search-close {
+        color: #777;
+        font-size: 1.25rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 0 0.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .search-results {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+<!-- মোবাইল সার্চ ওভারলে -->
+<div class="fullscreen-search">
+    <div class="fullscreen-search-container">
+        <div class="fullscreen-search-box">
+            <div class="search-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <input
+                type="text"
+                class="fullscreen-search-input"
+                placeholder="কোর্স সার্চ করুন"
+                autocomplete="off">
+            <div class="fullscreen-search-close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <!-- ফুল স্ক্রিন সার্চ ওভারলে (মোবাইল) -->
+    <div class="fullscreen-search">
+        <div class="fullscreen-search-container">
+            <div class="fullscreen-search-box">
+                <div class="search-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <input 
+                    type="text" 
+                    class="fullscreen-search-input"
+                    placeholder="কোর্স সার্চ করুন" 
+                    autocomplete="off">
+                <div class="fullscreen-search-close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- সাইডবার অভারলে -->
+    <div class="overlay"></div>
+        
+    <script>
+        // হ্যামবার্গার মেনু টগল
+        const hamburger = document.querySelector('.hamburger');
+        const menuItems = document.querySelector('.menu-items');
+        const overlay = document.querySelector('.overlay');
+        
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            menuItems.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = menuItems.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        // অভারলে ক্লিক করলে মেনু বন্ধ
+        overlay.addEventListener('click', function() {
+            hamburger.classList.remove('active');
+            menuItems.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // মোবাইলে ড্রপডাউন টগল
+        const dropdownItems = document.querySelectorAll('.menu-item.dropdown');
+        
+        dropdownItems.forEach(item => {
+            const menuLink = item.querySelector('.menu-link');
+            menuLink.addEventListener('click', function(e) {
+                // ডেস্কটপ ব্যবহারকারীদের জন্য লিংক এ ক্লিক করা যাবে
+                if (window.innerWidth > 1024) {
+                    return;
+                }
+                
+                // মোবাইলে ড্রপডাউন টগল করুন
+                e.preventDefault();
+                item.classList.toggle('show-dropdown');
+                
+                // অন্যান্য খোলা ড্রপডাউন বন্ধ করুন
+                dropdownItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('show-dropdown')) {
+                        otherItem.classList.remove('show-dropdown');
+                    }
+                });
+            });
+        });
+        
+        // ডার্ক মোড টগল
+        const themeToggle = document.querySelector('.theme-toggle');
+        let isDarkMode = false;
+        
+        themeToggle.addEventListener('click', function() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-theme');
+            
+            if (isDarkMode) {
+                this.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                this.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+        
+        // ভাষা পরিবর্তন
+        const languageToggle = document.querySelector('.language-toggle');
+        let currentLanguage = 'বাংলা';
+        
+        languageToggle.addEventListener('click', function() {
+            if (currentLanguage === 'বাংলা') {
+                currentLanguage = 'English';
+                this.querySelector('span').textContent = 'English';
+            } else {
+                currentLanguage = 'বাংলা';
+                this.querySelector('span').textContent = 'বাংলা';
+            }
+        });
+        
+        // মোবাইল সার্চ টগল
+        const mobileSearchIcon = document.querySelector('.mobile-search-icon');
+        const fullscreenSearch = document.querySelector('.fullscreen-search');
+        const fullscreenSearchClose = document.querySelector('.fullscreen-search-close');
+        const fullscreenSearchInput = document.querySelector('.fullscreen-search-input');
+        
+        mobileSearchIcon.addEventListener('click', function() {
+            fullscreenSearch.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                fullscreenSearchInput.focus();
+            }, 300);
+        });
+        
+        fullscreenSearchClose.addEventListener('click', function() {
+            fullscreenSearch.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // ব্রাউজার রিসাইজ হ্যান্ডলার
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 1024) {
+                // ডেস্কটপ মোডে সব রিসেট
+                hamburger.classList.remove('active');
+                menuItems.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                // সমস্ত ওপেন ড্রপডাউন রিসেট 
+                dropdownItems.forEach(item => {
+                    item.classList.remove('show-dropdown');
+                });
+            }
+        });
+    </script>
+<script>
+    // Get all needed DOM elements
+document.addEventListener('DOMContentLoaded', function() {
+  // Desktop search
+  const searchInput = document.querySelector('.search-input');
+  // Mobile search
+  const mobileSearchBtn = document.querySelector('.mobile-search-btn');
+  const fullscreenSearch = document.querySelector('.fullscreen-search');
+  const fullscreenSearchInput = document.querySelector('.fullscreen-search-input');
+  const fullscreenSearchClose = document.querySelector('.fullscreen-search-close');
+  const overlay = document.querySelector('.overlay');
+  
+  // Handle desktop search
+  if (searchInput) {
+    searchInput.addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') {
+        const searchTerm = searchInput.value.trim();
+        if (searchTerm) {
+          redirectToSearchPage(searchTerm);
+        }
+      }
+    });
+  }
+  
+  // Handle mobile search toggle
+  if (mobileSearchBtn) {
+    mobileSearchBtn.addEventListener('click', function() {
+      fullscreenSearch.classList.add('active');
+      setTimeout(() => {
+        fullscreenSearchInput.focus();
+      }, 300);
+    });
+  }
+  
+  // Handle fullscreen search close
+  if (fullscreenSearchClose) {
+    fullscreenSearchClose.addEventListener('click', function() {
+      fullscreenSearch.classList.remove('active');
+    });
+  }
+  
+  // Handle fullscreen search input
+  if (fullscreenSearchInput) {
+    fullscreenSearchInput.addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') {
+        const searchTerm = fullscreenSearchInput.value.trim();
+        if (searchTerm) {
+          redirectToSearchPage(searchTerm);
+        }
+      }
+    });
+  }
+  
+  // Redirect to search page with search term
+  function redirectToSearchPage(searchTerm) {
+    window.location.href = 'search.html?q=' + encodeURIComponent(searchTerm);
+  }
+  
+  // Search page functionality
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchQuery = urlParams.get('q');
+  
+  if (window.location.pathname.includes('search.html') && searchQuery) {
+    performSearch(searchQuery);
+  }
+  
+  function performSearch(query) {
+    // Normalize query for case-insensitive matching
+    const normalizedQuery = query.toLowerCase();
+    
+    // Display the search query
+    const searchQueryDisplay = document.querySelector('.search-query');
+    if (searchQueryDisplay) {
+      searchQueryDisplay.textContent = `"${query}"`;
+    }
+    
+    // Get all courses from the page
+    // In a real implementation, you would fetch this data from a database
+    const courses = [
+      {
+        id: 1,
+        title: "হিফজুল কুরআন: সহজ পদ্ধতিতে কুরআন মুখস্থ",
+        instructor: "মাওলানা আব্দুল্লাহ",
+        level: "বেসিক",
+        chapters: "১৮ অধ্যায়",
+        students: "৩৫০ শিক্ষার্থী",
+        rating: "৪.৮",
+        price: "৳৩,৫০০",
+        originalPrice: "৳৪,৫০০",
+        image: "14png.png",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      {
+        id: 2,
+        title: "তাজবীদ: সহীহ উচ্চারণে কুরআন তিলাওয়াত",
+        instructor: "মাওলানা ইব্রাহিম",
+        level: "মধ্যবর্তী",
+        chapters: "১২ অধ্যায়",
+        students: "২৪০ শিক্ষার্থী",
+        rating: "৪.৯",
+        price: "৳২,৮০০",
+        originalPrice: "৳৩,৫০০",
+        image: "Talimul Islam Academi.jpeg",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      {
+        id: 3,
+        title: "আরবি ভাষা: সহজ পদ্ধতিতে আরবি শিখুন",
+        instructor: "মাওলানা জাকির",
+        level: "বেসিক",
+        chapters: "২০ অধ্যায়",
+        students: "৪২০ শিক্ষার্থী",
+        rating: "৪.৭",
+        price: "৳৪,২০০",
+        originalPrice: "৳৫,০০০",
+        image: "14png.png",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      }
+    ];
+    
+    // Filter courses based on search query
+    const filteredCourses = courses.filter(course => {
+      return (
+        course.title.toLowerCase().includes(normalizedQuery) ||
+        course.instructor.toLowerCase().includes(normalizedQuery) ||
+        course.level.toLowerCase().includes(normalizedQuery)
+      );
+    });
+    
+    // Get the results container
+    const resultsContainer = document.querySelector('.search-results');
+    
+    if (resultsContainer) {
+      // Clear previous results
+      resultsContainer.innerHTML = '';
+      
+      // Display results or "no results" message
+      if (filteredCourses.length > 0) {
+        // Update results count
+        const resultsCount = document.querySelector('.results-count');
+        if (resultsCount) {
+          resultsCount.textContent = `${filteredCourses.length} টি ফলাফল পাওয়া গেছে`;
+        }
+        
+        // Add each course card to results
+        filteredCourses.forEach(course => {
+          const courseCard = createCourseCard(course);
+          resultsContainer.appendChild(courseCard);
+        });
+      } else {
+        // Display no results message
+        const noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.innerHTML = `
+          <div class="no-results-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>কোনো কোর্স পাওয়া যায়নি</h3>
+          <p>"${query}" এর জন্য কোনো ফলাফল নেই। অনুগ্রহ করে অন্য কিছু খুঁজুন।</p>
+        `;
+        resultsContainer.appendChild(noResults);
+        
+        // Update results count
+        const resultsCount = document.querySelector('.results-count');
+        if (resultsCount) {
+          resultsCount.textContent = '০ টি ফলাফল পাওয়া গেছে';
+        }
+      }
+    }
+  }
+  
+  // Create course card element
+  function createCourseCard(course) {
+    const card = document.createElement('div');
+    card.className = 'course-card';
+    
+    card.innerHTML = `
+      <a href="course-details.html?id=${course.id}" class="course-card-link" aria-label="${course.title} বিস্তারিত"></a>
+      <div class="course-thumbnail">
+        <img src="${course.image}" alt="${course.title}">
+        <div class="level-badge ${course.level === 'বেসিক' ? 'beginner' : 'intermediate'}">${course.level}</div>
+      </div>
+      <div class="course-info">
+        <div class="instructor">
+          <img src="${course.instructorImage}" alt="শিক্ষক" class="instructor-img">
+          <span>${course.instructor}</span>
+        </div>
+        <h3 class="course-title">${course.title}</h3>
+        <div class="course-meta">
+          <div class="meta-item">
+            <i class="fas fa-book-open"></i>
+            <span>${course.chapters}</span>
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-users"></i>
+            <span>${course.students}</span>
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-star"></i>
+            <span>${course.rating}</span>
+          </div>
+        </div>
+        <div class="course-footer">
+          <div class="price">
+            <span class="current-price">${course.price}</span>
+            <span class="original-price">${course.originalPrice}</span>
+          </div>
+          <div class="action-buttons">
+            <button class="add-to-cart-btn" onclick="addToCart(${course.id})"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
+            <a href="course-checkout.html?id=${course.id}" class="buy-now-btn">কিনুন</a>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return card;
+  }
+});
+</script>
+
+<!-- সার্চ রেজাল্ট দেখানোর জন্য -->
+<script>
+    // Get all needed DOM elements
+document.addEventListener('DOMContentLoaded', function() {
+  // Desktop search
+  const searchInput = document.querySelector('.search-input');
+  // Mobile search
+  const mobileSearchBtn = document.querySelector('.mobile-search-btn');
+  const fullscreenSearch = document.querySelector('.fullscreen-search');
+  const fullscreenSearchInput = document.querySelector('.fullscreen-search-input');
+  const fullscreenSearchClose = document.querySelector('.fullscreen-search-close');
+  const overlay = document.querySelector('.overlay');
+  
+  // Handle desktop search
+  if (searchInput) {
+    searchInput.addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') {
+        const searchTerm = searchInput.value.trim();
+        if (searchTerm) {
+          redirectToSearchPage(searchTerm);
+        }
+      }
+    });
+  }
+  
+  // Handle mobile search toggle
+  if (mobileSearchBtn) {
+    mobileSearchBtn.addEventListener('click', function() {
+      fullscreenSearch.classList.add('active');
+      setTimeout(() => {
+        fullscreenSearchInput.focus();
+      }, 300);
+    });
+  }
+  
+  // Handle fullscreen search close
+  if (fullscreenSearchClose) {
+    fullscreenSearchClose.addEventListener('click', function() {
+      fullscreenSearch.classList.remove('active');
+    });
+  }
+  
+  // Handle fullscreen search input
+  if (fullscreenSearchInput) {
+    fullscreenSearchInput.addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') {
+        const searchTerm = fullscreenSearchInput.value.trim();
+        if (searchTerm) {
+          redirectToSearchPage(searchTerm);
+        }
+      }
+    });
+  }
+  
+  // Redirect to search page with search term
+  function redirectToSearchPage(searchTerm) {
+    window.location.href = 'search.html?q=' + encodeURIComponent(searchTerm);
+  }
+  
+  // Search page functionality
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchQuery = urlParams.get('q');
+  
+  if (window.location.pathname.includes('search.html') && searchQuery) {
+    performSearch(searchQuery);
+  }
+  
+  function performSearch(query) {
+    // Normalize query for case-insensitive matching
+    const normalizedQuery = query.toLowerCase();
+    
+    // Display the search query
+    const searchQueryDisplay = document.querySelector('.search-query');
+    if (searchQueryDisplay) {
+      searchQueryDisplay.textContent = `"${query}"`;
+    }
+    
+    // Get all courses from the page
+    // In a real implementation, you would fetch this data from a database
+    const courses = [
+      {
+        id: 1,
+        title: "হিফজুল কুরআন: সহজ পদ্ধতিতে কুরআন মুখস্থ",
+        instructor: "মাওলানা আব্দুল্লাহ",
+        level: "বেসিক",
+        chapters: "১৮ অধ্যায়",
+        students: "৩৫০ শিক্ষার্থী",
+        rating: "৪.৮",
+        price: "৳৩,৫০০",
+        originalPrice: "৳৪,৫০০",
+        image: "14png.png",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      {
+        id: 2,
+        title: "তাজবীদ: সহীহ উচ্চারণে কুরআন তিলাওয়াত",
+        instructor: "মাওলানা ইব্রাহিম",
+        level: "মধ্যবর্তী",
+        chapters: "১২ অধ্যায়",
+        students: "২৪০ শিক্ষার্থী",
+        rating: "৪.৯",
+        price: "৳২,৮০০",
+        originalPrice: "৳৩,৫০০",
+        image: "Talimul Islam Academi.jpeg",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      {
+        id: 3,
+        title: "আরবি ভাষা: সহজ পদ্ধতিতে আরবি শিখুন",
+        instructor: "মাওলানা জাকির",
+        level: "বেসিক",
+        chapters: "২০ অধ্যায়",
+        students: "৪২০ শিক্ষার্থী",
+        rating: "৪.৭",
+        price: "৳৪,২০০",
+        originalPrice: "৳৫,০০০",
+        image: "14png.png",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      // Adding courses 4-10
+      {
+        id: 4,
+        title: "ফিকাহ: ইসলামি আইন ও জীবনব্যবস্থা",
+        instructor: "মাওলানা রফিক",
+        level: "অ্যাডভান্সড",
+        chapters: "১৪ অধ্যায়",
+        students: "১৮০ শিক্ষার্থী",
+        rating: "৪.৬",
+        price: "৳৪,৮০০",
+        originalPrice: "৳৫,৫০০",
+        image: "/pexels-648298123-28872754.jpg",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      {
+        id: 5,
+        title: "হাদিস: নবীজীর জীবন ও শিক্ষা",
+        instructor: "মাওলানা সালেহ",
+        level: "মধ্যবর্তী",
+        chapters: "১৬ অধ্যায়",
+        students: "২৮০ শিক্ষার্থী",
+        rating: "৪.৮",
+        price: "৳৩,৮০০",
+        originalPrice: "৳৪,৫০০",
+        image: "pexels-648298123-28872754.jpg",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      {
+        id: 6,
+        title: "সীরাত: নবীজীর জীবনী ও শিক্ষা",
+        instructor: "মাওলানা আরিফ বিল্লাহ",
+        level: "বেসিক",
+        chapters: "১৫ অধ্যায়",
+        students: "২৫০ শিক্ষার্থী",
+        rating: "৪.৭",
+        price: "৳৩,৬০০",
+        originalPrice: "৳৪,২০০",
+        image: "14png.png",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      {
+        id: 7,
+        title: "ইসলামিক আখলাক ও আদব",
+        instructor: "মাওলানা হাসান",
+        level: "বেসিক",
+        chapters: "১৬ অধ্যায়",
+        students: "২২০ শিক্ষার্থী",
+        rating: "৪.৮",
+        price: "৳২,৯০০",
+        originalPrice: "৳৩,৫০০",
+        image: "14png.png",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      {
+        id: 8,
+        title: "ইসলামিক আখলাক ও আদব",
+        instructor: "মাওলানা হাসান",
+        level: "বেসিক",
+        chapters: "১৬ অধ্যায়",
+        students: "২২০ শিক্ষার্থী",
+        rating: "৪.৮",
+        price: "৳২,৯০০",
+        originalPrice: "৳৩,৫০০",
+        image: "14png.png",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      {
+        id: 9,
+        title: "ইসলামিক আখলাক ও আদব",
+        instructor: "মাওলানা হাসান",
+        level: "বেসিক",
+        chapters: "১৬ অধ্যায়",
+        students: "২২০ শিক্ষার্থী",
+        rating: "৪.৮",
+        price: "৳২,৯০০",
+        originalPrice: "৳৩,৫০০",
+        image: "14png.png",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      },
+      {
+        id: 10,
+        title: "ইসলামিক আখলাক ও আদব",
+        instructor: "মাওলানা হাসান",
+        level: "বেসিক",
+        chapters: "১৬ অধ্যায়",
+        students: "২২০ শিক্ষার্থী",
+        rating: "৪.৮",
+        price: "৳২,৯০০",
+        originalPrice: "৳৩,৫০০",
+        image: "14png.png",
+        instructorImage: "Talimul Islam Academi.jpeg"
+      }
+    ];
+    
+    // Filter courses based on search query
+    const filteredCourses = courses.filter(course => {
+      return (
+        course.title.toLowerCase().includes(normalizedQuery) ||
+        course.instructor.toLowerCase().includes(normalizedQuery) ||
+        course.level.toLowerCase().includes(normalizedQuery)
+      );
+    });
+    
+    // Get the results container
+    const resultsContainer = document.querySelector('.search-results');
+    
+    if (resultsContainer) {
+      // Clear previous results
+      resultsContainer.innerHTML = '';
+      
+      // Display results or "no results" message
+      if (filteredCourses.length > 0) {
+        // Update results count
+        const resultsCount = document.querySelector('.results-count');
+        if (resultsCount) {
+          resultsCount.textContent = `${filteredCourses.length} টি ফলাফল পাওয়া গেছে`;
+        }
+        
+        // Add each course card to results
+        filteredCourses.forEach(course => {
+          const courseCard = createCourseCard(course);
+          resultsContainer.appendChild(courseCard);
+        });
+      } else {
+        // Display no results message
+        const noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.innerHTML = `
+          <div class="no-results-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>কোনো কোর্স পাওয়া যায়নি</h3>
+          <p>"${query}" এর জন্য কোনো ফলাফল নেই। অনুগ্রহ করে অন্য কিছু খুঁজুন।</p>
+        `;
+        resultsContainer.appendChild(noResults);
+        
+        // Update results count
+        const resultsCount = document.querySelector('.results-count');
+        if (resultsCount) {
+          resultsCount.textContent = '০ টি ফলাফল পাওয়া গেছে';
+        }
+      }
+    }
+  }
+  
+  // Create course card element
+  function createCourseCard(course) {
+    const card = document.createElement('div');
+    card.className = 'course-card';
+    
+    card.innerHTML = `
+      <a href="course-details.html?id=${course.id}" class="course-card-link" aria-label="${course.title} বিস্তারিত"></a>
+      <div class="course-thumbnail">
+        <img src="${course.image}" alt="${course.title}">
+        <div class="level-badge ${getLevelClass(course.level)}">${course.level}</div>
+      </div>
+      <div class="course-info">
+        <div class="instructor">
+          <img src="${course.instructorImage}" alt="শিক্ষক" class="instructor-img">
+          <span>${course.instructor}</span>
+        </div>
+        <h3 class="course-title">${course.title}</h3>
+        <div class="course-meta">
+          <div class="meta-item">
+            <i class="fas fa-book-open"></i>
+            <span>${course.chapters}</span>
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-users"></i>
+            <span>${course.students}</span>
+          </div>
+          <div class="meta-item">
+            <i class="fas fa-star"></i>
+            <span>${course.rating}</span>
+          </div>
+        </div>
+        <div class="course-footer">
+          <div class="price">
+            <span class="current-price">${course.price}</span>
+            <span class="original-price">${course.originalPrice}</span>
+          </div>
+          <div class="action-buttons">
+            <button class="add-to-cart-btn" onclick="addToCart(${course.id})"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
+            <a href="course-checkout.html?id=${course.id}" class="buy-now-btn">কিনুন</a>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return card;
+  }
+  
+  // Helper function to get level class name
+  function getLevelClass(level) {
+    switch(level) {
+      case 'বেসিক':
+        return 'beginner';
+      case 'মধ্যবর্তী':
+        return 'intermediate';
+      case 'অ্যাডভান্সড':
+        return 'advanced';
+      default:
+        return 'beginner';
+    }
+  }
+});
+
+// Function to add a course to the cart
+function addToCart(courseId) {
+  // Check if cart data exists in localStorage
+  let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+  
+  // Check if the course is already in the cart
+  if (!cartItems.includes(courseId)) {
+    // Add the course to the cart
+    cartItems.push(courseId);
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    
+    // Show a success message
+    alert('কোর্সটি কার্টে যোগ করা হয়েছে!');
+    
+    // Update cart count in the UI (if applicable)
+    updateCartCount();
+  } else {
+    // Course already in cart, show message
+    alert('কোর্সটি ইতিমধ্যে কার্টে যোগ করা আছে।');
+  }
+}
+
+// Function to update cart count in the UI
+function updateCartCount() {
+  const cartCountElement = document.querySelector('.cart-count');
+  if (cartCountElement) {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    cartCountElement.textContent = cartItems.length;
+    
+    // Show/hide based on cart count
+    if (cartItems.length > 0) {
+      cartCountElement.classList.remove('hidden');
+    } else {
+      cartCountElement.classList.add('hidden');
+    }
+  }
+}
+</script>
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+        :root {
+            --primary: #0c4e41;
+            --secondary: #1a8870;
+            --accent: #f8b042;
+            --light: #f7f9f9;
+            --dark: #283c4c;
+            --white: #ffffff;
+            --cream: #fcf5e9;
+            --shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        .hero {
+            background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 45vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.2;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z' opacity='.25' fill='%23f7f9f9'%3E%3C/path%3E%3Cpath d='M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z' opacity='.5' fill='%23f7f9f9'%3E%3C/path%3E%3Cpath d='M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z' fill='%23f7f9f9'%3E%3C/path%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            text-align: center;
+            color: var(--white);
+            max-width: 800px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0rem;
+            padding: 0;
+            margin: 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+        
+        .hero-decoration {
+            width: 150px;
+            height: 4px;
+            background: var(--accent);
+            margin: 1.5rem auto;
+            position: relative;
+            border-radius: 2px;
+            animation: widthGrow 1s ease-out 0.6s forwards;
+            width: 0;
+        }
+        
+        .hero-decoration::before,
+        .hero-decoration::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .hero-decoration::before {
+            left: -6px;
+        }
+        
+        .hero-decoration::after {
+            right: -6px;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        /* .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+        } */
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+        
+        .menu-toggle span {
+            height: 3px;
+            width: 100%;
+            background-color: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(26, 136, 112, 0.3);
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 136, 112, 0.4);
+        }
+        
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-heading {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .section-description {
+            font-size: 1.2rem;
+            color: var(--dark);
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .section-divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
+            margin: 1.5rem auto;
+            border-radius: 2px;
+        }
+        
+        .quote-section {
+            background-color: var(--cream);
+            position: relative;
+            padding: 120px 0;
+            overflow: hidden;
+        }
+        
+        .quote-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230c4e41' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 1;
+        }
+        
+        .quote-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .quote-icon {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .quote-text {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .quote-author {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .cards-section {
+            background-color: var(--white);
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 3rem;
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-top {
+            height: 8px;
+            background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .card-text {
+            color: var(--dark);
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--secondary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .card-link i {
+            margin-left: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .card-link:hover {
+            color: var(--primary);
+        }
+        
+        .card-link:hover i {
+            transform: translateX(5px);
+        }
+        
+        .geometric-section {
+            background-color: var(--primary);
+            padding: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .geometric-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .geometric-shape {
+            width: 80px;
+            height: 80px;
+            background-color: var(--white);
+            opacity: 0.2;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+        
+        .shape-1 {
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+        
+        .shape-2 {
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+        }
+        
+        .shape-3 {
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        }
+        
+        .geometric-shape:hover {
+            transform: rotate(45deg) scale(1.2);
+            opacity: 0.4;
+        }
+        
+        .contact-section {
+            background-color: var(--cream);
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .contact-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%230c4e41' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            opacity: 1;
+        }
+        
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-description {
+            color: var(--dark);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-items {
+            list-style: none;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1rem;
+        }
+        
+        .contact-text {
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .contact-form-container {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-button {
+            background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(26, 136, 112, 0.3);
+        }
+        
+        .footer {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-text {
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            max-width: 400px;
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-heading {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-heading::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            opacity: 0.8;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            transition: background-color 0.3s;
+        }
+        
+        .social-link:hover {
+            background-color: var(--accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes widthGrow {
+            from {
+                width: 0;
+            }
+            to {
+                width: 150px;
+            }
+        }
+        
+        /* Responsive styles */
+        @media screen and (max-width: 992px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.5rem;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+            
+            .section-heading {
+                font-size: 2.2rem;
+            }
+            
+            .quote-text {
+                font-size: 1.3rem;
+            }
+            
+            .geometric-container {
+                gap: 20px;
+            }
+            
+            .geometric-shape {
+                width: 70px;
+                height: 70px;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background-color: var(--white);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 20px 0;
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: all 0.4s ease;
+            }
+            
+            .nav-links.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+                text-align: center;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-heading {
+                font-size: 2rem;
+            }
+            
+            .quote-section {
+                padding: 80px 0;
+            }
+            
+            .quote-card {
+                padding: 2rem;
+            }
+            
+            .quote-text {
+                font-size: 1.2rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .geometric-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .hero-title {
+                font-size: 2.3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section {
+                padding: 50px 0;
+            }
+            
+            .section-heading {
+                font-size: 1.8rem;
+            }
+            
+            .section-description {
+                font-size: 1rem;
+            }
+            
+            .quote-card {
+                padding: 1.5rem;
+            }
+            
+            .quote-text {
+                font-size: 1.1rem;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+    <!-- হিরো সেকশন -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">ইসলামিক পরামর্শ ও মার্গদর্শন</h1>
+            <div class="hero-decoration"></div>
+            <p class="hero-subtitle">আধুনিক জীবনের চ্যালেঞ্জ মোকাবেলায় ইসলামিক দৃষ্টিকোণ থেকে পরামর্শ</p>
+            <a href="#contact" class="cta-button">আমাদের সাথে যোগাযোগ করুন</a>
+        </div>
+       
+    </section>
+
+    <!-- উদ্ধৃতি সেকশন -->
+    <section class="quote-section">
+        <div class="container">
+            <div class="quote-card">
+                <div class="quote-icon">
+                    <i class="fas fa-quote-right"></i>
+                </div>
+                <p class="quote-text">"তোমাদের মধ্যে সর্বোত্তম ব্যক্তি সেই যে নিজে কুরআন শিক্ষা করে এবং অন্যকে শিক্ষা দেয়।"</p>
+                <p class="quote-author">- সহীহ বুখারী</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- সেবাসমূহ সেকশন -->
+    <section class="cards-section section" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="section-heading">আমাদের সেবাসমূহ</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">আধুনিক জীবনের বিভিন্ন ক্ষেত্রে ইসলামিক পরামর্শ ও মার্গদর্শন</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-top"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3 class="card-title">কুরআন ও হাদিস শিক্ষা</h3>
+                        <p class="card-text">বিশেষজ্ঞ শিক্ষকদের দ্বারা কুরআন ও হাদিস শিক্ষার ব্যবস্থা। অনলাইন ও অফলাইন ক্লাসের মাধ্যমে সঠিক উচ্চারণ ও অর্থ শিখুন।</p>
+                        <a href="#" class="card-link">আরো জানুন <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-top"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-hands-praying"></i>
+                        </div>
+                        <h3 class="card-title">ইবাদত সংক্রান্ত পরামর্শ</h3>
+                        <p class="card-text">নামাজ, রোজা, হজ্জ, যাকাত সহ বিভিন্ন ইবাদত সম্পর্কে সঠিক নিয়ম ও পদ্ধতি জানুন। সকল প্রশ্নের উত্তর পাবেন।</p>
+                        <a href="#" class="card-link">আরো জানুন <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-top"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="card-title">পারিবারিক পরামর্শ</h3>
+                        <p class="card-text">বিবাহ, সন্তান লালন-পালন, পারিবারিক সম্পর্ক বজায় রাখার ক্ষেত্রে ইসলামিক দৃষ্টিকোণ থেকে পরামর্শ।</p>
+                        <a href="#" class="card-link">আরো জানুন <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-top"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-hand-holding-dollar"></i>
+                        </div>
+                        <h3 class="card-title">অর্থনৈতিক পরামর্শ</h3>
+                        <p class="card-text">হালাল উপার্জন, বিনিয়োগ, সুদমুক্ত লেনদেন সহ বিভিন্ন অর্থনৈতিক বিষয়ে ইসলামিক গাইডলাইন।</p>
+                        <a href="#" class="card-link">আরো জানুন <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-top"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="card-title">মানসিক স্বাস্থ্য ও আধ্যাত্মিকতা</h3>
+                        <p class="card-text">আধুনিক জীবনের চাপ, মানসিক সমস্যা এবং আধ্যাত্মিক উন্নয়নের জন্য ইসলামিক পরামর্শ।</p>
+                        <a href="#" class="card-link">আরো জানুন <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-top"></div>
+                    <div class="card-content">
+                        <div class="card-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="card-title">ইসলামিক শিক্ষা</h3>
+                        <p class="card-text">শিশু, কিশোর ও প্রাপ্তবয়স্কদের জন্য বিভিন্ন বয়স উপযোগী ইসলামিক শিক্ষা কার্যক্রম।</p>
+                        <a href="#" class="card-link">আরো জানুন <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- যোগাযোগ সেকশন -->
+    <section class="contact-section" id="contact">
+        <div class="contact-pattern"></div>
+        <div class="container">
+            <div class="section-title">
+                <h2 class="section-heading">যোগাযোগ করুন</h2>
+                <div class="section-divider"></div>
+                <p class="section-description">আপনার প্রশ্ন বা পরামর্শের জন্য আমাদের সাথে যোগাযোগ করুন</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3 class="contact-title">আমাদের সাথে সরাসরি যোগাযোগ করুন</h3>
+                    <p class="contact-description">আপনার যেকোনো প্রশ্ন বা পরামর্শের জন্য আমরা সবসময় প্রস্তুত আছি। আমাদের সাথে যোগাযোগ করতে নিচের তথ্য ব্যবহার করুন।</p>
+                    <ul class="contact-items">
+                        <li class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">১২৩ ইসলামিক সেন্টার রোড, ঢাকা, বাংলাদেশ</div>
+                        </li>
+                        <li class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-text">+৮৮০ ১৭১২৩৪৫৬৭৮</div>
+                        </li>
+                        <li class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">info@islamicadvisor.com</div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="contact-form-container">
+                    <form class="contact-form">
+                        <div class="form-group">
+                            <label for="name" class="form-label">নাম</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="form-label">ইমেইল</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject" class="form-label">বিষয়</label>
+                            <input type="text" id="subject" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="form-label">আপনার বার্তা</label>
+                            <textarea id="message" class="form-control" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-button">বার্তা পাঠান</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <script>
+        // মেনু টগল ফাংশন
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // স্ক্রল করার সময় নেভিগেশন বারের স্টাইল পরিবর্তন
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.padding = '10px 0';
+                navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.padding = '15px 0';
+                navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            }
+        });
+        
+        // নেভিগেশন লিঙ্কে স্মুথ স্ক্রল
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    navLinks.classList.remove('active');
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+
+
+
+
+
+<!-- 
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background-color: #f8f3e9;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+        
+        .header:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(135deg, #45b29d, #1d566e, #4b86b4);
+            border-radius: 0 0 50% 50%;
+        }
+        
+        .title {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            color: #1d566e;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: #45b29d;
+            margin-bottom: 30px;
+        }
+        
+        .islamic-pattern {
+            width: 100%;
+            height: 120px;
+            background-image: radial-gradient(circle at 10px 10px, rgba(75, 134, 180, 0.2) 2px, transparent 0),
+                              radial-gradient(circle at 30px 30px, rgba(29, 86, 110, 0.2) 4px, transparent 0),
+                              radial-gradient(circle at 50px 10px, rgba(69, 178, 157, 0.2) 3px, transparent 0);
+            background-size: 60px 60px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .quote-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-container:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #1d566e, #45b29d);
+        }
+        
+        .quote {
+            font-size: 1.4rem;
+            font-style: italic;
+            text-align: center;
+            position: relative;
+            padding: 20px 40px;
+        }
+        
+        .quote:before, .quote:after {
+            content: '"';
+            font-size: 3rem;
+            position: absolute;
+            color: #45b29d;
+            opacity: 0.3;
+        }
+        
+        .quote:before {
+            top: -20px;
+            left: 0;
+        }
+        
+        .quote:after {
+            bottom: -40px;
+            right: 10px;
+        }
+        
+        .quote-source {
+            text-align: right;
+            font-weight: 500;
+            color: #1d566e;
+            margin-top: 10px;
+        }
+        
+        .content-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #1d566e, #45b29d);
+        }
+        
+        .card h3 {
+            color: #1d566e;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .geometric-decoration {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        
+        .geometric-shape {
+            width: 60px;
+            height: 60px;
+            margin: 0 15px;
+            background-color: #1d566e;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+            opacity: 0.8;
+            transform: rotate(0deg);
+            transition: transform 0.5s ease;
+        }
+        
+        .geometric-shape:nth-child(2) {
+            background-color: #45b29d;
+            transform: rotate(36deg);
+        }
+        
+        .geometric-shape:nth-child(3) {
+            background-color: #4b86b4;
+            transform: rotate(72deg);
+        }
+        
+        .geometric-shape:hover {
+            transform: rotate(360deg);
+        }
+        
+        .contact-section {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .contact-section h2 {
+            color: #1d566e;
+            margin-bottom: 20px;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1d566e;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #1d566e, #45b29d);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-weight: 500;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .arabesque {
+            height: 50px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='20' viewBox='0 0 100 20'%3E%3Cpath d='M0,10 C30,20 70,0 100,10 L100,20 L0,20 Z' fill='%231d566e' fill-opacity='0.1'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            margin: 30px 0;
+        }
+    </style>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">উপদেষ্টা</h1>
+            <p class="subtitle">ইসলামিক চিন্তাশীল বিষয়ক</p>
+            <div class="islamic-pattern"></div>
+        </header>
+        
+        <div class="quote-container">
+            <div class="quote">
+                আল্লাহ তাআলা বলেন, "আর তোমরা যদি অন্তরে একে অপরের প্রতি বিদ্বেষ পোষণ কর, তবে আল্লাহকে ভয় কর। নিশ্চয় আল্লাহ অতি ক্ষমাশীল, পরম দয়ালু।"
+            </div>
+            <div class="quote-source">— সূরা আল-হুজুরাত, ৪৯:১০</div>
+        </div>
+        
+        <div class="geometric-decoration">
+            <div class="geometric-shape"></div>
+            <div class="geometric-shape"></div>
+            <div class="geometric-shape"></div>
+        </div>
+        
+        <section class="content-section">
+            <div class="card">
+                <h3>আত্মউন্নয়ন</h3>
+                <p>ইসলামে আত্মউন্নয়নের প্রতি গুরুত্বারোপ করা হয়েছে। নিজেকে উন্নত করার মাধ্যমে আমরা আল্লাহর নৈকট্য লাভ করতে পারি। নিয়মিত ইবাদত, জিকির এবং কুরআন তেলাওয়াতের মাধ্যমে আমরা আমাদের আত্মাকে পবিত্র করতে পারি।</p>
+            </div>
+            
+            <div class="card">
+                <h3>পারিবারিক জীবন</h3>
+                <p>ইসলামে পারিবারিক জীবনকে বিশেষ মর্যাদা দেওয়া হয়েছে। পরিবারের প্রতি দায়িত্বশীল আচরণ, পিতা-মাতার প্রতি সম্মান প্রদর্শন এবং সন্তানদের উত্তম শিক্ষা প্রদান করা মুসলিম পরিবারের অন্যতম বৈশিষ্ট্য।</p>
+            </div>
+            
+            <div class="card">
+                <h3>সামাজিক দায়িত্ব</h3>
+                <p>আমাদের সমাজের প্রতি নিজেদের দায়িত্ব পালন করা ইসলামের গুরুত্বপূর্ণ শিক্ষা। প্রতিবেশীর অধিকার, দরিদ্রদের সাহায্য এবং সমাজে ন্যায়বিচার প্রতিষ্ঠা করা প্রত্যেক মুসলমানের কর্তব্য।</p>
+            </div>
+        </section>
+        
+        <div class="arabesque"></div>
+        
+        <section class="content-section">
+            <div class="card">
+                <h3>আধ্যাত্মিক চিন্তা</h3>
+                <p>আধ্যাত্মিক চিন্তা আমাদের দুনিয়াবি জীবনকে অর্থপূর্ণ করে তোলে। আল্লাহর সৃষ্টি নিয়ে গভীর চিন্তা-ভাবনা, তাঁর নির্দেশনা অনুসরণ এবং আখেরাতের প্রস্তুতি গ্রহণ করা আমাদের জীবনের উদ্দেশ্য হওয়া উচিত।</p>
+            </div>
+            
+            <div class="card">
+                <h3>নৈতিক মূল্যবোধ</h3>
+                <p>ইসলাম আমাদের উচ্চ নৈতিক মূল্যবোধ শিক্ষা দেয়। সত্যবাদিতা, আমানতদারি, ধৈর্য, সহনশীলতা এবং ক্ষমা প্রদর্শন একজন মুসলমানের চারিত্রিক বৈশিষ্ট্য হওয়া উচিত।</p>
+            </div>
+            
+            <div class="card">
+                <h3>জ্ঞান অর্জন</h3>
+                <p>ইসলামে জ্ঞান অর্জনকে অত্যন্ত গুরুত্ব দেওয়া হয়েছে। রাসুল (সাঃ) বলেছেন, "জ্ঞান অর্জন করা প্রত্যেক মুসলমানের জন্য ফরজ।" আমাদের উচিত দ্বীনি ও দুনিয়াবি উভয় প্রকার জ্ঞান অর্জন করা।</p>
+            </div>
+        </section>
+        
+        <div class="islamic-pattern"></div>
+        
+        <section class="contact-section">
+            <h2>আমাদের সাথে যোগাযোগ করুন</h2>
+            <div class="contact-form">
+                <div class="form-group">
+                    <label for="name">নাম</label>
+                    <input type="text" id="name" name="name" placeholder="আপনার নাম লিখুন">
+                </div>
+                <div class="form-group">
+                    <label for="email">ইমেইল</label>
+                    <input type="email" id="email" name="email" placeholder="আপনার ইমেইল লিখুন">
+                </div>
+                <div class="form-group">
+                    <label for="message">বার্তা</label>
+                    <textarea id="message" name="message" placeholder="আপনার প্রশ্ন বা মতামত লিখুন"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">পাঠিয়ে দিন</button>
+            </div>
+        </section>
+        
+        <div class="quote-container">
+            <div class="quote">
+                "সে ব্যক্তি সর্বোত্তম যে নিজে কুরআন শেখে এবং অন্যকেও শেখায়।"
+            </div>
+            <div class="quote-source">— হাদীস শরীফ (বুখারী)</div>
+        </div>
+    </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+<!-- ফুটার সেকশন -->
+<footer class="footer">
+    <div class="footer-gradient"></div>
+    <div class="container">
+        <div class="footer-content">
+            <!-- লোগো এবং সংক্ষিপ্ত বিবরণ -->
+            <div class="footer-about">
+                <h2 class="footer-logo">মাদ্রাসা<span>শিক্ষা</span></h2>
+                <p class="footer-about-text">আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা এবং আরবি ভাষা শেখার জন্য আমাদের কোর্সগুলোতে আপনাকে স্বাগতম।</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="icon">FB</i></a>
+                    <a href="#" class="social-icon"><i class="icon">TW</i></a>
+                    <a href="#" class="social-icon"><i class="icon">IG</i></a>
+                    <a href="#" class="social-icon"><i class="icon">YT</i></a>
+                </div>
+            </div>
+            
+            <!-- দ্রুত লিংক -->
+            <div class="footer-section">
+                <div class="footer-dropdown">
+                    <h3 class="footer-title">দ্রুত লিংক <span class="toggle-icon">+</span></h3>
+                    <ul class="footer-list">
+                        <li><a href="#">হোম</a></li>
+                        <li><a href="#">আমাদের সম্পর্কে</a></li>
+                        <li><a href="#">সকল কোর্স</a></li>
+                        <li><a href="#">শিক্ষকমণ্ডলী</a></li>
+                        <li><a href="#">ক্লাস সময়সূচি</a></li>
+                        <li><a href="#">যোগাযোগ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- জনপ্রিয় বিভাগ -->
+            <div class="footer-section">
+                <div class="footer-dropdown">
+                    <h3 class="footer-title">জনপ্রিয় কোর্স <span class="toggle-icon">+</span></h3>
+                    <ul class="footer-list">
+                        <li><a href="#">কোরআন তেলাওয়াত</a></li>
+                        <li><a href="#">হাদিস শিক্ষা</a></li>
+                        <li><a href="#">আরবি ভাষা</a></li>
+                        <li><a href="#">ফিকাহ শিক্ষা</a></li>
+                        <li><a href="#">তাজবিদ</a></li>
+                        <li><a href="#">ইসলামিক ইতিহাস</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- নিউজলেটার -->
+            <div class="footer-section">
+                <div class="footer-dropdown">
+                    <h3 class="footer-title">নিউজলেটার <span class="toggle-icon">+</span></h3>
+                    <div class="footer-list">
+                        <p>নিউজলেটার সাবস্ক্রাইব করুন</p>
+                        <form class="footer-subscribe-form">
+                            <input type="email" placeholder="আপনার ইমেইল" required>
+                            <button type="submit">সাবস্ক্রাইব</button>
+                        </form>
+                        <div class="contact-info">
+                            <p><strong>ঠিকানা:</strong> আজিমপুর, ঢাকা-১২০৫</p>
+                            <p><strong>ফোন:</strong> +৮৮০১৯১১-৫৬৭৮৯০</p>
+                            <p><strong>ইমেইল:</strong> info@madrasa-shikkha.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- কপিরাইট সেকশন -->
+        <div class="footer-bottom">
+            <p class="copyright">© ২০২৫ মাদ্রাসা শিক্ষা। সমস্ত অধিকার সংরক্ষিত।</p>
+            <div class="footer-bottom-links">
+                <a href="#">প্রাইভেসি পলিসি</a>
+                <a href="#">টার্মস অফ সার্ভিস</a>
+                <a href="#">কোর্স নীতিমালা</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* ফুটার স্টাইল */
+    .footer {
+        background-color: #222;
+        color: #fff;
+        position: relative;
+        margin-top: 50px;
+        padding-top: 60px;
+    }
+    
+    .footer-gradient {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    }
+    
+    .footer-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 40px;
+    }
+    
+    .footer-about {
+        flex-basis: 30%;
+        margin-bottom: 20px;
+    }
+    
+    .footer-logo {
+        font-size: 28px;
+        margin-bottom: 15px;
+        font-weight: 700;
+        color: #fff;
+    }
+    
+    .footer-logo span {
+        color: #2575fc;
+    }
+    
+    .footer-about p {
+        color: #bbb;
+        margin-bottom: 20px;
+        line-height: 1.6;
+    }
+    
+    .social-icons {
+        display: flex;
+    }
+    
+    .social-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #333;
+        color: #fff;
+        margin-right: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        transform: translateY(-3px);
+    }
+    
+    .footer-section {
+        flex-basis: 15%;
+        margin-bottom: 20px;
+    }
+    
+    .footer-title {
+        font-size: 18px;
+        margin-bottom: 20px;
+        position: relative;
+        padding-bottom: 10px;
+        cursor: pointer;
+    }
+    
+    .footer-title::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 50px;
+        height: 2px;
+        background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    }
+    
+    .toggle-icon {
+        float: right;
+        transition: transform 0.3s ease;
+    }
+    
+    .footer-list {
+        list-style: none;
+        max-height: 1000px;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+    }
+    
+    .footer-list li {
+        margin-bottom: 10px;
+    }
+    
+    .footer-list a {
+        color: #bbb;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        display: block;
+        position: relative;
+        padding-left: 15px;
+    }
+    
+    .footer-list a::before {
+        content: '›';
+        position: absolute;
+        left: 0;
+        color: #2575fc;
+    }
+    
+    .footer-list a:hover {
+        color: #2575fc;
+        transform: translateX(5px);
+    }
+    
+    .footer-subscribe-form {
+        display: flex;
+        margin-bottom: 20px;
+    }
+    
+    .footer-subscribe-form input {
+        flex-grow: 1;
+        padding: 10px 15px;
+        border: none;
+        background-color: #333;
+        color: #fff;
+        border-radius: 4px 0 0 4px;
+    }
+    
+    .footer-subscribe-form button {
+        padding: 10px 15px;
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .footer-subscribe-form button:hover {
+        opacity: 0.9;
+    }
+    
+    .contact-info {
+        color: #bbb;
+        margin-top: 20px;
+    }
+    
+    .contact-info p {
+        margin-bottom: 8px;
+    }
+    
+    .footer-bottom {
+        border-top: 1px solid #333;
+        padding: 20px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .copyright {
+        color: #999;
+        font-size: 14px;
+    }
+    
+    .footer-bottom-links a {
+        color: #999;
+        text-decoration: none;
+        margin-left: 20px;
+        font-size: 14px;
+        transition: color 0.3s ease;
+    }
+    
+    .footer-bottom-links a:hover {
+        color: #2575fc;
+    }
+    
+    @media (max-width: 768px) {
+        .footer {
+            padding-top: 40px;
+        }
+        
+        .footer-content {
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        
+        .footer-about, .footer-section {
+            flex-basis: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .footer-about-text {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+        }
+        
+        .footer-dropdown.active .toggle-icon {
+            transform: rotate(45deg);
+        }
+        
+        .footer-dropdown .footer-list {
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .footer-dropdown.active .footer-list {
+            max-height: 1000px;
+        }
+        
+        .footer-list li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-list a {
+            font-size: 14px;
+        }
+        
+        .footer-subscribe-form input,
+        .footer-subscribe-form button {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .contact-info {
+            font-size: 14px;
+        }
+        
+        .contact-info p {
+            margin-bottom: 5px;
+        }
+        
+        .footer-bottom {
+            flex-direction: column;
+            text-align: center;
+            padding: 15px 0;
+        }
+        
+        .copyright {
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .footer-bottom-links {
+            margin-top: 10px;
+        }
+        
+        .footer-bottom-links a {
+            margin: 0 8px;
+            font-size: 12px;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const footerTitles = document.querySelectorAll('.footer-title');
+        
+        footerTitles.forEach(title => {
+            title.addEventListener('click', function() {
+                // মোবাইল মোডে শুধু ড্রপডাউন কাজ করবে
+                if (window.innerWidth <= 768) {
+                    const parent = this.parentElement;
+                    parent.classList.toggle('active');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
