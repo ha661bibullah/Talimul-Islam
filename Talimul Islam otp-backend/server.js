@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
+const path = require('path');
 
 // .env ফাইল থেকে কনফিগারেশন লোড করুন
 dotenv.config();
@@ -15,6 +16,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// স্ট্যাটিক ফাইল সার্ভ করার জন্য (যদি ফ্রন্টএন্ড এবং ব্যাকএন্ড একই সার্ভারে হয়)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // ইমেইল ট্রান্সপোর্টার সেটআপ
 const transporter = nodemailer.createTransport({
@@ -136,15 +140,17 @@ app.post('/api/verify-otp', (req, res) => {
     }
 });
 
+// কিছু বেসিক এরর হ্যান্ডলিং যোগ করুন
+app.use((req, res, next) => {
+    res.status(404).json({ success: false, message: 'এই URL টি খুঁজে পাওয়া যায়নি!' });
+});
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ success: false, message: 'সার্ভারে একটি ত্রুটি দেখা দিয়েছে!' });
+});
+
 // সার্ভার শুরু করুন
 app.listen(PORT, () => {
     console.log(`সার্ভার চালু হয়েছে: http://localhost:${PORT}`);
 });
-
-
-
-
-
-
-
-

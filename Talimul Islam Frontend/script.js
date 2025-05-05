@@ -4,7 +4,7 @@ let currentEmail = '';
 let otpTimer;
 
 // API URL - আপনার সার্ভার URL এখানে সেট করুন
-const API_URL = 'https://talimul-islam.onrender.com/send-otp';
+const API_URL = 'https://talimul-islam.onrender.com';  // URL এর শেষে /send-otp বাদ দিন
 
 // Save users to localStorage
 function saveUsers() {
@@ -214,7 +214,7 @@ document.getElementById('emailCheckForm').addEventListener('submit', async funct
             showLoading();
             
             // API কল - সার্ভারে OTP পাঠানোর অনুরোধ
-            const response = await fetch(`${API_URL}/send-otp`, {
+            const response = await fetch(`${API_URL}/api/send-otp`, {  // /api/send-otp পাথ সংশোধন করা হয়েছে
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -257,7 +257,7 @@ document.getElementById('resendOtp').addEventListener('click', async function() 
         this.disabled = true;
         
         // API কল - পুনরায় OTP পাঠানোর অনুরোধ
-        const response = await fetch(`${API_URL}/send-otp`, {
+        const response = await fetch(`${API_URL}/api/send-otp`, {  // /api/send-otp পাথ সংশোধন করা হয়েছে
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -315,7 +315,7 @@ document.getElementById('otpVerificationForm').addEventListener('submit', async 
         showLoading();
         
         // API কল - OTP যাচাই করার অনুরোধ
-        const response = await fetch(`${API_URL}/verify-otp`, {
+        const response = await fetch(`${API_URL}/api/verify-otp`, {  // /api/verify-otp পাথ সংশোধন করা হয়েছে
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -439,25 +439,3 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         }
     }
 });
-
-
-
-
-fetch('https://talimul-islam.onrender.com/send-otp', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ email })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error('Server Error: ' + res.status);
-    return res.json();
-  })
-  .then(data => {
-    console.log(data);
-  })
-  .catch(err => {
-    console.error('Error:', err);
-  });
-  
