@@ -13,7 +13,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // মিডলওয়্যার
-app.use(cors());
+app.use(cors({
+    origin: '*', // প্রোডাকশনে আপনার ফ্রন্টএন্ড URL দিন
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -26,7 +30,16 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
+    },
+    tls: {
+        rejectUnauthorized: false
     }
+});
+
+// সার্ভার পিংটেস্ট এন্ডপয়েন্ট
+app.get('/ping', (req, res) => {
+    console.log('Ping request received');
+    res.json({ status: 'success', message: 'Server is running!' });
 });
 
 // OTP স্টোরেজ (প্রোডাকশনে কখনও মেমোরিতে রাখবেন না, ডাটাবেস ব্যবহার করুন)
@@ -45,6 +58,7 @@ app.get('/', (req, res) => {
 // রুট: OTP পাঠানোর জন্য
 app.post('/api/send-otp', async (req, res) => {
     try {
+        console.log('OTP send request received:', req.body);
         const { email } = req.body;
         
         if (!email) {
@@ -53,6 +67,7 @@ app.post('/api/send-otp', async (req, res) => {
 
         // OTP জেনারেট করুন
         const otp = generateOTP();
+        console.log(`Generated OTP for ${email}: ${otp}`);
         
         // OTP স্টোর করুন (5 মিনিটের জন্য বৈধ)
         otpStorage[email] = {
@@ -80,19 +95,31 @@ app.post('/api/send-otp', async (req, res) => {
             `
         };
 
+        console.log('Attempting to send email with the following config:', {
+            to: email,
+            from: process.env.EMAIL_USER,
+            subject: mailOptions.subject
+        });
+
         // ইমেইল পাঠান
         await transporter.sendMail(mailOptions);
+        console.log(`Email sent successfully to ${email}`);
 
         res.json({ success: true, message: 'OTP সফলভাবে পাঠানো হয়েছে!' });
     } catch (error) {
         console.error('OTP পাঠানোর সময় ত্রুটি:', error);
-        res.status(500).json({ success: false, message: 'OTP পাঠাতে ব্যর্থ হয়েছে।' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'OTP পাঠাতে ব্যর্থ হয়েছে।',
+            error: error.message
+        });
     }
 });
 
 // রুট: OTP যাচাই করার জন্য
 app.post('/api/verify-otp', (req, res) => {
     try {
+        console.log('OTP verification request received:', req.body);
         const { email, otp } = req.body;
         
         if (!email || !otp) {
@@ -101,6 +128,7 @@ app.post('/api/verify-otp', (req, res) => {
 
         // OTP স্টোরেজ থেকে ডেটা পাওয়া
         const otpData = otpStorage[email];
+        console.log(`OTP data for ${email}:`, otpData);
         
         if (!otpData) {
             return res.status(400).json({ success: false, message: 'OTP মেয়াদ শেষ হয়েছে বা বৈধ নয়!' });
@@ -132,11 +160,16 @@ app.post('/api/verify-otp', (req, res) => {
         
         // OTP সঠিক, স্টোরেজ থেকে মুছে ফেলুন
         delete otpStorage[email];
+        console.log(`OTP verified successfully for ${email}`);
         
         res.json({ success: true, message: 'OTP সফলভাবে যাচাই করা হয়েছে!' });
     } catch (error) {
         console.error('OTP যাচাই করার সময় ত্রুটি:', error);
-        res.status(500).json({ success: false, message: 'OTP যাচাই করতে ব্যর্থ হয়েছে।' });
+        res.status(500).json({ 
+            success: false, 
+            message: 'OTP যাচাই করতে ব্যর্থ হয়েছে।',
+            error: error.message
+        });
     }
 });
 
@@ -153,4 +186,9 @@ app.use((err, req, res, next) => {
 // সার্ভার শুরু করুন
 app.listen(PORT, () => {
     console.log(`সার্ভার চালু হয়েছে: http://localhost:${PORT}`);
+    console.log('Environment variables loaded:', {
+        PORT: PORT,
+        EMAIL_USER: process.env.EMAIL_USER,
+        EMAIL_PASS: process.env.EMAIL_PASS ? 'Set (hidden)' : 'Not set'
+    });
 });
