@@ -117,8 +117,17 @@ function hideError(elementId) {
     document.getElementById(elementId).classList.remove('show-error');
 }
 
+// Email validation function
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
 // When the page loads
 window.onload = function() {
+    // Initialize the page
+    toggleForm('login');
+    
     // Set up OTP input fields for automatic focus
     const otpInputs = document.querySelectorAll('.otp-digit');
     
@@ -139,6 +148,37 @@ window.onload = function() {
             }
         });
     }
+    
+    // Set up event listeners for password toggle buttons
+    const passwordToggleButtons = document.querySelectorAll('.toggle-password');
+    passwordToggleButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const inputId = this.getAttribute('data-target');
+            const toggleId = this.id;
+            togglePasswordVisibility(inputId, toggleId);
+        });
+    });
+    
+    // Set up navigation buttons
+    const goToEmailCheck = document.getElementById('goToEmailCheck');
+    if (goToEmailCheck) {
+        goToEmailCheck.addEventListener('click', function() {
+            toggleForm('emailCheck');
+        });
+    }
+    
+    const goToLogin = document.getElementById('goToLogin');
+    if (goToLogin) {
+        goToLogin.addEventListener('click', function() {
+            toggleForm('login');
+        });
+    }
+    
+    // Set up modal close button
+    const closeModalBtn = document.getElementById('closeModal');
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', closeModal);
+    }
 };
 
 // Handle Email Check form submission
@@ -155,15 +195,14 @@ document.getElementById('emailCheckForm').addEventListener('submit', async funct
     
     // Email validation
     if (!email || !validateEmail(email)) {
-        document.getElementById('checkEmailError').classList.add('show-error');
+        showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
         isValid = false;
     }
     
     if (isValid) {
         // Check if email already exists
         if (users.some(u => u.email === email)) {
-            document.getElementById('checkEmailError').textContent = 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে';
-            document.getElementById('checkEmailError').classList.add('show-error');
+            showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
             return;
         }
         
@@ -257,7 +296,7 @@ document.getElementById('otpVerificationForm').addEventListener('submit', async 
     e.preventDefault();
     
     // Reset error messages
-    document.getElementById('otpError').classList.remove('show-error');
+    hideError('otpError');
     
     // Get entered OTP
     const enteredOTP = 
@@ -268,8 +307,7 @@ document.getElementById('otpVerificationForm').addEventListener('submit', async 
     
     // Validate OTP
     if (enteredOTP.length !== 4) {
-        document.getElementById('otpError').textContent = 'অনুগ্রহ করে সম্পূর্ণ অটিপি দিন';
-        document.getElementById('otpError').classList.add('show-error');
+        showError('otpError', 'অনুগ্রহ করে সম্পূর্ণ অটিপি দিন');
         return;
     }
     
@@ -292,8 +330,7 @@ document.getElementById('otpVerificationForm').addEventListener('submit', async 
         
         if (!data.success) {
             // Show error message
-            document.getElementById('otpError').textContent = data.message;
-            document.getElementById('otpError').classList.add('show-error');
+            showError('otpError', data.message || 'অবৈধ OTP');
             return;
         }
         
@@ -303,8 +340,7 @@ document.getElementById('otpVerificationForm').addEventListener('submit', async 
         
     } catch (error) {
         console.error('Error:', error);
-        document.getElementById('otpError').textContent = error.message || 'OTP যাচাই করতে ত্রুটি হয়েছে।';
-        document.getElementById('otpError').classList.add('show-error');
+        showError('otpError', error.message || 'OTP যাচাই করতে ত্রুটি হয়েছে।');
     } finally {
         hideLoading();
     }
@@ -319,49 +355,50 @@ document.getElementById('signupForm').addEventListener('submit', function(e) {
         el.classList.remove('show-error');
     });
     
-    const name = document.getElementById('signupName').value;
+    const name = document.getElementById('signupName').value.trim();
     const password = document.getElementById('signupPassword').value;
     const confirmPassword = document.getElementById('signupConfirmPassword').value;
+    
     let isValid = true;
     
-    // Name validation
-    if (!name.trim()) {
-        document.getElementById('signupNameError').classList.add('show-error');
+    // Validation
+    if (!name) {
+        showError('signupNameError', 'নাম আবশ্যক');
         isValid = false;
     }
     
-    // Password validation
     if (!password || password.length < 6) {
-        document.getElementById('signupPasswordError').classList.add('show-error');
+        showError('signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
         isValid = false;
     }
     
-    // Confirm password validation
     if (password !== confirmPassword) {
-        document.getElementById('signupConfirmPasswordError').classList.add('show-error');
+        showError('signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না');
         isValid = false;
     }
     
-    if (isValid) {
-        // Add new user
-        users.push({
-            name: name,
-            email: currentEmail,
-            password: password,
-            registeredAt: new Date().toISOString()
-        });
-        
-        // Save to localStorage
-        saveUsers();
-        
-        console.log('User registered:', users[users.length - 1]); // For demo purposes
-        
-        // Show success modal
-        openModal();
-        
-        // Clear form fields
-        document.getElementById('signupForm').reset();
-    }
+    if (!isValid) return;
+    
+    // Add new user
+    const newUser = {
+        name: name,
+        email: currentEmail,
+        password: password,
+        registeredAt: new Date().toISOString()
+    };
+    
+    users.push(newUser);
+    
+    // Save to localStorage
+    saveUsers();
+    
+    console.log('User registered:', newUser); // For demo purposes
+    
+    // Show success modal
+    openModal();
+    
+    // Clear form fields
+    document.getElementById('signupForm').reset();
 });
 
 // Handle Login form submission
@@ -379,13 +416,13 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     
     // Email validation
     if (!email || !validateEmail(email)) {
-        document.getElementById('loginEmailError').classList.add('show-error');
+        showError('loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
         isValid = false;
     }
     
     // Password validation
     if (!password) {
-        document.getElementById('loginPasswordError').classList.add('show-error');
+        showError('loginPasswordError', 'পাসওয়ার্ড আবশ্যক');
         isValid = false;
     }
     
@@ -395,72 +432,10 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         
         if (user) {
             alert('সফলভাবে লগইন করা হয়েছে! স্বাগতম ' + user.name);
+            // এখানে লগইন সফল হওয়ার পর যেখানে রিডাইরেক্ট করতে চান সেখানে নিয়ে যেতে পারেন
+            // window.location.href = "dashboard.html";
         } else {
             alert('ভুল ইমেইল বা পাসওয়ার্ড। অনুগ্রহ করে আবার চেষ্টা করুন।');
         }
     }
 });
-
-// Email validation function
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-
-// Initialize the page
-toggleForm('login');
-
-
-document.getElementById('signupForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // Reset error messages
-    document.querySelectorAll('.error-message').forEach(el => {
-        el.classList.remove('show-error');
-    });
-
-    const name = document.getElementById('signupName').value.trim();
-    const password = document.getElementById('signupPassword').value;
-    const confirmPassword = document.getElementById('signupConfirmPassword').value;
-
-    let isValid = true;
-
-    // Validation
-    if (!name) {
-        showError('signupNameError', 'নাম আবশ্যক');
-        isValid = false;
-    }
-
-    if (!password || password.length < 6) {
-        showError('signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
-        isValid = false;
-    }
-
-    if (password !== confirmPassword) {
-        showError('signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না');
-        isValid = false;
-    }
-
-    if (!isValid) return;
-
-    // Save user to localStorage
-    const newUser = {
-        name: name,
-        email: currentEmail,
-        password: password
-    };
-
-    users.push(newUser);
-    saveUsers();
-
-    // Show success modal
-    openModal();
-});
-
-
-
-
-
-
-
-
