@@ -439,3 +439,25 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         }
     }
 });
+
+
+
+
+fetch('https://talimul-islam.onrender.com/send-otp', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Server Error: ' + res.status);
+    return res.json();
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .catch(err => {
+    console.error('Error:', err);
+  });
+  
