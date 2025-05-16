@@ -3232,52 +3232,51 @@ animation: spin 1s linear infinite;
 <!-- * ২. "×" ক্লোজ বাটন বা ব্যাকগ্রাউন্ডে (blur overlay) ক্লিক করলে পপআপ বন্ধ হয়। -->
 <!-- * ৩. পপআপ খোলার সময় স্ক্রল বন্ধ করে এবং বন্ধ হলে আবার চালু করে। -->
 <!-- * ৪. ফর্ম সাবমিট করলে (ডেমো উদ্দেশ্যে) লগইন সফল বার্তা দেখায় এবং পপআপ বন্ধ করে। -->
-<script>
-    // লগইন পপআপ এবং ব্লার এফেক্ট এর জন্য জাভাস্ক্রিপ্ট
-    document.addEventListener('DOMContentLoaded', function() {
-        const loginButton = document.querySelector('.login-button');
-        const loginPopup = document.querySelector('.login-popup');
-        const blurOverlay = document.querySelector('.blur-overlay');
-        const closeLogin = document.querySelector('.close-login');
-        
-        // লগইন বাটনে ক্লিক করলে
-        loginButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            loginPopup.classList.add('active');
-            blurOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden'; // স্ক্রল বন্ধ করুন
-        });
-        
-        // ক্লোজ বাটনে ক্লিক করলে
-        closeLogin.addEventListener('click', function() {
-            loginPopup.classList.remove('active');
-            blurOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // স্ক্রল চালু করুন
-        });
-        
-        // ব্লার ওভারলেতে ক্লিক করলে
-        blurOverlay.addEventListener('click', function() {
-            loginPopup.classList.remove('active');
-            blurOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // স্ক্রল চালু করুন
-        });
-        
-        // লগইন ফর্ম সাবমিট করলে (ডেমো উদ্দেশ্যে)
-        const loginForm = document.getElementById('login-form');
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            // এখানে লগইন লজিক যোগ করুন
-            alert('লগইন সম্পন্ন হয়েছে!'); // ডেমো মেসেজ
-            loginPopup.classList.remove('active');
-            blurOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // স্ক্রল চালু করুন
-        });
-    });
-</script>
 <!-- * এই স্ক্রিপ্টটি ইউজার ইমেইল যাচাই, OTP পাঠানো ও যাচাইকরণ,  -->
 <!-- * রেজিস্ট্রেশন, এবং লগইন প্রক্রিয়া পরিচালনার জন্য ব্যবহৃত হয়। -->
 <script>
-    // User database using localStorage
+    // লগইন পপআপ এবং ব্লার এফেক্ট এর জন্য জাভাস্ক্রিপ্ট
+document.addEventListener('DOMContentLoaded', function() {
+    const loginButton = document.querySelector('.login-button');
+    const loginPopup = document.querySelector('.login-popup');
+    const blurOverlay = document.querySelector('.blur-overlay');
+    const closeLogin = document.querySelector('.close-login');
+    
+    // লগইন বাটনে ক্লিক করলে
+    loginButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginPopup.classList.add('active');
+        blurOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // স্ক্রল বন্ধ করুন
+    });
+    
+    // ক্লোজ বাটনে ক্লিক করলে
+    closeLogin.addEventListener('click', function() {
+        loginPopup.classList.remove('active');
+        blurOverlay.classList.remove('active');
+        document.body.style.overflow = ''; // স্ক্রল চালু করুন
+    });
+    
+    // ব্লার ওভারলেতে ক্লিক করলে
+    blurOverlay.addEventListener('click', function() {
+        loginPopup.classList.remove('active');
+        blurOverlay.classList.remove('active');
+        document.body.style.overflow = ''; // স্ক্রল চালু করুন
+    });
+    
+    // লগইন ফর্ম সাবমিট করলে (ডেমো উদ্দেশ্যে)
+    const loginForm = document.getElementById('login-form');
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // এখানে লগইন লজিক যোগ করুন
+        alert('লগইন সম্পন্ন হয়েছে!'); // ডেমো মেসেজ
+        loginPopup.classList.remove('active');
+        blurOverlay.classList.remove('active');
+        document.body.style.overflow = ''; // স্ক্রল চালু করুন
+    });
+});
+
+// User database using localStorage (MongoDB-তে মাইগ্রেট করা হয়েছে)
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let currentEmail = '';
 let otpTimer;
@@ -3375,13 +3374,18 @@ function closeModal() {
 
 // Show loading spinner
 function showLoading() {
-    // আপনি চাইলে একটি লোডিং স্পিনার যোগ করতে পারেন
-    document.body.style.cursor = 'wait';
+    if (!document.getElementById('pageLoader')) {
+        createLoader();
+    }
+    document.getElementById('pageLoader').style.display = 'flex';
 }
 
 // Hide loading spinner
 function hideLoading() {
-    document.body.style.cursor = 'default';
+    const loader = document.getElementById('pageLoader');
+    if (loader) {
+        loader.style.display = 'none';
+    }
 }
 
 // Show error with specified message
@@ -3400,6 +3404,19 @@ function hideError(elementId) {
 function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
+}
+
+// লোডিং স্পিনার তৈরি করুন
+function createLoader() {
+    const loader = document.createElement('div');
+    loader.className = 'loader';
+    loader.id = 'pageLoader';
+    
+    const spinner = document.createElement('div');
+    spinner.className = 'spinner';
+    
+    loader.appendChild(spinner);
+    document.body.appendChild(loader);
 }
 
 // When the page loads
@@ -3479,7 +3496,7 @@ document.getElementById('emailCheckForm').addEventListener('submit', async funct
     }
     
     if (isValid) {
-        // Check if email already exists
+        // Check if email already exists in localStorage
         if (users.some(u => u.email === email)) {
             showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
             return;
@@ -3492,14 +3509,19 @@ document.getElementById('emailCheckForm').addEventListener('submit', async funct
         try {
             showLoading();
             
-            // API কল - সার্ভারে OTP পাঠানোর অনুরোধ
-            const response = await fetch(`${API_URL}/api/send-otp`, {  // /api/send-otp পাথ সংশোধন করা হয়েছে
+            // API কল - MongoDB তে OTP সংরক্ষণ করার অনুরোধ
+            const response = await fetch(`${API_URL}/api/send-otp`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ email: email }),
             });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+            }
             
             const data = await response.json();
             
@@ -3536,13 +3558,18 @@ document.getElementById('resendOtp').addEventListener('click', async function() 
         this.disabled = true;
         
         // API কল - পুনরায় OTP পাঠানোর অনুরোধ
-        const response = await fetch(`${API_URL}/api/send-otp`, {  // /api/send-otp পাথ সংশোধন করা হয়েছে
+        const response = await fetch(`${API_URL}/api/send-otp`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email: currentEmail }),
         });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+        }
         
         const data = await response.json();
         
@@ -3593,8 +3620,8 @@ document.getElementById('otpVerificationForm').addEventListener('submit', async 
     try {
         showLoading();
         
-        // API কল - OTP যাচাই করার অনুরোধ
-        const response = await fetch(`${API_URL}/api/verify-otp`, {  // /api/verify-otp পাথ সংশোধন করা হয়েছে
+        // API কল - MongoDB তে সংরক্ষিত OTP যাচাই করার অনুরোধ
+        const response = await fetch(`${API_URL}/api/verify-otp`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -3604,6 +3631,11 @@ document.getElementById('otpVerificationForm').addEventListener('submit', async 
                 otp: enteredOTP
             }),
         });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'OTP যাচাই করতে ত্রুটি হয়েছে');
+        }
         
         const data = await response.json();
         
@@ -3626,7 +3658,7 @@ document.getElementById('otpVerificationForm').addEventListener('submit', async 
 });
 
 // Handle Registration form submission
-document.getElementById('signupForm').addEventListener('submit', function(e) {
+document.getElementById('signupForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     // Reset error messages
@@ -3658,30 +3690,60 @@ document.getElementById('signupForm').addEventListener('submit', function(e) {
     
     if (!isValid) return;
     
-    // Add new user
-    const newUser = {
-        name: name,
-        email: currentEmail,
-        password: password,
-        registeredAt: new Date().toISOString()
-    };
-    
-    users.push(newUser);
-    
-    // Save to localStorage
-    saveUsers();
-    
-    console.log('User registered:', newUser); // For demo purposes
-    
-    // Show success modal
-    openModal();
-    
-    // Clear form fields
-    document.getElementById('signupForm').reset();
+    try {
+        showLoading();
+        
+        // API কল - ব্যবহারকারী নিবন্ধন করার অনুরোধ
+        const response = await fetch(`${API_URL}/api/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name,
+                email: currentEmail,
+                password: password
+            }),
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'নিবন্ধন করতে ত্রুটি হয়েছে');
+        }
+        
+        const data = await response.json();
+        
+        if (!data.success) {
+            throw new Error(data.message || 'নিবন্ধন করতে ত্রুটি হয়েছে');
+        }
+        
+        // এখনও localStorage এ ব্যবহারকারী সংরক্ষণ করুন (প্রয়োজনে)
+        const newUser = {
+            name: name,
+            email: currentEmail,
+            password: password,
+            registeredAt: new Date().toISOString()
+        };
+        
+        users.push(newUser);
+        saveUsers();
+        
+        // Clear form fields
+        document.getElementById('signupForm').reset();
+        
+        // Show success modal
+        openModal();
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert(error.message || 'নিবন্ধন করতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।');
+    } finally {
+        hideLoading();
+    }
 });
 
 // Handle Login form submission
-document.getElementById('loginForm').addEventListener('submit', function(e) {
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     // Reset error messages
@@ -3706,101 +3768,52 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     }
     
     if (isValid) {
-        // Check if user exists
-        const user = users.find(u => u.email === email && u.password === password);
-        
-        if (user) {
-            alert('সফলভাবে লগইন করা হয়েছে! স্বাগতম ' + user.name);
-            // এখানে লগইন সফল হওয়ার পর যেখানে রিডাইরেক্ট করতে চান সেখানে নিয়ে যেতে পারেন
-            // window.location.href = "dashboard.html";
-        } else {
-            alert('ভুল ইমেইল বা পাসওয়ার্ড। অনুগ্রহ করে আবার চেষ্টা করুন।');
-        }
-    }
-});
-
-
-
-
-
-
-
-
-
-
-// লোডিং স্পিনার তৈরি করুন
-function createLoader() {
-    const loader = document.createElement('div');
-    loader.className = 'loader';
-    loader.id = 'pageLoader';
-    
-    const spinner = document.createElement('div');
-    spinner.className = 'spinner';
-    
-    loader.appendChild(spinner);
-    document.body.appendChild(loader);
-}
-
-// লোডিং দেখানোর ফাংশন
-function showLoading() {
-    if (!document.getElementById('pageLoader')) {
-        createLoader();
-    }
-    document.getElementById('pageLoader').style.display = 'flex';
-}
-
-// লোডিং বন্ধ করার ফাংশন
-function hideLoading() {
-    const loader = document.getElementById('pageLoader');
-    if (loader) {
-        loader.style.display = 'none';
-    }
-}
-
-// ইমেইল চেক ফর্মে লোডিং যোগ করুন
-document.getElementById('emailCheckForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('checkEmail').value;
-    let isValid = true;
-    
-    if (!validateEmail(email)) {
-        showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
-        isValid = false;
-    }
-    
-    if (isValid) {
         try {
             showLoading();
             
-            currentEmail = email;
-            document.getElementById('userEmail').textContent = email;
-            
-            const response = await fetch(`${API_URL}/api/send-otp`, {
+            // API কল - ব্যবহারকারীর লগইন অনুরোধ
+            const response = await fetch(`${API_URL}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email: email }),
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
             });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'লগইন করতে ত্রুটি হয়েছে');
+            }
             
             const data = await response.json();
             
             if (!data.success) {
-                throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                throw new Error(data.message || 'ভুল ইমেইল বা পাসওয়ার্ড।');
             }
             
-            startOTPTimer();
-            toggleForm('otpVerification');
+            // লগইন সফল
+            alert('সফলভাবে লগইন করা হয়েছে! স্বাগতম ' + data.user.name);
+            
+            // সেশন স্টোরেজে টোকেন সংরক্ষণ করুন (JWT টোকেন থাকলে)
+            if (data.token) {
+                sessionStorage.setItem('authToken', data.token);
+            }
+            
+            // এখানে লগইন সফল হওয়ার পর যেখানে রিডাইরেক্ট করতে চান সেখানে নিয়ে যেতে পারেন
+            // window.location.href = "dashboard.html";
             
         } catch (error) {
-            alert(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে।');
+            console.error('Error:', error);
+            alert(error.message || 'লগইন করতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।');
         } finally {
             hideLoading();
         }
     }
 });
-</script> 
+</script>
 
 <!-- CSS স্টাইল - আপনার স্টাইলশিট ফাইলে যোগ করুন -->
 <style>
@@ -6203,14 +6216,14 @@ color: #666;
 
     <!-- কোর্স কার্ড 2 -->
     <div class="course-card">
-      <a href="course-details.html?id=2" class="course-card-link" aria-label="তাজবীদ কোর্স বিস্তারিত"></a>
+      <a href="Course Details.html" class="course-card-link" aria-label="তাজবীদ কোর্স বিস্তারিত"></a>
       <div class="course-thumbnail">
-        <img src="Talimul Islam Academi.jpeg" alt="তাজবীদ কোর্স">
+        <img src="img/al-quran-7741928_1280.jpg" alt="তাজবীদ কোর্স">
         <div class="level-badge intermediate">মধ্যবর্তী</div>
       </div>
       <div class="course-info">
         <div class="instructor">
-          <img src="Talimul Islam Academi.jpeg" alt="শিক্ষক" class="instructor-img">
+          <img src="img/Darul_Uloom_Deoband.jpg" alt="শিক্ষক" class="instructor-img">
           <span>মাওলানা ইব্রাহিম</span>
         </div>
         <h3 class="course-title">হাদিসের সঠিক ব্যাখ্যা ও বিশ্লেষণ শিখুন, নবীর (সাঃ) জীবন থেকে শিক্ষা নিন।</h3>
@@ -6235,7 +6248,7 @@ color: #666;
           </div>
           <div class="action-buttons">
             <button class="add-to-cart-btn" onclick="addToCart(2)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="course-checkout.html?id=2" class="buy-now-btn">কিনুন</a>
+            <a href="Course Details.html" class="buy-now-btn">কিনুন</a>
           </div>
         </div>
       </div>
@@ -6243,14 +6256,14 @@ color: #666;
 
     <!-- কোর্স কার্ড 3 -->
     <div class="course-card">
-      <a href="course-details.html?id=3" class="course-card-link" aria-label="আরবি ভাষা কোর্স বিস্তারিত"></a>
+      <a href="Course Details.html" class="course-card-link" aria-label="আরবি ভাষা কোর্স বিস্তারিত"></a>
       <div class="course-thumbnail">
-        <img src="14png.png" alt="আরবি ভাষা কোর্স">
+        <img src="img/holy-quran-1528446_1280.jpg" alt="আরবি ভাষা কোর্স">
         <div class="level-badge beginner">বেসিক</div>
       </div>
       <div class="course-info">
         <div class="instructor">
-          <img src="Talimul Islam Academi.jpeg" alt="শিক্ষক" class="instructor-img">
+          <img src="img/ChatGPT_Image১-removebg-preview.png" alt="শিক্ষক" class="instructor-img">
           <span>মাওলানা জাকির</span>
         </div>
         <h3 class="course-title">ইসলামী আইন ও জীবন বিধান শিখে আপনার দৈনন্দিন জীবনে সঠিক সিদ্ধান্ত নিন।</h3>
@@ -6275,7 +6288,7 @@ color: #666;
           </div>
           <div class="action-buttons">
             <button class="add-to-cart-btn" onclick="addToCart(3)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="course-checkout.html?id=3" class="buy-now-btn">কিনুন</a>
+            <a href="Course Details.html" class="buy-now-btn">কিনুন</a>
           </div>
         </div>
       </div>
@@ -6283,14 +6296,14 @@ color: #666;
 
     <!-- কোর্স কার্ড 4 -->
     <div class="course-card">
-      <a href="course-details.html?id=4" class="course-card-link" aria-label="ফিকাহ কোর্স বিস্তারিত"></a>
+      <a href="Course Details.html" class="course-card-link" aria-label="ফিকাহ কোর্স বিস্তারিত"></a>
       <div class="course-thumbnail">
-        <img src="/pexels-648298123-28872754.jpg" alt="ফিকাহ কোর্স">
+        <img src="img/al-quran-7737590_1280.jpg" alt="ফিকাহ কোর্স">
         <div class="level-badge advanced">অ্যাডভান্সড</div>
       </div>
       <div class="course-info">
         <div class="instructor">
-          <img src="Talimul Islam Academi.jpeg" alt="শিক্ষক" class="instructor-img">
+          <img src="img/pexels-648298123-28872754.jpg" alt="শিক্ষক" class="instructor-img">
           <span>মাওলানা রফিক</span>
         </div>
         <h3 class="course-title">আরবি ভাষার গভীরে প্রবেশ করুন, কুরআন ও হাদিস বুঝতে পারদর্শী হন।</h3>
@@ -6315,7 +6328,7 @@ color: #666;
           </div>
           <div class="action-buttons">
             <button class="add-to-cart-btn" onclick="addToCart(4)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="course-checkout.html?id=4" class="buy-now-btn">কিনুন</a>
+            <a href="Course Details.html" class="buy-now-btn">কিনুন</a>
           </div>
         </div>
       </div>
@@ -6323,9 +6336,9 @@ color: #666;
 
     <!-- কোর্স কার্ড 5 -->
     <div class="course-card">
-      <a href="course-details.html?id=5" class="course-card-link" aria-label="হাদিস কোর্স বিস্তারিত"></a>
+      <a href="Course Details.html" class="course-card-link" aria-label="হাদিস কোর্স বিস্তারিত"></a>
       <div class="course-thumbnail">
-        <img src="pexels-648298123-28872754.jpg" alt="হাদিস কোর্স">
+        <img src="img/man-7757211_1280.png" alt="হাদিস কোর্স">
         <div class="level-badge intermediate">মধ্যবর্তী</div>
       </div>
       <div class="course-info">
@@ -7328,9 +7341,9 @@ function hideExtraCourses() {
                             <button type="submit">সাবস্ক্রাইব</button>
                         </form>
                         <div class="contact-info">
-                            <p>ঠিকানা: আজিমপুর, ঢাকা-১২০৫</p>
+                            <p>ঠিকানা: আজিমপুর, ঢাকা-১২০৫</p> 
                             <p>ফোন: +৮৮০১৯১১-৫৬৭৮৯০</p>
-                            <p>ইমেইল: info@madrasa-shikkha.com</p>
+                            <p>ইমেইল: billaharif661@gmail.com</p>
                         </div>
                     </div>
                 </div>

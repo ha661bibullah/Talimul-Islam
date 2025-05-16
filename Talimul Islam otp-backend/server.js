@@ -5,12 +5,29 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const path = require('path');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs'); // পাসওয়ার্ড হ্যাশিং এর জন্য
+
+// মডেলগুলি ইম্পোর্ট করুন
+const User = require('./models/User');
+const Otp = require('./models/Otp');
 
 // .env ফাইল থেকে কনফিগারেশন লোড করুন
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// MongoDB সংযোগ স্থাপন
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://admin:Kw5FmYPNbFMtWCPS@talimulcluster.irmh5p4.mongodb.net/?retryWrites=true&w=majority&appName=TalimulCluster';
+
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log('MongoDB সাথে সংযোগ স্থাপন সফল হয়েছে');
+  })
+  .catch((err) => {
+    console.error('MongoDB সংযোগে সমস্যা:', err);
+  });
 
 // মিডলওয়্যার
 app.use(cors({
@@ -42,9 +59,6 @@ app.get('/ping', (req, res) => {
     res.json({ status: 'success', message: 'Server is running!' });
 });
 
-// OTP স্টোরেজ (প্রোডাকশনে কখনও মেমোরিতে রাখবেন না, ডাটাবেস ব্যবহার করুন)
-const otpStorage = {};
-
 // OTP জেনারেট করার ফাংশন
 function generateOTP() {
     return Math.floor(1000 + Math.random() * 9000).toString();
@@ -64,17 +78,30 @@ app.post('/api/send-otp', async (req, res) => {
         if (!email) {
             return res.status(400).json({ success: false, message: 'ইমেইল প্রদান করা হয়নি!' });
         }
+        
+        // চেক করুন ইমেইল আগে থেকে আছে কিনা
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'এই ইমেইল দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট আছে!'
+            });
+        }
 
         // OTP জেনারেট করুন
         const otp = generateOTP();
         console.log(`Generated OTP for ${email}: ${otp}`);
         
-        // OTP স্টোর করুন (5 মিনিটের জন্য বৈধ)
-        otpStorage[email] = {
+        // আগের OTP থাকলে মুছে ফেলুন
+        await Otp.deleteOne({ email });
+        
+        // নতুন OTP তৈরি করুন মংগোডিবিতে সংরক্ষণের জন্য
+        await new Otp({
+            email,
             otp,
             createdAt: Date.now(),
             attempts: 0
-        };
+        }).save();
 
         // ইমেইল কনফিগারেশন
         const mailOptions = {
@@ -117,7 +144,7 @@ app.post('/api/send-otp', async (req, res) => {
 });
 
 // রুট: OTP যাচাই করার জন্য
-app.post('/api/verify-otp', (req, res) => {
+app.post('/api/verify-otp', async (req, res) => {
     try {
         console.log('OTP verification request received:', req.body);
         const { email, otp } = req.body;
@@ -126,40 +153,42 @@ app.post('/api/verify-otp', (req, res) => {
             return res.status(400).json({ success: false, message: 'ইমেইল বা OTP প্রদান করা হয়নি!' });
         }
 
-        // OTP স্টোরেজ থেকে ডেটা পাওয়া
-        const otpData = otpStorage[email];
-        console.log(`OTP data for ${email}:`, otpData);
+        // ডাটাবেস থেকে OTP খুঁজুন
+        const otpRecord = await Otp.findOne({ email });
         
-        if (!otpData) {
+        if (!otpRecord) {
             return res.status(400).json({ success: false, message: 'OTP মেয়াদ শেষ হয়েছে বা বৈধ নয়!' });
         }
-
-        // চেক করুন OTP মেয়াদ শেষ হয়েছে কিনা (2 মিনিট = 120000 মিলিসেকেন্ড)
+        
+        // OTP মেয়াদ যাচাই করুন (2 মিনিট)
         const now = Date.now();
-        if (now - otpData.createdAt > 120000) {
-            delete otpStorage[email];
+        const otpCreatedAt = new Date(otpRecord.createdAt).getTime();
+        
+        if (now - otpCreatedAt > 120000) {
+            await Otp.deleteMany({ email });
             return res.status(400).json({ success: false, message: 'OTP মেয়াদ শেষ হয়েছে!' });
         }
         
         // প্রচেষ্টার সংখ্যা বাড়ান
-        otpData.attempts += 1;
+        otpRecord.attempts += 1;
+        await otpRecord.save();
         
         // সর্বাধিক 3টি প্রচেষ্টা
-        if (otpData.attempts > 3) {
-            delete otpStorage[email];
+        if (otpRecord.attempts > 3) {
+            await Otp.deleteMany({ email });
             return res.status(400).json({ success: false, message: 'অনেকবার ভুল চেষ্টা করা হয়েছে। আবার OTP পাঠান।' });
         }
         
         // OTP মিলে যায় কিনা
-        if (otp !== otpData.otp) {
+        if (otp !== otpRecord.otp) {
             return res.status(400).json({ 
                 success: false, 
-                message: `ভুল OTP! আবার চেষ্টা করুন। (${3 - otpData.attempts} চেষ্টা বাকি আছে)`
+                message: `ভুল OTP! আবার চেষ্টা করুন। (${3 - otpRecord.attempts} চেষ্টা বাকি আছে)`
             });
         }
         
         // OTP সঠিক, স্টোরেজ থেকে মুছে ফেলুন
-        delete otpStorage[email];
+        await Otp.deleteMany({ email });
         console.log(`OTP verified successfully for ${email}`);
         
         res.json({ success: true, message: 'OTP সফলভাবে যাচাই করা হয়েছে!' });
@@ -168,6 +197,108 @@ app.post('/api/verify-otp', (req, res) => {
         res.status(500).json({ 
             success: false, 
             message: 'OTP যাচাই করতে ব্যর্থ হয়েছে।',
+            error: error.message
+        });
+    }
+});
+
+// রুট: নতুন ইউজার রেজিস্ট্রেশন
+app.post('/api/register', async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+        
+        if (!name || !email || !password) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'সব তথ্য প্রদান করা আবশ্যক!'
+            });
+        }
+        
+        // চেক করুন ইমেইল আগে থেকে আছে কিনা
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'এই ইমেইল দিয়ে ইতিমধ্যে একটি অ্যাকাউন্ট আছে!'
+            });
+        }
+        
+        // পাসওয়ার্ড হ্যাশ করুন
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        
+        // নতুন ইউজার তৈরি করুন
+        const newUser = new User({
+            name,
+            email,
+            password: hashedPassword
+        });
+        
+        await newUser.save();
+        
+        res.json({ 
+            success: true, 
+            message: 'ইউজার সফলভাবে তৈরি করা হয়েছে!',
+            user: {
+                name: newUser.name,
+                email: newUser.email
+            }
+        });
+    } catch (error) {
+        console.error('রেজিস্ট্রেশনের সময় ত্রুটি:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'রেজিস্ট্রেশন করতে ব্যর্থ হয়েছে।',
+            error: error.message
+        });
+    }
+});
+
+// রুট: ইউজার লগইন
+app.post('/api/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        if (!email || !password) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'ইমেইল এবং পাসওয়ার্ড প্রদান করুন!'
+            });
+        }
+        
+        // ইউজার খুঁজুন
+        const user = await User.findOne({ email });
+        
+        if (!user) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'এই ইমেইল দিয়ে কোনো অ্যাকাউন্ট নেই!'
+            });
+        }
+        
+        // পাসওয়ার্ড যাচাই করুন
+        const isMatch = await bcrypt.compare(password, user.password);
+        
+        if (!isMatch) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'ভুল পাসওয়ার্ড!'
+            });
+        }
+        
+        res.json({ 
+            success: true, 
+            message: 'সফলভাবে লগইন করা হয়েছে!',
+            user: {
+                name: user.name,
+                email: user.email
+            }
+        });
+    } catch (error) {
+        console.error('লগইনের সময় ত্রুটি:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'লগইন করতে ব্যর্থ হয়েছে।',
             error: error.message
         });
     }
@@ -189,6 +320,7 @@ app.listen(PORT, () => {
     console.log('Environment variables loaded:', {
         PORT: PORT,
         EMAIL_USER: process.env.EMAIL_USER,
-        EMAIL_PASS: process.env.EMAIL_PASS ? 'Set (hidden)' : 'Not set'
+        EMAIL_PASS: process.env.EMAIL_PASS ? 'Set (hidden)' : 'Not set',
+        MONGO_URI: process.env.MONGO_URI ? 'Set (hidden)' : 'Using default'
     });
 });
