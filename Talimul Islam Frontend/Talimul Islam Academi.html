@@ -5653,8 +5653,250 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // লগইন সম্পন্ন হওয়ার পরে UI আপডেট করার জন্য যোগ করতে হবে
+function updateUIAfterLogin(user) {
+    // লগইন বাটন হাইড করে প্রোফাইল ড্রপডাউন শো করুন
+    const loginButton = document.getElementById('loginButton');
+    const profileDropdown = document.getElementById('profileDropdown');
     
-</script>    
+    if (loginButton) loginButton.style.display = 'none';
+    if (profileDropdown) profileDropdown.style.display = 'block';
+    
+    // প্রোফাইল ড্রপডাউনে ইউজারের নাম আপডেট করুন
+    const profileName = document.getElementById('profileName');
+    if (profileName && user && user.name) {
+        profileName.textContent = user.name;
+    }
+}
+
+// প্রোফাইল ড্রপডাউন মেনু হ্যান্ডলিং
+function setupProfileDropdown() {
+    const profileButton = document.getElementById('profileButton');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    
+    if (profileButton && dropdownMenu) {
+        // প্রোফাইল আইকনে ক্লিক করলে ড্রপডাউন টগল করুন
+        profileButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            dropdownMenu.classList.toggle('show');
+        });
+        
+        // অন্য কোথাও ক্লিক করলে ড্রপডাউন বন্ধ করুন
+        document.addEventListener('click', function(e) {
+            if (!profileButton.contains(e.target)) {
+                dropdownMenu.classList.remove('show');
+            }
+        });
+    }
+}
+
+// HTML মার্কআপ যোগ করার জন্য ফাংশন
+function addProfileDropdownHTML() {
+    // প্রোফাইল ড্রপডাউন HTML যোগ করুন যদি না থাকে
+    if (!document.getElementById('profileDropdown')) {
+        const header = document.querySelector('header') || document.body;
+        
+        // লগইন বাটনের স্থানে এই HTML যোগ করুন
+        const profileDropdownHTML = `
+            <div id="profileDropdown" class="profile-dropdown" style="display: none;">
+                <button id="profileButton" class="profile-button">
+                    <img src="/assets/images/user-icon.png" alt="User" class="profile-icon">
+                    <span id="profileName">ইউজার</span>
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div id="dropdownMenu" class="dropdown-menu">
+                    <a href="/profile">প্রোফাইল</a>
+                    <a href="/my-courses">আমার কোর্সসমূহ</a>
+                    <a href="#" id="logoutButton">লগআউট</a>
+                </div>
+            </div>
+        `;
+        
+        // প্রোফাইল ড্রপডাউন স্টাইল যোগ করুন
+        const profileStyle = document.createElement('style');
+        profileStyle.textContent = `
+            .profile-dropdown {
+                position: relative;
+                display: inline-block;
+            }
+            
+            .profile-button {
+                display: flex;
+                align-items: center;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 5px 10px;
+                font-size: 14px;
+                color: #333;
+            }
+            
+            .profile-icon {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                margin-right: 8px;
+            }
+            
+            .dropdown-menu {
+                position: absolute;
+                right: 0;
+                top: 100%;
+                background-color: white;
+                min-width: 180px;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+                z-index: 1000;
+                border-radius: 4px;
+                display: none;
+            }
+            
+            .dropdown-menu.show {
+                display: block;
+            }
+            
+            .dropdown-menu a {
+                color: #333;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                font-size: 14px;
+            }
+            
+            .dropdown-menu a:hover {
+                background-color: #f5f5f5;
+            }
+        `;
+        
+        document.head.appendChild(profileStyle);
+        
+        // প্রোফাইল ড্রপডাউন HTML যোগ করুন
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = profileDropdownHTML;
+        
+        // লগইন বাটনের পাশে যোগ করুন
+        const loginButton = document.getElementById('loginButton');
+        if (loginButton && loginButton.parentNode) {
+            loginButton.parentNode.insertBefore(tempDiv.firstElementChild, loginButton.nextSibling);
+        } else {
+            header.appendChild(tempDiv.firstElementChild);
+        }
+    }
+}
+
+// চেক লগইন স্টেটাস ফাংশন আপডেট করুন
+async function checkLoginStatus() {
+    // সেশন স্টোরেজ থেকে টোকেন পড়ুন
+    const token = sessionStorage.getItem('authToken');
+    
+    // প্রোফাইল ড্রপডাউন HTML যোগ করুন যদি না থাকে
+    addProfileDropdownHTML();
+    
+    const loginButton = document.getElementById('loginButton');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    if (token) {
+        try {
+            // টোকেন ভ্যালিডেট করার জন্য API কল
+            const response = await fetch(`${DB_API_URL}/validate-token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.valid) {
+                // লগইন করা আছে, প্রোফাইল আইকন দেখান
+                if (loginButton) loginButton.style.display = 'none';
+                if (profileDropdown) profileDropdown.style.display = 'block';
+                
+                // যদি ইউজার ডাটা থাকে তাহলে সেট করুন
+                if (data.user) {
+                    sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+                    
+                    // প্রোফাইলে ইউজারের নাম আপডেট করুন
+                    const profileName = document.getElementById('profileName');
+                    if (profileName) {
+                        profileName.textContent = data.user.name;
+                    }
+                }
+                
+                return true;
+            } else {
+                // টোকেন ভ্যালিড নয়, লগইন বাটন দেখান
+                sessionStorage.removeItem('authToken');
+                sessionStorage.removeItem('currentUser');
+                if (loginButton) loginButton.style.display = 'block';
+                if (profileDropdown) profileDropdown.style.display = 'none';
+                return false;
+            }
+        } catch (error) {
+            console.error('Error validating token:', error);
+            if (loginButton) loginButton.style.display = 'block';
+            if (profileDropdown) profileDropdown.style.display = 'none';
+            return false;
+        }
+    } else {
+        // লগইন করা নেই, লগইন বাটন দেখান
+        if (loginButton) loginButton.style.display = 'block';
+        if (profileDropdown) profileDropdown.style.display = 'none';
+        return false;
+    }
+}
+
+// লগইন হওয়ার পরে আপডেট ফাংশন কল করুন - লগইন ফর্ম সাবমিট সেকশনে যোগ করুন
+// Handle Login form submission এ এই কোড যোগ করুন (success সেকশনে)
+/* 
+// সফল লগইন সেকশনে যোগ করুন
+// প্রোফাইল UI আপডেট করুন
+updateUIAfterLogin(data.user);
+*/
+// সফল লগইন এর পরের অংশে এটি যোগ করুন
+if (!data.success) {
+    throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
+}
+
+// সেশন স্টোরেজে টোকেন এবং ইউজার ডেটা সংরক্ষণ করুন
+sessionStorage.setItem('authToken', data.token);
+sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+
+// প্রোফাইল UI আপডেট করুন - এই লাইনটি যোগ করুন
+updateUIAfterLogin(data.user);
+
+
+
+
+// পেজ লোড হওয়ার সময় প্রোফাইল ড্রপডাউন সেটআপ করুন
+document.addEventListener('DOMContentLoaded', function() {
+    // প্রোফাইল ড্রপডাউন HTML যোগ করুন
+    addProfileDropdownHTML();
+    
+    // প্রোফাইল ড্রপডাউন সেটআপ করুন
+    setupProfileDropdown();
+    
+    // লগইন স্টেটাস চেক করুন
+    checkLoginStatus();
+});
+
+
+
+    
+</script>     
         <!-- * এই স্ক্রিপ্টটি ইউজার ইমেইল যাচাই, OTP পাঠানো ও যাচাইকরণ,  -->
         <!-- * রেজিস্ট্রেশন, এবং লগইন প্রক্রিয়া পরিচালনার জন্য ব্যবহৃত হয়। -->
         
