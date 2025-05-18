@@ -4826,7 +4826,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // API URL - সার্ভার URL
     const API_URL = 'https://talimul-islam.onrender.com';
     const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
-    
+                        
     let currentEmail = '';
     let otpTimer;
     
@@ -5650,7 +5650,125 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         document.head.appendChild(style);
     });
-</script> 
+
+
+
+
+
+    // Handle Login form submission - updated to fix profile dropdown display
+document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.classList.remove('show-error');
+            });
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            let isValid = true;
+            
+            // Email validation
+            if (!email || !validateEmail(email)) {
+                showError('loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+                isValid = false;
+            }
+            
+            // Password validation
+            if (!password) {
+                showError('loginPasswordError', 'পাসওয়ার্ড আবশ্যক');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                try {
+                    showLoading();
+                    
+                    // লগইন API কল
+                    const response = await fetch(`${DB_API_URL}/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        }),
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
+                    }
+                    
+                    // New function call to handle successful login
+                    await handleLoginSuccess(data);
+                    
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showNotification(error.message || 'ভুল ইমেইল বা পাসওয়ার্ড। অনুগ্রহ করে আবার চেষ্টা করুন।', 'error');
+                } finally {
+                    hideLoading();
+                }
+            }
+        });
+    }
+});
+
+// New function to handle successful login
+async function handleLoginSuccess(userData) {
+    // সেশন স্টোরেজে টোকেন এবং ইউজার ডেটা সংরক্ষণ করুন
+    sessionStorage.setItem('authToken', userData.token);
+    sessionStorage.setItem('currentUser', JSON.stringify(userData.user));
+    
+    // লগইন পপআপ বন্ধ করুন
+    const loginPopup = document.querySelector('.login-popup');
+    const blurOverlay = document.querySelector('.blur-overlay');
+    
+    if (loginPopup) loginPopup.classList.remove('active');
+    if (blurOverlay) blurOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    // সরাসরি ইউজার ইন্টারফেস আপডেট করুন - প্রোফাইল ড্রপডাউন দেখানোর জন্য
+    const loginButton = document.getElementById('loginButton');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    if (loginButton) loginButton.style.display = 'none';
+    if (profileDropdown) profileDropdown.style.display = 'block';
+    
+    // যদি প্রোফাইল ড্রপডাউনে ইউজার নাম দেখাতে চান
+    const userNameElement = document.getElementById('userName');
+    if (userNameElement) {
+        userNameElement.textContent = userData.user.name;
+    }
+    
+    // সার্ভার থেকে লগইন স্টেটাস ভ্যালিডেট করুন
+    await checkLoginStatus();
+    
+    showNotification('সফলভাবে লগইন করা হয়েছে! স্বাগতম ' + userData.user.name, 'success');
+}
+
+// Ensure profile appears immediately when page loads if already logged in
+document.addEventListener('DOMContentLoaded', async function() {
+    // Existing initialization code...
+    
+    // Add this check immediately after page loads
+    await checkLoginStatus();
+    
+    // Update profile info if user is logged in
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+    if (currentUser.name) {
+        const userNameElement = document.getElementById('userName');
+        if (userNameElement) {
+            userNameElement.textContent = currentUser.name;
+        }
+    }
+});
+</script>  
         <!-- * এই স্ক্রিপ্টটি ইউজার ইমেইল যাচাই, OTP পাঠানো ও যাচাইকরণ,  -->
         <!-- * রেজিস্ট্রেশন, এবং লগইন প্রক্রিয়া পরিচালনার জন্য ব্যবহৃত হয়। -->
         
