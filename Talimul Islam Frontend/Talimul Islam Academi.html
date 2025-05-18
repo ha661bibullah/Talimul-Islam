@@ -726,7 +726,7 @@ nav {
             </div>
         </div>
     </div>
-    </nav>
+    </nav> 
  <!-- *   1. ইউজার লগআউট হওয়ার পর সেশন ডাটা ক্লিয়ার করা -->
  <!-- *   2. কার্ট আইটেম ক্লিয়ার করা (যদি দরকার হয়) -->
  <!-- *   3. লগআউট পরবর্তী হোম পেইজে রিডাইরেক্ট করা -->
@@ -5582,7 +5582,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-    
+
     // CSS for custom notification
     document.addEventListener('DOMContentLoaded', function() {
         const style = document.createElement('style');
@@ -5652,50 +5652,264 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Step 1: Add HTML for profile dropdown to your page (usually in the header)
+// Add this where you want the profile icon to appear
+`
+<!-- লগইন বাটন -->
+<button class="login-button" id="loginButton">লগইন</button>
+
+<!-- প্রোফাইল আইকন - লগইন করার পরে এটি দেখানো হবে -->
+<div class="profile-dropdown" id="profileDropdown" style="display: none;">
+    <button class="profile-icon">
+        <i class="fas fa-user-circle"></i>
+    </button>
+    <div class="dropdown-menu1">
+        <a href="profil.html" class="dropdown-item">প্রোফাইল</a>
+        <a href="AftarLoginInMyCours.html" class="dropdown-item">আমার কোর্স</a>
+        <a href="#" class="dropdown-item" id="logoutButton"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
+    </div>
+</div>
+`
+
+// Step 2: Add CSS for styling the profile dropdown
+// Add this to your existing CSS or create a new style tag
+`
+<style>
+    /* প্রোফাইল ড্রপডাউন স্টাইল */
+    .profile-dropdown {
+        position: relative;
+        display: inline-block;
+    }
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // লগইন পপআপ বন্ধ করুন
-    const loginPopup = document.querySelector('.login-popup');
-                        const blurOverlay = document.querySelector('.blur-overlay');
-                        
-                        if (loginPopup) loginPopup.classList.remove('active');
-                        if (blurOverlay) blurOverlay.classList.remove('active');
-                        document.body.style.overflow = '';
-                        
-                        // লগইন স্টেটাস আপডেট করুন
-                        checkLoginStatus();
-                        
-                        // তৎক্ষণাৎ UI আপডেট করুন, checkLoginStatus() API কল সম্পূর্ণ হওয়ার জন্য অপেক্ষা না করে
-                        const loginButton = document.getElementById('loginButton');
-                        const profileDropdown = document.getElementById('profileDropdown');
-                        if (loginButton) loginButton.style.display = 'none';
-                        if (profileDropdown) profileDropdown.style.display = 'block';
-                        
-                        showNotification('সফলভাবে লগইন করা হয়েছে! স্বাগতম ' + data.user.name, 'success');
+    .profile-icon {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #333;
+        padding: 5px;
+        transition: all 0.3s ease;
+    }
     
-</script>      
+    .profile-icon i {
+        font-size: 24px;
+        color: #13a95e;
+    }
+    
+    .dropdown-menu1 {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #fff;
+        min-width: 180px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        z-index: 1000;
+        border-radius: 5px;
+        padding: 10px 0;
+        margin-top: 5px;
+    }
+    
+    .dropdown-item {
+        color: #333;
+        padding: 10px 15px;
+        text-decoration: none;
+        display: block;
+        transition: background-color 0.3s;
+    }
+    
+    .dropdown-item:hover {
+        background-color: #f5f5f5;
+    }
+    
+    /* ড্রপডাউন মেনু দেখানো */
+    .profile-dropdown:hover .dropdown-menu1 {
+        display: block;
+    }
+</style>
+`
+
+// Step 3: Modify your existing functions to handle profile dropdown
+
+// Update the existing checkLoginStatus function to properly toggle between login button and profile dropdown
+function checkLoginStatus() {
+    // সেশন স্টোরেজ থেকে টোকেন পড়ুন
+    const token = sessionStorage.getItem('authToken');
+    
+    const loginButton = document.getElementById('loginButton');
+    const profileDropdown = document.getElementById('profileDropdown');
+    
+    if (token) {
+        try {
+            // টোকেন ভ্যালিডেট করার জন্য API কল
+            fetch(`${DB_API_URL}/validate-token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    // লগইন করা আছে, প্রোফাইল আইকন দেখান
+                    if (loginButton) loginButton.style.display = 'none';
+                    if (profileDropdown) profileDropdown.style.display = 'inline-block';
+                    
+                    // Set username in profile if available
+                    const userData = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
+                    if (userData.name) {
+                        const usernameElement = document.getElementById('username');
+                        if (usernameElement) {
+                            usernameElement.textContent = userData.name;
+                        }
+                    }
+                    
+                    return true;
+                } else {
+                    // টোকেন ভ্যালিড নয়, লগইন বাটন দেখান
+                    sessionStorage.removeItem('authToken');
+                    sessionStorage.removeItem('currentUser');
+                    if (loginButton) loginButton.style.display = 'block';
+                    if (profileDropdown) profileDropdown.style.display = 'none';
+                    return false;
+                }
+            })
+            .catch(error => {
+                console.error('Error validating token:', error);
+                if (loginButton) loginButton.style.display = 'block';
+                if (profileDropdown) profileDropdown.style.display = 'none';
+                return false;
+            });
+        } catch (error) {
+            console.error('Error in token validation:', error);
+            if (loginButton) loginButton.style.display = 'block';
+            if (profileDropdown) profileDropdown.style.display = 'none';
+            return false;
+        }
+    } else {
+        // লগইন করা নেই, লগইন বাটন দেখান
+        if (loginButton) loginButton.style.display = 'block';
+        if (profileDropdown) profileDropdown.style.display = 'none';
+        return false;
+    }
+}
+
+// Update the login success handler to show profile dropdown
+// এই অংশটি login form submission function এর success case এ যোগ করুন
+// (লাইন ~650 এর কাছাকাছি, try block এর মধ্যে)
+/*
+// সেশন স্টোরেজে টোকেন এবং ইউজার ডেটা সংরক্ষণ করুন
+sessionStorage.setItem('authToken', data.token);
+sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+
+// লগইন বাটন লুকান এবং প্রোফাইল আইকন দেখান
+const loginButton = document.getElementById('loginButton');
+const profileDropdown = document.getElementById('profileDropdown');
+if (loginButton) loginButton.style.display = 'none';
+if (profileDropdown) profileDropdown.style.display = 'inline-block';
+
+// লগইন পপআপ বন্ধ করুন
+const loginPopup = document.querySelector('.login-popup');
+const blurOverlay = document.querySelector('.blur-overlay');
+
+if (loginPopup) loginPopup.classList.remove('active');
+if (blurOverlay) blurOverlay.classList.remove('active');
+document.body.style.overflow = '';
+*/
+
+// Step 4: Add event listener for logout button (check if it matches with your existing code)
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // লগআউট ফাংশন
+            const token = sessionStorage.getItem('authToken');
+            
+            if (token) {
+                // লগআউট API কল (যদি থাকে)
+                fetch(`${DB_API_URL}/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('সফলভাবে লগআউট করা হয়েছে!', 'success');
+                    }
+                })
+                .catch(error => {
+                    console.error('Logout error:', error);
+                })
+                .finally(() => {
+                    // সেশন স্টোরেজ ক্লিয়ার
+                    sessionStorage.removeItem('authToken');
+                    sessionStorage.removeItem('currentUser');
+                    
+                    // UI আপডেট করুন
+                    const loginButton = document.getElementById('loginButton');
+                    const profileDropdown = document.getElementById('profileDropdown');
+                    if (loginButton) loginButton.style.display = 'block';
+                    if (profileDropdown) profileDropdown.style.display = 'none';
+                    
+                    // পেজ রিফ্রেশ করুন (ওয়েবসাইট হোমপেজে যেতে)
+                    window.location.href = "Talimul Islam Academi.html";
+                });
+            } else {
+                // No token found, just update UI
+                const loginButton = document.getElementById('loginButton');
+                const profileDropdown = document.getElementById('profileDropdown');
+                if (loginButton) loginButton.style.display = 'block';
+                if (profileDropdown) profileDropdown.style.display = 'none';
+                
+                // পেজ রিফ্রেশ করুন
+                window.location.href = "Talimul Islam Academi.html";
+            }
+        });
+    }
+    
+    // Check login status on page load
+    checkLoginStatus();
+});
+</script>       
         <!-- * এই স্ক্রিপ্টটি ইউজার ইমেইল যাচাই, OTP পাঠানো ও যাচাইকরণ,  -->
         <!-- * রেজিস্ট্রেশন, এবং লগইন প্রক্রিয়া পরিচালনার জন্য ব্যবহৃত হয়। -->
         
