@@ -8424,6 +8424,352 @@ async function initializeProfilePage() {
 
 </script>
 
+<script>
+    // HTML কোডে পাওয়া সমস্ত UI এলিমেন্ট সিলেক্ট করছি
+document.addEventListener('DOMContentLoaded', function() {
+    // প্রোফাইল সেকশন এলিমেন্টস
+    const profilePicture = document.getElementById('profilePicture');
+    const profileImagePlaceholder = document.getElementById('profileImagePlaceholder');
+    const profileImage = document.getElementById('profileImage');
+    const editPhotoBtn = document.getElementById('editPhotoBtn');
+    const profilePictureInput = document.getElementById('profilePictureInput');
+    const profileName = document.getElementById('profileName');
+    const profileEmail = document.getElementById('profileEmail');
+    
+    // ভিউ মোড এলিমেন্টস
+    const viewModeSection = document.getElementById('viewModeSection');
+    const viewFullName = document.getElementById('viewFullName');
+    const viewEmail = document.getElementById('viewEmail');
+    const viewPhone = document.getElementById('viewPhone');
+    const viewBirthday = document.getElementById('viewBirthday');
+    const viewGender = document.getElementById('viewGender');
+    const viewAddress = document.getElementById('viewAddress');
+    const passwordLastUpdated = document.getElementById('passwordLastUpdated');
+    
+    // এডিট মোড এলিমেন্টস
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    const editModeSection = document.getElementById('editModeSection');
+    const editProfileForm = document.getElementById('editProfileForm');
+    const editFullName = document.getElementById('editFullName');
+    const editEmail = document.getElementById('editEmail');
+    const editPhone = document.getElementById('editPhone');
+    const editBirthday = document.getElementById('editBirthday');
+    const editGender = document.getElementById('editGender');
+    const editAddress = document.getElementById('editAddress');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    
+    // পাসওয়ার্ড মোডাল এলিমেন্টস
+    const changePasswordBtn = document.getElementById('changePasswordBtn');
+    const passwordModal = document.getElementById('passwordModal');
+    const closePasswordModal = document.getElementById('closePasswordModal');
+    const changePasswordForm = document.getElementById('changePasswordForm');
+    const currentPassword = document.getElementById('currentPassword');
+    const newPassword = document.getElementById('newPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const cancelPasswordChange = document.getElementById('cancelPasswordChange');
+    const passwordSuccess = document.getElementById('passwordSuccess');
+    
+    // এরর মেসেজ এলিমেন্টস
+    const fullNameError = document.getElementById('fullNameError');
+    const phoneError = document.getElementById('phoneError');
+    const currentPasswordError = document.getElementById('currentPasswordError');
+    const newPasswordError = document.getElementById('newPasswordError');
+    const confirmPasswordError = document.getElementById('confirmPasswordError');
+    
+    // লোডিং স্পিনার
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    
+    // ডেমো ডাটা লোড করা (আসল অ্যাপে এটি সার্ভার থেকে আসবে)
+    const userData = {
+        name: 'মোঃ আব্দুল করিম',
+        email: 'abdulkarim@example.com',
+        phone: '01712345678',
+        birthday: '1990-05-15',
+        gender: 'পুরুষ',
+        address: 'বাড়ি #১২, রোড #৩, ব্লক-এ, মিরপুর-১০, ঢাকা-১২১৬',
+        profileImage: null,
+        passwordLastUpdated: '১০ এপ্রিল, ২০২৫'
+    };
+    
+    // ইনিশিয়াল ডাটা লোড করা
+    function loadUserData() {
+        // হেডার ইনফরমেশন আপডেট
+        profileName.textContent = userData.name;
+        profileEmail.textContent = userData.email;
+        
+        // ভিউ মোড ডাটা আপডেট
+        viewFullName.textContent = userData.name;
+        viewEmail.textContent = userData.email;
+        viewPhone.textContent = userData.phone || '-';
+        viewBirthday.textContent = formatDate(userData.birthday) || '-';
+        viewGender.textContent = userData.gender || '-';
+        viewAddress.textContent = userData.address || '-';
+        passwordLastUpdated.textContent = userData.passwordLastUpdated;
+        
+        // এডিট ফর্ম ডাটা আপডেট
+        editFullName.value = userData.name;
+        editEmail.value = userData.email;
+        editPhone.value = userData.phone || '';
+        editBirthday.value = userData.birthday || '';
+        editGender.value = userData.gender || '';
+        editAddress.value = userData.address || '';
+        
+        // প্রোফাইল ইমেজ লোড করা
+        if (userData.profileImage) {
+            profileImage.src = userData.profileImage;
+            profileImage.style.display = 'block';
+            profileImagePlaceholder.style.display = 'none';
+        } else {
+            profileImage.style.display = 'none';
+            profileImagePlaceholder.style.display = 'flex';
+        }
+    }
+    
+    // তারিখ ফরম্যাট করা
+    function formatDate(dateString) {
+        if (!dateString) return null;
+        
+        const months = [
+            'জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 
+            'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
+        ];
+        
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const year = date.getFullYear();
+        
+        return `${day} ${month}, ${year}`;
+    }
+    
+    // বয়স ভ্যালিডেশন
+    function isValidAge(birthdate) {
+        const today = new Date();
+        const birthDate = new Date(birthdate);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        return age >= 13; // ১৩ বছরের বেশি হতে হবে
+    }
+    
+    // ফোন নাম্বার ভ্যালিডেশন
+    function isValidBangladeshiPhone(phone) {
+        return /^01[3-9]\d{8}$/.test(phone);
+    }
+    
+    // মোডাল দেখানো/লুকানো
+    function showModal(modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function hideModal(modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    
+    // লোডিং স্পিনার দেখানো/লুকানো
+    function showLoading() {
+        loadingSpinner.style.display = 'flex';
+    }
+    
+    function hideLoading() {
+        loadingSpinner.style.display = 'none';
+    }
+    
+    // সমস্ত এরর মেসেজ রিসেট করে
+    function resetErrors() {
+        fullNameError.style.display = 'none';
+        phoneError.style.display = 'none';
+        currentPasswordError.style.display = 'none';
+        newPasswordError.style.display = 'none';
+        confirmPasswordError.style.display = 'none';
+    }
+    
+    // পাসওয়ার্ড দেখানো/লুকানো টগল
+    window.togglePasswordVisibility = function(inputId, toggleBtnId) {
+        const passwordInput = document.getElementById(inputId);
+        const toggleBtn = document.getElementById(toggleBtnId);
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleBtn.textContent = 'লুকান';
+        } else {
+            passwordInput.type = 'password';
+            toggleBtn.textContent = 'দেখুন';
+        }
+    };
+    
+    // সিমুলেটেড API কল (লোডিং এফেক্টের জন্য)
+    function simulateApiCall(callback, delay = 1000) {
+        showLoading();
+        setTimeout(() => {
+            hideLoading();
+            callback();
+        }, delay);
+    }
+    
+    // ইভেন্ট হ্যান্ডলার
+    
+    // প্রোফাইল ইমেজ পরিবর্তন
+    editPhotoBtn.addEventListener('click', function() {
+        profilePictureInput.click();
+    });
+    
+    profilePictureInput.addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                // সিমুলেট এপিআই আপলোড
+                showLoading();
+                
+                setTimeout(() => {
+                    // প্রোফাইল ইমেজ আপডেট
+                    userData.profileImage = event.target.result;
+                    profileImage.src = event.target.result;
+                    profileImage.style.display = 'block';
+                    profileImagePlaceholder.style.display = 'none';
+                    hideLoading();
+                }, 1000);
+            };
+            
+            reader.readAsDataURL(e.target.files[0]);
+        }
+    });
+    
+    // এডিট মোড টগল
+    editProfileBtn.addEventListener('click', function() {
+        viewModeSection.style.display = 'none';
+        editModeSection.style.display = 'block';
+        resetErrors();
+    });
+    
+    cancelEditBtn.addEventListener('click', function() {
+        // ফর্ম ডাটা রিসেট করে
+        loadUserData();
+        viewModeSection.style.display = 'block';
+        editModeSection.style.display = 'none';
+    });
+    
+    // প্রোফাইল এডিট ফর্ম সাবমিট
+    editProfileForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        resetErrors();
+        
+        let isValid = true;
+        
+        // নাম ভ্যালিডেশন
+        if (!editFullName.value.trim()) {
+            fullNameError.style.display = 'block';
+            isValid = false;
+        }
+        
+        // ফোন ভ্যালিডেশন
+        if (editPhone.value.trim() && !isValidBangladeshiPhone(editPhone.value.trim())) {
+            phoneError.style.display = 'block';
+            isValid = false;
+        }
+        
+        if (isValid) {
+            // ডাটা আপডেট করা
+            simulateApiCall(() => {
+                userData.name = editFullName.value.trim();
+                userData.phone = editPhone.value.trim();
+                userData.birthday = editBirthday.value;
+                userData.gender = editGender.value;
+                userData.address = editAddress.value.trim();
+                
+                // UI আপডেট
+                loadUserData();
+                
+                // ভিউ মোডে ফিরে যাওয়া
+                viewModeSection.style.display = 'block';
+                editModeSection.style.display = 'none';
+            });
+        }
+    });
+    
+    // পাসওয়ার্ড মোডাল ইভেন্টস
+    changePasswordBtn.addEventListener('click', function() {
+        resetErrors();
+        passwordSuccess.style.display = 'none';
+        changePasswordForm.reset();
+        showModal(passwordModal);
+    });
+    
+    closePasswordModal.addEventListener('click', function() {
+        hideModal(passwordModal);
+    });
+    
+    cancelPasswordChange.addEventListener('click', function() {
+        hideModal(passwordModal);
+    });
+    
+    // পাসওয়ার্ড আপডেট ফর্ম সাবমিট
+    changePasswordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        resetErrors();
+        
+        let isValid = true;
+        
+        // বর্তমান পাসওয়ার্ড চেক
+        if (!currentPassword.value) {
+            currentPasswordError.style.display = 'block';
+            isValid = false;
+        }
+        
+        // নতুন পাসওয়ার্ড চেক
+        if (newPassword.value.length < 6) {
+            newPasswordError.style.display = 'block';
+            isValid = false;
+        }
+        
+        // কনফার্ম পাসওয়ার্ড চেক
+        if (newPassword.value !== confirmPassword.value) {
+            confirmPasswordError.style.display = 'block';
+            isValid = false;
+        }
+        
+        if (isValid) {
+            // সিমুলেট পাসওয়ার্ড আপডেট
+            simulateApiCall(() => {
+                // আপডেট পাসওয়ার্ড লাস্ট আপডেটেড তারিখ
+                const now = new Date();
+                const day = now.getDate();
+                const months = [
+                    'জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 
+                    'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
+                ];
+                const month = months[now.getMonth()];
+                const year = now.getFullYear();
+                
+                userData.passwordLastUpdated = `${day} ${month}, ${year}`;
+                loadUserData();
+                
+                // ফর্ম রিসেট
+                changePasswordForm.reset();
+                
+                // সাক্সেস মেসেজ দেখানো
+                passwordSuccess.style.display = 'block';
+                
+                // ৩ সেকেন্ড পর মোডাল বন্ধ করে
+                setTimeout(() => {
+                    hideModal(passwordModal);
+                }, 3000);
+            });
+        }
+    });
+    
+    // ইনিশিয়ালাইজ অ্যাপ
+    loadUserData();
+    resetErrors();
+});
+</script>
 
 <!-- <script>
     // User data management - localStorage
