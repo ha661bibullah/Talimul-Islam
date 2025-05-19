@@ -6794,6 +6794,641 @@
     <div class="spinner"></div>
 </div>
 
+<script>
+    // API URL - সার্ভার URL
+// const API_URL = 'https://talimul-islam.onrender.com';
+// const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
+
+// Global variables
+let userData = null;
+let profilePictureChanged = false;
+let profileImageFile = null;
+
+// Helper functions
+function showLoading() {
+    document.getElementById('loadingSpinner').style.display = 'flex';
+    document.body.style.cursor = 'wait';
+}
+
+function hideLoading() {
+    document.getElementById('loadingSpinner').style.display = 'none';
+    document.body.style.cursor = 'default';
+}
+
+// Show error with specified message
+function showError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    errorElement.textContent = message;
+    errorElement.classList.add('show-error');
+}
+
+// Hide error
+function hideError(elementId) {
+    document.getElementById(elementId).classList.remove('show-error');
+}
+
+// Show notification
+function showNotification(message, type = 'success') {
+    // পূর্বের নোটিফিকেশন রিমুভ করুন
+    const existingNotification = document.getElementById('customNotification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // নতুন নোটিফিকেশন তৈরি করুন
+    const notification = document.createElement('div');
+    notification.id = 'customNotification';
+    notification.className = `custom-notification ${type}`;
+    
+    // নোটিফিকেশন কনটেন্ট
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-message">${message}</span>
+            <span class="notification-close">&times;</span>
+        </div>
+    `;
+    
+    // নোটিফিকেশন স্টাইল
+    notification.style.position = 'fixed';
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+    notification.style.color = 'white';
+    notification.style.padding = '15px';
+    notification.style.borderRadius = '5px';
+    notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+    notification.style.zIndex = '9999';
+    notification.style.transition = 'all 0.3s ease';
+    notification.style.opacity = '0';
+    
+    // বডিতে অ্যাড করুন
+    document.body.appendChild(notification);
+    
+    // ফেড ইন এফেক্ট
+    setTimeout(() => {
+        notification.style.opacity = '1';
+    }, 10);
+    
+    // ক্লোজ বাটন ফাংশনালিটি
+    const closeButton = notification.querySelector('.notification-close');
+    closeButton.style.marginLeft = '15px';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.fontWeight = 'bold';
+    
+    closeButton.addEventListener('click', function() {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    });
+    
+    // অটো ক্লোজ
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 5000);
+}
+
+// Toggle password visibility
+function togglePasswordVisibility(inputId, toggleId) {
+    const passwordInput = document.getElementById(inputId);
+    const toggleButton = document.getElementById(toggleId);
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleButton.textContent = 'লুকান';
+    } else {
+        passwordInput.type = 'password';
+        toggleButton.textContent = 'দেখুন';
+    }
+}
+
+// Format date to Bangla
+function formatDateToBangla(dateString) {
+    if (!dateString) return '-';
+    
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '-';
+    
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    
+    return `${day}/${month}/${year}`;
+}
+
+// Check if user is logged in
+async function checkLoginStatus() {
+    const token = sessionStorage.getItem('authToken');
+    
+    if (!token) {
+        // Redirect to home page if not logged in
+        window.location.href = 'Talimul Islam Academi.html';
+        return false;
+    }
+    
+    try {
+        // Validate token
+        const response = await fetch(`${DB_API_URL}/validate-token`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (!data.valid) {
+            // Token invalid, redirect to home
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'Talimul Islam Academi.html';
+            return false;
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Error validating token:', error);
+        return false;
+    }
+}
+
+// Fetch user data from server
+async function fetchUserData() {
+    showLoading();
+    
+    try {
+        const token = sessionStorage.getItem('authToken');
+        
+        if (!token) {
+            throw new Error('No auth token found');
+        }
+        
+        const response = await fetch(`${DB_API_URL}/user-profile`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to fetch user data');
+        }
+        
+        const data = await response.json();
+        
+        if (!data.success) {
+            throw new Error(data.message || 'Failed to fetch user data');
+        }
+        
+        userData = data.user;
+        return userData;
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        showNotification('ব্যবহারকারীর তথ্য লোড করতে সমস্যা হয়েছে', 'error');
+        return null;
+    } finally {
+        hideLoading();
+    }
+}
+
+// Load profile picture
+function loadProfilePicture(imageUrl) {
+    const profileImage = document.getElementById('profileImage');
+    const placeholder = document.getElementById('profileImagePlaceholder');
+    
+    if (imageUrl) {
+        profileImage.src = imageUrl;
+        profileImage.style.display = 'block';
+        placeholder.style.display = 'none';
+    } else {
+        profileImage.style.display = 'none';
+        placeholder.style.display = 'flex';
+    }
+}
+
+// Fill form data for editing
+function fillEditForm(user) {
+    document.getElementById('editFullName').value = user.name || '';
+    document.getElementById('editEmail').value = user.email || '';
+    document.getElementById('editPhone').value = user.phone || '';
+    document.getElementById('editBirthday').value = user.birthday || '';
+    document.getElementById('editGender').value = user.gender || '';
+    document.getElementById('editAddress').value = user.address || '';
+}
+
+// Update view with user data
+function updateProfileView(user) {
+    // Basic info
+    document.getElementById('profileName').textContent = user.name || 'ব্যবহারকারীর নাম';
+    document.getElementById('profileEmail').textContent = user.email || 'example@email.com';
+    
+    // Detailed info
+    document.getElementById('viewFullName').textContent = user.name || '-';
+    document.getElementById('viewEmail').textContent = user.email || '-';
+    document.getElementById('viewPhone').textContent = user.phone || '-';
+    document.getElementById('viewBirthday').textContent = formatDateToBangla(user.birthday) || '-';
+    document.getElementById('viewGender').textContent = user.gender || '-';
+    document.getElementById('viewAddress').textContent = user.address || '-';
+    
+    // Password last updated
+    document.getElementById('passwordLastUpdated').textContent = 
+        user.passwordLastUpdated ? formatDateToBangla(user.passwordLastUpdated) : '-';
+    
+    // Profile picture
+    loadProfilePicture(user.profilePicture);
+}
+
+// Toggle between view and edit mode
+function toggleEditMode(isEdit) {
+    document.getElementById('viewModeSection').style.display = isEdit ? 'none' : 'block';
+    document.getElementById('editModeSection').style.display = isEdit ? 'block' : 'none';
+    
+    if (isEdit && userData) {
+        fillEditForm(userData);
+    }
+}
+
+// Toggle password modal
+function togglePasswordModal(show) {
+    const modal = document.getElementById('passwordModal');
+    
+    if (show) {
+        modal.style.display = 'flex';
+        // Reset form and errors
+        document.getElementById('changePasswordForm').reset();
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.classList.remove('show-error');
+        });
+        document.getElementById('passwordSuccess').style.display = 'none';
+    } else {
+        modal.style.display = 'none';
+    }
+}
+
+// Upload profile picture
+async function uploadProfilePicture(file) {
+    if (!file) return null;
+    
+    try {
+        const token = sessionStorage.getItem('authToken');
+        
+        if (!token) {
+            throw new Error('No auth token found');
+        }
+        
+        const formData = new FormData();
+        formData.append('profilePicture', file);
+        
+        const response = await fetch(`${DB_API_URL}/upload-profile-picture`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to upload profile picture');
+        }
+        
+        const data = await response.json();
+        
+        if (!data.success) {
+            throw new Error(data.message || 'Failed to upload profile picture');
+        }
+        
+        return data.pictureUrl;
+    } catch (error) {
+        console.error('Error uploading profile picture:', error);
+        showNotification('প্রোফাইল ছবি আপলোড করতে সমস্যা হয়েছে', 'error');
+        return null;
+    }
+}
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log('Profile page loaded');
+    
+    // Check if user is logged in
+    const isLoggedIn = await checkLoginStatus();
+    
+    if (!isLoggedIn) {
+        return;
+    }
+    
+    // Fetch user data and update UI
+    const user = await fetchUserData();
+    
+    if (user) {
+        updateProfileView(user);
+    }
+    
+    // Set up event listeners
+    
+    // Edit Profile Button
+    document.getElementById('editProfileBtn').addEventListener('click', function() {
+        toggleEditMode(true);
+    });
+    
+    // Cancel Edit Button
+    document.getElementById('cancelEditBtn').addEventListener('click', function() {
+        toggleEditMode(false);
+    });
+    
+    // Edit Profile Form Submit
+    document.getElementById('editProfileForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Reset errors
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.classList.remove('show-error');
+        });
+        
+        // Get form data
+        const name = document.getElementById('editFullName').value.trim();
+        const phone = document.getElementById('editPhone').value.trim();
+        const birthday = document.getElementById('editBirthday').value;
+        const gender = document.getElementById('editGender').value;
+        const address = document.getElementById('editAddress').value.trim();
+        
+        // Validation
+        let isValid = true;
+        
+        if (!name) {
+            showError('fullNameError', 'নাম প্রয়োজন');
+            isValid = false;
+        }
+        
+        if (phone && !/^01[3-9]\d{8}$/.test(phone)) {
+            showError('phoneError', 'সঠিক বাংলাদেশী মোবাইল নম্বর লিখুন');
+            isValid = false;
+        }
+        
+        if (!isValid) return;
+        
+        showLoading();
+        
+        try {
+            const token = sessionStorage.getItem('authToken');
+            
+            if (!token) {
+                throw new Error('No auth token found');
+            }
+            
+            let profilePictureUrl = userData?.profilePicture;
+            
+            // Upload profile picture if changed
+            if (profilePictureChanged && profileImageFile) {
+                profilePictureUrl = await uploadProfilePicture(profileImageFile);
+                profilePictureChanged = false;
+                profileImageFile = null;
+            }
+            
+            // Update user data
+            const response = await fetch(`${DB_API_URL}/update-profile`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    name,
+                    phone,
+                    birthday,
+                    gender,
+                    address,
+                    profilePicture: profilePictureUrl
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('Failed to update profile');
+            }
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.message || 'Failed to update profile');
+            }
+            
+            // Update userData and UI
+            userData = data.user;
+            updateProfileView(userData);
+            
+            showNotification('প্রোফাইল সফলভাবে আপডেট করা হয়েছে', 'success');
+            
+            // Switch back to view mode
+            toggleEditMode(false);
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            showNotification('প্রোফাইল আপডেট করতে সমস্যা হয়েছে', 'error');
+        } finally {
+            hideLoading();
+        }
+    });
+    
+    // Profile Picture Change
+    document.getElementById('editPhotoBtn').addEventListener('click', function() {
+        document.getElementById('profilePictureInput').click();
+    });
+    
+    document.getElementById('profilePictureInput').addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            
+            // Check file type
+            if (!file.type.match('image.*')) {
+                showNotification('শুধুমাত্র ছবি আপলোড করুন', 'error');
+                return;
+            }
+            
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showNotification('ছবির সাইজ ৫MB এর কম হতে হবে', 'error');
+                return;
+            }
+            
+            // Preview image
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                document.getElementById('profileImage').src = e.target.result;
+                document.getElementById('profileImage').style.display = 'block';
+                document.getElementById('profileImagePlaceholder').style.display = 'none';
+            }
+            
+            reader.readAsDataURL(file);
+            
+            // Save file for later upload
+            profilePictureChanged = true;
+            profileImageFile = file;
+        }
+    });
+    
+    // Change Password Button
+    document.getElementById('changePasswordBtn').addEventListener('click', function() {
+        togglePasswordModal(true);
+    });
+    
+    // Close Password Modal
+    document.getElementById('closePasswordModal').addEventListener('click', function() {
+        togglePasswordModal(false);
+    });
+    
+    // Cancel Password Change
+    document.getElementById('cancelPasswordChange').addEventListener('click', function() {
+        togglePasswordModal(false);
+    });
+    
+    // Change Password Form Submit
+    document.getElementById('changePasswordForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Reset errors
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.classList.remove('show-error');
+        });
+        
+        document.getElementById('passwordSuccess').style.display = 'none';
+        
+        // Get form data
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // Validation
+        let isValid = true;
+        
+        if (!currentPassword) {
+            showError('currentPasswordError', 'বর্তমান পাসওয়ার্ড প্রয়োজন');
+            isValid = false;
+        }
+        
+        if (!newPassword || newPassword.length < 6) {
+            showError('newPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
+            isValid = false;
+        }
+        
+        if (newPassword !== confirmPassword) {
+            showError('confirmPasswordError', 'পাসওয়ার্ড মিলছে না');
+            isValid = false;
+        }
+        
+        if (!isValid) return;
+        
+        showLoading();
+        
+        try {
+            const token = sessionStorage.getItem('authToken');
+            
+            if (!token) {
+                throw new Error('No auth token found');
+            }
+            
+            // Change password
+            const response = await fetch(`${DB_API_URL}/change-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    currentPassword,
+                    newPassword
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || 'Failed to change password');
+            }
+            
+            // Update user data if available
+            if (data.user) {
+                userData = data.user;
+                updateProfileView(userData);
+            }
+            
+            // Show success message
+            document.getElementById('passwordSuccess').style.display = 'block';
+            document.getElementById('changePasswordForm').reset();
+            
+            // Close modal after delay
+            setTimeout(() => {
+                togglePasswordModal(false);
+            }, 3000);
+            
+        } catch (error) {
+            console.error('Error changing password:', error);
+            
+            if (error.message.includes('current password is incorrect')) {
+                showError('currentPasswordError', 'বর্তমান পাসওয়ার্ড ভুল');
+            } else {
+                showNotification('পাসওয়ার্ড পরিবর্তন করতে সমস্যা হয়েছে', 'error');
+            }
+        } finally {
+            hideLoading();
+        }
+    });
+    
+    // Add custom notification styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .custom-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-notification.success {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .custom-notification.error {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .notification-close {
+            margin-left: 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .error-message {
+            color: #f44336;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.show-error {
+            display: block;
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
+
+
 
 <!-- <script>
     // User data management - localStorage
@@ -7406,8 +8041,8 @@ function logout() {
     `;
     document.head.appendChild(style);
 })();
-</script> -->
-<script>
+</script>  -->
+<!-- <script>
     // MongoDB ইন্টিগ্রেশন
 // ফ্রন্টএন্ড স্ক্রিপ্ট - ফেচ API ব্যবহার করে সার্ভারের সাথে যোগাযোগ করবে
 
@@ -8046,7 +8681,7 @@ window.addEventListener('load', async function() {
     `;
     document.head.appendChild(style);
 })();
-</script>
+</script> -->
 
 <script src="/Talimul Islam otp-backend/server.js"></script>
 
