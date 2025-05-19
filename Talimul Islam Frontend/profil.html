@@ -7470,7 +7470,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 </script>  -->
 
-<script>
+<!-- <script>
     // API URL - সার্ভার URL
 const DB_API_URL_1 = 'https://t-i-a-storage-backend.onrender.com';
 const DB_API_URL_2 = 'https://t-i-a-profil-storage-backend.onrender.com';
@@ -8422,9 +8422,9 @@ async function initializeProfilePage() {
 
 
 
-</script>
+</script> -->
 
-<script>
+<!-- <script>
     // HTML কোডে পাওয়া সমস্ত UI এলিমেন্ট সিলেক্ট করছি
 document.addEventListener('DOMContentLoaded', function() {
     // প্রোফাইল সেকশন এলিমেন্টস
@@ -8769,7 +8769,798 @@ document.addEventListener('DOMContentLoaded', function() {
     loadUserData();
     resetErrors();
 });
+</script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Variables to track the current state
+    let currentEmail = '';
+    let otpTimerInterval;
+    let registeredUser = null;
+    
+    // Initialize the registration flow
+    initRegistrationFlow();
+    initProfileFunctionality();
+    
+    // Initialize registration flow
+    function initRegistrationFlow() {
+        // Show login section by default
+        toggleForm('login');
+        
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Validate inputs
+            let isValid = true;
+            
+            if (!validateEmail(email)) {
+                document.getElementById('loginEmailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('loginEmailError').style.display = 'none';
+            }
+            
+            if (password.trim() === '') {
+                document.getElementById('loginPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('loginPasswordError').style.display = 'none';
+            }
+            
+            if (isValid) {
+                // Show loading spinner
+                document.getElementById('loadingSpinner').style.display = 'flex';
+                
+                // Send login request to server
+                const formData = new FormData();
+                formData.append('action', 'login');
+                formData.append('email', email);
+                formData.append('password', password);
+                
+                fetch('user_auth.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading spinner
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    
+                    if (data.success) {
+                        // Store user data in local storage
+                        localStorage.setItem('currentUser', JSON.stringify(data.user));
+                        
+                        // Redirect to profile page
+                        window.location.href = 'profile.php';
+                    } else {
+                        // Show error message
+                        alert(data.message || 'লগইন ব্যর্থ হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    console.error('Error:', error);
+                    alert('একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                });
+            }
+        });
+        
+        // Handle email check form submission
+        document.getElementById('emailCheckForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('checkEmail').value;
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                document.getElementById('checkEmailError').style.display = 'block';
+                return;
+            } else {
+                document.getElementById('checkEmailError').style.display = 'none';
+            }
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'flex';
+            
+            // Send email check request to server
+            const formData = new FormData();
+            formData.append('action', 'check_email');
+            formData.append('email', email);
+            
+            fetch('user_auth.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').style.display = 'none';
+                
+                if (data.success) {
+                    // Email is available, proceed to OTP verification
+                    currentEmail = email;
+                    document.getElementById('userEmail').textContent = email;
+                    
+                    // Request OTP from server
+                    requestOTP(email);
+                    
+                    // Show OTP verification section
+                    toggleForm('otpVerification');
+                    
+                    // Set up OTP input behavior
+                    setupOTPInputs();
+                    
+                    // Start the OTP timer
+                    startOTPTimer();
+                } else {
+                    // Email already exists
+                    document.getElementById('checkEmailError').textContent = data.message || 'এই ইমেইল দিয়ে ইতিমধ্যে একাউন্ট খোলা আছে।';
+                    document.getElementById('checkEmailError').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                document.getElementById('loadingSpinner').style.display = 'none';
+                console.error('Error:', error);
+                alert('একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+            });
+        });
+        
+        // Handle OTP verification form submission
+        document.getElementById('otpVerificationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get OTP from inputs
+            const otp1 = document.getElementById('otp1').value;
+            const otp2 = document.getElementById('otp2').value;
+            const otp3 = document.getElementById('otp3').value;
+            const otp4 = document.getElementById('otp4').value;
+            const otpCode = otp1 + otp2 + otp3 + otp4;
+            
+            // Validate OTP
+            if (otpCode.length !== 4) {
+                document.getElementById('otpError').style.display = 'block';
+                return;
+            } else {
+                document.getElementById('otpError').style.display = 'none';
+            }
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'flex';
+            
+            // Send OTP verification request to server
+            const formData = new FormData();
+            formData.append('action', 'verify_otp');
+            formData.append('email', currentEmail);
+            formData.append('otp', otpCode);
+            
+            fetch('user_auth.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').style.display = 'none';
+                
+                if (data.success) {
+                    // OTP verified, proceed to registration
+                    toggleForm('signup');
+                    
+                    // Stop the OTP timer
+                    clearInterval(otpTimerInterval);
+                } else {
+                    // Invalid OTP
+                    document.getElementById('otpError').textContent = data.message || 'অবৈধ অটিপি। আবার চেষ্টা করুন।';
+                    document.getElementById('otpError').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                document.getElementById('loadingSpinner').style.display = 'none';
+                console.error('Error:', error);
+                alert('একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+            });
+        });
+        
+        // Handle signup form submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            // Validate inputs
+            let isValid = true;
+            
+            if (name.trim() === '') {
+                document.getElementById('signupNameError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('signupNameError').style.display = 'none';
+            }
+            
+            if (password.length < 6) {
+                document.getElementById('signupPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('signupPasswordError').style.display = 'none';
+            }
+            
+            if (password !== confirmPassword) {
+                document.getElementById('signupConfirmPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('signupConfirmPasswordError').style.display = 'none';
+            }
+            
+            if (isValid) {
+                // Show loading spinner
+                document.getElementById('loadingSpinner').style.display = 'flex';
+                
+                // Send registration request to server
+                const formData = new FormData();
+                formData.append('action', 'register');
+                formData.append('email', currentEmail);
+                formData.append('name', name);
+                formData.append('password', password);
+                
+                fetch('user_auth.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading spinner
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    
+                    if (data.success) {
+                        // Registration successful
+                        registeredUser = {
+                            email: currentEmail,
+                            name: name
+                        };
+                        
+                        // Show success modal
+                        document.getElementById('successModal').style.display = 'flex';
+                    } else {
+                        // Registration failed
+                        alert(data.message || 'রেজিস্ট্রেশন ব্যর্থ হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    console.error('Error:', error);
+                    alert('একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                });
+            }
+        });
+        
+        // Handle resend OTP button click
+        document.getElementById('resendOtp').addEventListener('click', function() {
+            if (this.disabled) return;
+            
+            // Request new OTP
+            requestOTP(currentEmail);
+            
+            // Reset timer
+            startOTPTimer();
+            
+            // Disable button again
+            this.disabled = true;
+        });
+    }
+    
+    // Initialize profile functionality
+    function initProfileFunctionality() {
+        // Check if we're on the profile page
+        if (!document.getElementById('editProfileBtn')) {
+            return;
+        }
+        
+        // Load user data from local storage
+        const userData = loadUserData();
+        if (!userData) {
+            // Redirect to login if no user data
+            window.location.href = 'login.php';
+            return;
+        }
+        
+        // Display user data in profile
+        displayUserData(userData);
+        
+        // Handle edit profile button click
+        document.getElementById('editProfileBtn').addEventListener('click', function() {
+            toggleProfileMode('edit');
+            populateEditForm(userData);
+        });
+        
+        // Handle cancel edit button click
+        document.getElementById('cancelEditBtn').addEventListener('click', function() {
+            toggleProfileMode('view');
+        });
+        
+        // Handle edit profile form submission
+        document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = collectEditFormData();
+            if (!validateEditForm(formData)) {
+                return;
+            }
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').style.display = 'flex';
+            
+            // Add action and user ID to form data
+            formData.append('action', 'update_profile');
+            formData.append('user_id', userData.id);
+            
+            // Send update request to server
+            fetch('user_profile.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').style.display = 'none';
+                
+                if (data.success) {
+                    // Update user data in local storage
+                    const updatedUserData = {
+                        ...userData,
+                        name: formData.get('name'),
+                        phone: formData.get('phone'),
+                        birthday: formData.get('birthday'),
+                        gender: formData.get('gender'),
+                        address: formData.get('address')
+                    };
+                    localStorage.setItem('currentUser', JSON.stringify(updatedUserData));
+                    
+                    // Update profile display
+                    displayUserData(updatedUserData);
+                    
+                    // Switch back to view mode
+                    toggleProfileMode('view');
+                    
+                    // Show success message
+                    alert('প্রোফাইল সফলভাবে আপডেট হয়েছে।');
+                } else {
+                    // Update failed
+                    alert(data.message || 'প্রোফাইল আপডেট ব্যর্থ হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                }
+            })
+            .catch(error => {
+                document.getElementById('loadingSpinner').style.display = 'none';
+                console.error('Error:', error);
+                alert('একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+            });
+        });
+        
+        // Handle change password button click
+        document.getElementById('changePasswordBtn').addEventListener('click', function() {
+            openPasswordModal();
+        });
+        
+        // Handle close password modal button click
+        document.getElementById('closePasswordModal').addEventListener('click', function() {
+            closePasswordModal();
+        });
+        
+        // Handle cancel password change button click
+        document.getElementById('cancelPasswordChange').addEventListener('click', function() {
+            closePasswordModal();
+        });
+        
+        // Handle change password form submission
+        document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Validate inputs
+            let isValid = true;
+            
+            if (currentPassword.trim() === '') {
+                document.getElementById('currentPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('currentPasswordError').style.display = 'none';
+            }
+            
+            if (newPassword.length < 6) {
+                document.getElementById('newPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('newPasswordError').style.display = 'none';
+            }
+            
+            if (newPassword !== confirmPassword) {
+                document.getElementById('confirmPasswordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('confirmPasswordError').style.display = 'none';
+            }
+            
+            if (isValid) {
+                // Show loading spinner
+                document.getElementById('loadingSpinner').style.display = 'flex';
+                
+                // Send change password request to server
+                const formData = new FormData();
+                formData.append('action', 'change_password');
+                formData.append('user_id', userData.id);
+                formData.append('current_password', currentPassword);
+                formData.append('new_password', newPassword);
+                
+                fetch('user_profile.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading spinner
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    
+                    if (data.success) {
+                        // Password changed successfully
+                        document.getElementById('passwordSuccess').style.display = 'block';
+                        document.getElementById('changePasswordForm').reset();
+                        
+                        // Update password last updated
+                        document.getElementById('passwordLastUpdated').textContent = getCurrentDate();
+                        
+                        // Hide success message after 3 seconds
+                        setTimeout(function() {
+                            document.getElementById('passwordSuccess').style.display = 'none';
+                            closePasswordModal();
+                        }, 3000);
+                    } else {
+                        // Password change failed
+                        document.getElementById('currentPasswordError').textContent = data.message || 'বর্তমান পাসওয়ার্ড সঠিক নয়।';
+                        document.getElementById('currentPasswordError').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    console.error('Error:', error);
+                    alert('একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                });
+            }
+        });
+        
+        // Handle profile picture change
+        document.getElementById('editPhotoBtn').addEventListener('click', function() {
+            document.getElementById('profilePictureInput').click();
+        });
+        
+        document.getElementById('profilePictureInput').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const file = e.target.files[0];
+                
+                // Check file type and size
+                if (!file.type.match('image.*')) {
+                    alert('দয়া করে একটি ছবি আপলোড করুন।');
+                    return;
+                }
+                
+                if (file.size > 2 * 1024 * 1024) { // 2MB max
+                    alert('ছবির সাইজ 2MB এর কম হতে হবে।');
+                    return;
+                }
+                
+                // Show loading spinner
+                document.getElementById('loadingSpinner').style.display = 'flex';
+                
+                const formData = new FormData();
+                formData.append('action', 'upload_profile_picture');
+                formData.append('user_id', userData.id);
+                formData.append('profile_picture', file);
+                
+                fetch('user_profile.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading spinner
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    
+                    if (data.success) {
+                        // Update profile picture
+                        const profileImage = document.getElementById('profileImage');
+                        profileImage.src = data.picture_url + '?t=' + new Date().getTime(); // Add timestamp to prevent caching
+                        profileImage.style.display = 'block';
+                        document.getElementById('profileImagePlaceholder').style.display = 'none';
+                        
+                        // Update user data in local storage
+                        userData.profile_picture = data.picture_url;
+                        localStorage.setItem('currentUser', JSON.stringify(userData));
+                        
+                        alert('প্রোফাইল ছবি সফলভাবে আপডেট হয়েছে।');
+                    } else {
+                        alert(data.message || 'ছবি আপলোড ব্যর্থ হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    console.error('Error:', error);
+                    alert('একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+                });
+            }
+        });
+    }
+    
+    // Utility Functions
+    
+    // Toggle between login and registration forms
+    function toggleForm(formType) {
+        // Hide all sections
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('emailCheckSection').style.display = 'none';
+        document.getElementById('otpVerificationSection').style.display = 'none';
+        document.getElementById('signupSection').style.display = 'none';
+        
+        // Show selected section
+        switch (formType) {
+            case 'login':
+                document.getElementById('loginSection').style.display = 'block';
+                // If user just registered, show success message
+                if (registeredUser) {
+                    document.getElementById('registrationSuccess').style.display = 'block';
+                }
+                break;
+            case 'emailCheck':
+                document.getElementById('emailCheckSection').style.display = 'block';
+                break;
+            case 'otpVerification':
+                document.getElementById('otpVerificationSection').style.display = 'block';
+                break;
+            case 'signup':
+                document.getElementById('signupSection').style.display = 'block';
+                break;
+        }
+    }
+    
+    // Toggle between view mode and edit mode in profile
+    function toggleProfileMode(mode) {
+        if (mode === 'view') {
+            document.getElementById('viewModeSection').style.display = 'block';
+            document.getElementById('editModeSection').style.display = 'none';
+        } else {
+            document.getElementById('viewModeSection').style.display = 'none';
+            document.getElementById('editModeSection').style.display = 'block';
+        }
+    }
+    
+    // Request OTP from server
+    function requestOTP(email) {
+        // Send OTP request to server
+        const formData = new FormData();
+        formData.append('action', 'send_otp');
+        formData.append('email', email);
+        
+        fetch('user_auth.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert(data.message || 'অটিপি পাঠানো যায়নি। দয়া করে আবার চেষ্টা করুন।');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+        });
+    }
+    
+    // Start OTP timer
+    function startOTPTimer() {
+        let timerSeconds = 120; // 2 minutes
+        const timerElement = document.getElementById('timer');
+        const resendButton = document.getElementById('resendOtp');
+        
+        // Clear existing interval
+        if (otpTimerInterval) {
+            clearInterval(otpTimerInterval);
+        }
+        
+        // Update timer every second
+        otpTimerInterval = setInterval(function() {
+            timerSeconds--;
+            
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            
+            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timerSeconds <= 0) {
+                clearInterval(otpTimerInterval);
+                resendButton.disabled = false;
+            }
+        }, 1000);
+    }
+    
+    // Set up OTP input behavior
+    function setupOTPInputs() {
+        const otpInputs = document.querySelectorAll('.otp-digit');
+        
+        otpInputs.forEach((input, index) => {
+            // Clear inputs
+            input.value = '';
+            
+            // Focus first input
+            if (index === 0) {
+                input.focus();
+            }
+            
+            // Handle input
+            input.addEventListener('input', function() {
+                // If input is filled, focus next input
+                if (this.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+            
+            // Handle keydown
+            input.addEventListener('keydown', function(e) {
+                // If backspace is pressed and input is empty, focus previous input
+                if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+    }
+    
+    // Load user data from local storage
+    function loadUserData() {
+        const userData = localStorage.getItem('currentUser');
+        return userData ? JSON.parse(userData) : null;
+    }
+    
+    // Display user data in profile
+    function displayUserData(userData) {
+        // Set profile name and email
+        document.getElementById('profileName').textContent = userData.name || 'ব্যবহারকারীর নাম';
+        document.getElementById('profileEmail').textContent = userData.email || 'example@email.com';
+        
+        // Set profile details
+        document.getElementById('viewFullName').textContent = userData.name || '-';
+        document.getElementById('viewEmail').textContent = userData.email || '-';
+        document.getElementById('viewPhone').textContent = userData.phone || '-';
+        document.getElementById('viewBirthday').textContent = formatDate(userData.birthday) || '-';
+        document.getElementById('viewGender').textContent = userData.gender || '-';
+        document.getElementById('viewAddress').textContent = userData.address || '-';
+        document.getElementById('passwordLastUpdated').textContent = formatDate(userData.password_updated_at) || '-';
+        
+        // Set profile picture
+        if (userData.profile_picture) {
+            const profileImage = document.getElementById('profileImage');
+            profileImage.src = userData.profile_picture;
+            profileImage.style.display = 'block';
+            document.getElementById('profileImagePlaceholder').style.display = 'none';
+        }
+    }
+    
+    // Populate edit form with user data
+    function populateEditForm(userData) {
+        document.getElementById('editFullName').value = userData.name || '';
+        document.getElementById('editEmail').value = userData.email || '';
+        document.getElementById('editPhone').value = userData.phone || '';
+        document.getElementById('editBirthday').value = userData.birthday || '';
+        document.getElementById('editGender').value = userData.gender || '';
+        document.getElementById('editAddress').value = userData.address || '';
+    }
+    
+    // Collect edit form data
+    function collectEditFormData() {
+        const formData = new FormData();
+        formData.append('name', document.getElementById('editFullName').value);
+        formData.append('phone', document.getElementById('editPhone').value);
+        formData.append('birthday', document.getElementById('editBirthday').value);
+        formData.append('gender', document.getElementById('editGender').value);
+        formData.append('address', document.getElementById('editAddress').value);
+        return formData;
+    }
+    
+    // Validate edit form
+    function validateEditForm(formData) {
+        let isValid = true;
+        
+        // Validate name
+        if (formData.get('name').trim() === '') {
+            document.getElementById('fullNameError').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('fullNameError').style.display = 'none';
+        }
+        
+        // Validate phone (if provided)
+        const phone = formData.get('phone').trim();
+        if (phone !== '' && !validatePhone(phone)) {
+            document.getElementById('phoneError').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('phoneError').style.display = 'none';
+        }
+        
+        return isValid;
+    }
+    
+    // Open password modal
+    function openPasswordModal() {
+        document.getElementById('passwordModal').style.display = 'flex';
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('confirmPassword').value = '';
+        document.getElementById('passwordSuccess').style.display = 'none';
+        document.getElementById('currentPasswordError').style.display = 'none';
+        document.getElementById('newPasswordError').style.display = 'none';
+        document.getElementById('confirmPasswordError').style.display = 'none';
+    }
+    
+    // Close password modal
+    function closePasswordModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+    }
+    
+    // Close modal
+    window.closeModal = function() {
+        document.getElementById('successModal').style.display = 'none';
+        toggleForm('login');
+    };
+    
+    // Toggle password visibility
+    window.togglePasswordVisibility = function(inputId, toggleId) {
+        const input = document.getElementById(inputId);
+        const toggle = document.getElementById(toggleId);
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            toggle.textContent = 'লুকান';
+        } else {
+            input.type = 'password';
+            toggle.textContent = 'দেখুন';
+        }
+    };
+    
+    // Format date for display
+    function formatDate(dateString) {
+        if (!dateString) return '';
+        
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return dateString;
+        
+        return date.toLocaleDateString('bn-BD');
+    }
+    
+    // Get current date
+    function getCurrentDate() {
+        return new Date().toLocaleDateString('bn-BD');
+    }
+    
+    // Validate email
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    // Validate phone number
+    function validatePhone(phone) {
+        const re = /^(\+?88)?01[3-9]\d{8}$/;
+        return re.test(phone);
+    }
+});
 </script>
+
 
 <!-- <script>
     // User data management - localStorage
