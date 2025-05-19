@@ -3967,7 +3967,7 @@
            <script>
             // API URL - সার্ভার URL
             const API_URL = 'https://talimul-islam.onrender.com';
-            // const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
+            const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
                                 
             let currentEmail = '';
             let otpTimer;
@@ -6796,8 +6796,50 @@
 
 <script>
     // API URL - সার্ভার URL
-// const API_URL = 'https://talimul-islam.onrender.com';
-const DB_API_URL = 'https://t-i-a-profil-storage-backend.onrender.com';  // MongoDB backend URL
+
+const DB_API_URL_1 = 'https://t-i-a-storage-backend.onrender.com';
+const DB_API_URL_2 = 'https://t-i-a-profil-storage-backend.onrender.com';
+
+// একই ডেটা দুইটি backend-এ POST করা
+const data = {
+  name: "John",
+  email: "john@example.com"
+};
+
+fetch(DB_API_URL_1 + '/save', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data)
+});
+
+fetch(DB_API_URL_2 + '/save', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data)
+});
+
+
+
+
+
+Promise.all([
+  fetch(DB_API_URL_1 + '/users'),
+  fetch(DB_API_URL_2 + '/users')
+])
+.then(async ([res1, res2]) => {
+  const data1 = await res1.json();
+  const data2 = await res2.json();
+
+  console.log('Backend 1 data:', data1);
+  console.log('Backend 2 data:', data2);
+});
+
+
+
+
+
+
+
 
 // Global variables
 let userData = null;
