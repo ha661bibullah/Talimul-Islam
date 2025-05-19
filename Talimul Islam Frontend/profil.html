@@ -6794,7 +6794,7 @@
     <div class="spinner"></div>
 </div>
 
-<script>
+<!-- <script>
     // API URL - সার্ভার URL
 
 const DB_API_URL_1 = 'https://t-i-a-storage-backend.onrender.com';
@@ -7468,8 +7468,961 @@ document.addEventListener('DOMContentLoaded', async function() {
     `;
     document.head.appendChild(style);
 });
-</script>
+</script>  -->
 
+<script>
+    // API URL - সার্ভার URL
+const DB_API_URL_1 = 'https://t-i-a-storage-backend.onrender.com';
+const DB_API_URL_2 = 'https://t-i-a-profil-storage-backend.onrender.com';
+
+// Global variables
+let userData = null;
+let profilePictureChanged = false;
+let profileImageFile = null;
+let authToken = null;
+let otpEmail = null;
+let otpTimerInterval = null;
+let otpResendCountdown = 120; // 2 minutes
+
+// Helper functions
+function showLoading() {
+    document.getElementById('loadingSpinner').style.display = 'flex';
+    document.body.style.cursor = 'wait';
+}
+
+function hideLoading() {
+    document.getElementById('loadingSpinner').style.display = 'none';
+    document.body.style.cursor = 'default';
+}
+
+// Show error with specified message
+function showError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    errorElement.textContent = message;
+    errorElement.classList.add('show-error');
+}
+
+// Hide error
+function hideError(elementId) {
+    document.getElementById(elementId).classList.remove('show-error');
+}
+
+// Show notification
+function showNotification(message, type = 'success') {
+    // পূর্বের নোটিফিকেশন রিমুভ করুন
+    const existingNotification = document.getElementById('customNotification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // নতুন নোটিফিকেশন তৈরি করুন
+    const notification = document.createElement('div');
+    notification.id = 'customNotification';
+    notification.className = `custom-notification ${type}`;
+    
+    // নোটিফিকেশন কনটেন্ট
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-message">${message}</span>
+            <span class="notification-close">&times;</span>
+        </div>
+    `;
+    
+    // নোটিফিকেশন স্টাইল
+    notification.style.position = 'fixed';
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+    notification.style.color = 'white';
+    notification.style.padding = '15px';
+    notification.style.borderRadius = '5px';
+    notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+    notification.style.zIndex = '9999';
+    notification.style.transition = 'all 0.3s ease';
+    notification.style.opacity = '0';
+    
+    // বডিতে অ্যাড করুন
+    document.body.appendChild(notification);
+    
+    // ফেড ইন এফেক্ট
+    setTimeout(() => {
+        notification.style.opacity = '1';
+    }, 10);
+    
+    // ক্লোজ বাটন ফাংশনালিটি
+    const closeButton = notification.querySelector('.notification-close');
+    closeButton.style.marginLeft = '15px';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.fontWeight = 'bold';
+    
+    closeButton.addEventListener('click', function() {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    });
+    
+    // অটো ক্লোজ
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 5000);
+}
+
+// Toggle password visibility
+function togglePasswordVisibility(inputId, toggleId) {
+    const passwordInput = document.getElementById(inputId);
+    const toggleButton = document.getElementById(toggleId);
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleButton.textContent = 'লুকান';
+    } else {
+        passwordInput.type = 'password';
+        toggleButton.textContent = 'দেখুন';
+    }
+}
+
+// Format date to Bangla
+function formatDateToBangla(dateString) {
+    if (!dateString) return '-';
+    
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return '-';
+    
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    
+    return `${day}/${month}/${year}`;
+}
+
+// Check if user is logged in
+async function checkLoginStatus() {
+    authToken = sessionStorage.getItem('authToken');
+    
+    if (!authToken) {
+        // Redirect to home page if not logged in
+        window.location.href = 'Talimul Islam Academi.html';
+        return false;
+    }
+    
+    try {
+        // দুই সার্ভারে যাচাই করা
+        const responses = await Promise.all([
+            fetch(`${DB_API_URL_1}/validate-token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                }
+            }),
+            fetch(`${DB_API_URL_2}/validate-token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+        ]);
+        
+        const data1 = await responses[0].json();
+        const data2 = await responses[1].json();
+        
+        if (!data1.valid || !data2.valid) {
+            // Token invalid, redirect to home
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            window.location.href = 'Talimul Islam Academi.html';
+            return false;
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Error validating token:', error);
+        return false;
+    }
+}
+
+// Fetch user data from server
+async function fetchUserData() {
+    showLoading();
+    
+    try {
+        if (!authToken) {
+            authToken = sessionStorage.getItem('authToken');
+        }
+        
+        if (!authToken) {
+            throw new Error('No auth token found');
+        }
+        
+        // দুই সার্ভার থেকে ডাটা নেওয়া
+        const responses = await Promise.all([
+            fetch(`${DB_API_URL_1}/user-profile`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            }),
+            fetch(`${DB_API_URL_2}/user-profile`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                }
+            })
+        ]);
+        
+        const data1 = await responses[0].json();
+        const data2 = await responses[1].json();
+        
+        if (!data1.success || !data2.success) {
+            throw new Error('Failed to fetch user data');
+        }
+        
+        // দুই সার্ভারের ডাটা মিলিয়ে যাচাই করা
+        userData = data1.user;
+        
+        // Update storage
+        sessionStorage.setItem('currentUser', JSON.stringify(userData));
+        
+        return userData;
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        showNotification('ব্যবহারকারীর তথ্য লোড করতে সমস্যা হয়েছে', 'error');
+        return null;
+    } finally {
+        hideLoading();
+    }
+}
+
+// Load profile picture
+function loadProfilePicture(imageUrl) {
+    const profileImage = document.getElementById('profileImage');
+    const placeholder = document.getElementById('profileImagePlaceholder');
+    
+    if (imageUrl) {
+        profileImage.src = imageUrl;
+        profileImage.style.display = 'block';
+        placeholder.style.display = 'none';
+    } else {
+        profileImage.style.display = 'none';
+        placeholder.style.display = 'flex';
+    }
+}
+
+// Fill form data for editing
+function fillEditForm(user) {
+    document.getElementById('editFullName').value = user.name || '';
+    document.getElementById('editEmail').value = user.email || '';
+    document.getElementById('editPhone').value = user.phone || '';
+    document.getElementById('editBirthday').value = user.birthday || '';
+    document.getElementById('editGender').value = user.gender || '';
+    document.getElementById('editAddress').value = user.address || '';
+}
+
+// Update view with user data
+function updateProfileView(user) {
+    // Basic info
+    document.getElementById('profileName').textContent = user.name || 'ব্যবহারকারীর নাম';
+    document.getElementById('profileEmail').textContent = user.email || 'example@email.com';
+    
+    // Detailed info
+    document.getElementById('viewFullName').textContent = user.name || '-';
+    document.getElementById('viewEmail').textContent = user.email || '-';
+    document.getElementById('viewPhone').textContent = user.phone || '-';
+    document.getElementById('viewBirthday').textContent = formatDateToBangla(user.birthday) || '-';
+    document.getElementById('viewGender').textContent = user.gender || '-';
+    document.getElementById('viewAddress').textContent = user.address || '-';
+    
+    // Password last updated
+    document.getElementById('passwordLastUpdated').textContent = 
+        user.passwordLastUpdated ? formatDateToBangla(user.passwordLastUpdated) : '-';
+    
+    // Profile picture
+    loadProfilePicture(user.profilePicture);
+}
+
+/* --------- LOGIN AND REGISTRATION FUNCTIONS --------- */
+
+// Toggle between login/register forms
+function toggleForm(formType) {
+    // Hide all forms
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('emailCheckSection').style.display = 'none';
+    document.getElementById('otpVerificationSection').style.display = 'none';
+    document.getElementById('signupSection').style.display = 'none';
+    document.getElementById('registrationSuccess').style.display = 'none';
+    
+    // Show the requested form
+    switch(formType) {
+        case 'login':
+            document.getElementById('loginSection').style.display = 'block';
+            break;
+        case 'emailCheck':
+            document.getElementById('emailCheckSection').style.display = 'block';
+            break;
+        case 'otpVerification':
+            document.getElementById('otpVerificationSection').style.display = 'block';
+            break;
+        case 'signup':
+            document.getElementById('signupSection').style.display = 'block';
+            break;
+    }
+    
+    // Reset form errors
+    document.querySelectorAll('.error-message').forEach(el => {
+        el.classList.remove('show-error');
+    });
+}
+
+// Login function
+async function loginUser(email, password) {
+    showLoading();
+    
+    try {
+        // দুই সার্ভারে লগইন করা
+        const responses = await Promise.all([
+            fetch(`${DB_API_URL_1}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            }),
+            fetch(`${DB_API_URL_2}/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            })
+        ]);
+        
+        const data1 = await responses[0].json();
+        const data2 = await responses[1].json();
+        
+        if (!data1.success || !data2.success) {
+            throw new Error(data1.message || 'Login failed');
+        }
+        
+        // Save token and user info
+        authToken = data1.token;
+        userData = data1.user;
+        
+        sessionStorage.setItem('authToken', authToken);
+        sessionStorage.setItem('currentUser', JSON.stringify(userData));
+        
+        // Close login popup
+        closeLoginPopup();
+        
+        // Refresh page or redirect
+        window.location.reload();
+        
+        return true;
+    } catch (error) {
+        console.error('Login error:', error);
+        return false;
+    } finally {
+        hideLoading();
+    }
+}
+
+// Email check function for registration
+async function checkEmailExists(email) {
+    showLoading();
+    
+    try {
+        // Both servers check
+        const responses = await Promise.all([
+            fetch(`${DB_API_URL_1}/check-email`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            }),
+            fetch(`${DB_API_URL_2}/check-email`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            })
+        ]);
+        
+        const data1 = await responses[0].json();
+        const data2 = await responses[1].json();
+        
+        return { 
+            exists: data1.exists || data2.exists,
+            message: data1.message || data2.message
+        };
+    } catch (error) {
+        console.error('Email check error:', error);
+        return { 
+            exists: false, 
+            message: 'সার্ভার ত্রুটি। পরে আবার চেষ্টা করুন।' 
+        };
+    } finally {
+        hideLoading();
+    }
+}
+
+// Send OTP function
+async function sendOTP(email) {
+    showLoading();
+    
+    try {
+        // Both servers send OTP
+        const responses = await Promise.all([
+            fetch(`${DB_API_URL_1}/send-otp`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            }),
+            fetch(`${DB_API_URL_2}/send-otp`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email })
+            })
+        ]);
+        
+        const data1 = await responses[0].json();
+        const data2 = await responses[1].json();
+        
+        if (!data1.success || !data2.success) {
+            throw new Error(data1.message || 'OTP sending failed');
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('OTP sending error:', error);
+        return false;
+    } finally {
+        hideLoading();
+    }
+}
+
+// Verify OTP function
+async function verifyOTP(email, otp) {
+    showLoading();
+    
+    try {
+        // Both servers verify OTP
+        const responses = await Promise.all([
+            fetch(`${DB_API_URL_1}/verify-otp`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, otp })
+            }),
+            fetch(`${DB_API_URL_2}/verify-otp`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, otp })
+            })
+        ]);
+        
+        const data1 = await responses[0].json();
+        const data2 = await responses[1].json();
+        
+        if (!data1.success || !data2.success) {
+            throw new Error(data1.message || 'OTP verification failed');
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('OTP verification error:', error);
+        return false;
+    } finally {
+        hideLoading();
+    }
+}
+
+// Register user function
+async function registerUser(name, email, password) {
+    showLoading();
+    
+    try {
+        // Both servers register
+        const responses = await Promise.all([
+            fetch(`${DB_API_URL_1}/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, password })
+            }),
+            fetch(`${DB_API_URL_2}/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, password })
+            })
+        ]);
+        
+        const data1 = await responses[0].json();
+        const data2 = await responses[1].json();
+        
+        if (!data1.success || !data2.success) {
+            throw new Error(data1.message || 'Registration failed');
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Registration error:', error);
+        return false;
+    } finally {
+        hideLoading();
+    }
+}
+
+// Upload profile picture
+async function uploadProfilePicture(file) {
+    if (!file) return null;
+    
+    try {
+        if (!authToken) {
+            authToken = sessionStorage.getItem('authToken');
+        }
+        
+        if (!authToken) {
+            throw new Error('No auth token found');
+        }
+        
+        const formData = new FormData();
+        formData.append('profilePicture', file);
+        
+        // Both servers upload
+        const responses = await Promise.all([
+            fetch(`${DB_API_URL_1}/upload-profile-picture`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: formData
+            }),
+            fetch(`${DB_API_URL_2}/upload-profile-picture`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: formData
+            })
+        ]);
+        
+        const data1 = await responses[0].json();
+        const data2 = await responses[1].json();
+        
+        if (!data1.success || !data2.success) {
+            throw new Error(data1.message || 'Failed to upload profile picture');
+        }
+        
+        return data1.pictureUrl;
+    } catch (error) {
+        console.error('Error uploading profile picture:', error);
+        showNotification('প্রোফাইল ছবি আপলোড করতে সমস্যা হয়েছে', 'error');
+        return null;
+    }
+}
+
+// OTP timer function
+function startOtpTimer() {
+    clearInterval(otpTimerInterval);
+    otpResendCountdown = 120;
+    
+    const resendButton = document.getElementById('resendOtp');
+    const timerElement = document.getElementById('timer');
+    
+    resendButton.disabled = true;
+    
+    otpTimerInterval = setInterval(() => {
+        otpResendCountdown--;
+        
+        const minutes = Math.floor(otpResendCountdown / 60);
+        const seconds = otpResendCountdown % 60;
+        
+        timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (otpResendCountdown <= 0) {
+            clearInterval(otpTimerInterval);
+            resendButton.disabled = false;
+        }
+    }, 1000);
+}
+
+// Show success modal
+function showSuccessModal() {
+    document.getElementById('successModal').style.display = 'flex';
+}
+
+// Close success modal
+function closeModal() {
+    document.getElementById('successModal').style.display = 'none';
+    toggleForm('login');
+    document.getElementById('registrationSuccess').style.display = 'block';
+}
+
+// Close login popup
+function closeLoginPopup() {
+    document.querySelector('.login-popup').style.display = 'none';
+}
+
+// Handle OTP input auto-focus
+function setupOtpInputs() {
+    const otpInputs = document.querySelectorAll('.otp-digit');
+    
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', function() {
+            if (this.value.length === 1) {
+                if (index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            }
+        });
+        
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && this.value.length === 0) {
+                if (index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            }
+        });
+    });
+}
+
+/* --------- EVENT LISTENERS FOR PROFILE PAGE --------- */
+document.addEventListener('DOMContentLoaded', async function() {
+    const isProfilePage = document.getElementById('profilePage') !== null;
+    const isLoginPopupPresent = document.querySelector('.login-popup') !== null;
+    
+    // Initialize appropriate page
+    if (isProfilePage) {
+        initializeProfilePage();
+    }
+    
+    if (isLoginPopupPresent) {
+        initializeLoginPopup();
+    }
+});
+
+// Profile page initialization
+async function initializeProfilePage() {
+    console.log('Profile page loaded');
+    
+    // Check if user is logged in
+    const isLoggedIn = await checkLoginStatus();
+    
+    if (!isLoggedIn) {
+        return;
+    }
+    
+    // Fetch user data and update UI
+    const user = await fetchUserData();
+    
+    if (user) {
+        updateProfileView(user);
+    }
+}
+    // Set up event listeners
+    
+    // Edit Profile Button
+    document.getElementById('editProfileBtn').addEventListener('click', function() {
+        toggleEditMode(true);
+    });
+    
+    // Cancel Edit Button
+    document.getElementById('cancelEditBtn').addEventListener('click', function() {
+        toggleEditMode(false);
+    });
+    
+    // Edit Profile Form Submit
+    document.getElementById('editProfileForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Reset errors
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.classList.remove('show-error');
+        });
+        
+        // Get form data
+        const name = document.getElementById('editFullName').value.trim();
+        const phone = document.getElementById('editPhone').value.trim();
+        const birthday = document.getElementById('editBirthday').value;
+        const gender = document.getElementById('editGender').value;
+        const address = document.getElementById('editAddress').value.trim();
+        
+        // Validation
+        let isValid = true;
+        
+        if (!name) {
+            showError('fullNameError', 'নাম প্রয়োজন');
+            isValid = false;
+        }
+        
+        if (phone && !/^01[3-9]\d{8}$/.test(phone)) {
+            showError('phoneError', 'সঠিক বাংলাদেশী মোবাইল নম্বর লিখুন');
+            isValid = false;
+        }
+        
+        if (!isValid) return;
+        
+        showLoading();
+        
+        try {
+            if (!authToken) {
+                authToken = sessionStorage.getItem('authToken');
+            }
+            
+            if (!authToken) {
+                throw new Error('No auth token found');
+            }
+            
+            let profilePictureUrl = userData?.profilePicture;
+            
+            // Upload profile picture if changed
+            if (profilePictureChanged && profileImageFile) {
+                profilePictureUrl = await uploadProfilePicture(profileImageFile);
+                profilePictureChanged = false;
+                profileImageFile = null;
+            }
+            
+            // Update user data on both servers
+            const responses = await Promise.all([
+                fetch(`${DB_API_URL_1}/update-profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        name,
+                        phone,
+                        birthday,
+                        gender,
+                        address,
+                        profilePicture: profilePictureUrl
+                    })
+                }),
+                fetch(`${DB_API_URL_2}/update-profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        name,
+                        phone,
+                        birthday,
+                        gender,
+                        address,
+                        profilePicture: profilePictureUrl
+                    })
+                })
+            ]);
+            
+            const data1 = await responses[0].json();
+            const data2 = await responses[1].json();
+            
+            if (!data1.success || !data2.success) {
+                throw new Error(data1.message || 'Failed to update profile');
+            }
+            
+            // Update userData and UI
+            userData = data1.user;
+            updateProfileView(userData);
+            
+            // Update storage
+            sessionStorage.setItem('currentUser', JSON.stringify(userData));
+            
+            showNotification('প্রোফাইল সফলভাবে আপডেট করা হয়েছে', 'success');
+            
+            // Switch back to view mode
+            toggleEditMode(false);
+        } catch (error) {
+            console.error('Error updating profile:', error);
+            showNotification('প্রোফাইল আপডেট করতে সমস্যা হয়েছে', 'error');
+        } finally {
+            hideLoading();
+        }
+    });
+    
+    // Profile Picture Change
+    document.getElementById('editPhotoBtn').addEventListener('click', function() {
+        document.getElementById('profilePictureInput').click();
+    });
+    
+    document.getElementById('profilePictureInput').addEventListener('change', function(e) {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            
+            // Check file type
+            if (!file.type.match('image.*')) {
+                showNotification('শুধুমাত্র ছবি আপলোড করুন', 'error');
+                return;
+            }
+            
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showNotification('ছবির সাইজ ৫MB এর কম হতে হবে', 'error');
+                return;
+            }
+            
+            // Preview image
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                document.getElementById('profileImage').src = e.target.result;
+                document.getElementById('profileImage').style.display = 'block';
+                document.getElementById('profileImagePlaceholder').style.display = 'none';
+            }
+            
+            reader.readAsDataURL(file);
+            
+            // Save file for later upload
+            profilePictureChanged = true;
+            profileImageFile = file;
+        }
+    });
+    
+    // Change Password Button
+    document.getElementById('changePasswordBtn').addEventListener('click', function() {
+        togglePasswordModal(true);
+    });
+    
+    // Close Password Modal
+    document.getElementById('closePasswordModal').addEventListener('click', function() {
+        togglePasswordModal(false);
+    });
+    
+    // Cancel Password Change
+    document.getElementById('cancelPasswordChange').addEventListener('click', function() {
+        togglePasswordModal(false);
+    });
+    
+    // Change Password Form Submit
+    document.getElementById('changePasswordForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+    });
+        
+    
+        // Reset errors
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.classList.remove('show-error');
+        });
+        
+        document.getElementById('passwordSuccess').style.display = 'none';
+    
+        // Get form data
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // Validation
+        let isValid = true;
+        
+        if (!currentPassword) {
+            showError('currentPasswordError', 'বর্তমান পাসওয়ার্ড প্রয়োজন');
+            isValid = false;
+        }
+        
+        if (!newPassword || newPassword.length < 6) {
+            showError('newPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
+            isValid = false;
+        }
+        
+        if (newPassword !== confirmPassword) {
+            showError('confirmPasswordError', 'পাসওয়ার্ড মিলছে না');
+            isValid = false;
+        }
+        
+        if (!isValid) return;
+        
+        showLoading();
+        try {
+    // authToken আগে থেকে না থাকলে sessionStorage থেকে নিন
+    if (!authToken) {
+        authToken = sessionStorage.getItem('authToken');
+    }
+
+    // যদি authToken না পাওয়া যায়, তাহলে এরর দিন
+    if (!authToken) {
+        throw new Error('No auth token found');
+    }
+
+    // এখানে authToken ব্যবহার করে অন্য কাজ করতে পারেন
+    console.log('Auth Token:', authToken);
+
+} catch (error) {
+    console.error('Authentication error:', error.message);
+}
+ 
+    
+    // Change password on both servers
+    const responses = await Promise.all([
+        fetch(`${DB_API_URL_1}/change-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({
+                currentPassword,
+                newPassword
+            })
+        }),
+        fetch(`${DB_API_URL_2}/change-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+            },
+            body: JSON.stringify({
+                currentPassword,
+                newPassword
+            })
+        })
+    ]);
+    
+    const data1 = await responses[0].json();
+    const data2 = await responses[1].json();
+    
+    if (!data1.success || !data2.success) {
+        throw new Error(data1.message || 'Failed to change password');
+    }
+    
+    // Update user data if available
+    if (data1.user) {
+        userData = data1.user;
+        updateProfileView(userData);
+        
+        // Update storage
+        sessionStorage.setItem('currentUser', JSON.stringify(userData));
+    }
+    
+    // Show success message
+    document.getElementById('passwordSuccess').style.display = 'block';
+    document.getElementById('changePasswordForm').reset();
+    
+    // Close modal after delay
+    setTimeout(() => {
+        togglePasswordModal(false);
+    }, 3000);
+
+
+
+</script>
 
 
 <!-- <script>
@@ -8725,7 +9678,7 @@ window.addEventListener('load', async function() {
 })();
 </script> -->
 
-<!-- <script src="/Talimul Islam otp-backend/server.js"></script> -->
+<script src="/Talimul Islam otp-backend/server.js"></script>
 
 
 
