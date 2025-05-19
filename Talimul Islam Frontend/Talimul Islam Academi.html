@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Talimul Islam Academy</title>
 </head>
@@ -612,7 +611,7 @@ nav {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     z-index: 90;
 }
-    </style>   
+    </style>    
 
     <!-- নেভিগেশন বার -->
     <nav>
@@ -705,28 +704,42 @@ nav {
               <i class="fas fa-shopping-cart"></i>
               <span class="cart-badge">0</span>
           </a>
+
+
+          <div class="user-menu-container">
+            <!-- লগইন বাটন - লগইন করার আগে শুধু এটি দেখানো হবে -->
+            <a href="#" class="login-button" id="loginButton">লগইন</a>
             
-            <!-- লগইন/প্রোফাইল ড্রপডাউন HTML -->
-<div class="user-menu-container">
-    <!-- লগইন বাটন - লগইন করার আগে শুধু এটি দেখানো হবে -->
-    <a href="#" class="login-button" id="loginButton">লগইন</a>
-    
-    <!-- প্রোফাইল আইকন - লগইন করার পরে এটি দেখানো হবে -->
-    <div class="profile-dropdown" id="profileDropdown">
-        <button class="profile-icon">
-            <i class="fas fa-user-circle"></i>
-        </button>
-        <div class="dropdown-menu1">
-            <a href="profil.html" class="dropdown-item">প্রোফাইল</a>
-            <a href="AftarLoginInMyCours.html" class="dropdown-item">আমার কোর্স</a>
-            <a href="Talimul Islam Academi.html" class="dropdown-item" id="logoutButton"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
+            <!-- প্রোফাইল আইকন - লগইন করার পরে এটি দেখানো হবে -->
+            <div class="profile-dropdown" id="profileDropdown" style="display: none;">
+                <button class="profile-icon">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="profile-icon-text">প্রোফাইল</span>
+                </button>
+                <div class="dropdown-menu1">
+                    <a href="profil.html" class="dropdown-item">প্রোফাইল</a>
+                    <a href="AftarLoginInMyCours.html" class="dropdown-item">আমার কোর্স</a>
+                    <a href="#" class="dropdown-item" id="logoutButton"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+
+
             </div>
         </div>
     </div>
-    </nav> 
+    </nav>  
+
+    <script>
+        // চেক করুন যদি Font Awesome আগেই লোড আছে
+        if (!document.querySelector('link[href*="font-awesome"]')) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+            document.head.appendChild(link);
+            console.log('Font Awesome added to document head');
+        }
+    </script>
  <!-- *   1. ইউজার লগআউট হওয়ার পর সেশন ডাটা ক্লিয়ার করা -->
  <!-- *   2. কার্ট আইটেম ক্লিয়ার করা (যদি দরকার হয়) -->
  <!-- *   3. লগআউট পরবর্তী হোম পেইজে রিডাইরেক্ট করা -->
@@ -5677,9 +5690,159 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    // Add CSS for the profile dropdown
+    // ডিবাগিং কোড যোগ করা - সব ফাংশনের সাথে লগ বার্তা দেখাবে
+console.log('Profile Dropdown Script Loaded');
+
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Setting up profile dropdown');
+    
+    // সেশন স্টোরেজ চেক করুন
+    const token = sessionStorage.getItem('authToken');
+    console.log('Auth Token exists:', !!token);
+    
+    // আমাদের এলিমেন্টগুলি আছে কিনা চেক করুন
+    const loginButton = document.getElementById('loginButton');
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileIcon = document.querySelector('.profile-icon');
+    
+    console.log('Login Button found:', !!loginButton);
+    console.log('Profile Dropdown found:', !!profileDropdown);
+    console.log('Profile Icon found:', !!profileIcon);
+    
+    // প্রোফাইল ড্রপডাউন স্টাইল যোগ করুন
+    addProfileDropdownStyles();
+    
+    // প্রোফাইল আইকন ক্লিক ইভেন্ট সেটআপ
+    if (profileIcon) {
+        console.log('Adding click event to profile icon');
+        profileIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Profile icon clicked');
+            toggleProfileMenu();
+        });
+    } else {
+        console.error('Profile icon not found in the DOM');
+    }
+    
+    // বাইরে ক্লিক করলে ড্রপডাউন বন্ধ হবে
+    document.addEventListener('click', function(e) {
+        if (profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileIcon) {
+            console.log('Clicked outside dropdown, closing menu');
+            closeProfileMenu();
+        }
+    });
+    
+    // লগইন স্টেটাস আপডেট করুন
+    checkLoginStatus();
+    
+    // লগআউট বাটন ইভেন্ট
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        console.log('Adding click event to logout button');
+        logoutButton.addEventListener('click', handleLogout);
+    } else {
+        console.error('Logout button not found in the DOM');
+    }
+});
+
+// টগল প্রোফাইল মেনু ফাংশন
+function toggleProfileMenu() {
+    const dropdown = document.getElementById('profileDropdown');
+    const menu = document.querySelector('.dropdown-menu1');
+    
+    if (!dropdown || !menu) {
+        console.error('Dropdown or menu elements not found');
+        return;
+    }
+    
+    console.log('Toggling profile menu');
+    
+    // মেনু দেখা যাচ্ছে কিনা চেক করুন
+    const isVisible = window.getComputedStyle(menu).display !== 'none';
+    
+    if (isVisible) {
+        menu.style.display = 'none';
+        console.log('Menu hidden');
+    } else {
+        menu.style.display = 'block';
+        console.log('Menu shown');
+    }
+}
+
+// ক্লোজ প্রোফাইল মেনু ফাংশন
+function closeProfileMenu() {
+    const menu = document.querySelector('.dropdown-menu1');
+    if (menu) {
+        menu.style.display = 'none';
+    }
+}
+
+// লগআউট হ্যান্ডেল করার ফাংশন
+async function handleLogout(e) {
+    e.preventDefault();
+    console.log('Logout button clicked');
+    
+    try {
+        const token = sessionStorage.getItem('authToken');
+        
+        if (token) {
+            // লগআউট API কল
+            console.log('Calling logout API');
+            try {
+                const response = await fetch(`${DB_API_URL}/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    console.log('Logout successful');
+                    showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
+                } else {
+                    console.error('Logout API returned error:', data.message);
+                    showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
+                }
+            } catch (apiError) {
+                console.error('Logout API call failed:', apiError);
+                // এপিআই কল ব্যর্থ হলেও লগআউট করুন
+                showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
+            }
+        } else {
+            console.warn('No auth token found for logout');
+        }
+    } catch (error) {
+        console.error('Logout error:', error);
+    } finally {
+        // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন
+        console.log('Removing user data from session storage');
+        sessionStorage.removeItem('authToken');
+        sessionStorage.removeItem('currentUser');
+        
+        // লগইন স্টেটাস আপডেট করুন
+        checkLoginStatus();
+        
+        // পেজ রিলোড করুন (অপশনাল)
+        console.log('Reloading page');
+        window.location.href = 'Talimul Islam Academi.html';
+    }
+}
+
+// স্টাইল যোগ করার ফাংশন
+function addProfileDropdownStyles() {
+    console.log('Adding profile dropdown styles');
+    
+    // আগে থেকে স্টাইল এলিমেন্ট আছে কিনা চেক করুন
+    if (document.getElementById('profileDropdownStyles')) {
+        console.log('Styles already exist, skipping');
+        return;
+    }
+    
     const style = document.createElement('style');
+    style.id = 'profileDropdownStyles';
     style.textContent = `
         /* User Menu Container Styles */
         .user-menu-container {
@@ -5718,6 +5881,16 @@ document.addEventListener('DOMContentLoaded', function() {
             padding: 5px;
         }
         
+        /* Font Awesome Fallback */
+        .profile-icon-text {
+            display: none;
+        }
+        
+        .no-fontawesome .profile-icon-text {
+            display: inline;
+            font-weight: bold;
+        }
+        
         .dropdown-menu1 {
             display: none;
             position: absolute;
@@ -5741,45 +5914,38 @@ document.addEventListener('DOMContentLoaded', function() {
         .dropdown-item:hover {
             background-color: #f8f8f8;
         }
-        
-        /* Show dropdown menu when profile icon is clicked */
-        .profile-dropdown.active .dropdown-menu1 {
-            display: block;
-        }
     `;
     document.head.appendChild(style);
+    console.log('Styles added to document head');
+}
+
+// চেক লগইন স্ট্যাটাস আপডেটেড ফাংশন
+async function checkLoginStatus() {
+    console.log('Checking login status');
     
-    // Setup profile dropdown functionality
-    const profileIcon = document.querySelector('.profile-icon');
+    // সেশন স্টোরেজ থেকে টোকেন পড়ুন
+    const token = sessionStorage.getItem('authToken');
+    
+    const loginButton = document.getElementById('loginButton');
     const profileDropdown = document.getElementById('profileDropdown');
     
-    if (profileIcon) {
-        profileIcon.addEventListener('click', function(e) {
-            e.preventDefault();
-            profileDropdown.classList.toggle('active');
-        });
+    // Font Awesome লোড হয়েছে কিনা চেক করুন
+    checkFontAwesome();
+    
+    if (!loginButton || !profileDropdown) {
+        console.error('Login button or profile dropdown not found');
+        console.log('loginButton:', loginButton);
+        console.log('profileDropdown:', profileDropdown);
+        return false;
     }
     
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(e) {
-        if (profileDropdown && profileDropdown.classList.contains('active')) {
-            if (!profileDropdown.contains(e.target)) {
-                profileDropdown.classList.remove('active');
-            }
-        }
-    });
-    
-    // Update the checkLoginStatus function to properly handle the dropdown
-    window.checkLoginStatus = async function() {
-        // সেশন স্টোরেজ থেকে টোকেন পড়ুন
-        const token = sessionStorage.getItem('authToken');
-        
-        const loginButton = document.getElementById('loginButton');
-        const profileDropdown = document.getElementById('profileDropdown');
-        
-        if (token) {
+    if (token) {
+        console.log('Auth token found, validating...');
+        try {
+            let isValid = true;
+            
+            // টোকেন ভ্যালিডেট করার চেষ্টা করুন
             try {
-                // টোকেন ভ্যালিডেট করার জন্য API কল
                 const response = await fetch(`${DB_API_URL}/validate-token`, {
                     method: 'POST',
                     headers: {
@@ -5790,128 +5956,90 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const data = await response.json();
                 
-                if (data.valid) {
-                    // লগইন করা আছে, প্রোফাইল আইকন দেখান
-                    if (loginButton) loginButton.style.display = 'none';
-                    if (profileDropdown) {
-                        profileDropdown.style.display = 'block';
-                        
-                        // Update user name in profile if available
-                        const userData = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
-                        const userNameElement = document.querySelector('.profile-dropdown .user-name');
-                        if (userNameElement && userData.name) {
-                            userNameElement.textContent = userData.name;
-                        }
-                    }
-                    
-                    // যদি ইউজার ডাটা থাকে তাহলে সেট করুন
-                    if (data.user) {
-                        sessionStorage.setItem('currentUser', JSON.stringify(data.user));
-                    }
-                    
-                    return true;
-                } else {
-                    // টোকেন ভ্যালিড নয়, লগইন বাটন দেখান
-                    sessionStorage.removeItem('authToken');
-                    sessionStorage.removeItem('currentUser');
-                    if (loginButton) loginButton.style.display = 'block';
-                    if (profileDropdown) profileDropdown.style.display = 'none';
-                    return false;
+                if (!data.valid) {
+                    console.log('Token validation failed:', data);
+                    isValid = false;
                 }
-            } catch (error) {
-                console.error('Error validating token:', error);
-                if (loginButton) loginButton.style.display = 'block';
-                if (profileDropdown) profileDropdown.style.display = 'none';
+            } catch (validationError) {
+                console.error('Token validation error:', validationError);
+                // API এরর হলেও টোকেন ব্যবহার করার চেষ্টা করুন
+                console.log('Continuing with existing token despite validation error');
+            }
+            
+            if (isValid) {
+                // লগইন করা আছে, প্রোফাইল আইকন দেখান
+                console.log('User is logged in, showing profile dropdown');
+                loginButton.style.display = 'none';
+                profileDropdown.style.display = 'block';
+                return true;
+            } else {
+                // টোকেন ভ্যালিড নয়, লগইন বাটন দেখান
+                console.log('Invalid token, showing login button');
+                sessionStorage.removeItem('authToken');
+                sessionStorage.removeItem('currentUser');
+                loginButton.style.display = 'block';
+                profileDropdown.style.display = 'none';
                 return false;
             }
-        } else {
-            // লগইন করা নেই, লগইন বাটন দেখান
-            if (loginButton) loginButton.style.display = 'block';
-            if (profileDropdown) profileDropdown.style.display = 'none';
+        } catch (error) {
+            console.error('Login status check error:', error);
+            loginButton.style.display = 'block';
+            profileDropdown.style.display = 'none';
             return false;
         }
-    };
+    } else {
+        // লগইন করা নেই, লগইন বাটন দেখান
+        console.log('No auth token, showing login button');
+        loginButton.style.display = 'block';
+        profileDropdown.style.display = 'none';
+        return false;
+    }
+}
+
+// Font Awesome লোড হয়েছে কিনা চেক করুন
+function checkFontAwesome() {
+    console.log('Checking if Font Awesome is loaded');
     
-    // Handle successful login - update profile dropdown
-    const originalLoginFormHandler = document.getElementById('loginForm').onsubmit;
-    document.getElementById('loginForm').onsubmit = async function(e) {
-        e.preventDefault();
+    // Font Awesome লোড হয়েছে কিনা চেক করুন
+    const isFontAwesomeLoaded = (function() {
+        // Check if any Font Awesome classes are applied
+        const span = document.createElement('span');
+        span.className = 'fa';
+        span.style.display = 'none';
+        document.body.appendChild(span);
+        const result = window.getComputedStyle(span).fontFamily.includes('Font');
+        document.body.removeChild(span);
+        return result;
+    })();
+    
+    console.log('Font Awesome loaded:', isFontAwesomeLoaded);
+    
+    if (!isFontAwesomeLoaded) {
+        console.log('Font Awesome not detected, adding fallback');
+        // Font Awesome না থাকলে লিংক যোগ করুন
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+        document.head.appendChild(link);
         
-        // Reset error messages
-        document.querySelectorAll('.error-message').forEach(el => {
-            el.classList.remove('show-error');
-        });
+        // ফলব্যাক ক্লাস যোগ করুন
+        document.body.classList.add('no-fontawesome');
         
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-        let isValid = true;
-        
-        // Email validation
-        if (!email || !validateEmail(email)) {
-            showError('loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
-            isValid = false;
-        }
-        
-        // Password validation
-        if (!password) {
-            showError('loginPasswordError', 'পাসওয়ার্ড আবশ্যক');
-            isValid = false;
-        }
-        
-        if (isValid) {
-            try {
-                showLoading();
-                
-                // লগইন API কল
-                const response = await fetch(`${DB_API_URL}/login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        email: email,
-                        password: password
-                    }),
-                });
-                
-                const data = await response.json();
-                
-                if (!data.success) {
-                    throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
-                }
-                
-                // সেশন স্টোরেজে টোকেন এবং ইউজার ডেটা সংরক্ষণ করুন
-                sessionStorage.setItem('authToken', data.token);
-                sessionStorage.setItem('currentUser', JSON.stringify(data.user));
-                
-                // লগইন পপআপ বন্ধ করুন
-                const loginPopup = document.querySelector('.login-popup');
-                const blurOverlay = document.querySelector('.blur-overlay');
-                
-                if (loginPopup) loginPopup.classList.remove('active');
-                if (blurOverlay) blurOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-                
-                // লগইন স্টেটাস আপডেট করুন
-                await checkLoginStatus();
-                
-                showNotification('সফলভাবে লগইন করা হয়েছে! স্বাগতম ' + data.user.name, 'success');
-                
-                // Refresh page to show updated profile (optional)
-                // window.location.reload();
-                
-            } catch (error) {
-                console.error('Login error:', error);
-                showNotification(error.message || 'ভুল ইমেইল বা পাসওয়ার্ড। অনুগ্রহ করে আবার চেষ্টা করুন।', 'error');
-            } finally {
-                hideLoading();
+        // প্রোফাইল আইকনে টেক্সট ফলব্যাক যোগ করুন
+        const profileIcon = document.querySelector('.profile-icon');
+        if (profileIcon) {
+            if (!profileIcon.querySelector('.profile-icon-text')) {
+                const textSpan = document.createElement('span');
+                textSpan.className = 'profile-icon-text';
+                textSpan.textContent = 'প্রোফাইল';
+                profileIcon.appendChild(textSpan);
             }
         }
-    };
-    
-    // Call checkLoginStatus on page load
-    checkLoginStatus();
-});
+    }
+}
+
+// ইনিশিয়ালাইজ স্ক্রিপ্ট ইমিডিয়েটলি
+console.log('Profile dropdown script initialized');
 
 </script>        
         <!-- * এই স্ক্রিপ্টটি ইউজার ইমেইল যাচাই, OTP পাঠানো ও যাচাইকরণ,  -->
