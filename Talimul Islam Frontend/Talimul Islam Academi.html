@@ -613,7 +613,59 @@ nav {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     z-index: 90;
 }
-    </style>   
+    </style>
+        <style>
+            /* Add these styles for profile dropdown */
+            .profile-container {
+                position: relative;
+                display: inline-block;
+            }
+            
+            .profile-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background-color: #3498db;
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            
+            .profile-dropdown-content {
+                display: none;
+                position: absolute;
+                right: 0;
+                background-color: white;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+                border-radius: 4px;
+            }
+            
+            .profile-dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+                transition: background-color 0.2s;
+            }
+            
+            .profile-dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+            
+            .show {
+                display: block;
+            }
+            
+            #profileDropdown {
+                display: none; /* Initially hidden until logged in */
+            }
+        </style>    
 
     <!-- নেভিগেশন বার -->
     <nav>
@@ -713,7 +765,7 @@ nav {
                 <a href="#" class="login-button" id="loginButton">লগইন</a>
                 
                 <!-- প্রোফাইল আইকন - লগইন করার পরে এটি দেখানো হবে -->
-                <div class="profile-dropdown" id="profileDropdown">
+                <div class="profile-dropdown-content" id="profileDropdown">
                     <button class="profile-icon">
                         <i class="fas fa-user-circle"></i>
                     </button>
