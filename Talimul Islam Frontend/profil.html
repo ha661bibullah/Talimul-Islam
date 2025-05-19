@@ -3965,1189 +3965,734 @@
            </script> -->
         
            <script>
-            // API URL - সার্ভার URL
-            const API_URL = 'https://talimul-islam.onrender.com';
-            const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
-                                
-            let currentEmail = '';
-            let otpTimer;
+            // User database using localStorage
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let currentEmail = '';
+    let otpTimer;
+    
+    // API URL - সার্ভার URL
+    const API_URL = 'https://talimul-islam.onrender.com';
+    
+    // সাধারণ ফাংশন
+    // Save users to localStorage
+    function saveUsers() {
+        localStorage.setItem('users', JSON.stringify(users));
+    }
+    
+    // Toggle between forms
+    function toggleForm(formType) {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('emailCheckSection').style.display = 'none';
+        document.getElementById('otpVerificationSection').style.display = 'none';
+        document.getElementById('signupSection').style.display = 'none';
+        
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('emailCheckForm').style.display = 'none';
+        document.getElementById('otpVerificationForm').style.display = 'none';
+        document.getElementById('signupForm').style.display = 'none';
+        
+        if (formType === 'login') {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'block';
+        } else if (formType === 'emailCheck') {
+            document.getElementById('emailCheckSection').style.display = 'block';
+            document.getElementById('emailCheckForm').style.display = 'block';
+        } else if (formType === 'otpVerification') {
+            document.getElementById('otpVerificationSection').style.display = 'block';
+            document.getElementById('otpVerificationForm').style.display = 'block';
+        } else if (formType === 'signup') {
+            document.getElementById('signupSection').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'block';
+        }
+    }
+    
+    // Toggle password visibility
+    function togglePasswordVisibility(inputId, toggleId) {
+        const passwordInput = document.getElementById(inputId);
+        const toggleButton = document.getElementById(toggleId);
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleButton.textContent = 'লুকান';
+        } else {
+            passwordInput.type = 'password';
+            toggleButton.textContent = 'দেখুন';
+        }
+    }
+    
+    // Start OTP timer
+    function startOTPTimer() {
+        let totalSeconds = 120; // 2 minutes
+        
+        clearInterval(otpTimer);
+        document.getElementById('resendOtp').disabled = true;
+        
+        // Update timer display immediately
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        document.getElementById('timer').textContent = 
+            (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+            (seconds < 10 ? '0' + seconds : seconds);
+        
+        otpTimer = setInterval(function() {
+            totalSeconds--;
             
-            // সাধারণ ফাংশন
-            // Toggle between forms
-            function toggleForm(formType) {
-                document.getElementById('loginSection').style.display = 'none';
-                document.getElementById('emailCheckSection').style.display = 'none';
-                document.getElementById('otpVerificationSection').style.display = 'none';
-                document.getElementById('signupSection').style.display = 'none';
-                
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('emailCheckForm').style.display = 'none';
-                document.getElementById('otpVerificationForm').style.display = 'none';
-                document.getElementById('signupForm').style.display = 'none';
-                
-                if (formType === 'login') {
-                    document.getElementById('loginSection').style.display = 'block';
-                    document.getElementById('loginForm').style.display = 'block';
-                } else if (formType === 'emailCheck') {
-                    document.getElementById('emailCheckSection').style.display = 'block';
-                    document.getElementById('emailCheckForm').style.display = 'block';
-                } else if (formType === 'otpVerification') {
-                    document.getElementById('otpVerificationSection').style.display = 'block';
-                    document.getElementById('otpVerificationForm').style.display = 'block';
-                } else if (formType === 'signup') {
-                    document.getElementById('signupSection').style.display = 'block';
-                    document.getElementById('signupForm').style.display = 'block';
-                }
-            }
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
             
-            // Toggle password visibility
-            function togglePasswordVisibility(inputId, toggleId) {
-                const passwordInput = document.getElementById(inputId);
-                const toggleButton = document.getElementById(toggleId);
-                
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    toggleButton.textContent = 'লুকান';
-                } else {
-                    passwordInput.type = 'password';
-                    toggleButton.textContent = 'দেখুন';
-                }
-            }
+            document.getElementById('timer').textContent = 
+                (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+                (seconds < 10 ? '0' + seconds : seconds);
             
-            // Start OTP timer
-            function startOTPTimer() {
-                let totalSeconds = 120; // 2 minutes
-                
+            if (totalSeconds <= 0) {
                 clearInterval(otpTimer);
-                document.getElementById('resendOtp').disabled = true;
-                
-                // Update timer display immediately
-                const minutes = Math.floor(totalSeconds / 60);
-                const seconds = totalSeconds % 60;
-                document.getElementById('timer').textContent = 
-                    (minutes < 10 ? '0' + minutes : minutes) + ':' + 
-                    (seconds < 10 ? '0' + seconds : seconds);
-                
-                otpTimer = setInterval(function() {
-                    totalSeconds--;
-                    
-                    const minutes = Math.floor(totalSeconds / 60);
-                    const seconds = totalSeconds % 60;
-                    
-                    document.getElementById('timer').textContent = 
-                        (minutes < 10 ? '0' + minutes : minutes) + ':' + 
-                        (seconds < 10 ? '0' + seconds : seconds);
-                    
-                    if (totalSeconds <= 0) {
-                        clearInterval(otpTimer);
-                        document.getElementById('resendOtp').disabled = false;
+                document.getElementById('resendOtp').disabled = false;
+            }
+        }, 1000);
+    }
+    
+    // লোডিং ফাংশন
+    // লোডিং স্পিনার তৈরি করুন
+    function createLoader() {
+        const loader = document.createElement('div');
+        loader.className = 'loader';
+        loader.id = 'pageLoader';
+        
+        const spinner = document.createElement('div');
+        spinner.className = 'spinner';
+        
+        loader.appendChild(spinner);
+        document.body.appendChild(loader);
+    }
+    
+    // লোডিং দেখানোর ফাংশন
+    function showLoading() {
+        if (!document.getElementById('pageLoader')) {
+            createLoader();
+        }
+        document.getElementById('pageLoader').style.display = 'flex';
+        document.body.style.cursor = 'wait';
+    }
+    
+    // লোডিং বন্ধ করার ফাংশন
+    function hideLoading() {
+        const loader = document.getElementById('pageLoader');
+        if (loader) {
+            loader.style.display = 'none';
+        }
+        document.body.style.cursor = 'default';
+    }
+    
+    // Show error with specified message
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.textContent = message;
+        errorElement.classList.add('show-error');
+    }
+    
+    // Hide error
+    function hideError(elementId) {
+        document.getElementById(elementId).classList.remove('show-error');
+    }
+    
+    // Email validation function
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    // নোটিফিকেশন পপআপ ফাংশন - alert এর পরিবর্তে
+    function showNotification(message, type = 'success') {
+        // পূর্বের নোটিফিকেশন রিমুভ করুন
+        const existingNotification = document.getElementById('customNotification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        // নতুন নোটিফিকেশন তৈরি করুন
+        const notification = document.createElement('div');
+        notification.id = 'customNotification';
+        notification.className = `custom-notification ${type}`;
+        
+        // নোটিফিকেশন কনটেন্ট
+        notification.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-message">${message}</span>
+                <span class="notification-close">&times;</span>
+            </div>
+        `;
+        
+        // নোটিফিকেশন স্টাইল
+        notification.style.position = 'fixed';
+        notification.style.top = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+        notification.style.color = 'white';
+        notification.style.padding = '15px';
+        notification.style.borderRadius = '5px';
+        notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+        notification.style.zIndex = '9999';
+        notification.style.transition = 'all 0.3s ease';
+        notification.style.opacity = '0';
+        
+        // বডিতে অ্যাড করুন
+        document.body.appendChild(notification);
+        
+        // ফেড ইন এফেক্ট
+        setTimeout(() => {
+            notification.style.opacity = '1';
+        }, 10);
+        
+        // ক্লোজ বাটন ফাংশনালিটি
+        const closeButton = notification.querySelector('.notification-close');
+        closeButton.style.marginLeft = '15px';
+        closeButton.style.cursor = 'pointer';
+        closeButton.style.fontWeight = 'bold';
+        
+        closeButton.addEventListener('click', function() {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        });
+        
+        // অটো ক্লোজ
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 5000);
+    }
+    
+    // মডাল ফাংশন
+    // Open modal
+    function openModal() {
+        document.getElementById('successModal').style.display = 'flex';
+    }
+    
+    // Close modal
+    function closeModal() {
+        document.getElementById('successModal').style.display = 'none';
+        toggleForm('login');
+    }
+    
+    // লগইন স্টেটাস চেক করার ফাংশন
+    function checkLoginStatus() {
+        // লোকাল স্টোরেজ থেকে লগইন স্টেটাস পড়ুন
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (isLoggedIn && currentUser) {
+            // লগইন করা আছে, প্রোফাইল আইকন দেখান
+            if (loginButton) loginButton.style.display = 'none';
+            if (profileDropdown) profileDropdown.style.display = 'block';
+        } else {
+            // লগইন করা নেই, লগইন বাটন দেখান
+            if (loginButton) loginButton.style.display = 'block';
+            if (profileDropdown) profileDropdown.style.display = 'none';
+        }
+    }
+    
+    // When the page loads - মূল ইনিশিয়ালাইজেশন
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize the page
+        toggleForm('login');
+        
+        // Set up OTP input fields for automatic focus
+        const otpInputs = document.querySelectorAll('.otp-digit');
+        
+        for (let i = 0; i < otpInputs.length; i++) {
+            otpInputs[i].addEventListener('input', function() {
+                if (this.value.length === 1) {
+                    if (i < otpInputs.length - 1) {
+                        otpInputs[i + 1].focus();
                     }
-                }, 1000);
-            }
-            
-            // লোডিং ফাংশন
-            // লোডিং স্পিনার তৈরি করুন
-            function createLoader() {
-                const loader = document.createElement('div');
-                loader.className = 'loader';
-                loader.id = 'pageLoader';
-                
-                const spinner = document.createElement('div');
-                spinner.className = 'spinner';
-                
-                loader.appendChild(spinner);
-                document.body.appendChild(loader);
-            }
-            
-            // লোডিং দেখানোর ফাংশন
-            function showLoading() {
-                if (!document.getElementById('pageLoader')) {
-                    createLoader();
                 }
-                document.getElementById('pageLoader').style.display = 'flex';
-                document.body.style.cursor = 'wait';
-            }
+            });
             
-            // লোডিং বন্ধ করার ফাংশন
-            function hideLoading() {
-                const loader = document.getElementById('pageLoader');
-                if (loader) {
-                    loader.style.display = 'none';
+            otpInputs[i].addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value.length === 0) {
+                    if (i > 0) {
+                        otpInputs[i - 1].focus();
+                    }
                 }
-                document.body.style.cursor = 'default';
-            }
-            
-            // Show error with specified message
-            function showError(elementId, message) {
-                const errorElement = document.getElementById(elementId);
-                errorElement.textContent = message;
-                errorElement.classList.add('show-error');
-            }
-            
-            // Hide error
-            function hideError(elementId) {
-                document.getElementById(elementId).classList.remove('show-error');
-            }
-            
-            // Email validation function
-            function validateEmail(email) {
-                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                return re.test(email);
-            }
-            
-            // নোটিফিকেশন পপআপ ফাংশন - alert এর পরিবর্তে
-            function showNotification(message, type = 'success') {
-                // পূর্বের নোটিফিকেশন রিমুভ করুন
-                const existingNotification = document.getElementById('customNotification');
-                if (existingNotification) {
-                    existingNotification.remove();
-                }
+            });
+        }
+        
+        // Set up event listeners for password toggle buttons
+        const passwordToggleButtons = document.querySelectorAll('.toggle-password');
+        passwordToggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const inputId = this.getAttribute('data-target');
+                const toggleId = this.id;
+                togglePasswordVisibility(inputId, toggleId);
+            });
+        });
+        
+        // Set up navigation buttons
+        const goToEmailCheck = document.getElementById('goToEmailCheck');
+        if (goToEmailCheck) {
+            goToEmailCheck.addEventListener('click', function() {
+                toggleForm('emailCheck');
+            });
+        }
+        
+        const goToLogin = document.getElementById('goToLogin');
+        if (goToLogin) {
+            goToLogin.addEventListener('click', function() {
+                toggleForm('login');
+            });
+        }
+        
+        // Set up modal close button
+        const closeModalBtn = document.getElementById('closeModal');
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeModal);
+        }
+        
+        // লগইন পপআপ এবং ব্লার এফেক্ট
+        const loginButton = document.querySelector('.login-button');
+        const loginPopup = document.querySelector('.login-popup');
+        const blurOverlay = document.querySelector('.blur-overlay');
+        const closeLogin = document.querySelector('.close-login');
+        
+        // লগইন বাটনে ক্লিক করলে
+        if (loginButton) {
+            loginButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginPopup.classList.add('active');
+                blurOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // স্ক্রল বন্ধ করুন
+            });
+        }
+        
+        // ক্লোজ বাটনে ক্লিক করলে
+        if (closeLogin) {
+            closeLogin.addEventListener('click', function() {
+                loginPopup.classList.remove('active');
+                blurOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // স্ক্রল চালু করুন
+            });
+        }
+        
+        // ব্লার ওভারলেতে ক্লিক করলে
+        if (blurOverlay) {
+            blurOverlay.addEventListener('click', function() {
+                loginPopup.classList.remove('active');
+                blurOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // স্ক্রল চালু করুন
+            });
+        }
+        
+        // লগআউট বাটন সেটআপ
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', function(e) {
+                e.preventDefault();
                 
-                // নতুন নোটিফিকেশন তৈরি করুন
-                const notification = document.createElement('div');
-                notification.id = 'customNotification';
-                notification.className = `custom-notification ${type}`;
+                // লগআউট লজিক
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('currentUser');
                 
-                // নোটিফিকেশন কনটেন্ট
-                notification.innerHTML = `
-                    <div class="notification-content">
-                        <span class="notification-message">${message}</span>
-                        <span class="notification-close">&times;</span>
-                    </div>
-                `;
+                // লগইন স্টেটাস আপডেট করুন
+                checkLoginStatus();
                 
-                // নোটিফিকেশন স্টাইল
-                notification.style.position = 'fixed';
-                notification.style.top = '20px';
-                notification.style.right = '20px';
-                notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
-                notification.style.color = 'white';
-                notification.style.padding = '15px';
-                notification.style.borderRadius = '5px';
-                notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
-                notification.style.zIndex = '9999';
-                notification.style.transition = 'all 0.3s ease';
-                notification.style.opacity = '0';
+                showNotification('আপনি সফলভাবে লগআউট করেছেন।', 'success');
+            });
+        }
+        
+        // পেজ লোড হওয়ার সময় লগইন স্টেটাস চেক করুন
+        checkLoginStatus();
+    });
+    
+    // Handle Email Check form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailCheckForm = document.getElementById('emailCheckForm');
+        if (emailCheckForm) {
+            emailCheckForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
                 
-                // বডিতে অ্যাড করুন
-                document.body.appendChild(notification);
-                
-                // ফেড ইন এফেক্ট
-                setTimeout(() => {
-                    notification.style.opacity = '1';
-                }, 10);
-                
-                // ক্লোজ বাটন ফাংশনালিটি
-                const closeButton = notification.querySelector('.notification-close');
-                closeButton.style.marginLeft = '15px';
-                closeButton.style.cursor = 'pointer';
-                closeButton.style.fontWeight = 'bold';
-                
-                closeButton.addEventListener('click', function() {
-                    notification.style.opacity = '0';
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 300);
+                // Reset error messages
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
                 });
                 
-                // অটো ক্লোজ
-                setTimeout(() => {
-                    notification.style.opacity = '0';
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 300);
-                }, 5000);
-            }
-            
-            // মডাল ফাংশন
-            // Open modal
-            function openModal() {
-                document.getElementById('successModal').style.display = 'flex';
-            }
-            
-            // Close modal
-            function closeModal() {
-                document.getElementById('successModal').style.display = 'none';
-                toggleForm('login');
-            }
-            
-            // লগইন স্টেটাস চেক করার ফাংশন
-            async function checkLoginStatus() {
-                // সেশন স্টোরেজ থেকে টোকেন পড়ুন
-                const token = sessionStorage.getItem('authToken');
+                const email = document.getElementById('checkEmail').value;
+                let isValid = true;
                 
-                const loginButton = document.getElementById('loginButton');
-                const profileDropdown = document.getElementById('profileDropdown');
+                // Email validation
+                if (!email || !validateEmail(email)) {
+                    showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+                    isValid = false;
+                }
                 
-                if (token) {
+                if (isValid) {
+                    // Check if email already exists
+                    if (users.some(u => u.email === email)) {
+                        showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
+                        return;
+                    }
+                    
+                    // Store the email for later use
+                    currentEmail = email;
+                    document.getElementById('userEmail').textContent = email;
+                    
                     try {
-                        // টোকেন ভ্যালিডেট করার জন্য API কল
-                        const response = await fetch(`${DB_API_URL}/validate-token`, {
+                        showLoading();
+                        
+                        // API কল - সার্ভারে OTP পাঠানোর অনুরোধ
+                        const response = await fetch(`${API_URL}/api/send-otp`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            }
+                            },
+                            body: JSON.stringify({ email: email }),
                         });
                         
                         const data = await response.json();
                         
-                        if (data.valid) {
-                            // লগইন করা আছে, প্রোফাইল আইকন দেখান
-                            if (loginButton) loginButton.style.display = 'none';
-                            if (profileDropdown) profileDropdown.style.display = 'block';
-                            
-                            // যদি ইউজার ডাটা থাকে তাহলে সেট করুন
-                            if (data.user) {
-                                sessionStorage.setItem('currentUser', JSON.stringify(data.user));
-                            }
-                            
-                            return true;
-                        } else {
-                            // টোকেন ভ্যালিড নয়, লগইন বাটন দেখান
-                            sessionStorage.removeItem('authToken');
-                            sessionStorage.removeItem('currentUser');
-                            if (loginButton) loginButton.style.display = 'block';
-                            if (profileDropdown) profileDropdown.style.display = 'none';
-                            return false;
+                        if (!data.success) {
+                            throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
                         }
+                        
+                        // Clear OTP input fields
+                        document.querySelectorAll('.otp-digit').forEach(input => {
+                            input.value = '';
+                        });
+                        
+                        // Start timer
+                        startOTPTimer();
+                        
+                        // Show OTP verification form
+                        toggleForm('otpVerification');
+                        
                     } catch (error) {
-                        console.error('Error validating token:', error);
-                        if (loginButton) loginButton.style.display = 'block';
-                        if (profileDropdown) profileDropdown.style.display = 'none';
-                        return false;
+                        console.error('Error:', error);
+                        showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+                    } finally {
+                        hideLoading();
                     }
-                } else {
-                    // লগইন করা নেই, লগইন বাটন দেখান
-                    if (loginButton) loginButton.style.display = 'block';
-                    if (profileDropdown) profileDropdown.style.display = 'none';
-                    return false;
                 }
-            }
-            
-            // When the page loads - মূল ইনিশিয়ালাইজেশন
-            document.addEventListener('DOMContentLoaded', function() {
-                // Initialize the page
-                toggleForm('login');
+            });
+        }
+    });
+    
+    // Handle Resend OTP button
+    document.addEventListener('DOMContentLoaded', function() {
+        const resendOtpButton = document.getElementById('resendOtp');
+        if (resendOtpButton) {
+            resendOtpButton.addEventListener('click', async function() {
+                if (this.disabled) return;
                 
-                // Set up OTP input fields for automatic focus
-                const otpInputs = document.querySelectorAll('.otp-digit');
-                
-                for (let i = 0; i < otpInputs.length; i++) {
-                    otpInputs[i].addEventListener('input', function() {
-                        if (this.value.length === 1) {
-                            if (i < otpInputs.length - 1) {
-                                otpInputs[i + 1].focus();
-                            }
-                        }
+                try {
+                    showLoading();
+                    this.disabled = true;
+                    
+                    // API কল - পুনরায় OTP পাঠানোর অনুরোধ
+                    const response = await fetch(`${API_URL}/api/send-otp`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email: currentEmail }),
                     });
                     
-                    otpInputs[i].addEventListener('keydown', function(e) {
-                        if (e.key === 'Backspace' && this.value.length === 0) {
-                            if (i > 0) {
-                                otpInputs[i - 1].focus();
-                            }
-                        }
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                    }
+                    
+                    // Clear OTP input fields
+                    document.querySelectorAll('.otp-digit').forEach(input => {
+                        input.value = '';
                     });
+                    
+                    // Restart timer
+                    startOTPTimer();
+                    
+                    // Show message
+                    showNotification('নতুন অটিপি পাঠানো হয়েছে। অনুগ্রহ করে আপনার ইমেইল চেক করুন।', 'success');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+                    this.disabled = false;
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+    
+    // Handle OTP Verification form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const otpVerificationForm = document.getElementById('otpVerificationForm');
+        if (otpVerificationForm) {
+            otpVerificationForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Reset error messages
+                hideError('otpError');
+                
+                // Get entered OTP
+                const enteredOTP = 
+                    document.getElementById('otp1').value +
+                    document.getElementById('otp2').value +
+                    document.getElementById('otp3').value +
+                    document.getElementById('otp4').value;
+                
+                // Validate OTP
+                if (enteredOTP.length !== 4) {
+                    showError('otpError', 'অনুগ্রহ করে সম্পূর্ণ অটিপি দিন');
+                    return;
                 }
                 
-                // Set up event listeners for password toggle buttons
-                const passwordToggleButtons = document.querySelectorAll('.toggle-password');
-                passwordToggleButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const inputId = this.getAttribute('data-target');
-                        const toggleId = this.id;
-                        togglePasswordVisibility(inputId, toggleId);
+                try {
+                    showLoading();
+                    
+                    // API কল - OTP যাচাই করার অনুরোধ
+                    const response = await fetch(`${API_URL}/api/verify-otp`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            email: currentEmail,
+                            otp: enteredOTP
+                        }),
                     });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        // Show error message
+                        showError('otpError', data.message || 'অবৈধ OTP');
+                        return;
+                    }
+                    
+                    // OTP is valid, proceed to final registration step
+                    clearInterval(otpTimer);
+                    toggleForm('signup');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('otpError', error.message || 'OTP যাচাই করতে ত্রুটি হয়েছে।');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+    
+    // Handle Registration form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const signupForm = document.getElementById('signupForm');
+        if (signupForm) {
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset error messages
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
                 });
                 
-                // Set up navigation buttons
-                const goToEmailCheck = document.getElementById('goToEmailCheck');
-                if (goToEmailCheck) {
-                    goToEmailCheck.addEventListener('click', function() {
-                        toggleForm('emailCheck');
-                    });
+                const name = document.getElementById('signupName').value.trim();
+                const password = document.getElementById('signupPassword').value;
+                const confirmPassword = document.getElementById('signupConfirmPassword').value;
+                
+                let isValid = true;
+                
+                // Validation
+                if (!name) {
+                    showError('signupNameError', 'নাম আবশ্যক');
+                    isValid = false;
                 }
                 
-                const goToLogin = document.getElementById('goToLogin');
-                if (goToLogin) {
-                    goToLogin.addEventListener('click', function() {
-                        toggleForm('login');
-                    });
+                if (!password || password.length < 6) {
+                    showError('signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
+                    isValid = false;
                 }
                 
-                // Set up modal close button
-                const closeModalBtn = document.getElementById('closeModal');
-                if (closeModalBtn) {
-                    closeModalBtn.addEventListener('click', closeModal);
+                if (password !== confirmPassword) {
+                    showError('signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না');
+                    isValid = false;
                 }
                 
-                // লগইন পপআপ এবং ব্লার এফেক্ট
-                const loginButton = document.querySelector('.login-button');
-                const loginPopup = document.querySelector('.login-popup');
-                const blurOverlay = document.querySelector('.blur-overlay');
-                const closeLogin = document.querySelector('.close-login');
+                if (!isValid) return;
                 
-                // লগইন বাটনে ক্লিক করলে
-                if (loginButton) {
-                    loginButton.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        loginPopup.classList.add('active');
-                        blurOverlay.classList.add('active');
-                        document.body.style.overflow = 'hidden'; // স্ক্রল বন্ধ করুন
-                    });
-                }
+                // Add new user
+                const newUser = {
+                    name: name,
+                    email: currentEmail,
+                    password: password,
+                    registeredAt: new Date().toISOString()
+                };
                 
-                // ক্লোজ বাটনে ক্লিক করলে
-                if (closeLogin) {
-                    closeLogin.addEventListener('click', function() {
-                        loginPopup.classList.remove('active');
-                        blurOverlay.classList.remove('active');
-                        document.body.style.overflow = ''; // স্ক্রল চালু করুন
-                    });
-                }
+                users.push(newUser);
                 
-                // ব্লার ওভারলেতে ক্লিক করলে
-                if (blurOverlay) {
-                    blurOverlay.addEventListener('click', function() {
-                        loginPopup.classList.remove('active');
-                        blurOverlay.classList.remove('active');
-                        document.body.style.overflow = ''; // স্ক্রল চালু করুন
-                    });
-                }
+                // Save to localStorage
+                saveUsers();
                 
-                // লগআউট বাটন সেটআপ
-                const logoutButton = document.getElementById('logoutButton');
-                if (logoutButton) {
-                    logoutButton.addEventListener('click', async function(e) {
-                        e.preventDefault();
-                        
-                        try {
-                            const token = sessionStorage.getItem('authToken');
-                            
-                            if (token) {
-                                // লগআউট API কল
-                                const response = await fetch(`${DB_API_URL}/logout`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': `Bearer ${token}`
-                                    }
-                                });
-                                
-                                const data = await response.json();
-                                
-                                if (data.success) {
-                                    // সফল লগআউট
-                                    showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
-                                } else {
-                                    showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
-                                }
-                            }
-                        } catch (error) {
-                            console.error('Logout error:', error);
-                        } finally {
-                            // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন
-                            sessionStorage.removeItem('authToken');
-                            sessionStorage.removeItem('currentUser');
-                            
-                            // লগইন স্টেটাস আপডেট করুন
-                            checkLoginStatus();
-                        }
-                    });
-                }
+                console.log('User registered:', newUser); // For demo purposes
                 
-                // পেজ লোড হওয়ার সময় লগইন স্টেটাস চেক করুন
-                checkLoginStatus();
+                // Show success modal
+                openModal();
+                
+                // Clear form fields
+                document.getElementById('signupForm').reset();
             });
-            
-            // Handle Email Check form submission
-            document.addEventListener('DOMContentLoaded', function() {
-                const emailCheckForm = document.getElementById('emailCheckForm');
-                if (emailCheckForm) {
-                    emailCheckForm.addEventListener('submit', async function(e) {
-                        e.preventDefault();
-                        
-                        // Reset error messages
-                        document.querySelectorAll('.error-message').forEach(el => {
-                            el.classList.remove('show-error');
-                        });
-                        
-                        const email = document.getElementById('checkEmail').value;
-                        let isValid = true;
-                        
-                        // Email validation
-                        if (!email || !validateEmail(email)) {
-                            showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
-                            isValid = false;
-                        }
-                        
-                        if (isValid) {
-                            try {
-                                showLoading();
-                                
-                                // API কল - ইমেইল চেক করুন
-                                const checkResponse = await fetch(`${DB_API_URL}/check-email`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({ email: email }),
-                                });
-                                
-                                const checkData = await checkResponse.json();
-                                
-                                if (checkData.exists) {
-                                    showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
-                                    hideLoading();
-                                    return;
-                                }
-                                
-                                // Store the email for later use
-                                currentEmail = email;
-                                document.getElementById('userEmail').textContent = email;
-                                
-                                // API কল - সার্ভারে OTP পাঠানোর অনুরোধ
-                                const response = await fetch(`${API_URL}/api/send-otp`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({ email: email }),
-                                });
-                                
-                                const data = await response.json();
-                                
-                                if (!data.success) {
-                                    throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
-                                }
-                                
-                                // Clear OTP input fields
-                                document.querySelectorAll('.otp-digit').forEach(input => {
-                                    input.value = '';
-                                });
-                                
-                                // Start timer
-                                startOTPTimer();
-                                
-                                // Show OTP verification form
-                                toggleForm('otpVerification');
-                                
-                            } catch (error) {
-                                console.error('Error:', error);
-                                showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
-                            } finally {
-                                hideLoading();
-                            }
-                        }
-                    });
+        }
+    });
+    
+    // Handle Login form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset error messages
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
+                });
+                
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                let isValid = true;
+                
+                // Email validation
+                if (!email || !validateEmail(email)) {
+                    showError('loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+                    isValid = false;
                 }
-            });
-            
-            // Handle Resend OTP button
-            document.addEventListener('DOMContentLoaded', function() {
-                const resendOtpButton = document.getElementById('resendOtp');
-                if (resendOtpButton) {
-                    resendOtpButton.addEventListener('click', async function() {
-                        if (this.disabled) return;
-                        
-                        try {
-                            showLoading();
-                            this.disabled = true;
-                            
-                            // API কল - পুনরায় OTP পাঠানোর অনুরোধ
-                            const response = await fetch(`${API_URL}/api/send-otp`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ email: currentEmail }),
-                            });
-                            
-                            const data = await response.json();
-                            
-                            if (!data.success) {
-                                throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
-                            }
-                            
-                            // Clear OTP input fields
-                            document.querySelectorAll('.otp-digit').forEach(input => {
-                                input.value = '';
-                            });
-                            
-                            // Restart timer
-                            startOTPTimer();
-                            
-                            // Show message
-                            showNotification('নতুন অটিপি পাঠানো হয়েছে। অনুগ্রহ করে আপনার ইমেইল চেক করুন।', 'success');
-                            
-                        } catch (error) {
-                            console.error('Error:', error);
-                            showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
-                            this.disabled = false;
-                        } finally {
-                            hideLoading();
-                        }
-                    });
+                
+                // Password validation
+                if (!password) {
+                    showError('loginPasswordError', 'পাসওয়ার্ড আবশ্যক');
+                    isValid = false;
                 }
-            });
-            
-            // Handle OTP Verification form submission
-            document.addEventListener('DOMContentLoaded', function() {
-                const otpVerificationForm = document.getElementById('otpVerificationForm');
-                if (otpVerificationForm) {
-                    otpVerificationForm.addEventListener('submit', async function(e) {
-                        e.preventDefault();
+                
+                if (isValid) {
+                    // Check if user exists
+                    const user = users.find(u => u.email === email && u.password === password);
+                    
+                    if (user) {
+                        // লোকাল স্টোরেজে লগইন স্টেটাস সংরক্ষণ করুন
+                        localStorage.setItem('isLoggedIn', 'true');
+                        localStorage.setItem('currentUser', JSON.stringify(user));
                         
-                        // Reset error messages
-                        hideError('otpError');
-                        
-                        // Get entered OTP
-                        const enteredOTP = 
-                            document.getElementById('otp1').value +
-                            document.getElementById('otp2').value +
-                            document.getElementById('otp3').value +
-                            document.getElementById('otp4').value;
-                        
-                        // Validate OTP
-                        if (enteredOTP.length !== 4) {
-                            showError('otpError', 'অনুগ্রহ করে সম্পূর্ণ অটিপি দিন');
-                            return;
-                        }
-                        
-                        try {
-                            showLoading();
-                            
-                            // API কল - OTP যাচাই করার অনুরোধ
-                            const response = await fetch(`${API_URL}/api/verify-otp`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({ 
-                                    email: currentEmail,
-                                    otp: enteredOTP
-                                }),
-                            });
-                            
-                            const data = await response.json();
-                            
-                            if (!data.success) {
-                                // Show error message
-                                showError('otpError', data.message || 'অবৈধ OTP');
-                                return;
-                            }
-                            
-                            // OTP is valid, proceed to final registration step
-                            clearInterval(otpTimer);
-                            toggleForm('signup');
-                            
-                        } catch (error) {
-                            console.error('Error:', error);
-                            showError('otpError', error.message || 'OTP যাচাই করতে ত্রুটি হয়েছে।');
-                        } finally {
-                            hideLoading();
-                        }
-                    });
-                }
-            });
-            
-            // Handle Registration form submission
-            document.addEventListener('DOMContentLoaded', function() {
-                const signupForm = document.getElementById('signupForm');
-                if (signupForm) {
-                    signupForm.addEventListener('submit', async function(e) {
-                        e.preventDefault();
-                        
-                        // Reset error messages
-                        document.querySelectorAll('.error-message').forEach(el => {
-                            el.classList.remove('show-error');
-                        });
-                        
-                        const name = document.getElementById('signupName').value.trim();
-                        const password = document.getElementById('signupPassword').value;
-                        const confirmPassword = document.getElementById('signupConfirmPassword').value;
-                        
-                        let isValid = true;
-                        
-                        // Validation
-                        if (!name) {
-                            showError('signupNameError', 'নাম আবশ্যক');
-                            isValid = false;
-                        }
-                        
-                        if (!password || password.length < 6) {
-                            showError('signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
-                            isValid = false;
-                        }
-                        
-                        if (password !== confirmPassword) {
-                            showError('signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না');
-                            isValid = false;
-                        }
-                        
-                        if (!isValid) return;
-                        
-                        try {
-                            showLoading();
-                            
-                            // নতুন ইউজার তৈরির জন্য API কল
-                            const response = await fetch(`${DB_API_URL}/register`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({
-                                    name: name,
-                                    email: currentEmail,
-                                    password: password
-                                }),
-                            });
-                            
-                            const data = await response.json();
-                            
-                            if (!data.success) {
-                                throw new Error(data.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে');
-                            }
-                            
-                            console.log('User registered:', data.user); // For demo purposes
-                            
-                            // Show success modal
-                            openModal();
-                            
-                            // Clear form fields
-                            document.getElementById('signupForm').reset();
-                            
-                        } catch (error) {
-                            console.error('Registration error:', error);
-                            showNotification(error.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
-                        } finally {
-                            hideLoading();
-                        }
-                    });
-                }
-            });
-            
-            // Handle Login form submission
-            document.addEventListener('DOMContentLoaded', function() {
-                const loginForm = document.getElementById('loginForm');
-                if (loginForm) {
-                    loginForm.addEventListener('submit', async function(e) {
-                        e.preventDefault();
-                        
-                        // Reset error messages
-                        document.querySelectorAll('.error-message').forEach(el => {
-                            el.classList.remove('show-error');
-                        });
-                        
-                        const email = document.getElementById('loginEmail').value;
-                        const password = document.getElementById('loginPassword').value;
-                        let isValid = true;
-                        
-                        // Email validation
-                        if (!email || !validateEmail(email)) {
-                            showError('loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
-                            isValid = false;
-                        }
-                        
-                        // Password validation
-                        if (!password) {
-                            showError('loginPasswordError', 'পাসওয়ার্ড আবশ্যক');
-                            isValid = false;
-                        }
-                        
-                        if (isValid) {
-                            try {
-                                showLoading();
-                                
-                                // লগইন API কল
-                                const response = await fetch(`${DB_API_URL}/login`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({
-                                        email: email,
-                                        password: password
-                                    }),
-                                });
-                                
-                                const data = await response.json();
-                                
-                                if (!data.success) {
-                                    throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
-                                }
-                                
-                                // সেশন স্টোরেজে টোকেন এবং ইউজার ডেটা সংরক্ষণ করুন
-                                sessionStorage.setItem('authToken', data.token);
-                                sessionStorage.setItem('currentUser', JSON.stringify(data.user));
-                                
-                                // লগইন পপআপ বন্ধ করুন
-                                const loginPopup = document.querySelector('.login-popup');
-                                const blurOverlay = document.querySelector('.blur-overlay');
-                                
-                                if (loginPopup) loginPopup.classList.remove('active');
-                                if (blurOverlay) blurOverlay.classList.remove('active');
-                                document.body.style.overflow = '';
-                                
-                                // লগইন স্টেটাস আপডেট করুন
-                                checkLoginStatus();
-                                
-                                showNotification('সফলভাবে লগইন করা হয়েছে! স্বাগতম ' + data.user.name, 'success');
-                                
-                            } catch (error) {
-                                console.error('Login error:', error);
-                                showNotification(error.message || 'ভুল ইমেইল বা পাসওয়ার্ড। অনুগ্রহ করে আবার চেষ্টা করুন।', 'error');
-                            } finally {
-                                hideLoading();
-                            }
-                        }
-                    });
-                }
-            });
-            
-            // জেনারেল লগইন পপআপ ফাংশনালিটি
-            document.addEventListener('DOMContentLoaded', function() {
-                const loginForm = document.getElementById('login-form');
-                if (loginForm) {
-                    loginForm.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        // লগইন লজিক এখানে লিখুন
-                        showNotification('লগইন সম্পন্ন হয়েছে!', 'success');
-                        
+                        // লগইন পপআপ বন্ধ করুন
                         const loginPopup = document.querySelector('.login-popup');
                         const blurOverlay = document.querySelector('.blur-overlay');
                         
                         if (loginPopup) loginPopup.classList.remove('active');
                         if (blurOverlay) blurOverlay.classList.remove('active');
                         document.body.style.overflow = '';
-                    });
-                }
-            });
-        
-            // CSS for custom notification
-            document.addEventListener('DOMContentLoaded', function() {
-                const style = document.createElement('style');
-                style.textContent = `
-                    .custom-notification {
-                        position: fixed;
-                        top: 20px;
-                        right: 20px;
-                        padding: 15px;
-                        border-radius: 5px;
-                        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-                        z-index: 9999;
-                        opacity: 0;
-                        transition: all 0.3s ease;
-                    }
-                    
-                    .custom-notification.success {
-                        background-color: #4CAF50;
-                        color: white;
-                    }
-                    
-                    .custom-notification.error {
-                        background-color: #f44336;
-                        color: white;
-                    }
-                    
-                    .notification-content {
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                    }
-                    
-                    .notification-close {
-                        margin-left: 15px;
-                        cursor: pointer;
-                        font-weight: bold;
-                    }
-                    
-                    .loader {
-                        position: fixed;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-color: rgba(255, 255, 255, 0.7);
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        z-index: 9999;
-                    }
-                    
-                    .spinner {
-                        width: 40px;
-                        height: 40px;
-                        border: 4px solid #f3f3f3;
-                        border-top: 4px solid #3498db;
-                        border-radius: 50%;
-                        animation: spin 1s linear infinite;
-                    }
-                    
-                    @keyframes spin {
-                        0% { transform: rotate(0deg); }
-                        100% { transform: rotate(360deg); }
-                    }
-                `;
-                document.head.appendChild(style);
-            });
-        
-        
-        
-        
-            // ডিবাগিং কোড যোগ করা - সব ফাংশনের সাথে লগ বার্তা দেখাবে
-        console.log('Profile Dropdown Script Loaded');
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM Content Loaded - Setting up profile dropdown');
-            
-            // সেশন স্টোরেজ চেক করুন
-            const token = sessionStorage.getItem('authToken');
-            console.log('Auth Token exists:', !!token);
-            
-            // আমাদের এলিমেন্টগুলি আছে কিনা চেক করুন
-            const loginButton = document.getElementById('loginButton');
-            const profileDropdown = document.getElementById('profileDropdown');
-            const profileIcon = document.querySelector('.profile-icon');
-            
-            console.log('Login Button found:', !!loginButton);
-            console.log('Profile Dropdown found:', !!profileDropdown);
-            console.log('Profile Icon found:', !!profileIcon);
-            
-            // প্রোফাইল ড্রপডাউন স্টাইল যোগ করুন
-            addProfileDropdownStyles();
-            
-            // প্রোফাইল আইকন ক্লিক ইভেন্ট সেটআপ
-            if (profileIcon) {
-                console.log('Adding click event to profile icon');
-                profileIcon.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('Profile icon clicked');
-                    toggleProfileMenu();
-                });
-            } else {
-                console.error('Profile icon not found in the DOM');
-            }
-            
-            // বাইরে ক্লিক করলে ড্রপডাউন বন্ধ হবে
-            document.addEventListener('click', function(e) {
-                if (profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileIcon) {
-                    console.log('Clicked outside dropdown, closing menu');
-                    closeProfileMenu();
-                }
-            });
-            
-            // লগইন স্টেটাস আপডেট করুন
-            checkLoginStatus();
-            
-            // লগআউট বাটন ইভেন্ট
-            const logoutButton = document.getElementById('logoutButton');
-            if (logoutButton) {
-                console.log('Adding click event to logout button');
-                logoutButton.addEventListener('click', handleLogout);
-            } else {
-                console.error('Logout button not found in the DOM');
-            }
-        });
-        
-        // টগল প্রোফাইল মেনু ফাংশন
-        function toggleProfileMenu() {
-            const dropdown = document.getElementById('profileDropdown');
-            const menu = document.querySelector('.dropdown-menu1');
-            
-            if (!dropdown || !menu) {
-                console.error('Dropdown or menu elements not found');
-                return;
-            }
-            
-            console.log('Toggling profile menu');
-            
-            // মেনু দেখা যাচ্ছে কিনা চেক করুন
-            const isVisible = window.getComputedStyle(menu).display !== 'none';
-            
-            if (isVisible) {
-                menu.style.display = 'none';
-                console.log('Menu hidden');
-            } else {
-                menu.style.display = 'block';
-                console.log('Menu shown');
-            }
-        }
-        
-        // ক্লোজ প্রোফাইল মেনু ফাংশন
-        function closeProfileMenu() {
-            const menu = document.querySelector('.dropdown-menu1');
-            if (menu) {
-                menu.style.display = 'none';
-            }
-        }
-        
-        // লগআউট হ্যান্ডেল করার ফাংশন
-        async function handleLogout(e) {
-            e.preventDefault();
-            console.log('Logout button clicked');
-            
-            try {
-                const token = sessionStorage.getItem('authToken');
-                
-                if (token) {
-                    // লগআউট API কল
-                    console.log('Calling logout API');
-                    try {
-                        const response = await fetch(`${DB_API_URL}/logout`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            }
-                        });
                         
-                        const data = await response.json();
+                        // লগইন স্টেটাস আপডেট করুন
+                        checkLoginStatus();
                         
-                        if (data.success) {
-                            console.log('Logout successful');
-                            showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
-                        } else {
-                            console.error('Logout API returned error:', data.message);
-                            showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
-                        }
-                    } catch (apiError) {
-                        console.error('Logout API call failed:', apiError);
-                        // এপিআই কল ব্যর্থ হলেও লগআউট করুন
-                        showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
-                    }
-                } else {
-                    console.warn('No auth token found for logout');
-                }
-            } catch (error) {
-                console.error('Logout error:', error);
-            } finally {
-                // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন
-                console.log('Removing user data from session storage');
-                sessionStorage.removeItem('authToken');
-                sessionStorage.removeItem('currentUser');
-                
-                // লগইন স্টেটাস আপডেট করুন
-                checkLoginStatus();
-                
-                // পেজ রিলোড করুন (অপশনাল)
-                console.log('Reloading page');
-                window.location.href = 'Talimul Islam Academi.html';
-            }
-        }
-        
-        // স্টাইল যোগ করার ফাংশন
-        function addProfileDropdownStyles() {
-            console.log('Adding profile dropdown styles');
-            
-            // আগে থেকে স্টাইল এলিমেন্ট আছে কিনা চেক করুন
-            if (document.getElementById('profileDropdownStyles')) {
-                console.log('Styles already exist, skipping');
-                return;
-            }
-            
-            const style = document.createElement('style');
-            style.id = 'profileDropdownStyles';
-            style.textContent = `
-                /* User Menu Container Styles */
-                .user-menu-container {
-                    position: relative;
-                    display: inline-block;
-                }
-                
-                /* Login Button Styles */
-                .login-button {
-                    display: inline-block;
-                    padding: 8px 15px;
-                    background-color: #4CAF50;
-                    color: white;
-                    border-radius: 4px;
-                    text-decoration: none;
-                    font-weight: bold;
-                    transition: background-color 0.3s;
-                }
-                
-                .login-button:hover {
-                    background-color: #45a049;
-                }
-                
-                /* Profile Dropdown Styles */
-                .profile-dropdown {
-                    display: none;
-                    position: relative;
-                }
-                
-                .profile-icon {
-                    background: none;
-                    border: none;
-                    font-size: 24px;
-                    color: #333;
-                    cursor: pointer;
-                    padding: 5px;
-                }
-                
-                /* Font Awesome Fallback */
-                .profile-icon-text {
-                    display: none;
-                }
-                
-                .no-fontawesome .profile-icon-text {
-                    display: inline;
-                    font-weight: bold;
-                }
-                
-                .dropdown-menu1 {
-                    display: none;
-                    position: absolute;
-                    right: 0;
-                    background-color: white;
-                    min-width: 180px;
-                    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-                    z-index: 1000;
-                    border-radius: 4px;
-                    overflow: hidden;
-                }
-                
-                .dropdown-item {
-                    display: block;
-                    padding: 10px 15px;
-                    text-decoration: none;
-                    color: #333;
-                    transition: background-color 0.2s;
-                }
-                
-                .dropdown-item:hover {
-                    background-color: #f8f8f8;
-                }
-            `;
-            document.head.appendChild(style);
-            console.log('Styles added to document head');
-        }
-        
-        // চেক লগইন স্ট্যাটাস আপডেটেড ফাংশন
-        async function checkLoginStatus() {
-            console.log('Checking login status');
-            
-            // সেশন স্টোরেজ থেকে টোকেন পড়ুন
-            const token = sessionStorage.getItem('authToken');
-            
-            const loginButton = document.getElementById('loginButton');
-            const profileDropdown = document.getElementById('profileDropdown');
-            
-            // Font Awesome লোড হয়েছে কিনা চেক করুন
-            checkFontAwesome();
-            
-            if (!loginButton || !profileDropdown) {
-                console.error('Login button or profile dropdown not found');
-                console.log('loginButton:', loginButton);
-                console.log('profileDropdown:', profileDropdown);
-                return false;
-            }
-            
-            if (token) {
-                console.log('Auth token found, validating...');
-                try {
-                    let isValid = true;
-                    
-                    // টোকেন ভ্যালিডেট করার চেষ্টা করুন
-                    try {
-                        const response = await fetch(`${DB_API_URL}/validate-token`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            }
-                        });
-                        
-                        const data = await response.json();
-                        
-                        if (!data.valid) {
-                            console.log('Token validation failed:', data);
-                            isValid = false;
-                        }
-                    } catch (validationError) {
-                        console.error('Token validation error:', validationError);
-                        // API এরর হলেও টোকেন ব্যবহার করার চেষ্টা করুন
-                        console.log('Continuing with existing token despite validation error');
-                    }
-                    
-                    if (isValid) {
-                        // লগইন করা আছে, প্রোফাইল আইকন দেখান
-                        console.log('User is logged in, showing profile dropdown');
-                        loginButton.style.display = 'none';
-                        profileDropdown.style.display = 'block';
-                        return true;
+                        showNotification('সফলভাবে লগইন করা হয়েছে! স্বাগতম ' + user.name, 'success');
                     } else {
-                        // টোকেন ভ্যালিড নয়, লগইন বাটন দেখান
-                        console.log('Invalid token, showing login button');
-                        sessionStorage.removeItem('authToken');
-                        sessionStorage.removeItem('currentUser');
-                        loginButton.style.display = 'block';
-                        profileDropdown.style.display = 'none';
-                        return false;
-                    }
-                } catch (error) {
-                    console.error('Login status check error:', error);
-                    loginButton.style.display = 'block';
-                    profileDropdown.style.display = 'none';
-                    return false;
-                }
-            } else {
-                // লগইন করা নেই, লগইন বাটন দেখান
-                console.log('No auth token, showing login button');
-                loginButton.style.display = 'block';
-                profileDropdown.style.display = 'none';
-                return false;
-            }
-        }
-        
-        // Font Awesome লোড হয়েছে কিনা চেক করুন
-        function checkFontAwesome() {
-            console.log('Checking if Font Awesome is loaded');
-            
-            // Font Awesome লোড হয়েছে কিনা চেক করুন
-            const isFontAwesomeLoaded = (function() {
-                // Check if any Font Awesome classes are applied
-                const span = document.createElement('span');
-                span.className = 'fa';
-                span.style.display = 'none';
-                document.body.appendChild(span);
-                const result = window.getComputedStyle(span).fontFamily.includes('Font');
-                document.body.removeChild(span);
-                return result;
-            })();
-            
-            console.log('Font Awesome loaded:', isFontAwesomeLoaded);
-            
-            if (!isFontAwesomeLoaded) {
-                console.log('Font Awesome not detected, adding fallback');
-                // Font Awesome না থাকলে লিংক যোগ করুন
-                const link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
-                document.head.appendChild(link);
-                
-                // ফলব্যাক ক্লাস যোগ করুন
-                document.body.classList.add('no-fontawesome');
-                
-                // প্রোফাইল আইকনে টেক্সট ফলব্যাক যোগ করুন
-                const profileIcon = document.querySelector('.profile-icon');
-                if (profileIcon) {
-                    if (!profileIcon.querySelector('.profile-icon-text')) {
-                        const textSpan = document.createElement('span');
-                        textSpan.className = 'profile-icon-text';
-                        textSpan.textContent = 'প্রোফাইল';
-                        profileIcon.appendChild(textSpan);
+                        showNotification('ভুল ইমেইল বা পাসওয়ার্ড। অনুগ্রহ করে আবার চেষ্টা করুন।', 'error');
                     }
                 }
-            }
+            });
         }
-        
-        // ইনিশিয়ালাইজ স্ক্রিপ্ট ইমিডিয়েটলি
-        console.log('Profile dropdown script initialized');
-        
-        </script> 
+    });
+    
+    // জেনারেল লগইন পপআপ ফাংশনালিটি
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // লগইন লজিক এখানে লিখুন
+                showNotification('লগইন সম্পন্ন হয়েছে!', 'success');
+                
+                const loginPopup = document.querySelector('.login-popup');
+                const blurOverlay = document.querySelector('.blur-overlay');
+                
+                if (loginPopup) loginPopup.classList.remove('active');
+                if (blurOverlay) blurOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+    });
+    
+    // CSS for custom notification
+    document.addEventListener('DOMContentLoaded', function() {
+        const style = document.createElement('style');
+        style.textContent = `
+            .custom-notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px;
+                border-radius: 5px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                z-index: 9999;
+                opacity: 0;
+                transition: all 0.3s ease;
+            }
+            
+            .custom-notification.success {
+                background-color: #4CAF50;
+                color: white;
+            }
+            
+            .custom-notification.error {
+                background-color: #f44336;
+                color: white;
+            }
+            
+            .notification-content {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            
+            .notification-close {
+                margin-left: 15px;
+                cursor: pointer;
+                font-weight: bold;
+            }
+            
+            .loader {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 255, 255, 0.7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+            }
+            
+            .spinner {
+                width: 40px;
+                height: 40px;
+                border: 4px solid #f3f3f3;
+                border-top: 4px solid #3498db;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+            
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    });
+           </script>
         <!-- CSS স্টাইল - আপনার স্টাইলশিট ফাইলে যোগ করুন -->
         <style>
             .user-menu-container {
@@ -6797,7 +6342,7 @@
 <script>
     // API URL - সার্ভার URL
 // const API_URL = 'https://talimul-islam.onrender.com';
-// const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
+const DB_API_URL = 'https://t-i-a-profil-storage-backend.onrender.com';  // MongoDB backend URL
 
 // Global variables
 let userData = null;
