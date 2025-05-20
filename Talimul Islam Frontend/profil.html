@@ -5104,46 +5104,24 @@
         
         // Font Awesome লোড হয়েছে কিনা চেক করুন
         function checkFontAwesome() {
-            console.log('Checking if Font Awesome is loaded');
-            
-            // Font Awesome লোড হয়েছে কিনা চেক করুন
-            const isFontAwesomeLoaded = (function() {
-                // Check if any Font Awesome classes are applied
-                const span = document.createElement('span');
-                span.className = 'fa';
-                span.style.display = 'none';
-                document.body.appendChild(span);
-                const result = window.getComputedStyle(span).fontFamily.includes('Font');
-                document.body.removeChild(span);
-                return result;
-            })();
-            
-            console.log('Font Awesome loaded:', isFontAwesomeLoaded);
-            
-            if (!isFontAwesomeLoaded) {
-                console.log('Font Awesome not detected, adding fallback');
-                // Font Awesome না থাকলে লিংক যোগ করুন
-                const link = document.createElement('link');
-                link.rel = 'stylesheet';
-                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
-                document.head.appendChild(link);
-                
-                // ফলব্যাক ক্লাস যোগ করুন
-                document.body.classList.add('no-fontawesome');
-                
-                // প্রোফাইল আইকনে টেক্সট ফলব্যাক যোগ করুন
-                const profileIcon = document.querySelector('.profile-icon');
-                if (profileIcon) {
-                    if (!profileIcon.querySelector('.profile-icon-text')) {
-                        const textSpan = document.createElement('span');
-                        textSpan.className = 'profile-icon-text';
-                        textSpan.textContent = 'প্রোফাইল';
-                        profileIcon.appendChild(textSpan);
-                    }
-                }
-            }
+    // More reliable detection method
+    const isLoaded = Array.from(document.styleSheets).some(sheet => {
+        try {
+            return sheet.href && sheet.href.includes('font-awesome');
+        } catch (e) {
+            return false;
         }
+    });
+    
+    if (!isLoaded) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+        document.head.appendChild(link);
         
+        document.body.classList.add('no-fontawesome');
+    }
+}
         // ইনিশিয়ালাইজ স্ক্রিপ্ট ইমিডিয়েটলি
         console.log('Profile dropdown script initialized');
         

@@ -4870,6 +4870,151 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('signupForm').style.display = 'block';
         }
     }
+
+
+
+    async function callAPI(url, options) {
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10-second timeout
+        
+        const response = await fetch(url, {
+            ...options, 
+            signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        return await response.json();
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            showNotification('সার্ভার অনুপলব্ধ। পরে আবার চেষ্টা করুন।', 'error');
+        } else {
+            showNotification('একটি ত্রুটি ঘটেছে। পরে আবার চেষ্টা করুন।', 'error');
+        }
+        console.error('API Error:', error);
+        throw error;
+    }
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all forms
+    initForms();
+    
+    // Initialize all UI components
+    initUI();
+    
+    // Check login status
+    checkLoginStatus();
+});
+
+function initForms() {
+    // Initialize all form handlers here
+    initLoginForm();
+    initEmailCheckForm();
+    initOtpVerificationForm();
+    initSignupForm();
+}
+
+function initUI() {
+    // Initialize UI components
+    setupLoginPopup();
+    setupOtpInputFields();
+    setupPasswordToggle();
+    setupProfileDropdown();
+}
+
+async function validateToken(token) {
+    if (!token) return false;
+    
+    try {
+        const response = await fetch(`${DB_API_URL}/validate-token`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            timeout: 5000
+        });
+        
+        if (!response.ok) return false;
+        
+        const data = await response.json();
+        return data.valid === true;
+    } catch (error) {
+        console.error('Token validation error:', error);
+        return false; // Always invalidate token on error
+    }
+}
+
+function sanitizeInput(input) {
+    // Basic sanitization
+    return input.trim()
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
+// Use when getting values from inputs
+const email = sanitizeInput(document.getElementById('loginEmail').value);
+
+// Example of a safer element access
+function getElement(id) {
+    const element = document.getElementById(id);
+    if (!element) {
+        console.warn(`Element with ID '${id}' not found`);
+        return null;
+    }
+    return element;
+}
+
+// Usage
+const loginButton = getElement('loginButton');
+if (loginButton) {
+    loginButton.addEventListener('click', handleLogin);
+}
+
+async function handleLoginSubmit(e) {
+    e.preventDefault();
+    try {
+        // Async login code
+    } catch (error) {
+        console.error('Login error:', error);
+        showNotification('একটি ত্রুটি ঘটেছে। পরে আবার চেষ্টা করুন।', 'error');
+    }
+}
+
+// Request CSRF token on page load
+async function getCsrfToken() {
+    try {
+        const response = await fetch(`${API_URL}/get-csrf-token`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+        const data = await response.json();
+        return data.csrfToken;
+    } catch (error) {
+        console.error('Error getting CSRF token:', error);
+        return null;
+    }
+}
+
+// Include token in requests
+async function securedApiRequest(url, options) {
+    const csrfToken = await getCsrfToken();
+    return fetch(url, {
+        ...options,
+        headers: {
+            ...options.headers,
+            'X-CSRF-Token': csrfToken
+        }
+    });
+}
+
+
+
     
     // Toggle password visibility
     function togglePasswordVisibility(inputId, toggleId) {
@@ -4885,37 +5030,41 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Start OTP timer
     function startOTPTimer() {
-        let totalSeconds = 120; // 2 minutes
-        
-        clearInterval(otpTimer);
-        document.getElementById('resendOtp').disabled = true;
-        
-        // Update timer display immediately
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        document.getElementById('timer').textContent = 
-            (minutes < 10 ? '0' + minutes : minutes) + ':' + 
-            (seconds < 10 ? '0' + seconds : seconds);
-        
-        otpTimer = setInterval(function() {
-            totalSeconds--;
-            
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            
-            document.getElementById('timer').textContent = 
-                (minutes < 10 ? '0' + minutes : minutes) + ':' + 
-                (seconds < 10 ? '0' + seconds : seconds);
-            
-            if (totalSeconds <= 0) {
-                clearInterval(otpTimer);
-                document.getElementById('resendOtp').disabled = false;
-            }
-        }, 1000);
-    }
+    // Clear any existing timer first
+    clearInterval(otpTimer);
     
+    let totalSeconds = 120; // 2 minutes
+    document.getElementById('resendOtp').disabled = true;
+    
+    // Update timer display immediately
+    updateTimerDisplay(totalSeconds);
+    
+    otpTimer = setInterval(function() {
+        totalSeconds--;
+        updateTimerDisplay(totalSeconds);
+        
+        if (totalSeconds <= 0) {
+            clearInterval(otpTimer);
+            document.getElementById('resendOtp').disabled = false;
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    
+    document.getElementById('timer').textContent = 
+        (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+        (seconds < 10 ? '0' + seconds : seconds);
+}
+
+// Make sure to clear timer when unmounting
+function cleanupOTP() {
+    clearInterval(otpTimer);
+}
+
     // লোডিং ফাংশন
     // লোডিং স্পিনার তৈরি করুন
     function createLoader() {
