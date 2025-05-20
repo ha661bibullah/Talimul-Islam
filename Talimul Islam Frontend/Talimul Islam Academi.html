@@ -6020,7 +6020,52 @@ function checkFontAwesome() {
 // ইনিশিয়ালাইজ স্ক্রিপ্ট ইমিডিয়েটলি
 console.log('Profile dropdown script initialized');
 
-</script> 
+
+
+
+
+
+
+
+
+// Function to clear all accounts
+async function clearAllAccounts() {
+    try {
+        showLoading();
+        
+        // Get admin authentication (you might need to add authorization)
+        const token = sessionStorage.getItem('authToken');
+        
+        // Call API to clear all accounts
+        const response = await fetch(`${DB_API_URL}/clear-all-accounts`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showNotification('সকল অ্যাকাউন্ট সফলভাবে মুছে ফেলা হয়েছে।', 'success');
+            // Logout current user if logged in
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            // Update login status
+            checkLoginStatus();
+        } else {
+            throw new Error(data.message || 'অ্যাকাউন্ট মুছতে সমস্যা হয়েছে।');
+        }
+    } catch (error) {
+        console.error('Error clearing accounts:', error);
+        showNotification(error.message || 'অ্যাকাউন্ট মুছতে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+    } finally {
+        hideLoading();
+    }
+}
+
+</script>  
 
         <!-- * এই স্ক্রিপ্টটি ইউজার ইমেইল যাচাই, OTP পাঠানো ও যাচাইকরণ,  -->
         <!-- * রেজিস্ট্রেশন, এবং লগইন প্রক্রিয়া পরিচালনার জন্য ব্যবহৃত হয়। -->
