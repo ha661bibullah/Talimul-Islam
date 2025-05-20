@@ -4836,7 +4836,467 @@ document.addEventListener('DOMContentLoaded', function() {
        </script> -->
 
       
-
+       <script>
+        // API কনফিগারেশন
+        const API_CONFIG = {
+            MAIN_API: 'https://talimul-islam.onrender.com',
+            DB_API: 'https://t-i-a-storage-backend.onrender.com'
+        };
+        
+        // গ্লোবাল ভ্যারিয়েবল
+        let currentEmail = '';
+        let otpTimer;
+        let registeredUser = null;
+        
+        // ডকুমেন্ট রেডি হলে ইনিশিয়ালাইজেশন
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAuthSystem();
+            initializeProfileSystem();
+            checkLoginStatus();
+        });
+        
+        // অথেন্টিকেশন সিস্টেম ইনিশিয়ালাইজেশন
+        function initializeAuthSystem() {
+            // ফর্ম টগলিং সেটআপ
+            setupFormToggle();
+            
+            // লগইন ফর্ম হ্যান্ডলার
+            document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
+            
+            // ইমেইল চেক ফর্ম হ্যান্ডলার
+            document.getElementById('emailCheckForm')?.addEventListener('submit', handleEmailCheck);
+            
+            // OTP ভেরিফিকেশন হ্যান্ডলার
+            document.getElementById('otpVerificationForm')?.addEventListener('submit', handleOTPVerification);
+            
+            // রেজিস্ট্রেশন ফর্ম হ্যান্ডলার
+            document.getElementById('signupForm')?.addEventListener('submit', handleRegistration);
+            
+            // OTP রিসেন্ড বাটন হ্যান্ডলার
+            document.getElementById('resendOtp')?.addEventListener('click', handleResendOTP);
+        }
+        
+        // প্রোফাইল সিস্টেম ইনিশিয়ালাইজেশন
+        function initializeProfileSystem() {
+            // প্রোফাইল এডিট বাটন হ্যান্ডলার
+            document.getElementById('editProfileBtn')?.addEventListener('click', toggleEditMode);
+            
+            // ক্যান্সেল এডিট বাটন হ্যান্ডলার
+            document.getElementById('cancelEditBtn')?.addEventListener('click', cancelEdit);
+            
+            // প্রোফাইল আপডেট ফর্ম হ্যান্ডলার
+            document.getElementById('editProfileForm')?.addEventListener('submit', updateProfile);
+            
+            // পাসওয়ার্ড চেঞ্জ মোডাল হ্যান্ডলার
+            document.getElementById('changePasswordBtn')?.addEventListener('click', openPasswordModal);
+            document.getElementById('closePasswordModal')?.addEventListener('click', closePasswordModal);
+            document.getElementById('cancelPasswordChange')?.addEventListener('click', closePasswordModal);
+            document.getElementById('changePasswordForm')?.addEventListener('submit', changePassword);
+            
+            // প্রোফাইল পিকচার আপডেট হ্যান্ডলার
+            document.getElementById('editPhotoBtn')?.addEventListener('click', () => document.getElementById('profilePictureInput').click());
+            document.getElementById('profilePictureInput')?.addEventListener('change', uploadProfilePicture);
+        }
+        
+        // ফর্ম টগলিং সিস্টেম
+        function setupFormToggle() {
+            // নেভিগেশন বাটন সেটআপ
+            document.getElementById('goToEmailCheck')?.addEventListener('click', () => toggleForm('emailCheck'));
+            document.getElementById('goToLogin')?.addEventListener('click', () => toggleForm('login'));
+            
+            // মোডাল ক্লোজ বাটন
+            document.getElementById('closeModal')?.addEventListener('click', closeModal);
+        }
+        
+        // লগইন স্টেটাস চেক
+        async function checkLoginStatus() {
+            const token = sessionStorage.getItem('authToken');
+            const loginButton = document.getElementById('loginButton');
+            const profileDropdown = document.getElementById('profileDropdown');
+        
+            if (token) {
+                try {
+                    const response = await fetch(`${API_CONFIG.DB_API}/validate-token`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.valid) {
+                        if (loginButton) loginButton.style.display = 'none';
+                        if (profileDropdown) profileDropdown.style.display = 'block';
+                        sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+                        return true;
+                    } else {
+                        clearUserData();
+                        if (loginButton) loginButton.style.display = 'block';
+                        if (profileDropdown) profileDropdown.style.display = 'none';
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('Token validation error:', error);
+                    if (loginButton) loginButton.style.display = 'block';
+                    if (profileDropdown) profileDropdown.style.display = 'none';
+                    return false;
+                }
+            } else {
+                if (loginButton) loginButton.style.display = 'block';
+                if (profileDropdown) profileDropdown.style.display = 'none';
+                return false;
+            }
+        }
+        
+        // ফর্ম টগল ফাংশন
+        function toggleForm(formType) {
+            const sections = ['login', 'emailCheck', 'otpVerification', 'signup'];
+            sections.forEach(section => {
+                const element = document.getElementById(`${section}Section`);
+                if (element) element.style.display = 'none';
+            });
+            
+            const targetSection = document.getElementById(`${formType}Section`);
+            if (targetSection) targetSection.style.display = 'block';
+            
+            if (formType === 'otpVerification') {
+                setupOTPInputs();
+                startOTPTimer();
+            }
+        }
+        
+        // লগইন হ্যান্ডলার
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+        
+            if (!validateEmail(email)) {
+                showError('loginEmailError', 'বৈধ ইমেইল দিন');
+                return;
+            }
+        
+            if (!password) {
+                showError('loginPasswordError', 'পাসওয়ার্ড দিন');
+                return;
+            }
+        
+            try {
+                showLoading();
+                const response = await fetch(`${API_CONFIG.DB_API}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+        
+                const data = await response.json();
+                
+                if (data.success) {
+                    sessionStorage.setItem('authToken', data.token);
+                    sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+                    window.location.href = 'profile.html';
+                } else {
+                    throw new Error(data.message || 'লগইন ব্যর্থ হয়েছে');
+                }
+            } catch (error) {
+                showNotification(error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        // ইমেইল চেক হ্যান্ডলার
+        async function handleEmailCheck(e) {
+            e.preventDefault();
+            const email = document.getElementById('checkEmail').value;
+        
+            if (!validateEmail(email)) {
+                showError('checkEmailError', 'বৈধ ইমেইল দিন');
+                return;
+            }
+        
+            try {
+                showLoading();
+                const response = await fetch(`${API_CONFIG.DB_API}/check-email`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+        
+                const data = await response.json();
+                
+                if (data.exists) {
+                    showError('checkEmailError', 'ইমেইল ইতিমধ্যে রেজিস্টার্ড');
+                } else {
+                    currentEmail = email;
+                    document.getElementById('userEmail').textContent = email;
+                    await requestOTP(email);
+                    toggleForm('otpVerification');
+                }
+            } catch (error) {
+                showNotification(error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        // OTP রিকুয়েস্ট ফাংশন
+        async function requestOTP(email) {
+            try {
+                const response = await fetch(`${API_CONFIG.MAIN_API}/api/send-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                if (!data.success) throw new Error(data.message);
+            } catch (error) {
+                console.error('OTP sending error:', error);
+            }
+        }
+        
+        // OTP ভেরিফিকেশন হ্যান্ডলার
+        async function handleOTPVerification(e) {
+            e.preventDefault();
+            const otp = Array.from({length: 4}, (_, i) => 
+                document.getElementById(`otp${i+1}`).value).join('');
+        
+            if (otp.length !== 4) {
+                showError('otpError', 'সম্পূর্ণ OTP দিন');
+                return;
+            }
+        
+            try {
+                showLoading();
+                const response = await fetch(`${API_CONFIG.MAIN_API}/api/verify-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: currentEmail, otp })
+                });
+        
+                const data = await response.json();
+                
+                if (data.success) {
+                    clearInterval(otpTimer);
+                    toggleForm('signup');
+                } else {
+                    throw new Error(data.message || 'অবৈধ OTP');
+                }
+            } catch (error) {
+                showError('otpError', error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        // রেজিস্ট্রেশন হ্যান্ডলার
+        async function handleRegistration(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+        
+            if (!name) {
+                showError('signupNameError', 'নাম প্রয়োজন');
+                return;
+            }
+        
+            if (password.length < 6) {
+                showError('signupPasswordError', 'পাসওয়ার্ড ৬ অক্ষরের বেশি হতে হবে');
+                return;
+            }
+        
+            if (password !== confirmPassword) {
+                showError('signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না');
+                return;
+            }
+        
+            try {
+                showLoading();
+                const response = await fetch(`${API_CONFIG.DB_API}/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email: currentEmail, password })
+                });
+        
+                const data = await response.json();
+                
+                if (data.success) {
+                    registeredUser = data.user;
+                    document.getElementById('successModal').style.display = 'flex';
+                    document.getElementById('signupForm').reset();
+                } else {
+                    throw new Error(data.message || 'রেজিস্ট্রেশন ব্যর্থ হয়েছে');
+                }
+            } catch (error) {
+                showNotification(error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        // OTP টাইমার সিস্টেম
+        function startOTPTimer() {
+            let timeLeft = 120;
+            clearInterval(otpTimer);
+            document.getElementById('resendOtp').disabled = true;
+        
+            const updateTimer = () => {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(otpTimer);
+                    document.getElementById('resendOtp').disabled = false;
+                }
+                timeLeft--;
+            };
+        
+            updateTimer();
+            otpTimer = setInterval(updateTimer, 1000);
+        }
+        
+        // OTP ইনপুট সেটআপ
+        function setupOTPInputs() {
+            const inputs = document.querySelectorAll('.otp-digit');
+            inputs.forEach((input, index) => {
+                input.value = '';
+                if (index === 0) input.focus();
+        
+                input.addEventListener('input', () => {
+                    if (input.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+        
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && input.value === '' && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
+            });
+        }
+        
+        // প্রোফাইল ডেটা লোড
+        function loadProfileData() {
+            const userData = JSON.parse(sessionStorage.getItem('currentUser'));
+            if (!userData) {
+                window.location.href = 'login.html';
+                return;
+            }
+        
+            document.getElementById('profileName').textContent = userData.name;
+            document.getElementById('profileEmail').textContent = userData.email;
+            
+            // ভিউ মোড ডেটা
+            document.getElementById('viewFullName').textContent = userData.name || '-';
+            document.getElementById('viewEmail').textContent = userData.email || '-';
+            document.getElementById('viewPhone').textContent = userData.phone || '-';
+            document.getElementById('viewBirthday').textContent = formatDate(userData.birthday) || '-';
+            document.getElementById('viewGender').textContent = userData.gender || '-';
+            document.getElementById('viewAddress').textContent = userData.address || '-';
+            
+            // প্রোফাইল ছবি
+            if (userData.profile_picture) {
+                document.getElementById('profileImage').src = userData.profile_picture;
+                document.getElementById('profileImage').style.display = 'block';
+                document.getElementById('profileImagePlaceholder').style.display = 'none';
+            }
+        }
+        
+        // প্রোফাইল এডিট মোড টগল
+        function toggleEditMode() {
+            const userData = JSON.parse(sessionStorage.getItem('currentUser'));
+            populateEditForm(userData);
+            document.getElementById('viewModeSection').style.display = 'none';
+            document.getElementById('editModeSection').style.display = 'block';
+        }
+        
+        // এডিট ফর্ম পপুলেট
+        function populateEditForm(userData) {
+            document.getElementById('editFullName').value = userData.name || '';
+            document.getElementById('editPhone').value = userData.phone || '';
+            document.getElementById('editBirthday').value = userData.birthday || '';
+            document.getElementById('editGender').value = userData.gender || '';
+            document.getElementById('editAddress').value = userData.address || '';
+        }
+        
+        // প্রোফাইল আপডেট
+        async function updateProfile(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const updatedData = Object.fromEntries(formData.entries());
+        
+            try {
+                showLoading();
+                const response = await fetch(`${API_CONFIG.DB_API}/update-profile`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify(updatedData)
+                });
+        
+                const data = await response.json();
+                
+                if (data.success) {
+                    const userData = JSON.parse(sessionStorage.getItem('currentUser'));
+                    const updatedUser = {...userData, ...updatedData};
+                    sessionStorage.setItem('currentUser', JSON.stringify(updatedUser));
+                    loadProfileData();
+                    toggleProfileMode('view');
+                    showNotification('প্রোফাইল আপডেট সফল!', 'success');
+                } else {
+                    throw new Error(data.message || 'আপডেট ব্যর্থ হয়েছে');
+                }
+            } catch (error) {
+                showNotification(error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        // ইউটিলিটি ফাংশন
+        function validateEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                element.style.display = 'block';
+            }
+        }
+        
+        function showLoading() {
+            const loader = document.getElementById('loadingSpinner');
+            if (loader) loader.style.display = 'flex';
+        }
+        
+        function hideLoading() {
+            const loader = document.getElementById('loadingSpinner');
+            if (loader) loader.style.display = 'none';
+        }
+        
+        function showNotification(message, type) {
+            // নোটিফিকেশন শো করার লজিক
+        }
+        
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return isNaN(date.getTime()) ? dateString : date.toLocaleDateString('bn-BD');
+        }
+        
+        // অন্যান্য প্রয়োজনীয় ফাংশন...
+        </script>
 <script>
 
     // সাধারণ ফাংশন
@@ -6015,467 +6475,7 @@ function checkFontAwesome() {
 console.log('Profile dropdown script initialized');
 
 </script> 
-<script>
-    // API কনফিগারেশন
-    const API_CONFIG = {
-        MAIN_API: 'https://talimul-islam.onrender.com',
-        DB_API: 'https://t-i-a-storage-backend.onrender.com'
-    };
-    
-    // গ্লোবাল ভ্যারিয়েবল
-    let currentEmail = '';
-    let otpTimer;
-    let registeredUser = null;
-    
-    // ডকুমেন্ট রেডি হলে ইনিশিয়ালাইজেশন
-    document.addEventListener('DOMContentLoaded', function() {
-        initializeAuthSystem();
-        initializeProfileSystem();
-        checkLoginStatus();
-    });
-    
-    // অথেন্টিকেশন সিস্টেম ইনিশিয়ালাইজেশন
-    function initializeAuthSystem() {
-        // ফর্ম টগলিং সেটআপ
-        setupFormToggle();
-        
-        // লগইন ফর্ম হ্যান্ডলার
-        document.getElementById('loginForm')?.addEventListener('submit', handleLogin);
-        
-        // ইমেইল চেক ফর্ম হ্যান্ডলার
-        document.getElementById('emailCheckForm')?.addEventListener('submit', handleEmailCheck);
-        
-        // OTP ভেরিফিকেশন হ্যান্ডলার
-        document.getElementById('otpVerificationForm')?.addEventListener('submit', handleOTPVerification);
-        
-        // রেজিস্ট্রেশন ফর্ম হ্যান্ডলার
-        document.getElementById('signupForm')?.addEventListener('submit', handleRegistration);
-        
-        // OTP রিসেন্ড বাটন হ্যান্ডলার
-        document.getElementById('resendOtp')?.addEventListener('click', handleResendOTP);
-    }
-    
-    // প্রোফাইল সিস্টেম ইনিশিয়ালাইজেশন
-    function initializeProfileSystem() {
-        // প্রোফাইল এডিট বাটন হ্যান্ডলার
-        document.getElementById('editProfileBtn')?.addEventListener('click', toggleEditMode);
-        
-        // ক্যান্সেল এডিট বাটন হ্যান্ডলার
-        document.getElementById('cancelEditBtn')?.addEventListener('click', cancelEdit);
-        
-        // প্রোফাইল আপডেট ফর্ম হ্যান্ডলার
-        document.getElementById('editProfileForm')?.addEventListener('submit', updateProfile);
-        
-        // পাসওয়ার্ড চেঞ্জ মোডাল হ্যান্ডলার
-        document.getElementById('changePasswordBtn')?.addEventListener('click', openPasswordModal);
-        document.getElementById('closePasswordModal')?.addEventListener('click', closePasswordModal);
-        document.getElementById('cancelPasswordChange')?.addEventListener('click', closePasswordModal);
-        document.getElementById('changePasswordForm')?.addEventListener('submit', changePassword);
-        
-        // প্রোফাইল পিকচার আপডেট হ্যান্ডলার
-        document.getElementById('editPhotoBtn')?.addEventListener('click', () => document.getElementById('profilePictureInput').click());
-        document.getElementById('profilePictureInput')?.addEventListener('change', uploadProfilePicture);
-    }
-    
-    // ফর্ম টগলিং সিস্টেম
-    function setupFormToggle() {
-        // নেভিগেশন বাটন সেটআপ
-        document.getElementById('goToEmailCheck')?.addEventListener('click', () => toggleForm('emailCheck'));
-        document.getElementById('goToLogin')?.addEventListener('click', () => toggleForm('login'));
-        
-        // মোডাল ক্লোজ বাটন
-        document.getElementById('closeModal')?.addEventListener('click', closeModal);
-    }
-    
-    // লগইন স্টেটাস চেক
-    async function checkLoginStatus() {
-        const token = sessionStorage.getItem('authToken');
-        const loginButton = document.getElementById('loginButton');
-        const profileDropdown = document.getElementById('profileDropdown');
-    
-        if (token) {
-            try {
-                const response = await fetch(`${API_CONFIG.DB_API}/validate-token`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (data.valid) {
-                    if (loginButton) loginButton.style.display = 'none';
-                    if (profileDropdown) profileDropdown.style.display = 'block';
-                    sessionStorage.setItem('currentUser', JSON.stringify(data.user));
-                    return true;
-                } else {
-                    clearUserData();
-                    if (loginButton) loginButton.style.display = 'block';
-                    if (profileDropdown) profileDropdown.style.display = 'none';
-                    return false;
-                }
-            } catch (error) {
-                console.error('Token validation error:', error);
-                if (loginButton) loginButton.style.display = 'block';
-                if (profileDropdown) profileDropdown.style.display = 'none';
-                return false;
-            }
-        } else {
-            if (loginButton) loginButton.style.display = 'block';
-            if (profileDropdown) profileDropdown.style.display = 'none';
-            return false;
-        }
-    }
-    
-    // ফর্ম টগল ফাংশন
-    function toggleForm(formType) {
-        const sections = ['login', 'emailCheck', 'otpVerification', 'signup'];
-        sections.forEach(section => {
-            const element = document.getElementById(`${section}Section`);
-            if (element) element.style.display = 'none';
-        });
-        
-        const targetSection = document.getElementById(`${formType}Section`);
-        if (targetSection) targetSection.style.display = 'block';
-        
-        if (formType === 'otpVerification') {
-            setupOTPInputs();
-            startOTPTimer();
-        }
-    }
-    
-    // লগইন হ্যান্ডলার
-    async function handleLogin(e) {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-    
-        if (!validateEmail(email)) {
-            showError('loginEmailError', 'বৈধ ইমেইল দিন');
-            return;
-        }
-    
-        if (!password) {
-            showError('loginPasswordError', 'পাসওয়ার্ড দিন');
-            return;
-        }
-    
-        try {
-            showLoading();
-            const response = await fetch(`${API_CONFIG.DB_API}/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-    
-            const data = await response.json();
-            
-            if (data.success) {
-                sessionStorage.setItem('authToken', data.token);
-                sessionStorage.setItem('currentUser', JSON.stringify(data.user));
-                window.location.href = 'profile.html';
-            } else {
-                throw new Error(data.message || 'লগইন ব্যর্থ হয়েছে');
-            }
-        } catch (error) {
-            showNotification(error.message, 'error');
-        } finally {
-            hideLoading();
-        }
-    }
-    
-    // ইমেইল চেক হ্যান্ডলার
-    async function handleEmailCheck(e) {
-        e.preventDefault();
-        const email = document.getElementById('checkEmail').value;
-    
-        if (!validateEmail(email)) {
-            showError('checkEmailError', 'বৈধ ইমেইল দিন');
-            return;
-        }
-    
-        try {
-            showLoading();
-            const response = await fetch(`${API_CONFIG.DB_API}/check-email`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
-    
-            const data = await response.json();
-            
-            if (data.exists) {
-                showError('checkEmailError', 'ইমেইল ইতিমধ্যে রেজিস্টার্ড');
-            } else {
-                currentEmail = email;
-                document.getElementById('userEmail').textContent = email;
-                await requestOTP(email);
-                toggleForm('otpVerification');
-            }
-        } catch (error) {
-            showNotification(error.message, 'error');
-        } finally {
-            hideLoading();
-        }
-    }
-    
-    // OTP রিকুয়েস্ট ফাংশন
-    async function requestOTP(email) {
-        try {
-            const response = await fetch(`${API_CONFIG.MAIN_API}/api/send-otp`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
-            
-            const data = await response.json();
-            if (!data.success) throw new Error(data.message);
-        } catch (error) {
-            console.error('OTP sending error:', error);
-        }
-    }
-    
-    // OTP ভেরিফিকেশন হ্যান্ডলার
-    async function handleOTPVerification(e) {
-        e.preventDefault();
-        const otp = Array.from({length: 4}, (_, i) => 
-            document.getElementById(`otp${i+1}`).value).join('');
-    
-        if (otp.length !== 4) {
-            showError('otpError', 'সম্পূর্ণ OTP দিন');
-            return;
-        }
-    
-        try {
-            showLoading();
-            const response = await fetch(`${API_CONFIG.MAIN_API}/api/verify-otp`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: currentEmail, otp })
-            });
-    
-            const data = await response.json();
-            
-            if (data.success) {
-                clearInterval(otpTimer);
-                toggleForm('signup');
-            } else {
-                throw new Error(data.message || 'অবৈধ OTP');
-            }
-        } catch (error) {
-            showError('otpError', error.message);
-        } finally {
-            hideLoading();
-        }
-    }
-    
-    // রেজিস্ট্রেশন হ্যান্ডলার
-    async function handleRegistration(e) {
-        e.preventDefault();
-        const name = document.getElementById('signupName').value.trim();
-        const password = document.getElementById('signupPassword').value;
-        const confirmPassword = document.getElementById('signupConfirmPassword').value;
-    
-        if (!name) {
-            showError('signupNameError', 'নাম প্রয়োজন');
-            return;
-        }
-    
-        if (password.length < 6) {
-            showError('signupPasswordError', 'পাসওয়ার্ড ৬ অক্ষরের বেশি হতে হবে');
-            return;
-        }
-    
-        if (password !== confirmPassword) {
-            showError('signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না');
-            return;
-        }
-    
-        try {
-            showLoading();
-            const response = await fetch(`${API_CONFIG.DB_API}/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email: currentEmail, password })
-            });
-    
-            const data = await response.json();
-            
-            if (data.success) {
-                registeredUser = data.user;
-                document.getElementById('successModal').style.display = 'flex';
-                document.getElementById('signupForm').reset();
-            } else {
-                throw new Error(data.message || 'রেজিস্ট্রেশন ব্যর্থ হয়েছে');
-            }
-        } catch (error) {
-            showNotification(error.message, 'error');
-        } finally {
-            hideLoading();
-        }
-    }
-    
-    // OTP টাইমার সিস্টেম
-    function startOTPTimer() {
-        let timeLeft = 120;
-        clearInterval(otpTimer);
-        document.getElementById('resendOtp').disabled = true;
-    
-        const updateTimer = () => {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            document.getElementById('timer').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            if (timeLeft <= 0) {
-                clearInterval(otpTimer);
-                document.getElementById('resendOtp').disabled = false;
-            }
-            timeLeft--;
-        };
-    
-        updateTimer();
-        otpTimer = setInterval(updateTimer, 1000);
-    }
-    
-    // OTP ইনপুট সেটআপ
-    function setupOTPInputs() {
-        const inputs = document.querySelectorAll('.otp-digit');
-        inputs.forEach((input, index) => {
-            input.value = '';
-            if (index === 0) input.focus();
-    
-            input.addEventListener('input', () => {
-                if (input.value.length === 1 && index < inputs.length - 1) {
-                    inputs[index + 1].focus();
-                }
-            });
-    
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && input.value === '' && index > 0) {
-                    inputs[index - 1].focus();
-                }
-            });
-        });
-    }
-    
-    // প্রোফাইল ডেটা লোড
-    function loadProfileData() {
-        const userData = JSON.parse(sessionStorage.getItem('currentUser'));
-        if (!userData) {
-            window.location.href = 'login.html';
-            return;
-        }
-    
-        document.getElementById('profileName').textContent = userData.name;
-        document.getElementById('profileEmail').textContent = userData.email;
-        
-        // ভিউ মোড ডেটা
-        document.getElementById('viewFullName').textContent = userData.name || '-';
-        document.getElementById('viewEmail').textContent = userData.email || '-';
-        document.getElementById('viewPhone').textContent = userData.phone || '-';
-        document.getElementById('viewBirthday').textContent = formatDate(userData.birthday) || '-';
-        document.getElementById('viewGender').textContent = userData.gender || '-';
-        document.getElementById('viewAddress').textContent = userData.address || '-';
-        
-        // প্রোফাইল ছবি
-        if (userData.profile_picture) {
-            document.getElementById('profileImage').src = userData.profile_picture;
-            document.getElementById('profileImage').style.display = 'block';
-            document.getElementById('profileImagePlaceholder').style.display = 'none';
-        }
-    }
-    
-    // প্রোফাইল এডিট মোড টগল
-    function toggleEditMode() {
-        const userData = JSON.parse(sessionStorage.getItem('currentUser'));
-        populateEditForm(userData);
-        document.getElementById('viewModeSection').style.display = 'none';
-        document.getElementById('editModeSection').style.display = 'block';
-    }
-    
-    // এডিট ফর্ম পপুলেট
-    function populateEditForm(userData) {
-        document.getElementById('editFullName').value = userData.name || '';
-        document.getElementById('editPhone').value = userData.phone || '';
-        document.getElementById('editBirthday').value = userData.birthday || '';
-        document.getElementById('editGender').value = userData.gender || '';
-        document.getElementById('editAddress').value = userData.address || '';
-    }
-    
-    // প্রোফাইল আপডেট
-    async function updateProfile(e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const updatedData = Object.fromEntries(formData.entries());
-    
-        try {
-            showLoading();
-            const response = await fetch(`${API_CONFIG.DB_API}/update-profile`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${sessionStorage.getItem('authToken')}`
-                },
-                body: JSON.stringify(updatedData)
-            });
-    
-            const data = await response.json();
-            
-            if (data.success) {
-                const userData = JSON.parse(sessionStorage.getItem('currentUser'));
-                const updatedUser = {...userData, ...updatedData};
-                sessionStorage.setItem('currentUser', JSON.stringify(updatedUser));
-                loadProfileData();
-                toggleProfileMode('view');
-                showNotification('প্রোফাইল আপডেট সফল!', 'success');
-            } else {
-                throw new Error(data.message || 'আপডেট ব্যর্থ হয়েছে');
-            }
-        } catch (error) {
-            showNotification(error.message, 'error');
-        } finally {
-            hideLoading();
-        }
-    }
-    
-    // ইউটিলিটি ফাংশন
-    function validateEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-    
-    function showError(elementId, message) {
-        const element = document.getElementById(elementId);
-        if (element) {
-            element.textContent = message;
-            element.style.display = 'block';
-        }
-    }
-    
-    function showLoading() {
-        const loader = document.getElementById('loadingSpinner');
-        if (loader) loader.style.display = 'flex';
-    }
-    
-    function hideLoading() {
-        const loader = document.getElementById('loadingSpinner');
-        if (loader) loader.style.display = 'none';
-    }
-    
-    function showNotification(message, type) {
-        // নোটিফিকেশন শো করার লজিক
-    }
-    
-    function formatDate(dateString) {
-        if (!dateString) return '';
-        const date = new Date(dateString);
-        return isNaN(date.getTime()) ? dateString : date.toLocaleDateString('bn-BD');
-    }
-    
-    // অন্যান্য প্রয়োজনীয় ফাংশন...
-    </script>
+
         <!-- * এই স্ক্রিপ্টটি ইউজার ইমেইল যাচাই, OTP পাঠানো ও যাচাইকরণ,  -->
         <!-- * রেজিস্ট্রেশন, এবং লগইন প্রক্রিয়া পরিচালনার জন্য ব্যবহৃত হয়। -->
         
