@@ -4835,11 +4835,28 @@ document.addEventListener('DOMContentLoaded', function() {
 });
        </script> -->
 
+      
+
 <script>
     // API URL - সার্ভার URL
-    const API_URL = 'https://talimul-islam.onrender.com';
-    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
-                        
+    // const API_URL = 'https://talimul-islam.onrender.com';
+    // const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
+    
+    
+    const API_URL = 'https://t-i-a-otp-mongodb-combined-server.onrender.com';
+    fetch(`${API_URL}/verify-otp`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ email, otp }),
+});
+
+fetch(`${API_URL}/save-user`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(userData),
+});
+
+
     let currentEmail = '';
     let otpTimer;
     
@@ -4870,100 +4887,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('signupForm').style.display = 'block';
         }
     }
-
-
-
-    async function callAPI(url, options) {
-    try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10-second timeout
-        
-        const response = await fetch(url, {
-            ...options, 
-            signal: controller.signal
-        });
-        
-        clearTimeout(timeoutId);
-        return await response.json();
-    } catch (error) {
-        if (error.name === 'AbortError') {
-            showNotification('সার্ভার অনুপলব্ধ। পরে আবার চেষ্টা করুন।', 'error');
-        } else {
-            showNotification('একটি ত্রুটি ঘটেছে। পরে আবার চেষ্টা করুন।', 'error');
-        }
-        console.error('API Error:', error);
-        throw error;
-    }
-}
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all forms
-    initForms();
-    
-    // Initialize all UI components
-    initUI();
-    
-    // Check login status
-    checkLoginStatus();
-});
-
-function initForms() {
-    // Initialize all form handlers here
-    initLoginForm();
-    initEmailCheckForm();
-    initOtpVerificationForm();
-    initSignupForm();
-}
-
-function initUI() {
-    // Initialize UI components
-    setupLoginPopup();
-    setupOtpInputFields();
-    setupPasswordToggle();
-    setupProfileDropdown();
-}
-
-async function validateToken(token) {
-    if (!token) return false;
-    
-    try {
-        const response = await fetch(`${DB_API_URL}/validate-token`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            timeout: 5000
-        });
-        
-        if (!response.ok) return false;
-        
-        const data = await response.json();
-        return data.valid === true;
-    } catch (error) {
-        console.error('Token validation error:', error);
-        return false; // Always invalidate token on error
-    }
-}
-
-function sanitizeInput(input) {
-    // Basic sanitization
-    return input.trim()
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
-
-// Use when getting values from inputs
-const email = sanitizeInput(document.getElementById('loginEmail').value);
-
-
-
-
-
     
     // Toggle password visibility
     function togglePasswordVisibility(inputId, toggleId) {
@@ -4979,41 +4902,37 @@ const email = sanitizeInput(document.getElementById('loginEmail').value);
         }
     }
     
+    // Start OTP timer
     function startOTPTimer() {
-    // Clear any existing timer first
-    clearInterval(otpTimer);
-    
-    let totalSeconds = 120; // 2 minutes
-    document.getElementById('resendOtp').disabled = true;
-    
-    // Update timer display immediately
-    updateTimerDisplay(totalSeconds);
-    
-    otpTimer = setInterval(function() {
-        totalSeconds--;
-        updateTimerDisplay(totalSeconds);
+        let totalSeconds = 120; // 2 minutes
         
-        if (totalSeconds <= 0) {
-            clearInterval(otpTimer);
-            document.getElementById('resendOtp').disabled = false;
-        }
-    }, 1000);
-}
-
-function updateTimerDisplay(totalSeconds) {
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
+        clearInterval(otpTimer);
+        document.getElementById('resendOtp').disabled = true;
+        
+        // Update timer display immediately
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        document.getElementById('timer').textContent = 
+            (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+            (seconds < 10 ? '0' + seconds : seconds);
+        
+        otpTimer = setInterval(function() {
+            totalSeconds--;
+            
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            
+            document.getElementById('timer').textContent = 
+                (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+                (seconds < 10 ? '0' + seconds : seconds);
+            
+            if (totalSeconds <= 0) {
+                clearInterval(otpTimer);
+                document.getElementById('resendOtp').disabled = false;
+            }
+        }, 1000);
+    }
     
-    document.getElementById('timer').textContent = 
-        (minutes < 10 ? '0' + minutes : minutes) + ':' + 
-        (seconds < 10 ? '0' + seconds : seconds);
-}
-
-// Make sure to clear timer when unmounting
-function cleanupOTP() {
-    clearInterval(otpTimer);
-}
-
     // লোডিং ফাংশন
     // লোডিং স্পিনার তৈরি করুন
     function createLoader() {
@@ -6116,7 +6035,8 @@ function checkFontAwesome() {
 // ইনিশিয়ালাইজ স্ক্রিপ্ট ইমিডিয়েটলি
 console.log('Profile dropdown script initialized');
 
-</script>         
+</script> 
+
         <!-- * এই স্ক্রিপ্টটি ইউজার ইমেইল যাচাই, OTP পাঠানো ও যাচাইকরণ,  -->
         <!-- * রেজিস্ট্রেশন, এবং লগইন প্রক্রিয়া পরিচালনার জন্য ব্যবহৃত হয়। -->
         
