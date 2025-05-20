@@ -573,7 +573,7 @@
         const userData = localStorage.getItem('userData');
         if (!userData) {
             // যদি লগইন না থাকে, লগইন পেজে রিডাইরেক্ট করুন
-            // window.location.href = '/login.html';
+            window.location.href = '/login.html';
             return null;
         }
         return JSON.parse(userData);
@@ -620,7 +620,7 @@
                 // টোকেন মেয়াদ শেষ হয়ে গেলে লগআউট করুন
                 if (data.message === "অবৈধ টোকেন" || data.message === "অনুমতি নেই") {
                     localStorage.removeItem('userData');
-                    // window.location.href = '/login.html';
+                    window.location.href = '/login.html';
                 }
             }
         } catch (error) {
@@ -725,7 +725,7 @@
                 // টোকেন মেয়াদ শেষ হয়ে গেলে লগআউট করুন
                 if (data.message === "অবৈধ টোকেন" || data.message === "অনুমতি নেই") {
                     localStorage.removeItem('userData');
-                    // window.location.href = '/login.html';
+                    window.location.href = '/login.html';
                 }
             }
         } catch (error) {
@@ -789,7 +789,7 @@
                 // টোকেন মেয়াদ শেষ হয়ে গেলে লগআউট করুন
                 if (data.message === "অবৈধ টোকেন" || data.message === "অনুমতি নেই") {
                     localStorage.removeItem('userData');
-                    // window.location.href = '/login.html';
+                    window.location.href = '/login.html';
                 }
             }
         } catch (error) {
@@ -854,7 +854,8 @@
                 // টোকেন মেয়াদ শেষ হয়ে গেলে লগআউট করুন
                 if (data.message === "অবৈধ টোকেন" || data.message === "অনুমতি নেই") {
                     localStorage.removeItem('userData');
-                        }
+                    window.location.href = '/login.html';
+                }
             }
         } catch (error) {
             console.error('ছবি আপলোড এরর:', error);
@@ -1126,7 +1127,7 @@
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => {
                 localStorage.removeItem('userData');
-                // window.location.href = '/login.html';
+                window.location.href = '/login.html';
             });
         }
     };
