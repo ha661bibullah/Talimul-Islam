@@ -3114,118 +3114,94 @@ animation: spin 1s linear infinite;
     <button class="close-login">
         <i class="fas fa-times"></i>
     </button>
-    <div class="container">        
-        <div id="loginSection">
-            <h1 class="title">লগইন করুন</h1>
-            
-            <div class="success-message" id="registrationSuccess">
-                আপনার একাউন্ট সফলভাবে তৈরি হয়েছে। এখন লগইন করুন।
+ <!-- Registration and Login Forms -->
+<div class="auth-forms">
+    <!-- Login Form -->
+    <div id="loginSection">
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="ইমেইল">
+            <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড">
+            <button type="submit">লগইন</button>
+            <a href="#" id="goToEmailCheck">নতুন একাউন্ট তৈরি করুন</a>
+        </form>
+    </div>
+    
+    <!-- Registration Forms -->
+    <div id="emailCheckSection">
+        <form id="emailCheckForm">
+            <input type="email" id="checkEmail" placeholder="ইমেইল">
+            <button type="submit">পরবর্তী</button>
+        </form>
+    </div>
+    
+    <div id="otpVerificationSection">
+        <form id="otpVerificationForm">
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" class="otp-digit" id="otp1">
+                <input type="text" maxlength="1" class="otp-digit" id="otp2">
+                <input type="text" maxlength="1" class="otp-digit" id="otp3">
+                <input type="text" maxlength="1" class="otp-digit" id="otp4">
             </div>
-            
-            <form id="loginForm" class="form-container" autocomplete="off">
-                <div class="form-group">
-                    <label for="loginEmail">ইমেইল</label>
-                    <input name="login_email" id="loginEmail" placeholder="আপনার ইমেইল লিখুন">
-                    <p class="error-message" id="loginEmailError">অনুগ্রহ করে একটি সঠিক ইমেইল প্রদান করুন</p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="loginPassword">পাসওয়ার্ড</label>
-                    <div class="password-container">
-                        <input name="login_password" id="loginPassword" placeholder="আপনার পাসওয়ার্ড লিখুন">
-                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword', 'loginPasswordToggle')" id="loginPasswordToggle">দেখুন</button>
-                    </div>
-                    <p class="error-message" id="loginPasswordError">পাসওয়ার্ড প্রয়োজন</p>
-                </div>
-                
-                <button type="submit" class="button">লগইন করুন</button>
-                
-                <div class="form-footer">
-                    একাউন্ট নেই? <a href="#" onclick="toggleForm('emailCheck'); return false;">নতুন একাউন্ট খুলুন</a>
-                </div>
-            </form>
+            <button type="submit">যাচাই করুন</button>
+        </form>
+    </div>
+    
+    <div id="signupSection">
+        <form id="signupForm">
+            <input type="text" id="signupName" placeholder="পুরো নাম">
+            <input type="password" id="signupPassword" placeholder="পাসওয়ার্ড">
+            <input type="password" id="signupConfirmPassword" placeholder="পাসওয়ার্ড নিশ্চিত করুন">
+            <button type="submit">রেজিস্টার করুন</button>
+        </form>
+    </div>
+</div>
+
+<!-- Profile Page -->
+<div class="profile-page">
+    <div class="profile-header">
+        <img id="profileImage" src="default-profile.jpg" alt="Profile Picture">
+        <h2 id="profileName"></h2>
+        <p id="profileEmail"></p>
+    </div>
+    
+    <div class="profile-content">
+        <!-- View Mode -->
+        <div id="viewModeSection">
+            <div class="profile-field">
+                <label>নাম:</label>
+                <span id="viewFullName"></span>
+            </div>
+            <div class="profile-field">
+                <label>ইমেইল:</label>
+                <span id="viewEmail"></span>
+            </div>
+            <!-- Other fields... -->
+            <button id="editProfileBtn">প্রোফাইল এডিট করুন</button>
+            <button id="changePasswordBtn">পাসওয়ার্ড পরিবর্তন করুন</button>
         </div>
         
-        <!-- Step 1: Email Check Form -->
-        <div id="emailCheckSection">
-            <h1 class="title">নতুন একাউন্ট খুলুন</h1>
-            
-            <form id="emailCheckForm" class="form-container">
-                <div class="form-group">
-                    <label for="checkEmail">ইমেইল</label>
-                    <input type="email" id="checkEmail" placeholder="আপনার ইমেইল লিখুন">
-                    <p class="error-message" id="checkEmailError">অনুগ্রহ করে একটি সঠিক ইমেইল প্রদান করুন</p>
-                </div>
-                
-                <button type="submit" class="button">এগিয়ে যান</button>
-                
-                <div class="form-footer">
-                    ইতিমধ্যে একাউন্ট আছে? <a href="#" onclick="toggleForm('login'); return false;">লগইন করুন</a>
-                </div>
+        <!-- Edit Mode -->
+        <div id="editModeSection" style="display:none;">
+            <form id="editProfileForm">
+                <input type="text" id="editFullName" placeholder="পুরো নাম">
+                <input type="tel" id="editPhone" placeholder="মোবাইল নম্বর">
+                <!-- Other fields... -->
+                <button type="submit">সংরক্ষণ করুন</button>
+                <button type="button" id="cancelEditBtn">বাতিল করুন</button>
             </form>
         </div>
-        
-        <!-- Step 2: OTP Verification Form -->
-        <div id="otpVerificationSection">
-            <h1 class="title">অটিপি যাচাইকরণ</h1>
-            
-            <form id="otpVerificationForm" class="form-container">
-                <p>আপনার ইমেইলে (<span id="userEmail"></span>) ৪ সংখ্যার অটিপি পাঠানো হয়েছে</p>
-                
-                <div class="otp-container">
-                    <label>অটিপি দিন</label>
-                    <div class="otp-input">
-                        <input type="text" maxlength="1" id="otp1" class="otp-digit">
-                        <input type="text" maxlength="1" id="otp2" class="otp-digit">
-                        <input type="text" maxlength="1" id="otp3" class="otp-digit">
-                        <input type="text" maxlength="1" id="otp4" class="otp-digit">
-                    </div>
-                    <p class="error-message" id="otpError">অনুগ্রহ করে সঠিক অটিপি দিন</p>
-                    
-                    <div class="timer" id="otpTimer">বাকি সময়: <span id="timer">02:00</span></div>
-                    <button type="button" class="resend-button" id="resendOtp" disabled>পুনরায় অটিপি পাঠান</button>
-                </div>
-                
-                <button type="submit" class="button">যাচাই করুন</button>
-                
-                <div class="form-footer">
-                    <a href="#" onclick="toggleForm('emailCheck'); return false;">ফিরে যান</a>
-                </div>
-            </form>
-        </div>
-        
-        <!-- Step 3: Complete Registration Form -->
-        <div id="signupSection">
-            <h1 class="title">রেজিস্ট্রেশন সম্পন্ন করুন</h1>
-            
-            <form id="signupForm" class="form-container">
-                <div class="form-group">
-                    <label for="signupName">পূর্ণ নাম</label>
-                    <input type="text" id="signupName" placeholder="আপনার পূর্ণ নাম লিখুন">
-                    <p class="error-message" id="signupNameError">নাম প্রয়োজন</p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="signupPassword">পাসওয়ার্ড</label>
-                    <div class="password-container">
-                        <input type="password" id="signupPassword" placeholder="একটি শক্তিশালী পাসওয়ার্ড লিখুন">
-                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signupPassword', 'signupPasswordToggle')" id="signupPasswordToggle">দেখুন</button>
-                    </div>
-                    <p class="error-message" id="signupPasswordError">পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে</p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="signupConfirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
-                    <div class="password-container">
-                        <input type="password" id="signupConfirmPassword" placeholder="পাসওয়ার্ড আবার লিখুন">
-                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signupConfirmPassword', 'confirmPasswordToggle')" id="confirmPasswordToggle">দেখুন</button>
-                    </div>
-                    <p class="error-message" id="signupConfirmPasswordError">পাসওয়ার্ড মিলছে না</p>
-                </div>
-                
-                <button type="submit" class="button">রেজিস্ট্রেশন সম্পন্ন করুন</button>
-            </form>
-        </div>
+    </div>
+</div>
+
+<!-- Password Change Modal -->
+<div id="passwordModal">
+    <form id="changePasswordForm">
+        <input type="password" id="currentPassword" placeholder="বর্তমান পাসওয়ার্ড">
+        <input type="password" id="newPassword" placeholder="নতুন পাসওয়ার্ড">
+        <input type="password" id="confirmPassword" placeholder="পাসওয়ার্ড নিশ্চিত করুন">
+        <button type="submit">পরিবর্তন করুন</button>
+        <button type="button" id="cancelPasswordChange">বাতিল করুন</button>
+    </form>
 </div>
 <!-- Success Modal -->
 <div class="modal" id="successModal">
@@ -6061,11 +6037,113 @@ async function clearAllAccounts() {
         console.error('Error clearing accounts:', error);
         showNotification(error.message || 'অ্যাকাউন্ট মুছতে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
     } finally {
-        hideLoading();
+         hideLoading();
     }
 }
 
-</script>  
+
+
+
+
+
+
+// Function to toggle between forms
+function toggleForm(formType) {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('emailCheckSection').style.display = 'none';
+    document.getElementById('otpVerificationSection').style.display = 'none';
+    document.getElementById('signupSection').style.display = 'none';
+    
+    if (formType === 'login') {
+        document.getElementById('loginSection').style.display = 'block';
+    } else if (formType === 'emailCheck') {
+        document.getElementById('emailCheckSection').style.display = 'block';
+    } else if (formType === 'otpVerification') {
+        document.getElementById('otpVerificationSection').style.display = 'block';
+    } else if (formType === 'signup') {
+        document.getElementById('signupSection').style.display = 'block';
+    }
+}
+
+// Function to handle user registration
+async function registerUser(userData) {
+    try {
+        // Save to MongoDB backend
+        const response = await fetch(`${DB_API_URL}/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData)
+        });
+        
+        const data = await response.json();
+        
+        if (!data.success) {
+            throw new Error(data.message || 'Registration failed');
+        }
+        
+        // Also save to localStorage as fallback
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        users.push(userData);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        return data;
+    } catch (error) {
+        console.error('Registration error:', error);
+        throw error;
+    }
+}
+
+// Function to handle user login
+async function loginUser(email, password) {
+    try {
+        // Try MongoDB backend first
+        const response = await fetch(`${DB_API_URL}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Save user data to sessionStorage
+            sessionStorage.setItem('authToken', data.token);
+            sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+            return data;
+        }
+        
+        // Fallback to localStorage if MongoDB fails
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(u => u.email === email && u.password === password);
+        
+        if (user) {
+            // Create a simple token for localStorage users
+            const token = btoa(JSON.stringify({ email, timestamp: Date.now() }));
+            sessionStorage.setItem('authToken', token);
+            sessionStorage.setItem('currentUser', JSON.stringify(user));
+            
+            return {
+                success: true,
+                user,
+                token
+            };
+        }
+        
+        throw new Error('Invalid email or password');
+    } catch (error) {
+        console.error('Login error:', error);
+        throw error;
+    }
+}
+
+
+
+
+</script>   
 
         <!-- * এই স্ক্রিপ্টটি ইউজার ইমেইল যাচাই, OTP পাঠানো ও যাচাইকরণ,  -->
         <!-- * রেজিস্ট্রেশন, এবং লগইন প্রক্রিয়া পরিচালনার জন্য ব্যবহৃত হয়। -->

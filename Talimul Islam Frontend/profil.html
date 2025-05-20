@@ -8470,7 +8470,7 @@ async function initializeProfilePage() {
 
 </script> -->
 
-<script>
+<!-- <script>
     // HTML কোডে পাওয়া সমস্ত UI এলিমেন্ট সিলেক্ট করছি
 document.addEventListener('DOMContentLoaded', function() {
     // প্রোফাইল সেকশন এলিমেন্টস
@@ -8815,7 +8815,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadUserData();
     resetErrors();
 });
-</script>
+</script> -->
 
 <!-- <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -9608,7 +9608,135 @@ document.addEventListener('DOMContentLoaded', function() {
 </script> -->
 
 
-<!-- <script>
+<script>
+// Profile management functions
+function loadUserProfile() {
+    const userData = JSON.parse(sessionStorage.getItem('currentUser')) || 
+                     JSON.parse(localStorage.getItem('currentUser'));
+    
+    if (!userData) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // Update profile page with user data
+    document.getElementById('profileName').textContent = userData.name || 'Guest';
+    document.getElementById('profileEmail').textContent = userData.email || '';
+    
+    // Update view mode
+    document.getElementById('viewFullName').textContent = userData.name || '-';
+    document.getElementById('viewEmail').textContent = userData.email || '-';
+    document.getElementById('viewPhone').textContent = userData.phone || '-';
+    document.getElementById('viewBirthday').textContent = formatDate(userData.birthday) || '-';
+    document.getElementById('viewGender').textContent = userData.gender || '-';
+    document.getElementById('viewAddress').textContent = userData.address || '-';
+    
+    // Populate edit form
+    document.getElementById('editFullName').value = userData.name || '';
+    document.getElementById('editPhone').value = userData.phone || '';
+    document.getElementById('editBirthday').value = userData.birthday || '';
+    document.getElementById('editGender').value = userData.gender || '';
+    document.getElementById('editAddress').value = userData.address || '';
+}
+
+function updateUserProfile(updatedData) {
+    try {
+        const currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || 
+                           JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (!currentUser) {
+            throw new Error('User not logged in');
+        }
+        
+        // Update user data
+        const updatedUser = { ...currentUser, ...updatedData };
+        
+        // Save to sessionStorage
+        sessionStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        
+        // Also update in localStorage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.email === currentUser.email);
+        
+        if (userIndex !== -1) {
+            users[userIndex] = updatedUser;
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+        
+        // Update in MongoDB if available
+        const token = sessionStorage.getItem('authToken');
+        if (token) {
+            fetch(`${DB_API_URL}/update-profile`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(updatedData)
+            });
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Profile update error:', error);
+        return false;
+    }
+}
+
+function changePassword(currentPassword, newPassword) {
+    try {
+        const currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || 
+                           JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (!currentUser) {
+            throw new Error('User not logged in');
+        }
+        
+        // Verify current password
+        if (currentUser.password !== currentPassword) {
+            throw new Error('Current password is incorrect');
+        }
+        
+        // Update password
+        currentUser.password = newPassword;
+        currentUser.passwordLastUpdated = new Date().toISOString();
+        
+        // Save updated user
+        sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+        // Update in localStorage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(u => u.email === currentUser.email);
+        
+        if (userIndex !== -1) {
+            users[userIndex] = currentUser;
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+        
+        // Update in MongoDB if available
+        const token = sessionStorage.getItem('authToken');
+        if (token) {
+            fetch(`${DB_API_URL}/change-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    currentPassword,
+                    newPassword
+                })
+            });
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('Password change error:', error);
+        return false;
+    }
+}
+
+
     // User data management - localStorage
 let currentUser = null;
 
@@ -10219,7 +10347,7 @@ function logout() {
     `;
     document.head.appendChild(style);
 })();
-</script>  -->
+</script>
 <!-- <script>
     // MongoDB ইন্টিগ্রেশন
 // ফ্রন্টএন্ড স্ক্রিপ্ট - ফেচ API ব্যবহার করে সার্ভারের সাথে যোগাযোগ করবে
