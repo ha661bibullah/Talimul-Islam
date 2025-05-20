@@ -5744,7 +5744,18 @@ function toggleProfileMenu() {
         return;
     }
     
-
+    console.log('Toggling profile menu');
+    
+    // মেনু দেখা যাচ্ছে কিনা চেক করুন
+    const isVisible = window.getComputedStyle(menu).display !== 'none';
+    
+    if (isVisible) {
+        menu.style.display = 'none';
+        console.log('Menu hidden');
+    } else {
+        menu.style.display = 'block';
+        console.log('Menu shown');
+    }
 }
 
 // ক্লোজ প্রোফাইল মেনু ফাংশন
