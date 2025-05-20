@@ -4837,17 +4837,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
       
        <script>
-        // API কনফিগারেশন
-        const API_CONFIG = {
-            MAIN_API: 'https://talimul-islam.onrender.com',
-            DB_API: 'https://t-i-a-storage-backend.onrender.com'
-        };
-        
-        // গ্লোবাল ভ্যারিয়েবল
-        let currentEmail = '';
-        let otpTimer;
-        let registeredUser = null;
-        
+
+
+    
         // ডকুমেন্ট রেডি হলে ইনিশিয়ালাইজেশন
         document.addEventListener('DOMContentLoaded', function() {
             initializeAuthSystem();
@@ -5298,7 +5290,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // অন্যান্য প্রয়োজনীয় ফাংশন...
         </script>
 <script>
-
+    // API URL - সার্ভার URL
+    const API_URL = 'https://talimul-islam.onrender.com';
+    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
+                        
+    let currentEmail = '';
+    let otpTimer;
+    
     // সাধারণ ফাংশন
     // Toggle between forms
     function toggleForm(formType) {
