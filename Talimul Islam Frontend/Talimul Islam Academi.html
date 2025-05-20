@@ -4844,17 +4844,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
     const API_URL = 'https://t-i-a-otp-mongodb-combined-server.onrender.com';
-    fetch(`${API_URL}/verify-otp`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ email, otp }),
-});
 
-fetch(`${API_URL}/save-user`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(userData),
-});
 
 
     let currentEmail = '';
