@@ -393,7 +393,7 @@
         function checkAuth() {
             const token = localStorage.getItem('token');
             if (!token) {
-                window.location.href = 'login.html'; // Redirect to login page
+                // window.location.href = 'login.html'; // Redirect to login page
                 return false;
             }
             return token;
@@ -403,7 +403,7 @@
         logoutBtn.addEventListener('click', () => {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = 'login.html'; // Redirect to login page
+            // window.location.href = 'login.html'; // Redirect to login page
         });
         
         // Show success alert
@@ -474,7 +474,7 @@
                 } else {
                     showError('প্রোফাইল লোড করতে সমস্যা হয়েছে।');
                     setTimeout(() => {
-                        window.location.href = 'login.html';
+                        // window.location.href = 'login.html';
                     }, 2000);
                 }
             } catch (error) {

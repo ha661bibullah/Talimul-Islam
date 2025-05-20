@@ -3461,6 +3461,59 @@ animation: spin 1s linear infinite;
         toggleForm('login');
     }
     
+    // লগইন স্টেটাস চেক করার ফাংশন
+    async function checkLoginStatus() {
+        // সেশন স্টোরেজ থেকে টোকেন পড়ুন
+        const token = sessionStorage.getItem('authToken');
+        
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (token) {
+            try {
+                // টোকেন ভ্যালিডেট করার জন্য API কল
+                const response = await fetch(`${DB_API_URL}/validate-token`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.valid) {
+                    // লগইন করা আছে, প্রোফাইল আইকন দেখান
+                    if (loginButton) loginButton.style.display = 'none';
+                    if (profileDropdown) profileDropdown.style.display = 'block';
+                    
+                    // যদি ইউজার ডাটা থাকে তাহলে সেট করুন
+                    if (data.user) {
+                        sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+                    }
+                    
+                    return true;
+                } else {
+                    // টোকেন ভ্যালিড নয়, লগইন বাটন দেখান
+                    sessionStorage.removeItem('authToken');
+                    sessionStorage.removeItem('currentUser');
+                    if (loginButton) loginButton.style.display = 'block';
+                    if (profileDropdown) profileDropdown.style.display = 'none';
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error validating token:', error);
+                if (loginButton) loginButton.style.display = 'block';
+                if (profileDropdown) profileDropdown.style.display = 'none';
+                return false;
+            }
+        } else {
+            // লগইন করা নেই, লগইন বাটন দেখান
+            if (loginButton) loginButton.style.display = 'block';
+            if (profileDropdown) profileDropdown.style.display = 'none';
+            return false;
+        }
+    }
     
     // When the page loads - মূল ইনিশিয়ালাইজেশন
     document.addEventListener('DOMContentLoaded', function() {
