@@ -6693,6 +6693,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+// চেক করুন কোন পেজে আছি
+const isProfilePage = document.querySelector('.profile-container');
+    
+if (isProfilePage) {
+    // প্রোফাইল পেজে আছি, নেভিগেশন আইটেম একটিভ করুন
+    const profileButton = document.querySelector('.profile-icon').closest('.nav-item');
+    if (profileButton) {
+        profileButton.classList.add('active');
+    }
+    
+    // যদি আলাদা আইকন স্টাইল থাকে
+    const profileIcon = document.querySelector('.profile-icon');
+    if (profileIcon) {
+        profileIcon.classList.add('active-icon');
+    }
+}
+
 </script>
 
 <style>
