@@ -6658,11 +6658,11 @@ async function handleProfileImageUpload(e) {
     }
 }
 </script> -->
-<script>
-    // প্রোফাইল ম্যানেজমেন্ট সিস্টেম - ফ্রন্টএন্ড জাভাস্ক্রিপ্ট
 
-// 1. কনফিগারেশন এবং API সেটিংস
-// const DB_API_URL = "https://t-i-a-storage-backend.onrender.com"; // সার্ভার URL
+
+<script>
+    // 1. Global API URL Variable - এটি এপ্লিকেশনের সকল স্থানে ব্যবহার করতে হবে
+// const DB_API_URL = "https://t-i-a-storage-backend.onrender.com"; // সার্ভার URL - প্রোডাকশনে এটি আপডেট করতে হবে
 
 // 2. লোডিং স্পিনার কন্ট্রোল
 function showLoading() {
@@ -6689,7 +6689,21 @@ function hideError(elementId) {
     }
 }
 
-// 4. নোটিফিকেশন দেখানো
+// 5. পাসওয়ার্ড ভিজিবিলিটি টগল
+function togglePasswordVisibility(inputId, buttonId) {
+    const passwordInput = document.getElementById(inputId);
+    const toggleButton = document.getElementById(buttonId);
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleButton.textContent = 'লুকান';
+    } else {
+        passwordInput.type = 'password';
+        toggleButton.textContent = 'দেখুন';
+    }
+}
+
+// 6. নোটিফিকেশন দেখানো
 function showNotification(message, type = 'info') {
     // Create notification element if it doesn't exist
     let notification = document.getElementById('notification');
@@ -6710,158 +6724,88 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-// 5. পাসওয়ার্ড ভিজিবিলিটি টগল
-function togglePasswordVisibility(inputId, buttonId) {
-    const passwordInput = document.getElementById(inputId);
-    const toggleButton = document.getElementById(buttonId);
-    
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        toggleButton.textContent = 'লুকান';
+// 7. ইমেইল ভ্যালিডেশন
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email.trim());
+}
+
+// 10. এডিট মোড টগল করার ফাংশন
+function toggleEditMode(isEdit) {
+    if (isEdit) {
+        document.getElementById('viewModeSection').style.display = 'none';
+        document.getElementById('editModeSection').style.display = 'block';
     } else {
-        passwordInput.type = 'password';
-        toggleButton.textContent = 'দেখুন';
+        document.getElementById('viewModeSection').style.display = 'block';
+        document.getElementById('editModeSection').style.display = 'none';
     }
 }
 
-// 6. ইউজার প্রোফাইল ডেটা লোড করার ফাংশন
-async function loadProfileData() {
-    try {
-        showLoading();
+// DOM লোড হওয়ার সময় ইনিশিয়ালাইজেশন
+document.addEventListener('DOMContentLoaded', async function() {
+    // চেক করুন কোন পেজে আছি
+    const isProfilePage = document.querySelector('.profile-container');
+    
+    if (isProfilePage) {
+        // এডিট প্রোফাইল বাটন এবং ইভেন্ট লিসেনার
+        document.getElementById('editProfileBtn').addEventListener('click', function() {
+            toggleEditMode(true);
+        });
         
-        // সেশন স্টোরেজ থেকে টোকেন পড়ুন
-        const token = sessionStorage.getItem('authToken');
-        
-        if (!token) {
-            // টোকেন না থাকলে লগইন পেজে রিডাইরেক্ট করুন
-            window.location.href = 'login.html';
-            return;
-        }
-        
-        // API থেকে সম্পূর্ণ প্রোফাইল ডেটা পান
-        const response = await fetch(`${DB_API_URL}/api/user/profile`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
+        // বাতিল বাটন ইভেন্ট লিসেনার
+        document.getElementById('cancelEditBtn').addEventListener('click', function() {
+            toggleEditMode(false);
+            
+            // ফর্ম রিসেট করুন (পুরানো মান ফিরিয়ে আনুন)
+            const userData = JSON.parse(sessionStorage.getItem('currentUser'));
+            if (userData) {
+                document.getElementById('editFullName').value = userData.name || '';
+                document.getElementById('editEmail').value = userData.email || '';
+                document.getElementById('editPhone').value = userData.phone || '';
+                document.getElementById('editBirthday').value = userData.birthday || '';
+                document.getElementById('editGender').value = userData.gender || '';
+                document.getElementById('editAddress').value = userData.address || '';
             }
         });
         
-        const data = await response.json();
+        // প্রোফাইল আপডেট ফর্ম সাবমিট ইভেন্ট
+        document.getElementById('editProfileForm').addEventListener('submit', handleProfileUpdate);
         
-        if (data.success) {
-            // সেশন স্টোরেজ আপডেট করুন
-            sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+        // পাসওয়ার্ড পরিবর্তন ইভেন্ট
+        document.getElementById('changePasswordBtn').addEventListener('click', function() {
+            document.getElementById('passwordModal').style.display = 'flex';
+            document.getElementById('passwordSuccess').style.display = 'none';
             
-            // প্রোফাইল ডেটা প্রদর্শন
-            displayProfileData(data.user);
-        } else {
-            // যদি API কল ব্যর্থ হয় তবে লোকাল স্টোরেজের ডেটা ব্যবহার করুন
-            const userData = JSON.parse(sessionStorage.getItem('currentUser'));
-            if (userData) {
-                displayProfileData(userData);
-            } else {
-                showNotification('প্রোফাইল ডেটা লোড করা যায়নি।', 'error');
-                // কোন ডেটা না পাওয়া গেলে লগইন পেজে রিডাইরেক্ট করুন
-                window.location.href = 'login.html';
-            }
-        }
-    } catch (error) {
-        console.error('Error loading profile data:', error);
+            // ফর্ম রিসেট
+            document.getElementById('changePasswordForm').reset();
+            hideError('currentPasswordError');
+            hideError('newPasswordError');
+            hideError('confirmPasswordError');
+        });
         
-        // এরর হলে লোকাল ডেটা ব্যবহার করুন
-        const userData = JSON.parse(sessionStorage.getItem('currentUser'));
-        if (userData) {
-            displayProfileData(userData);
-        } else {
-            showNotification('প্রোফাইল ডেটা লোড করা যায়নি।', 'error');
-            // কোন ডেটা না পাওয়া গেলে লগইন পেজে রিডাইরেক্ট করুন
-            window.location.href = 'login.html';
-        }
-    } finally {
-        hideLoading();
+        // পাসওয়ার্ড মোডাল বন্ধ করার বাটন
+        document.getElementById('closePasswordModal').addEventListener('click', function() {
+            document.getElementById('passwordModal').style.display = 'none';
+        });
+        
+        document.getElementById('cancelPasswordChange').addEventListener('click', function() {
+            document.getElementById('passwordModal').style.display = 'none';
+        });
+        
+        // পাসওয়ার্ড পরিবর্তন ফর্ম সাবমিট
+        document.getElementById('changePasswordForm').addEventListener('submit', handlePasswordChange);
+        
+        // প্রোফাইল ছবি আপলোড বাটন
+        document.getElementById('editPhotoBtn').addEventListener('click', function() {
+            document.getElementById('profilePictureInput').click();
+        });
+        
+        // প্রোফাইল ছবি ফাইল আপলোড ইভেন্ট
+        document.getElementById('profilePictureInput').addEventListener('change', handleProfileImageUpload);
     }
-}
+});
 
-// 7. প্রোফাইল ডেটা প্রদর্শন
-function displayProfileData(user) {
-    // সাইডবার প্রোফাইল ইনফো
-    const profileNameElement = document.getElementById('profileName');
-    const profileEmailElement = document.getElementById('profileEmail');
-    
-    if (profileNameElement) profileNameElement.textContent = user.name || 'ব্যবহারকারীর নাম';
-    if (profileEmailElement) profileEmailElement.textContent = user.email || 'example@email.com';
-    
-    // প্রোফাইল ভিউ মোড ডেটা
-    const viewElements = {
-        'viewFullName': user.name || '-',
-        'viewEmail': user.email || '-',
-        'viewPhone': user.phone || '-',
-        'viewBirthday': user.birthday || '-',
-        'viewGender': user.gender || '-',
-        'viewAddress': user.address || '-',
-        'passwordLastUpdated': user.passwordUpdated || '-'
-    };
-    
-    // সব ভিউ এলিমেন্টে ডেটা সেট করুন
-    Object.entries(viewElements).forEach(([id, value]) => {
-        const element = document.getElementById(id);
-        if (element) element.textContent = value;
-    });
-    
-    // এডিট মোড ফর্ম ফিল্ড আপডেট
-    const editElements = {
-        'editFullName': user.name || '',
-        'editEmail': user.email || '',
-        'editPhone': user.phone || '',
-        'editBirthday': user.birthday || '',
-        'editGender': user.gender || '',
-        'editAddress': user.address || ''
-    };
-    
-    // সব এডিট এলিমেন্টে ডেটা সেট করুন
-    Object.entries(editElements).forEach(([id, value]) => {
-        const element = document.getElementById(id);
-        if (element) element.value = value;
-    });
-    
-    // প্রোফাইল ইমেজ দেখান (যদি থাকে)
-    const profileImage = document.getElementById('profileImage');
-    const profileImagePlaceholder = document.getElementById('profileImagePlaceholder');
-    
-    if (profileImage && profileImagePlaceholder) {
-        if (user.profileImage) {
-            // পূর্ণ URL নিশ্চিত করুন
-            const imageUrl = user.profileImage.startsWith('http') ? 
-                user.profileImage : 
-                `${DB_API_URL}${user.profileImage}`;
-                
-            profileImage.src = imageUrl;
-            profileImage.style.display = 'block';
-            profileImagePlaceholder.style.display = 'none';
-        } else {
-            profileImagePlaceholder.style.display = 'flex';
-            profileImage.style.display = 'none';
-        }
-    }
-}
-
-// 8. এডিট মোড টগল করার ফাংশন
-function toggleEditMode(isEdit) {
-    const viewModeSection = document.getElementById('viewModeSection');
-    const editModeSection = document.getElementById('editModeSection');
-    
-    if (viewModeSection && editModeSection) {
-        if (isEdit) {
-            viewModeSection.style.display = 'none';
-            editModeSection.style.display = 'block';
-        } else {
-            viewModeSection.style.display = 'block';
-            editModeSection.style.display = 'none';
-        }
-    }
-}
-
-// 9. প্রোফাইল আপডেট হ্যান্ডলার ফাংশন
+// 11. প্রোফাইল আপডেট হ্যান্ডলার ফাংশন
 async function handleProfileUpdate(e) {
     e.preventDefault();
     
@@ -6897,8 +6841,8 @@ async function handleProfileUpdate(e) {
         const token = sessionStorage.getItem('authToken');
         
         // API কল - সঠিক এন্ডপয়েন্ট ব্যবহার করুন
-        const response = await fetch(`${DB_API_URL}/api/user/update-profile`, {
-            method: 'POST',
+        const response = await fetch(`${DB_API_URL}/update-profile`, {
+            method: 'POST', // সার্ভারে POST মেথড ব্যবহার করা হয়েছে
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -6944,7 +6888,7 @@ async function handleProfileUpdate(e) {
     }
 }
 
-// 10. পাসওয়ার্ড পরিবর্তন হ্যান্ডলার
+// 12. পাসওয়ার্ড পরিবর্তন হ্যান্ডলার
 async function handlePasswordChange(e) {
     e.preventDefault();
     
@@ -6984,7 +6928,7 @@ async function handlePasswordChange(e) {
         const token = sessionStorage.getItem('authToken');
         
         // API কল - সঠিক এন্ডপয়েন্ট এবং মেথড
-        const response = await fetch(`${DB_API_URL}/api/user/change-password`, {
+        const response = await fetch(`${DB_API_URL}/change-password`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -7001,9 +6945,7 @@ async function handlePasswordChange(e) {
         
         if (data.success) {
             // আপডেট সফল
-            const passwordSuccess = document.getElementById('passwordSuccess');
-            if (passwordSuccess) passwordSuccess.style.display = 'block';
-            
+            document.getElementById('passwordSuccess').style.display = 'block';
             document.getElementById('changePasswordForm').reset();
             
             // পাসওয়ার্ড আপডেট তারিখ আপডেট করুন
@@ -7012,16 +6954,13 @@ async function handlePasswordChange(e) {
                 currentUser.passwordUpdated = data.passwordUpdated || new Date().toLocaleDateString('bn-BD');
                 sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
                 
-                const passwordLastUpdated = document.getElementById('passwordLastUpdated');
-                if (passwordLastUpdated) {
-                    passwordLastUpdated.textContent = currentUser.passwordUpdated || '-';
-                }
+                document.getElementById('passwordLastUpdated').textContent = 
+                    currentUser.passwordUpdated || '-';
             }
                 
             // ৩ সেকেন্ড পর মোডাল বন্ধ
             setTimeout(function() {
-                const passwordModal = document.getElementById('passwordModal');
-                if (passwordModal) passwordModal.style.display = 'none';
+                document.getElementById('passwordModal').style.display = 'none';
             }, 3000);
         } else {
             showError('currentPasswordError', data.message || 'বর্তমান পাসওয়ার্ড সঠিক নয়');
@@ -7034,7 +6973,7 @@ async function handlePasswordChange(e) {
     }
 }
 
-// 11. প্রোফাইল ছবি আপলোড হ্যান্ডলার
+// 13. প্রোফাইল ছবি আপলোড হ্যান্ডলার
 async function handleProfileImageUpload(e) {
     if (!e.target.files || !e.target.files[0]) return;
 
@@ -7062,11 +7001,12 @@ async function handleProfileImageUpload(e) {
         formData.append('profileImage', file);
         
         // API কল - সঠিক এন্ডপয়েন্ট
-        const response = await fetch(`${DB_API_URL}/api/user/upload-profile-picture`, {
+        // এখানে হেডার থেকে Content-Type বাদ দিন, fetch API নিজেই মাল্টিপার্ট সেট করবে
+        const response = await fetch(`${DB_API_URL}/upload-profile-picture`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
-                // Content-Type হেডার সরিয়ে দিন - FormData নিজেই সেট করবে
+                // Content-Type হেডার সরিয়ে দিন
             },
             body: formData
         });
@@ -7088,14 +7028,9 @@ async function handleProfileImageUpload(e) {
             sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
             
             // ছবি প্রদর্শন করুন
-            const profileImage = document.getElementById('profileImage');
-            const profileImagePlaceholder = document.getElementById('profileImagePlaceholder');
-            
-            if (profileImage && profileImagePlaceholder) {
-                profileImage.src = imageUrl;
-                profileImage.style.display = 'block';
-                profileImagePlaceholder.style.display = 'none';
-            }
+            document.getElementById('profileImage').src = imageUrl;
+            document.getElementById('profileImage').style.display = 'block';
+            document.getElementById('profileImagePlaceholder').style.display = 'none';
         } else {
             showNotification(data.message || 'ছবি আপলোড করা যায়নি।', 'error');
         }
@@ -7106,196 +7041,7 @@ async function handleProfileImageUpload(e) {
         hideLoading();
     }
 }
-
-// 12. লগআউট ফাংশন
-function logoutUser() {
-    // সেশন স্টোরেজ থেকে ডেটা মুছুন
-    sessionStorage.removeItem('authToken');
-    sessionStorage.removeItem('currentUser');
-    
-    // লগইন পেজে রিডাইরেক্ট করুন
-    window.location.href = 'login.html';
-}
-
-// 13. টোকেন ভ্যালিডেশন ফাংশন
-async function validateToken() {
-    const token = sessionStorage.getItem('authToken');
-    
-    if (!token) {
-        // টোকেন না থাকলে লগইন পেজে রিডাইরেক্ট
-        window.location.href = 'login.html';
-        return false;
-    }
-    
-    try {
-        // API কল যা টোকেন ভ্যালিডেট করবে
-        const response = await fetch(`${DB_API_URL}/api/user/validate-token`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        
-        const data = await response.json();
-        
-        if (!data.valid) {
-            // টোকেন ভ্যালিড না হলে লগআউট করুন
-            logoutUser();
-            return false;
-        }
-        
-        return true;
-    } catch (error) {
-        console.error('Token validation error:', error);
-        return false;
-    }
-}
-
-// DOM লোড হওয়ার সময় ইনিশিয়ালাইজেশন
-document.addEventListener('DOMContentLoaded', async function() {
-    // প্রথমে টোকেন ভ্যালিডেট করুন
-    const isTokenValid = await validateToken();
-    
-    if (!isTokenValid) {
-        return; // টোকেন ভ্যালিড না হলে ফাংশন থেকে বের হয়ে যান
-    }
-    
-    // প্রোফাইল ডেটা লোড করুন
-    loadProfileData();
-    
-    // এডিট প্রোফাইল বাটন ইভেন্ট লিসেনার
-    const editProfileBtn = document.getElementById('editProfileBtn');
-    if (editProfileBtn) {
-        editProfileBtn.addEventListener('click', function() {
-            toggleEditMode(true);
-        });
-    }
-    
-    // বাতিল বাটন ইভেন্ট লিসেনার
-    const cancelEditBtn = document.getElementById('cancelEditBtn');
-    if (cancelEditBtn) {
-        cancelEditBtn.addEventListener('click', function() {
-            toggleEditMode(false);
-            
-            // ফর্ম রিসেট করুন (পুরানো মান ফিরিয়ে আনুন)
-            const userData = JSON.parse(sessionStorage.getItem('currentUser'));
-            if (userData) {
-                const editFields = {
-                    'editFullName': userData.name || '',
-                    'editEmail': userData.email || '',
-                    'editPhone': userData.phone || '',
-                    'editBirthday': userData.birthday || '',
-                    'editGender': userData.gender || '',
-                    'editAddress': userData.address || ''
-                };
-                
-                Object.entries(editFields).forEach(([id, value]) => {
-                    const element = document.getElementById(id);
-                    if (element) element.value = value;
-                });
-            }
-        });
-    }
-    
-    // প্রোফাইল আপডেট ফর্ম ইভেন্ট
-    const editProfileForm = document.getElementById('editProfileForm');
-    if (editProfileForm) {
-        editProfileForm.addEventListener('submit', handleProfileUpdate);
-    }
-    
-    // পাসওয়ার্ড পরিবর্তন বাটন ইভেন্ট
-    const changePasswordBtn = document.getElementById('changePasswordBtn');
-    if (changePasswordBtn) {
-        changePasswordBtn.addEventListener('click', function() {
-            const passwordModal = document.getElementById('passwordModal');
-            const passwordSuccess = document.getElementById('passwordSuccess');
-            
-            if (passwordModal) passwordModal.style.display = 'flex';
-            if (passwordSuccess) passwordSuccess.style.display = 'none';
-            
-            // ফর্ম রিসেট
-            const changePasswordForm = document.getElementById('changePasswordForm');
-            if (changePasswordForm) changePasswordForm.reset();
-            
-            hideError('currentPasswordError');
-            hideError('newPasswordError');
-            hideError('confirmPasswordError');
-        });
-    }
-    
-    // পাসওয়ার্ড মোডাল বন্ধ করার বাটন
-    const closePasswordModal = document.getElementById('closePasswordModal');
-    if (closePasswordModal) {
-        closePasswordModal.addEventListener('click', function() {
-            const passwordModal = document.getElementById('passwordModal');
-            if (passwordModal) passwordModal.style.display = 'none';
-        });
-    }
-    
-    // পাসওয়ার্ড পরিবর্তন বাতিল বাটন
-    const cancelPasswordChange = document.getElementById('cancelPasswordChange');
-    if (cancelPasswordChange) {
-        cancelPasswordChange.addEventListener('click', function() {
-            const passwordModal = document.getElementById('passwordModal');
-            if (passwordModal) passwordModal.style.display = 'none';
-        });
-    }
-    
-    // পাসওয়ার্ড পরিবর্তন ফর্ম সাবমিট
-    const changePasswordForm = document.getElementById('changePasswordForm');
-    if (changePasswordForm) {
-        changePasswordForm.addEventListener('submit', handlePasswordChange);
-    }
-    
-    // পাসওয়ার্ড দেখার বাটন
-    const toggleCurrentPasswordBtn = document.getElementById('toggleCurrentPasswordBtn');
-    const toggleNewPasswordBtn = document.getElementById('toggleNewPasswordBtn');
-    const toggleConfirmPasswordBtn = document.getElementById('toggleConfirmPasswordBtn');
-    
-    if (toggleCurrentPasswordBtn) {
-        toggleCurrentPasswordBtn.addEventListener('click', function() {
-            togglePasswordVisibility('currentPassword', 'toggleCurrentPasswordBtn');
-        });
-    }
-    
-    if (toggleNewPasswordBtn) {
-        toggleNewPasswordBtn.addEventListener('click', function() {
-            togglePasswordVisibility('newPassword', 'toggleNewPasswordBtn');
-        });
-    }
-    
-    if (toggleConfirmPasswordBtn) {
-        toggleConfirmPasswordBtn.addEventListener('click', function() {
-            togglePasswordVisibility('confirmPassword', 'toggleConfirmPasswordBtn');
-        });
-    }
-    
-    // প্রোফাইল ছবি আপলোড বাটন
-    const editPhotoBtn = document.getElementById('editPhotoBtn');
-    if (editPhotoBtn) {
-        editPhotoBtn.addEventListener('click', function() {
-            const profilePictureInput = document.getElementById('profilePictureInput');
-            if (profilePictureInput) profilePictureInput.click();
-        });
-    }
-    
-    // প্রোফাইল ছবি ফাইল আপলোড ইভেন্ট
-    const profilePictureInput = document.getElementById('profilePictureInput');
-    if (profilePictureInput) {
-        profilePictureInput.addEventListener('change', handleProfileImageUpload);
-    }
-    
-    // লগআউট বাটন ইভেন্ট
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            logoutUser();
-        });
-    }
-});
 </script>
-
-
 
 
 
