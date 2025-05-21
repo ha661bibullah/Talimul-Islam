@@ -6124,6 +6124,7 @@ async function handlePasswordChange(e) {
 }
 
 // 13. প্রোফাইল ছবি আপলোড হ্যান্ডলার
+// 13. প্রোফাইল ছবি আপলোড হ্যান্ডলার
 async function handleProfileImageUpload(e) {
     if (!e.target.files || !e.target.files[0]) return;
 
@@ -6170,10 +6171,8 @@ async function handleProfileImageUpload(e) {
             currentUser.profileImage = data.imageUrl;
             sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
             
-            // ছবি প্রদর্শন করুন
-            document.getElementById('profileImage').src = data.imageUrl;
-            document.getElementById('profileImage').style.display = 'block';
-            document.getElementById('profileImagePlaceholder').style.display = 'none';
+            // সব প্রোফাইল ইমেজ এলিমেন্ট আপডেট করুন
+            updateAllProfileImages(data.imageUrl);
         } else {
             showNotification(data.message || 'ছবি আপলোড করা যায়নি।', 'error');
         }
@@ -6184,7 +6183,32 @@ async function handleProfileImageUpload(e) {
         hideLoading();
     }
 }
-</script>
+
+// নতুন ফাংশন: সব প্রোফাইল ইমেজ আপডেট করা
+function updateAllProfileImages(imageUrl) {
+    // পেজে থাকা সব প্রোফাইল ইমেজ এলিমেন্ট আপডেট করুন
+    
+    // মেইন প্রোফাইল ইমেজ আপডেট
+    const profileImageElements = document.querySelectorAll('.profile-image, #profileImage');
+    profileImageElements.forEach(img => {
+        img.src = imageUrl;
+        img.style.display = 'block';
+    });
+    
+    // হেডার/সাইডবার প্রোফাইল ইমেজ আপডেট
+    const headerProfileImage = document.querySelector('.user-avatar img, .header-profile-img');
+    if (headerProfileImage) {
+        headerProfileImage.src = imageUrl;
+        headerProfileImage.style.display = 'block';
+    }
+    
+    // প্লেসহোল্ডার লুকাবেন
+    const placeholders = document.querySelectorAll('.profile-placeholder, #profileImagePlaceholder');
+    placeholders.forEach(placeholder => {
+        placeholder.style.display = 'none';
+    });
+}
+</script> 
 
 
 <!-- <script>
