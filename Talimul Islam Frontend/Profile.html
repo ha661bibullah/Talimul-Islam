@@ -3462,59 +3462,6 @@
                 toggleForm('login');
             }
             
-            // লগইন স্টেটাস চেক করার ফাংশন
-            async function checkLoginStatus() {
-                // সেশন স্টোরেজ থেকে টোকেন পড়ুন
-                const token = sessionStorage.getItem('authToken');
-                
-                const loginButton = document.getElementById('loginButton');
-                const profileDropdown = document.getElementById('profileDropdown');
-                
-                if (token) {
-                    try {
-                        // টোকেন ভ্যালিডেট করার জন্য API কল
-                        const response = await fetch(`${DB_API_URL}/validate-token`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            }
-                        });
-                        
-                        const data = await response.json();
-                        
-                        if (data.valid) {
-                            // লগইন করা আছে, প্রোফাইল আইকন দেখান
-                            if (loginButton) loginButton.style.display = 'none';
-                            if (profileDropdown) profileDropdown.style.display = 'block';
-                            
-                            // যদি ইউজার ডাটা থাকে তাহলে সেট করুন
-                            if (data.user) {
-                                sessionStorage.setItem('currentUser', JSON.stringify(data.user));
-                            }
-                            
-                            return true;
-                        } else {
-                            // টোকেন ভ্যালিড নয়, লগইন বাটন দেখান
-                            sessionStorage.removeItem('authToken');
-                            sessionStorage.removeItem('currentUser');
-                            if (loginButton) loginButton.style.display = 'block';
-                            if (profileDropdown) profileDropdown.style.display = 'none';
-                            return false;
-                        }
-                    } catch (error) {
-                        console.error('Error validating token:', error);
-                        if (loginButton) loginButton.style.display = 'block';
-                        if (profileDropdown) profileDropdown.style.display = 'none';
-                        return false;
-                    }
-                } else {
-                    // লগইন করা নেই, লগইন বাটন দেখান
-                    if (loginButton) loginButton.style.display = 'block';
-                    if (profileDropdown) profileDropdown.style.display = 'none';
-                    return false;
-                }
-            }
             
             // When the page loads - মূল ইনিশিয়ালাইজেশন
             document.addEventListener('DOMContentLoaded', function() {
@@ -4142,30 +4089,7 @@
             }
         });
         
-        // টগল প্রোফাইল মেনু ফাংশন
-        function toggleProfileMenu() {
-            const dropdown = document.getElementById('profileDropdown');
-            const menu = document.querySelector('.dropdown-menu1');
-            
-            if (!dropdown || !menu) {
-                console.error('Dropdown or menu elements not found');
-                return;
-            }
-            
-            console.log('Toggling profile menu');
-            
-            // মেনু দেখা যাচ্ছে কিনা চেক করুন
-            const isVisible = window.getComputedStyle(menu).display !== 'none';
-            
-            if (isVisible) {
-                menu.style.display = 'none';
-                console.log('Menu hidden');
-            } else {
-                menu.style.display = 'block';
-                console.log('Menu shown');
-            }
-        }
-        
+      
         // ক্লোজ প্রোফাইল মেনু ফাংশন
         function closeProfileMenu() {
             const menu = document.querySelector('.dropdown-menu1');
@@ -4316,83 +4240,7 @@
             console.log('Styles added to document head');
         }
         
-        // চেক লগইন স্ট্যাটাস আপডেটেড ফাংশন
-        async function checkLoginStatus() {
-            console.log('Checking login status');
-            
-            // সেশন স্টোরেজ থেকে টোকেন পড়ুন
-            const token = sessionStorage.getItem('authToken');
-            
-            const loginButton = document.getElementById('loginButton');
-            const profileDropdown = document.getElementById('profileDropdown');
-            
-            // Font Awesome লোড হয়েছে কিনা চেক করুন
-            checkFontAwesome();
-            
-            if (!loginButton || !profileDropdown) {
-                console.error('Login button or profile dropdown not found');
-                console.log('loginButton:', loginButton);
-                console.log('profileDropdown:', profileDropdown);
-                return false;
-            }
-            
-            if (token) {
-                console.log('Auth token found, validating...');
-                try {
-                    let isValid = true;
-                    
-                    // টোকেন ভ্যালিডেট করার চেষ্টা করুন
-                    try {
-                        const response = await fetch(`${DB_API_URL}/validate-token`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            }
-                        });
-                        
-                        const data = await response.json();
-                        
-                        if (!data.valid) {
-                            console.log('Token validation failed:', data);
-                            isValid = false;
-                        }
-                    } catch (validationError) {
-                        console.error('Token validation error:', validationError);
-                        // API এরর হলেও টোকেন ব্যবহার করার চেষ্টা করুন
-                        console.log('Continuing with existing token despite validation error');
-                    }
-                    
-                    if (isValid) {
-                        // লগইন করা আছে, প্রোফাইল আইকন দেখান
-                        console.log('User is logged in, showing profile dropdown');
-                        loginButton.style.display = 'none';
-                        profileDropdown.style.display = 'block';
-                        return true;
-                    } else {
-                        // টোকেন ভ্যালিড নয়, লগইন বাটন দেখান
-                        console.log('Invalid token, showing login button');
-                        sessionStorage.removeItem('authToken');
-                        sessionStorage.removeItem('currentUser');
-                        loginButton.style.display = 'block';
-                        profileDropdown.style.display = 'none';
-                        return false;
-                    }
-                } catch (error) {
-                    console.error('Login status check error:', error);
-                    loginButton.style.display = 'block';
-                    profileDropdown.style.display = 'none';
-                    return false;
-                }
-            } else {
-                // লগইন করা নেই, লগইন বাটন দেখান
-                console.log('No auth token, showing login button');
-                loginButton.style.display = 'block';
-                profileDropdown.style.display = 'none';
-                return false;
-            }
-        }
-        
+      
         // Font Awesome লোড হয়েছে কিনা চেক করুন
         function checkFontAwesome() {
             console.log('Checking if Font Awesome is loaded');
@@ -6143,56 +5991,6 @@ function hideError(elementId) {
     }
 }
 
-// 4. ইউজার লগইন স্টেটাস চেক
-async function checkLoginStatus() {
-    const token = sessionStorage.getItem('authToken');
-    const userData = sessionStorage.getItem('currentUser');
-    
-    if (token && userData) {
-        // UI elements update for logged in state
-        const loginBtn = document.getElementById('loginButton');
-        const userMenu = document.getElementById('userMenuContainer');
-        
-        if (loginBtn && userMenu) {
-            loginBtn.style.display = 'none';
-            userMenu.style.display = 'block';
-            
-            // Set user name in dropdown
-            const user = JSON.parse(userData);
-            const userNameElement = document.getElementById('userNameDisplay');
-            if (userNameElement) {
-                userNameElement.textContent = user.name || 'ব্যবহারকারী';
-            }
-        }
-        
-        // Validate token with server (optional)
-        try {
-            const response = await fetch(`${DB_API_URL}/user-profile`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            
-            const data = await response.json();
-            return data.success;
-        } catch (error) {
-            console.error("Token validation error:", error);
-            return true; // Still return true if server error, assuming token is valid
-        }
-    } else {
-        // UI elements update for logged out state
-        const loginBtn = document.getElementById('loginButton');
-        const userMenu = document.getElementById('userMenuContainer');
-        
-        if (loginBtn && userMenu) {
-            loginBtn.style.display = 'block';
-            userMenu.style.display = 'none';
-        }
-        
-        return false;
-    }
-}
 
 // 5. পাসওয়ার্ড ভিজিবিলিটি টগল
 function togglePasswordVisibility(inputId, buttonId) {
