@@ -3277,19 +3277,19 @@
         document.getElementById('otpVerificationForm').style.display = 'none';
         document.getElementById('signupForm').style.display = 'none';
         
-        // if (formType === 'login') {
-        //     document.getElementById('loginSection').style.display = 'block';
-        //     document.getElementById('loginForm').style.display = 'block';
-        // } else if (formType === 'emailCheck') {
-        //     document.getElementById('emailCheckSection').style.display = 'block';
-        //     document.getElementById('emailCheckForm').style.display = 'block';
-        // } else if (formType === 'otpVerification') {
-        //     document.getElementById('otpVerificationSection').style.display = 'block';
-        //     document.getElementById('otpVerificationForm').style.display = 'block';
-        // } else if (formType === 'signup') {
-        //     document.getElementById('signupSection').style.display = 'block';
-        //     document.getElementById('signupForm').style.display = 'block';
-        // }
+        if (formType === 'login') {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'block';
+        } else if (formType === 'emailCheck') {
+            document.getElementById('emailCheckSection').style.display = 'block';
+            document.getElementById('emailCheckForm').style.display = 'block';
+        } else if (formType === 'otpVerification') {
+            document.getElementById('otpVerificationSection').style.display = 'block';
+            document.getElementById('otpVerificationForm').style.display = 'block';
+        } else if (formType === 'signup') {
+            document.getElementById('signupSection').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'block';
+        }
     }
     
     // Toggle password visibility
@@ -6660,9 +6660,52 @@ async function handleProfileImageUpload(e) {
 </script>
 
 
+<script>
+    // DOM লোড হওয়ার সময় ইনিশিয়ালাইজেশন
+document.addEventListener('DOMContentLoaded', function() {
+    // চেক করুন কোন পেজে আছি
+    const isProfilePage = window.location.pathname.includes('profile.html') || 
+                         document.querySelector('.profile-container');
+    
+    if (isProfilePage) {
+        // সব নেভিগেশন আইটেম থেকে active ক্লাস রিমুভ করুন
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        // প্রোফাইল বাটন খুঁজুন
+        const profileButton = document.querySelector('.profile-icon').closest('.nav-item') || 
+                            document.querySelector('.nav-item:has(.profile-icon)');
+        
+        // প্রোফাইল বাটনে active ক্লাস যোগ করুন
+        if (profileButton) {
+            profileButton.classList.add('active');
+        }
+        
+        // যদি সিধা প্রোফাইল আইকনকে স্টাইল করতে হয়
+        const profileIcon = document.querySelector('.profile-icon');
+        if (profileIcon) {
+            profileIcon.classList.add('active-icon');
+        }
+    }
+});
 
 
 
+</script>
+
+<style>
+.nav-item.active {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-left: 3px solid #4caf50;
+    font-weight: bold;
+}
+
+.active-icon {
+    color: #4caf50;
+}
+</style>
 
 
 
