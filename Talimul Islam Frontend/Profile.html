@@ -6191,7 +6191,7 @@ async function checkLoginStatus() {
         const userMenu = document.getElementById('userMenuContainer');
         
         if (loginBtn && userMenu) {
-            loginBtn.style.display = 'none';
+            loginBtn.style.display = 'block';
             userMenu.style.display = 'none';
         }
         
@@ -6659,7 +6659,148 @@ async function handleProfileImageUpload(e) {
 }
 </script>
 
+<script>
+    // ডিফল্ট প্রোফাইল বাটন দেখানোর অতিরিক্ত স্ক্রিপ্ট
+// আপনার মূল কোডের পরে এই স্ক্রিপ্ট যোগ করুন
 
+document.addEventListener('DOMContentLoaded', function() {
+    // মূল checkLoginStatus ফাংশন রান হবার পর এই ফাংশন রান হবে
+    setTimeout(function() {
+        // UI elements আপডেট - লগইন স্টেটাস নির্বিশেষে প্রোফাইল বাটন দেখানো
+        const loginBtn = document.getElementById('loginButton');
+        const userMenu = document.getElementById('userMenuContainer');
+        
+        if (loginBtn && userMenu) {
+            loginBtn.style.display = 'none'; // সবসময় লগইন বাটন লুকানো থাকবে
+            userMenu.style.display = 'block'; // সবসময় প্রোফাইল মেনু দেখানো থাকবে
+            
+            // ইউজার নেম প্রদর্শন
+            const userNameElement = document.getElementById('userNameDisplay');
+            if (userNameElement) {
+                const userData = sessionStorage.getItem('currentUser');
+                if (userData) {
+                    // লগইন থাকলে আসল নাম দেখাবে
+                    const user = JSON.parse(userData);
+                    userNameElement.textContent = user.name || 'ব্যবহারকারী';
+                } else {
+                    // লগইন না থাকলে ডিফল্ট টেক্সট
+                    userNameElement.textContent = 'প্রোফাইল';
+                }
+            }
+        }
+        
+        // প্রোফাইল মেনু আইটেম লিংক আপডেট
+        setupProfileMenuHandlers();
+        
+    }, 100); // মূল কোড রান হবার জন্য অল্প সময় অপেক্ষা করুন
+});
+
+// প্রোফাইল মেনু আইটেম ক্লিক হ্যান্ডলার সেটআপ
+function setupProfileMenuHandlers() {
+    // প্রোফাইল মেনু আইটেম সিলেক্ট
+    const profileMenuItem = document.querySelector('#userMenuContainer .dropdown-menu a[href="profile.html"]');
+    const logoutMenuItem = document.querySelector('#userMenuContainer .dropdown-menu a.logout-btn');
+    
+    if (profileMenuItem) {
+        // আগের সমস্ত ইভেন্ট লিসেনার সরিয়ে ফেলুন (যদি থাকে)
+        const profileMenuItemClone = profileMenuItem.cloneNode(true);
+        profileMenuItem.parentNode.replaceChild(profileMenuItemClone, profileMenuItem);
+        
+        // নতুন ইভেন্ট লিসেনার যোগ করুন
+        profileMenuItemClone.addEventListener('click', function(e) {
+            // চেক করুন লগইন আছে কিনা
+            const token = sessionStorage.getItem('authToken');
+            
+            if (!token) {
+                e.preventDefault(); // লিঙ্ক ক্লিক বাতিল করুন
+                
+                // লগইন না থাকলে লগইন পেজে নিয়ে যান বা লগইন মোডাল দেখান
+                if (document.getElementById('loginModal')) {
+                    document.getElementById('loginModal').style.display = 'flex';
+                } else {
+                    window.location.href = 'login.html'; // বা আপনার লগইন পেজ URL
+                }
+            }
+            // লগইন থাকলে স্বাভাবিকভাবে প্রোফাইল পেজে যাবে
+        });
+    }
+    
+    if (logoutMenuItem) {
+        // আগের সমস্ত ইভেন্ট লিসেনার সরিয়ে ফেলুন (যদি থাকে)
+        const logoutMenuItemClone = logoutMenuItem.cloneNode(true);
+        logoutMenuItem.parentNode.replaceChild(logoutMenuItemClone, logoutMenuItem);
+        
+        // নতুন ইভেন্ট লিসেনার যোগ করুন
+        logoutMenuItemClone.addEventListener('click', function(e) {
+            // চেক করুন লগইন আছে কিনা
+            const token = sessionStorage.getItem('authToken');
+            
+            if (!token) {
+                e.preventDefault(); // লিঙ্ক ক্লিক বাতিল করুন
+                
+                // লগইন না থাকলে লগইন পেজে নিয়ে যান বা লগইন মোডাল দেখান
+                if (document.getElementById('loginModal')) {
+                    document.getElementById('loginModal').style.display = 'flex';
+                } else {
+                    window.location.href = 'login.html'; // বা আপনার লগইন পেজ URL
+                }
+            } else {
+                // লগইন থাকলে লগআউট ফাংশন চালান
+                e.preventDefault();
+                // যদি handleLogout ফাংশন থাকে তবে সেটা চালান, অন্যথায় আমাদের নিজস্ব ফাংশন চালান
+                if (typeof handleLogout === 'function') {
+                    handleLogout();
+                } else {
+                    customHandleLogout();
+                }
+            }
+        });
+    }
+}
+
+// লগআউট হ্যান্ডলার ফাংশন - যদি মূল কোডে না থাকে
+function customHandleLogout() {
+    // সেশন স্টোরেজ থেকে টোকেন এবং ইউজার ডেটা মুছুন
+    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('currentUser');
+    
+    // যদি showNotification ফাংশন থাকে তবে সেটা ব্যবহার করুন
+    if (typeof showNotification === 'function') {
+        showNotification('আপনি সফলভাবে লগআউট হয়েছেন।', 'info');
+    } else {
+        alert('আপনি সফলভাবে লগআউট হয়েছেন।');
+    }
+    
+    // হোম পেজে রিডাইরেক্ট করুন (অথবা আপনার পছন্দের পেজে)
+    setTimeout(() => {
+        window.location.href = 'index.html';
+    }, 1500);
+}
+
+// প্রোফাইল পেজ সুরক্ষা - পেজ লোড হওয়ার সময় চেক
+document.addEventListener('DOMContentLoaded', function() {
+    // চেক করুন কোন পেজে আছি
+    const isProfilePage = document.querySelector('.profile-container');
+    
+    if (isProfilePage) {
+        // প্রোফাইল পেজে অ্যাক্সেস নিয়ন্ত্রণ
+        const token = sessionStorage.getItem('authToken');
+        
+        if (!token) {
+            // লগইন না থাকলে লগইন পেজে রিডাইরেক্ট করুন বা লগইন মোডাল দেখান
+            if (document.getElementById('loginModal')) {
+                setTimeout(function() {
+                    document.getElementById('loginModal').style.display = 'flex';
+                }, 300);
+            } else {
+                setTimeout(function() {
+                    window.location.href = 'login.html'; // বা আপনার লগইন পেজ URL
+                }, 300);
+            }
+        }
+    }
+});
+</script>
 
 
 
