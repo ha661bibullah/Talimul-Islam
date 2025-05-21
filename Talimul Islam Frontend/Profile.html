@@ -4089,7 +4089,30 @@
             }
         });
         
-      
+        // টগল প্রোফাইল মেনু ফাংশন
+        function toggleProfileMenu() {
+            const dropdown = document.getElementById('profileDropdown');
+            const menu = document.querySelector('.dropdown-menu1');
+            
+            if (!dropdown || !menu) {
+                console.error('Dropdown or menu elements not found');
+                return;
+            }
+            
+            console.log('Toggling profile menu');
+            
+            // মেনু দেখা যাচ্ছে কিনা চেক করুন
+            const isVisible = window.getComputedStyle(menu).display !== 'none';
+            
+            if (isVisible) {
+                menu.style.display = 'none';
+                console.log('Menu hidden');
+            } else {
+                menu.style.display = 'block';
+                console.log('Menu shown');
+            }
+        }
+        
         // ক্লোজ প্রোফাইল মেনু ফাংশন
         function closeProfileMenu() {
             const menu = document.querySelector('.dropdown-menu1');
@@ -4240,7 +4263,7 @@
             console.log('Styles added to document head');
         }
         
-      
+        
         // Font Awesome লোড হয়েছে কিনা চেক করুন
         function checkFontAwesome() {
             console.log('Checking if Font Awesome is loaded');
@@ -5991,6 +6014,56 @@ function hideError(elementId) {
     }
 }
 
+// 4. ইউজার লগইন স্টেটাস চেক
+async function checkLoginStatus() {
+    const token = sessionStorage.getItem('authToken');
+    const userData = sessionStorage.getItem('currentUser');
+    
+    if (token && userData) {
+        // UI elements update for logged in state
+        const loginBtn = document.getElementById('loginButton');
+        const userMenu = document.getElementById('userMenuContainer');
+        
+        if (loginBtn && userMenu) {
+            loginBtn.style.display = 'none';
+            userMenu.style.display = 'block';
+            
+            // Set user name in dropdown
+            const user = JSON.parse(userData);
+            const userNameElement = document.getElementById('userNameDisplay');
+            if (userNameElement) {
+                userNameElement.textContent = user.name || 'ব্যবহারকারী';
+            }
+        }
+        
+        // Validate token with server (optional)
+        try {
+            const response = await fetch(`${DB_API_URL}/user-profile`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            return data.success;
+        } catch (error) {
+            console.error("Token validation error:", error);
+            return true; // Still return true if server error, assuming token is valid
+        }
+    } else {
+        // UI elements update for logged out state
+        const loginBtn = document.getElementById('loginButton');
+        const userMenu = document.getElementById('userMenuContainer');
+        
+        if (loginBtn && userMenu) {
+            loginBtn.style.display = 'block';
+            userMenu.style.display = 'none';
+        }
+        
+        return false;
+    }
+}
 
 // 5. পাসওয়ার্ড ভিজিবিলিটি টগল
 function togglePasswordVisibility(inputId, buttonId) {
