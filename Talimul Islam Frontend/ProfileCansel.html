@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্রোফাইল পেইজ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SolaimanLipi', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        
+        .profile-header {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-picture {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 15px;
+            border: 3px solid #3498db;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-picture-default {
+            font-size: 50px;
+            color: #7f8c8d;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .profile-email {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .upload-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .upload-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .form-control:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        select.form-control {
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        
+        .col-md-6 {
+            flex: 0 0 50%;
+            padding: 0 10px;
+            max-width: 50%;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .password-update-info {
+            font-size: 13px;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .col-md-6 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            .profile-header {
+                padding: 15px;
+            }
+        }
+        
+        #profileImageInput {
+            display: none;
+        }
+        
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Loading indicator */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="container">
+        <button id="logoutBtn" class="logout-btn">লগআউট</button>
+        
+        <div id="profileLoading" class="text-center">
+            <h2>লোড হচ্ছে...</h2>
+        </div> -->
+        
+        <div id="profileContent" >
+            <div class="profile-header">
+                <div class="profile-picture">
+                    <div id="profileImageDefault" class="profile-picture-default">👤</div>
+                    <img id="profileImageDisplay" class="hidden" alt="প্রোফাইল ছবি">
+                </div>
+                <h1 id="profileName" class="profile-name">ব্যবহারকারীর নাম</h1>
+                <p id="profileEmail" class="profile-email">user@example.com</p>
+                <input type="file" id="profileImageInput" accept="image/*">
+                <button id="uploadProfileImageBtn" class="upload-btn">প্রোফাইল ছবি আপলোড করুন</button>
+            </div>
+            
+            <!-- Alert messages -->
+            <div id="alertSuccess" class="alert alert-success hidden"></div>
+            <div id="alertDanger" class="alert alert-danger hidden"></div>
+            
+            <!-- Profile Information -->
+            <div class="card">
+                <h2 class="card-title">প্রোফাইল তথ্য</h2>
+                <form id="profileForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">নাম</label>
+                                <input type="text" id="name" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phone">ফোন নম্বর</label>
+                                <input type="tel" id="phone" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="birthday">জন্মতারিখ</label>
+                                <input type="date" id="birthday" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="gender">লিঙ্গ</label>
+                                <select id="gender" class="form-control">
+                                    <option value="">নির্বাচন করুন</option>
+                                    <option value="পুরুষ">পুরুষ</option>
+                                    <option value="মহিলা">মহিলা</option>
+                                    <option value="অন্যান্য">অন্যান্য</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">ঠিকানা</label>
+                        <textarea id="address" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary" id="updateProfileBtn">
+                            প্রোফাইল আপডেট করুন
+                            <span id="profileUpdateLoading" class="loading hidden"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Password Change -->
+            <div class="card">
+                <h2 class="card-title">পাসওয়ার্ড পরিবর্তন</h2>
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">বর্তমান পাসওয়ার্ড</label>
+                        <input type="password" id="currentPassword" class="form-control" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="newPassword">নতুন পাসওয়ার্ড</label>
+                                <input type="password" id="newPassword" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="confirmPassword">কনফার্ম পাসওয়ার্ড</label>
+                                <input type="password" id="confirmPassword" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-danger" id="changePasswordBtn">
+                            পাসওয়ার্ড পরিবর্তন করুন
+                            <span id="passwordUpdateLoading" class="loading hidden"></span>
+                        </button>
+                        
+                        <p id="passwordUpdateInfo" class="password-update-info">সর্বশেষ পাসওয়ার্ড পরিবর্তন: <span id="lastPasswordUpdate">N/A</span></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base URL for API
+        const API_BASE_URL = 'https://t-i-a-storage-backend.onrender.com'; // Change this to your actual API URL
+        
+        // DOM elements
+        const profileLoading = document.getElementById('profileLoading');
+        const profileContent = document.getElementById('profileContent');
+        const profileName = document.getElementById('profileName');
+        const profileEmail = document.getElementById('profileEmail');
+        const profileImageDefault = document.getElementById('profileImageDefault');
+        const profileImageDisplay = document.getElementById('profileImageDisplay');
+        const profileImageInput = document.getElementById('profileImageInput');
+        const uploadProfileImageBtn = document.getElementById('uploadProfileImageBtn');
+        const alertSuccess = document.getElementById('alertSuccess');
+        const alertDanger = document.getElementById('alertDanger');
+        const nameInput = document.getElementById('name');
+        const phoneInput = document.getElementById('phone');
+        const birthdayInput = document.getElementById('birthday');
+        const genderInput = document.getElementById('gender');
+        const addressInput = document.getElementById('address');
+        const updateProfileBtn = document.getElementById('updateProfileBtn');
+        const profileUpdateLoading = document.getElementById('profileUpdateLoading');
+        const currentPasswordInput = document.getElementById('currentPassword');
+        const newPasswordInput = document.getElementById('newPassword');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const changePasswordBtn = document.getElementById('changePasswordBtn');
+        const passwordUpdateLoading = document.getElementById('passwordUpdateLoading');
+        const lastPasswordUpdate = document.getElementById('lastPasswordUpdate');
+        const profileForm = document.getElementById('profileForm');
+        const passwordForm = document.getElementById('passwordForm');
+        const logoutBtn = document.getElementById('logoutBtn');
+        
+        // Check if user is logged in
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // window.location.href = 'login.html'; // Redirect to login page
+                return false;
+            }
+            return token;
+        }
+        
+        // Logout function
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            // window.location.href = 'login.html'; // Redirect to login page
+        });
+        
+        // Show success alert
+        function showSuccess(message) {
+            alertSuccess.textContent = message;
+            alertSuccess.classList.remove('hidden');
+            alertDanger.classList.add('hidden');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                alertSuccess.classList.add('hidden');
+            }, 3000);
+        }
+        
+        // Show error alert
+        function showError(message) {
+            alertDanger.textContent = message;
+            alertDanger.classList.remove('hidden');
+            alertSuccess.classList.add('hidden');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                alertDanger.classList.add('hidden');
+            }, 3000);
+        }
+        
+        // Load user profile
+        async function loadUserProfile() {
+            const token = checkAuth();
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/user-profile`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Hide loading, show content
+                    profileLoading.classList.add('hidden');
+                    profileContent.classList.remove('hidden');
+                    
+                    // Update UI with user data
+                    const user = data.user;
+                    profileName.textContent = user.name;
+                    profileEmail.textContent = user.email;
+                    nameInput.value = user.name;
+                    phoneInput.value = user.phone || '';
+                    birthdayInput.value = formatDateForInput(user.birthday);
+                    genderInput.value = user.gender || '';
+                    addressInput.value = user.address || '';
+                    lastPasswordUpdate.textContent = user.passwordUpdated || 'N/A';
+                    
+                    // Profile image
+                    if (user.profileImage) {
+                        profileImageDisplay.src = API_BASE_URL + user.profileImage;
+                        profileImageDisplay.classList.remove('hidden');
+                        profileImageDefault.classList.add('hidden');
+                    } else {
+                        profileImageDefault.classList.remove('hidden');
+                        profileImageDisplay.classList.add('hidden');
+                    }
+                } else {
+                    showError('প্রোফাইল লোড করতে সমস্যা হয়েছে।');
+                    setTimeout(() => {
+                        // window.location.href = 'login.html';
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showError('সার্ভারে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।');
+            }
+        }
+        
+        // Format date for input field (YYYY-MM-DD)
+        function formatDateForInput(dateString) {
+            if (!dateString) return '';
+            
+            try {
+                // Try to parse the date
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return '';
+                
+                // Format as YYYY-MM-DD
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                
+                return `${year}-${month}-${day}`;
+            } catch (e) {
+                return '';
+            }
+        }
+        
+        // Update profile
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const token = checkAuth();
+            if (!token) return;
+            
+            profileUpdateLoading.classList.remove('hidden');
+            updateProfileBtn.disabled = true;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/update-profile`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: nameInput.value,
+                        phone: phoneInput.value,
+                        birthday: birthdayInput.value,
+                        gender: genderInput.value,
+                        address: addressInput.value
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess(data.message);
+                    profileName.textContent = nameInput.value; // Update name in header
+                } else {
+                    showError(data.message || 'আপডেট করতে সমস্যা হয়েছে।');
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                showError('সার্ভারে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।');
+            } finally {
+                profileUpdateLoading.classList.add('hidden');
+                updateProfileBtn.disabled = false;
+            }
+        });
+        
+        // Change password
+        passwordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const token = checkAuth();
+            if (!token) return;
+            
+            // Validate passwords match
+            if (newPasswordInput.value !== confirmPasswordInput.value) {
+                showError('নতুন পাসওয়ার্ড এবং কনফার্ম পাসওয়ার্ড মিলছে না।');
+                return;
+            }
+            
+            // Validate password length
+            if (newPasswordInput.value.length < 6) {
+                showError('পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।');
+                return;
+            }
+            
+            passwordUpdateLoading.classList.remove('hidden');
+            changePasswordBtn.disabled = true;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/change-password`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        currentPassword: currentPasswordInput.value,
+                        newPassword: newPasswordInput.value,
+                        confirmPassword: confirmPasswordInput.value
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess(data.message);
+                    // Clear password fields
+                    currentPasswordInput.value = '';
+                    newPasswordInput.value = '';
+                    confirmPasswordInput.value = '';
+                    
+                    // Reload profile to get updated password change date
+                    loadUserProfile();
+                } else {
+                    showError(data.message || 'পাসওয়ার্ড পরিবর্তন করতে সমস্যা হয়েছে।');
+                }
+            } catch (error) {
+                console.error('Error changing password:', error);
+                showError('সার্ভারে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।');
+            } finally {
+                passwordUpdateLoading.classList.add('hidden');
+                changePasswordBtn.disabled = false;
+            }
+        });
+        
+        // Upload profile image
+        uploadProfileImageBtn.addEventListener('click', () => {
+            profileImageInput.click();
+        });
+        
+        profileImageInput.addEventListener('change', async (e) => {
+            const token = checkAuth();
+            if (!token) return;
+            
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            // Check file size (max 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                showError('ছবির সাইজ ২ মেগাবাইটের কম হতে হবে।');
+                return;
+            }
+            
+            // Check file type
+            if (!file.type.startsWith('image/')) {
+                showError('অনুগ্রহ করে শুধুমাত্র ছবি আপলোড করুন।');
+                return;
+            }
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('profileImage', file);
+            
+            // Disable button and show loading
+            uploadProfileImageBtn.disabled = true;
+            uploadProfileImageBtn.innerHTML = 'আপলোড হচ্ছে... <span class="loading"></span>';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/upload-profile-picture`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess(data.message);
+                    
+                    // Update profile image
+                    profileImageDisplay.src = API_BASE_URL + data.imageUrl;
+                    profileImageDisplay.classList.remove('hidden');
+                    profileImageDefault.classList.add('hidden');
+                } else {
+                    showError(data.message || 'ছবি আপলোড করতে সমস্যা হয়েছে।');
+                }
+            } catch (error) {
+                console.error('Error uploading image:', error);
+                showError('সার্ভারে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।');
+            } finally {
+                // Reset button
+                uploadProfileImageBtn.disabled = false;
+                uploadProfileImageBtn.textContent = 'প্রোফাইল ছবি আপলোড করুন';
+            }
+        });
+        
+        // Initialize profile on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserProfile();
+        });
+    </script>
+</body>
+</html>
