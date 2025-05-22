@@ -3244,7 +3244,247 @@ animation: spin 1s linear infinite;
         <!-- * ৪. ফর্ম সাবমিট করলে (ডেমো উদ্দেশ্যে) লগইন সফল বার্তা দেখায় এবং পপআপ বন্ধ করে। -->
 
 
+<script>
+    // প্রিলোড লগইন স্টেটাস চেকার - রিলোডের সময় ফ্ল্যাশিং বন্ধ করার জন্য
+(function() {
+    'use strict';
+    
+    console.log('Preload Login Status Checker initialized');
+    
+    // তাৎক্ষণিক লগইন স্টেটাস চেক করুন (DOM লোডের আগেই)
+    function immediateLoginCheck() {
+        console.log('Performing immediate login check');
+        
+        // সেশন স্টোরেজ থেকে টোকেন চেক করুন
+        const token = sessionStorage.getItem('authToken');
+        const loginTime = sessionStorage.getItem('loginTime');
+        
+        console.log('Token exists:', !!token);
+        console.log('Login time exists:', !!loginTime);
+        
+        if (token && loginTime) {
+            // লগইন টাইম এক্সপায়ার হয়েছে কিনা চেক করুন
+            const currentTime = Date.now();
+            const loginTimestamp = parseInt(loginTime);
+            const timeDiff = currentTime - loginTimestamp;
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            
+            if (timeDiff <= twentyFourHours) {
+                console.log('User is logged in and session is valid');
+                // ইউজার লগইন আছে, তাৎক্ষণিক CSS স্টাইল প্রয়োগ করুন
+                applyImmediateStyles(true);
+                return true;
+            } else {
+                console.log('Session expired, clearing data');
+                // সেশন এক্সপায়ার হয়েছে
+                sessionStorage.removeItem('authToken');
+                sessionStorage.removeItem('currentUser');
+                sessionStorage.removeItem('loginTime');
+                applyImmediateStyles(false);
+                return false;
+            }
+        } else {
+            console.log('No valid session found');
+            // লগইন নেই
+            applyImmediateStyles(false);
+            return false;
+        }
+    }
+    
+    // তাৎক্ষণিক স্টাইল প্রয়োগ করার ফাংশন
+    function applyImmediateStyles(isLoggedIn) {
+        console.log('Applying immediate styles, isLoggedIn:', isLoggedIn);
+        
+        // একটি স্টাইল ট্যাগ তৈরি করুন যা তাৎক্ষণিক কাজ করবে
+        const immediateStyle = document.createElement('style');
+        immediateStyle.id = 'immediateLoginStyle';
+        immediateStyle.textContent = `
+            /* তাৎক্ষণিক স্টাইল প্রয়োগ */
+            #loginButton {
+                display: ${isLoggedIn ? 'none' : 'block'} !important;
+                opacity: ${isLoggedIn ? '0' : '1'} !important;
+                visibility: ${isLoggedIn ? 'hidden' : 'visible'} !important;
+            }
+            
+            #profileDropdown {
+                display: ${isLoggedIn ? 'block' : 'none'} !important;
+                opacity: ${isLoggedIn ? '1' : '0'} !important;
+                visibility: ${isLoggedIn ? 'visible' : 'hidden'} !important;
+            }
+            
+            /* লোডিং অ্যানিমেশন রোধ করার জন্য */
+            .user-menu-container * {
+                transition: none !important;
+                animation: none !important;
+            }
+        `;
+        
+        // হেডে স্টাইল যোগ করুন
+        if (document.head) {
+            document.head.appendChild(immediateStyle);
+        } else {
+            // হেড এখনো লোড হয়নি, তাই HTML এলিমেন্টে যোগ করুন
+            document.documentElement.appendChild(immediateStyle);
+        }
+        
+        console.log('Immediate styles applied');
+    }
+    
+    // স্টাইল ক্লিনআপ করার ফাংশন
+    function cleanupImmediateStyles() {
+        console.log('Cleaning up immediate styles');
+        const immediateStyle = document.getElementById('immediateLoginStyle');
+        if (immediateStyle) {
+            immediateStyle.remove();
+        }
+        
+        // ট্রানজিশন পুনরায় চালু করুন
+        const cleanupStyle = document.createElement('style');
+        cleanupStyle.textContent = `
+            .user-menu-container * {
+                transition: all 0.3s ease !important;
+            }
+        `;
+        document.head.appendChild(cleanupStyle);
+        
+        // ২ সেকেন্ড পর ক্লিনআপ স্টাইল রিমুভ করুন
+        setTimeout(() => {
+            cleanupStyle.remove();
+        }, 2000);
+    }
+    
+    // DOM লোডিং স্টেট চেক করুন
+    if (document.readyState === 'loading') {
+        // ডকুমেন্ট এখনো লোড হচ্ছে
+        console.log('Document is still loading, applying immediate check');
+        immediateLoginCheck();
+        
+        // DOM কন্টেন্ট লোড হলে ক্লিনআপ করুন
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded, cleaning up immediate styles');
+            setTimeout(cleanupImmediateStyles, 500);
+        });
+    } else {
+        // ডকুমেন্ট ইতিমধ্যে লোড হয়েছে
+        console.log('Document already loaded, performing immediate check');
+        immediateLoginCheck();
+        setTimeout(cleanupImmediateStyles, 100);
+    }
+    
+    // পেজ লোড সম্পূর্ণ হলে চূড়ান্ত চেক
+    window.addEventListener('load', function() {
+        console.log('Page fully loaded, performing final login status check');
+        
+        // যদি checkLoginStatus ফাংশন উপলব্ধ থাকে তাহলে কল করুন
+        if (typeof checkLoginStatus === 'function') {
+            setTimeout(checkLoginStatus, 100);
+        }
+        
+        // চূড়ান্ত ক্লিনআপ
+        setTimeout(cleanupImmediateStyles, 1000);
+    });
+    
+    // ভিজিবিলিটি চেঞ্জ হ্যান্ডলার (ট্যাব সুইচিং)
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            console.log('Page became visible, checking login status immediately');
+            immediateLoginCheck();
+            
+            // যদি checkLoginStatus ফাংশন উপলব্ধ থাকে তাহলে কল করুন
+            if (typeof checkLoginStatus === 'function') {
+                setTimeout(checkLoginStatus, 200);
+            }
+        }
+    });
+    
+    // পারফরমেন্স অপটিমাইজেশন - রিপিট চেক এড়ানোর জন্য
+    let lastCheckTime = 0;
+    const CHECK_INTERVAL = 1000; // ১ সেকেন্ড
+    
+    function optimizedLoginCheck() {
+        const now = Date.now();
+        if (now - lastCheckTime < CHECK_INTERVAL) {
+            console.log('Skipping login check - too frequent');
+            return;
+        }
+        lastCheckTime = now;
+        immediateLoginCheck();
+    }
+    
+    // পপস্টেট ইভেন্ট (ব্রাউজার ব্যাক/ফরওয়ার্ড)
+    window.addEventListener('popstate', optimizedLoginCheck);
+    
+    // ফোকাস ইভেন্ট
+    window.addEventListener('focus', optimizedLoginCheck);
+    
+    console.log('Preload Login Status Checker setup complete');
 
+})();
+
+// অতিরিক্ত CSS স্টাইল যা ফ্ল্যাশিং প্রতিরোধ করবে
+(function addAntiFlashStyles() {
+    const antiFlashStyle = document.createElement('style');
+    antiFlashStyle.id = 'antiFlashStyles';
+    antiFlashStyle.textContent = `
+        /* ফ্ল্যাশিং প্রতিরোধের জন্য */
+        .user-menu-container {
+            position: relative;
+            min-width: 120px; /* স্থির প্রস্থ */
+            min-height: 40px; /* স্থির উচ্চতা */
+        }
+        
+        #loginButton, #profileDropdown {
+            position: absolute;
+            top: 0;
+            right: 0;
+            /* প্রাথমিক অবস্থায় দৃশ্যমানতা লুকানো */
+            transition: opacity 0.1s ease-in-out !important;
+        }
+        
+        /* প্রিলোড অবস্থায় সবকিছু লুকিয়ে রাখুন */
+        .preload #loginButton,
+        .preload #profileDropdown {
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+        
+        /* লোড সম্পূর্ণ হলে দেখান */
+        .loaded #loginButton,
+        .loaded #profileDropdown {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    `;
+    
+    // স্টাইল যোগ করুন
+    if (document.head) {
+        document.head.appendChild(antiFlashStyle);
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            document.head.appendChild(antiFlashStyle);
+        });
+    }
+    
+    // বডিতে প্রিলোড ক্লাস যোগ করুন
+    if (document.body) {
+        document.body.classList.add('preload');
+    } else {
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('preload');
+        });
+    }
+    
+    // লোড সম্পূর্ণ হলে প্রিলোড ক্লাস রিমুভ করুন
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            if (document.body) {
+                document.body.classList.remove('preload');
+                document.body.classList.add('loaded');
+            }
+        }, 100);
+    });
+})();
+</script>
 
 
 
