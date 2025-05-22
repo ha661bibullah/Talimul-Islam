@@ -3252,7 +3252,7 @@
         
         
         
-                <script>
+<script>
                     // API URL - সার্ভার URL
                     const API_URL = 'https://talimul-islam.onrender.com';
                     const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
@@ -3808,561 +3808,8 @@
                         });
                     });
                     
-                </script>     
-              
-<!-- <script>
-    // API URL - সার্ভার URL
-    const API_URL = 'https://talimul-islam.onrender.com';
-    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
-                        
-    let currentEmail = '';
-    let otpTimer;
-    let tokenRefreshInterval;
-    
-    // সাধারণ ফাংশন
-    // Toggle between forms
-    function toggleForm(formType) {
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('emailCheckSection').style.display = 'none';
-        document.getElementById('otpVerificationSection').style.display = 'none';
-        document.getElementById('signupSection').style.display = 'none';
-        
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('emailCheckForm').style.display = 'none';
-        document.getElementById('otpVerificationForm').style.display = 'none';
-        document.getElementById('signupForm').style.display = 'none';
-        
-        if (formType === 'login') {
-            document.getElementById('loginSection').style.display = 'block';
-            document.getElementById('loginForm').style.display = 'block';
-        } else if (formType === 'emailCheck') {
-            document.getElementById('emailCheckSection').style.display = 'block';
-            document.getElementById('emailCheckForm').style.display = 'block';
-        } else if (formType === 'otpVerification') {
-            document.getElementById('otpVerificationSection').style.display = 'block';
-            document.getElementById('otpVerificationForm').style.display = 'block';
-        } else if (formType === 'signup') {
-            document.getElementById('signupSection').style.display = 'block';
-            document.getElementById('signupForm').style.display = 'block';
-        }
-    }
-    
-    // Toggle password visibility
-    function togglePasswordVisibility(inputId, toggleId) {
-        const passwordInput = document.getElementById(inputId);
-        const toggleButton = document.getElementById(toggleId);
-        
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            toggleButton.textContent = 'লুকান';
-        } else {
-            passwordInput.type = 'password';
-            toggleButton.textContent = 'দেখুন';
-        }
-    }
-    
-    // Start OTP timer
-    function startOTPTimer() {
-        let totalSeconds = 120; // 2 minutes
-        
-        clearInterval(otpTimer);
-        document.getElementById('resendOtp').disabled = true;
-        
-        // Update timer display immediately
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        document.getElementById('timer').textContent = 
-            (minutes < 10 ? '0' + minutes : minutes) + ':' + 
-            (seconds < 10 ? '0' + seconds : seconds);
-        
-        otpTimer = setInterval(function() {
-            totalSeconds--;
-            
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            
-            document.getElementById('timer').textContent = 
-                (minutes < 10 ? '0' + minutes : minutes) + ':' + 
-                (seconds < 10 ? '0' + seconds : seconds);
-            
-            if (totalSeconds <= 0) {
-                clearInterval(otpTimer);
-                document.getElementById('resendOtp').disabled = false;
-            }
-        }, 1000);
-    }
-    
-    // লোডিং ফাংশন
-    // লোডিং স্পিনার তৈরি করুন
-    function createLoader() {
-        const loader = document.createElement('div');
-        loader.className = 'loader';
-        loader.id = 'pageLoader';
-        
-        const spinner = document.createElement('div');
-        spinner.className = 'spinner';
-        
-        loader.appendChild(spinner);
-        document.body.appendChild(loader);
-    }
-    
-    // লোডিং দেখানোর ফাংশন
-    function showLoading() {
-        if (!document.getElementById('pageLoader')) {
-            createLoader();
-        }
-        document.getElementById('pageLoader').style.display = 'flex';
-        // document.body.style.cursor = 'wait';
-    }
-    
-    // লোডিং বন্ধ করার ফাংশন
-    function hideLoading() {
-        const loader = document.getElementById('pageLoader');
-        if (loader) {
-            loader.style.display = 'none';
-        }
-        // document.body.style.cursor = 'default';
-    }
-    
-    // Show error with specified message
-    function showError(elementId, message) {
-        const errorElement = document.getElementById(elementId);
-        errorElement.textContent = message;
-        errorElement.classList.add('show-error');
-    }
-    
-    // Hide error
-    function hideError(elementId) {
-        document.getElementById(elementId).classList.remove('show-error');
-    }
-    
-    // Email validation function
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-    
-    // নোটিফিকেশন পপআপ ফাংশন - alert এর পরিবর্তে
-    function showNotification(message, type = 'success') {
-        // পূর্বের নোটিফিকেশন রিমুভ করুন
-        const existingNotification = document.getElementById('customNotification');
-        if (existingNotification) {
-            existingNotification.remove();
-        }
-        
-        // নতুন নোটিফিকেশন তৈরি করুন
-        const notification = document.createElement('div');
-        notification.id = 'customNotification';
-        notification.className = `custom-notification ${type}`;
-        
-        // নোটিফিকেশন কনটেন্ট
-        notification.innerHTML = `
-            <div class="notification-content">
-                <span class="notification-message">${message}</span>
-                <span class="notification-close">&times;</span>
-            </div>
-        `;
-        
-        // নোটিফিকেশন স্টাইল
-        notification.style.position = 'fixed';
-        notification.style.top = '20px';
-        notification.style.right = '20px';
-        notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
-        notification.style.color = 'white';
-        notification.style.padding = '15px';
-        notification.style.borderRadius = '5px';
-        notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
-        notification.style.zIndex = '9999';
-        notification.style.transition = 'all 0.3s ease';
-        notification.style.opacity = '0';
-        
-        // বডিতে অ্যাড করুন
-        document.body.appendChild(notification);
-        
-        // ফেড ইন এফেক্ট
-        setTimeout(() => {
-            notification.style.opacity = '1';
-        }, 10);
-        
-        // ক্লোজ বাটন ফাংশনালিটি
-        const closeButton = notification.querySelector('.notification-close');
-        closeButton.style.marginLeft = '15px';
-        closeButton.style.cursor = 'pointer';
-        closeButton.style.fontWeight = 'bold';
-        
-        closeButton.addEventListener('click', function() {
-            notification.style.opacity = '0';
-            setTimeout(() => {
-                notification.remove();
-            }, 300);
-        });
-        
-        // অটো ক্লোজ
-        setTimeout(() => {
-            notification.style.opacity = '0';
-            setTimeout(() => {
-                notification.remove();
-            }, 300);
-        }, 5000);
-    }
-    
-    // মডাল ফাংশন
-    // Open modal
-    function openModal() {
-        document.getElementById('successModal').style.display = 'flex';
-    }
-    
-    // Close modal
-    function closeModal() {
-        document.getElementById('successModal').style.display = 'none';
-        toggleForm('login');
-    }
-    
-    // টোকেন রিফ্রেশ ফাংশন
-    async function refreshToken() {
-        try {
-            const token = localStorage.getItem('authToken');
-            if (!token) return false;
-            
-            const response = await fetch(`${DB_API_URL}/refresh-token`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            
-            const data = await response.json();
-            
-            if (data.success && data.token) {
-                // নতুন টোকেন সেভ করুন
-                localStorage.setItem('authToken', data.token);
-                if (data.user) {
-                    localStorage.setItem('currentUser', JSON.stringify(data.user));
-                }
-                return true;
-            } else {
-                return false;
-            }
-        } catch (error) {
-            console.error('Token refresh error:', error);
-            return false;
-        }
-    }
-    
-    // অটো টোকেন রিফ্রেশ সেটআপ
-    function setupTokenRefresh() {
-        // প্রতি 10 মিনিটে টোকেন রিফ্রেশ করুন
-        tokenRefreshInterval = setInterval(async () => {
-            const isRefreshed = await refreshToken();
-            if (!isRefreshed) {
-                // রিফ্রেশ ফেইল হলে লগআউট করুন
-                handleAutoLogout();
-            }
-        }, 10 * 60 * 1000); // 10 মিনিট
-    }
-    
-    // অটো লগআউট হ্যান্ডলার
-    function handleAutoLogout() {
-        // সেশন ক্লিয়ার করুন
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('currentUser');
-        
-        // ইন্টারভাল ক্লিয়ার করুন
-        if (tokenRefreshInterval) {
-            clearInterval(tokenRefreshInterval);
-        }
-        
-        // UI আপডেট করুন
-        checkLoginStatus();
-        
-        // ইউজারকে জানান
-        showNotification('আপনার সেশন শেষ হয়ে গেছে। আবার লগইন করুন।', 'error');
-    }
-    
-    // লগইন স্টেটাস চেক করার উন্নত ফাংশন
-    async function checkLoginStatus() {
-        // localStorage থেকে টোকেন পড়ুন
-        const token = localStorage.getItem('authToken');
-        
-        const loginButton = document.getElementById('loginButton');
-        const profileDropdown = document.getElementById('profileDropdown');
-        
-        if (token) {
-            try {
-                // টোকেন ভ্যালিডেট করার জন্য API কল
-                const response = await fetch(`${DB_API_URL}/validate-token`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                
-                const data = await response.json();
-                
-                if (data.valid) {
-                    // লগইন করা আছে, প্রোফাইল আইকন দেখান
-                    if (loginButton) loginButton.style.display = 'none';
-                    if (profileDropdown) profileDropdown.style.display = 'block';
-                    
-                    // যদি ইউজার ডাটা থাকে তাহলে সেট করুন
-                    if (data.user) {
-                        localStorage.setItem('currentUser', JSON.stringify(data.user));
-                    }
-                    
-                    // অটো রিফ্রেশ সেটআপ করুন (যদি এখনো না করা হয়ে থাকে)
-                    if (!tokenRefreshInterval) {
-                        setupTokenRefresh();
-                    }
-                    
-                    return true;
-                } else {
-                    // টোকেন ভ্যালিড নয়, রিফ্রেশ করার চেষ্টা করুন
-                    const isRefreshed = await refreshToken();
-                    if (isRefreshed) {
-                        return await checkLoginStatus();
-                    } else {
-                        // রিফ্রেশ ফেইল হলে লগআউট
-                        handleAutoLogout();
-                        return false;
-                    }
-                }
-            } catch (error) {
-                console.error('Error validating token:', error);
-                // নেটওয়ার্ক এরর হলে রিফ্রেশ করার চেষ্টা করুন
-                const isRefreshed = await refreshToken();
-                if (!isRefreshed) {
-                    handleAutoLogout();
-                }
-                return false;
-            }
-        } else {
-            // লগইন করা নেই, লগইন বাটন দেখান
-            if (loginButton) loginButton.style.display = 'block';
-            if (profileDropdown) profileDropdown.style.display = 'none';
-            
-            // ইন্টারভাল ক্লিয়ার করুন
-            if (tokenRefreshInterval) {
-                clearInterval(tokenRefreshInterval);
-                tokenRefreshInterval = null;
-            }
-            
-            return false;
-        }
-    }
-    
-    // সফল লগইনের পর টোকেন সেভ করার ফাংশন
-    function saveAuthToken(token, user) {
-        localStorage.setItem('authToken', token);
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        
-        // অটো রিফ্রেশ সেটআপ করুন
-        setupTokenRefresh();
-        
-        // UI আপডেট করুন
-        checkLoginStatus();
-    }
-    
-    // ইউজার অ্যাক্টিভিটি ট্র্যাক করার জন্য
-    let userActivityTimer;
-    
-    // ইউজার অ্যাক্টিভিটি রিসেট করুন
-    function resetUserActivity() {
-        if (userActivityTimer) {
-            clearTimeout(userActivityTimer);
-        }
-        
-        // ৩০ মিনিট নিষ্ক্রিয় থাকলে সতর্কতা দিন
-        userActivityTimer = setTimeout(() => {
-            const token = localStorage.getItem('authToken');
-            if (token) {
-                showNotification('আপনি দীর্ঘক্ষণ নিষ্ক্রিয় রয়েছেন। অ্যাক্টিভ থাকার জন্য পেজে ক্লিক করুন।', 'error');
-            }
-        }, 30 * 60 * 1000); // ৩০ মিনিট
-    }
-    
-    // ইউজার অ্যাক্টিভিটি ইভেন্ট লিস্টেনার
-    function setupUserActivityTracking() {
-        const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
-        
-        events.forEach(event => {
-            document.addEventListener(event, resetUserActivity, true);
-        });
-        
-        // প্রথম বার সেটআপ
-        resetUserActivity();
-    }
-    
-    // When the page loads - মূল ইনিশিয়ালাইজেশন
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize the page
-        toggleForm('login');
-        
-        // Set up OTP input fields for automatic focus
-        const otpInputs = document.querySelectorAll('.otp-digit');
-        
-        for (let i = 0; i < otpInputs.length; i++) {
-            otpInputs[i].addEventListener('input', function() {
-                if (this.value.length === 1) {
-                    if (i < otpInputs.length - 1) {
-                        otpInputs[i + 1].focus();
-                    }
-                }
-            });
-            
-            otpInputs[i].addEventListener('keydown', function(e) {
-                if (e.key === 'Backspace' && this.value.length === 0) {
-                    if (i > 0) {
-                        otpInputs[i - 1].focus();
-                    }
-                }
-            });
-        }
-        
-        // Set up event listeners for password toggle buttons
-        const passwordToggleButtons = document.querySelectorAll('.toggle-password');
-        passwordToggleButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const inputId = this.getAttribute('data-target');
-                const toggleId = this.id;
-                togglePasswordVisibility(inputId, toggleId);
-            });
-        });
-        
-        // Set up navigation buttons
-        const goToEmailCheck = document.getElementById('goToEmailCheck');
-        if (goToEmailCheck) {
-            goToEmailCheck.addEventListener('click', function() {
-                toggleForm('emailCheck');
-            });
-        }
-        
-        const goToLogin = document.getElementById('goToLogin');
-        if (goToLogin) {
-            goToLogin.addEventListener('click', function() {
-                toggleForm('login');
-            });
-        }
-        
-        // Set up modal close button
-        const closeModalBtn = document.getElementById('closeModal');
-        if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', closeModal);
-        }
-        
-        // লগইন পপআপ এবং ব্লার এফেক্ট
-        const loginButton = document.querySelector('.login-button');
-        const loginPopup = document.querySelector('.login-popup');
-        const blurOverlay = document.querySelector('.blur-overlay');
-        const closeLogin = document.querySelector('.close-login');
-        
-        // লগইন বাটনে ক্লিক করলে
-        if (loginButton) {
-            loginButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginPopup.classList.add('active');
-                blurOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // স্ক্রল বন্ধ করুন
-            });
-        }
-        
-        // ক্লোজ বাটনে ক্লিক করলে
-        if (closeLogin) {
-            closeLogin.addEventListener('click', function() {
-                loginPopup.classList.remove('active');
-                blurOverlay.classList.remove('active');
-                document.body.style.overflow = ''; // স্ক্রল চালু করুন
-            });
-        }
-        
-        // ব্লার ওভারলেতে ক্লিক করলে
-        if (blurOverlay) {
-            blurOverlay.addEventListener('click', function() {
-                loginPopup.classList.remove('active');
-                blurOverlay.classList.remove('active');
-                document.body.style.overflow = ''; // স্ক্রল চালু করুন
-            });
-        }
-        
-        // লগআউট বাটন সেটআপ
-        const logoutButton = document.getElementById('logoutButton');
-        if (logoutButton) {
-            logoutButton.addEventListener('click', async function(e) {
-                e.preventDefault();
-                
-                try {
-                    const token = localStorage.getItem('authToken');
-                    
-                    if (token) {
-                        // লগআউট API কল
-                        const response = await fetch(`${DB_API_URL}/logout`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            }
-                        });
-                        
-                        const data = await response.json();
-                        
-                        if (data.success) {
-                            // সফল লগআউট
-                            showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
-                        } else {
-                            showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
-                        }
-                    }
-                } catch (error) {
-                    console.error('Logout error:', error);
-                } finally {
-                    // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন
-                    localStorage.removeItem('authToken');
-                    localStorage.removeItem('currentUser');
-                    
-                    // ইন্টারভাল ক্লিয়ার করুন
-                    if (tokenRefreshInterval) {
-                        clearInterval(tokenRefreshInterval);
-                        tokenRefreshInterval = null;
-                    }
-                    
-                    // অ্যাক্টিভিটি ট্র্যাকিং বন্ধ করুন
-                    if (userActivityTimer) {
-                        clearTimeout(userActivityTimer);
-                    }
-                    
-                    // লগইন স্টেটাস আপডেট করুন
-                    checkLoginStatus();
-                }
-            });
-        }
-        
-        // পেজ লোড হওয়ার সময় লগইন স্টেটাস চেক করুন
-        checkLoginStatus();
-        
-        // ইউজার অ্যাক্টিভিটি ট্র্যাকিং সেটআপ করুন
-        setupUserActivityTracking();
-        
-        // পেজ বন্ধ হওয়ার আগে ক্লিনআপ
-        window.addEventListener('beforeunload', function() {
-            if (tokenRefreshInterval) {
-                clearInterval(tokenRefreshInterval);
-            }
-            if (userActivityTimer) {
-                clearTimeout(userActivityTimer);
-            }
-        });
-        
-        // ভিজিবিলিটি চেঞ্জ হ্যান্ডলার
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden) {
-                // পেজ ভিজিবল হলে লগইন স্টেটাস চেক করুন
-                checkLoginStatus();
-            }
-        });
-    });
-    
-</script>       -->
+</script> 
+
 <script>
                     // Handle Email Check form submission
                     document.addEventListener('DOMContentLoaded', function() {
@@ -5095,6 +4542,561 @@
                // ইনিশিয়ালাইজ স্ক্রিপ্ট ইমিডিয়েটলি
                console.log('Profile dropdown script initialized');
 </script>
+              
+<!-- <script>
+    // API URL - সার্ভার URL
+    const API_URL = 'https://talimul-islam.onrender.com';
+    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
+                        
+    let currentEmail = '';
+    let otpTimer;
+    let tokenRefreshInterval;
+    
+    // সাধারণ ফাংশন
+    // Toggle between forms
+    function toggleForm(formType) {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('emailCheckSection').style.display = 'none';
+        document.getElementById('otpVerificationSection').style.display = 'none';
+        document.getElementById('signupSection').style.display = 'none';
+        
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('emailCheckForm').style.display = 'none';
+        document.getElementById('otpVerificationForm').style.display = 'none';
+        document.getElementById('signupForm').style.display = 'none';
+        
+        if (formType === 'login') {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'block';
+        } else if (formType === 'emailCheck') {
+            document.getElementById('emailCheckSection').style.display = 'block';
+            document.getElementById('emailCheckForm').style.display = 'block';
+        } else if (formType === 'otpVerification') {
+            document.getElementById('otpVerificationSection').style.display = 'block';
+            document.getElementById('otpVerificationForm').style.display = 'block';
+        } else if (formType === 'signup') {
+            document.getElementById('signupSection').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'block';
+        }
+    }
+    
+    // Toggle password visibility
+    function togglePasswordVisibility(inputId, toggleId) {
+        const passwordInput = document.getElementById(inputId);
+        const toggleButton = document.getElementById(toggleId);
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleButton.textContent = 'লুকান';
+        } else {
+            passwordInput.type = 'password';
+            toggleButton.textContent = 'দেখুন';
+        }
+    }
+    
+    // Start OTP timer
+    function startOTPTimer() {
+        let totalSeconds = 120; // 2 minutes
+        
+        clearInterval(otpTimer);
+        document.getElementById('resendOtp').disabled = true;
+        
+        // Update timer display immediately
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        document.getElementById('timer').textContent = 
+            (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+            (seconds < 10 ? '0' + seconds : seconds);
+        
+        otpTimer = setInterval(function() {
+            totalSeconds--;
+            
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            
+            document.getElementById('timer').textContent = 
+                (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+                (seconds < 10 ? '0' + seconds : seconds);
+            
+            if (totalSeconds <= 0) {
+                clearInterval(otpTimer);
+                document.getElementById('resendOtp').disabled = false;
+            }
+        }, 1000);
+    }
+    
+    // লোডিং ফাংশন
+    // লোডিং স্পিনার তৈরি করুন
+    function createLoader() {
+        const loader = document.createElement('div');
+        loader.className = 'loader';
+        loader.id = 'pageLoader';
+        
+        const spinner = document.createElement('div');
+        spinner.className = 'spinner';
+        
+        loader.appendChild(spinner);
+        document.body.appendChild(loader);
+    }
+    
+    // লোডিং দেখানোর ফাংশন
+    function showLoading() {
+        if (!document.getElementById('pageLoader')) {
+            createLoader();
+        }
+        document.getElementById('pageLoader').style.display = 'flex';
+        // document.body.style.cursor = 'wait';
+    }
+    
+    // লোডিং বন্ধ করার ফাংশন
+    function hideLoading() {
+        const loader = document.getElementById('pageLoader');
+        if (loader) {
+            loader.style.display = 'none';
+        }
+        // document.body.style.cursor = 'default';
+    }
+    
+    // Show error with specified message
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.textContent = message;
+        errorElement.classList.add('show-error');
+    }
+    
+    // Hide error
+    function hideError(elementId) {
+        document.getElementById(elementId).classList.remove('show-error');
+    }
+    
+    // Email validation function
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    // নোটিফিকেশন পপআপ ফাংশন - alert এর পরিবর্তে
+    function showNotification(message, type = 'success') {
+        // পূর্বের নোটিফিকেশন রিমুভ করুন
+        const existingNotification = document.getElementById('customNotification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        // নতুন নোটিফিকেশন তৈরি করুন
+        const notification = document.createElement('div');
+        notification.id = 'customNotification';
+        notification.className = `custom-notification ${type}`;
+        
+        // নোটিফিকেশন কনটেন্ট
+        notification.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-message">${message}</span>
+                <span class="notification-close">&times;</span>
+            </div>
+        `;
+        
+        // নোটিফিকেশন স্টাইল
+        notification.style.position = 'fixed';
+        notification.style.top = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+        notification.style.color = 'white';
+        notification.style.padding = '15px';
+        notification.style.borderRadius = '5px';
+        notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+        notification.style.zIndex = '9999';
+        notification.style.transition = 'all 0.3s ease';
+        notification.style.opacity = '0';
+        
+        // বডিতে অ্যাড করুন
+        document.body.appendChild(notification);
+        
+        // ফেড ইন এফেক্ট
+        setTimeout(() => {
+            notification.style.opacity = '1';
+        }, 10);
+        
+        // ক্লোজ বাটন ফাংশনালিটি
+        const closeButton = notification.querySelector('.notification-close');
+        closeButton.style.marginLeft = '15px';
+        closeButton.style.cursor = 'pointer';
+        closeButton.style.fontWeight = 'bold';
+        
+        closeButton.addEventListener('click', function() {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        });
+        
+        // অটো ক্লোজ
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 5000);
+    }
+    
+    // মডাল ফাংশন
+    // Open modal
+    function openModal() {
+        document.getElementById('successModal').style.display = 'flex';
+    }
+    
+    // Close modal
+    function closeModal() {
+        document.getElementById('successModal').style.display = 'none';
+        toggleForm('login');
+    }
+    
+    // টোকেন রিফ্রেশ ফাংশন
+    async function refreshToken() {
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) return false;
+            
+            const response = await fetch(`${DB_API_URL}/refresh-token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success && data.token) {
+                // নতুন টোকেন সেভ করুন
+                localStorage.setItem('authToken', data.token);
+                if (data.user) {
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error('Token refresh error:', error);
+            return false;
+        }
+    }
+    
+    // অটো টোকেন রিফ্রেশ সেটআপ
+    function setupTokenRefresh() {
+        // প্রতি 10 মিনিটে টোকেন রিফ্রেশ করুন
+        tokenRefreshInterval = setInterval(async () => {
+            const isRefreshed = await refreshToken();
+            if (!isRefreshed) {
+                // রিফ্রেশ ফেইল হলে লগআউট করুন
+                handleAutoLogout();
+            }
+        }, 10 * 60 * 1000); // 10 মিনিট
+    }
+    
+    // অটো লগআউট হ্যান্ডলার
+    function handleAutoLogout() {
+        // সেশন ক্লিয়ার করুন
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('currentUser');
+        
+        // ইন্টারভাল ক্লিয়ার করুন
+        if (tokenRefreshInterval) {
+            clearInterval(tokenRefreshInterval);
+        }
+        
+        // UI আপডেট করুন
+        checkLoginStatus();
+        
+        // ইউজারকে জানান
+        showNotification('আপনার সেশন শেষ হয়ে গেছে। আবার লগইন করুন।', 'error');
+    }
+    
+    // লগইন স্টেটাস চেক করার উন্নত ফাংশন
+    async function checkLoginStatus() {
+        // localStorage থেকে টোকেন পড়ুন
+        const token = localStorage.getItem('authToken');
+        
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (token) {
+            try {
+                // টোকেন ভ্যালিডেট করার জন্য API কল
+                const response = await fetch(`${DB_API_URL}/validate-token`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.valid) {
+                    // লগইন করা আছে, প্রোফাইল আইকন দেখান
+                    if (loginButton) loginButton.style.display = 'none';
+                    if (profileDropdown) profileDropdown.style.display = 'block';
+                    
+                    // যদি ইউজার ডাটা থাকে তাহলে সেট করুন
+                    if (data.user) {
+                        localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    }
+                    
+                    // অটো রিফ্রেশ সেটআপ করুন (যদি এখনো না করা হয়ে থাকে)
+                    if (!tokenRefreshInterval) {
+                        setupTokenRefresh();
+                    }
+                    
+                    return true;
+                } else {
+                    // টোকেন ভ্যালিড নয়, রিফ্রেশ করার চেষ্টা করুন
+                    const isRefreshed = await refreshToken();
+                    if (isRefreshed) {
+                        return await checkLoginStatus();
+                    } else {
+                        // রিফ্রেশ ফেইল হলে লগআউট
+                        handleAutoLogout();
+                        return false;
+                    }
+                }
+            } catch (error) {
+                console.error('Error validating token:', error);
+                // নেটওয়ার্ক এরর হলে রিফ্রেশ করার চেষ্টা করুন
+                const isRefreshed = await refreshToken();
+                if (!isRefreshed) {
+                    handleAutoLogout();
+                }
+                return false;
+            }
+        } else {
+            // লগইন করা নেই, লগইন বাটন দেখান
+            if (loginButton) loginButton.style.display = 'block';
+            if (profileDropdown) profileDropdown.style.display = 'none';
+            
+            // ইন্টারভাল ক্লিয়ার করুন
+            if (tokenRefreshInterval) {
+                clearInterval(tokenRefreshInterval);
+                tokenRefreshInterval = null;
+            }
+            
+            return false;
+        }
+    }
+    
+    // সফল লগইনের পর টোকেন সেভ করার ফাংশন
+    function saveAuthToken(token, user) {
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        
+        // অটো রিফ্রেশ সেটআপ করুন
+        setupTokenRefresh();
+        
+        // UI আপডেট করুন
+        checkLoginStatus();
+    }
+    
+    // ইউজার অ্যাক্টিভিটি ট্র্যাক করার জন্য
+    let userActivityTimer;
+    
+    // ইউজার অ্যাক্টিভিটি রিসেট করুন
+    function resetUserActivity() {
+        if (userActivityTimer) {
+            clearTimeout(userActivityTimer);
+        }
+        
+        // ৩০ মিনিট নিষ্ক্রিয় থাকলে সতর্কতা দিন
+        userActivityTimer = setTimeout(() => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                showNotification('আপনি দীর্ঘক্ষণ নিষ্ক্রিয় রয়েছেন। অ্যাক্টিভ থাকার জন্য পেজে ক্লিক করুন।', 'error');
+            }
+        }, 30 * 60 * 1000); // ৩০ মিনিট
+    }
+    
+    // ইউজার অ্যাক্টিভিটি ইভেন্ট লিস্টেনার
+    function setupUserActivityTracking() {
+        const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+        
+        events.forEach(event => {
+            document.addEventListener(event, resetUserActivity, true);
+        });
+        
+        // প্রথম বার সেটআপ
+        resetUserActivity();
+    }
+    
+    // When the page loads - মূল ইনিশিয়ালাইজেশন
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize the page
+        toggleForm('login');
+        
+        // Set up OTP input fields for automatic focus
+        const otpInputs = document.querySelectorAll('.otp-digit');
+        
+        for (let i = 0; i < otpInputs.length; i++) {
+            otpInputs[i].addEventListener('input', function() {
+                if (this.value.length === 1) {
+                    if (i < otpInputs.length - 1) {
+                        otpInputs[i + 1].focus();
+                    }
+                }
+            });
+            
+            otpInputs[i].addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value.length === 0) {
+                    if (i > 0) {
+                        otpInputs[i - 1].focus();
+                    }
+                }
+            });
+        }
+        
+        // Set up event listeners for password toggle buttons
+        const passwordToggleButtons = document.querySelectorAll('.toggle-password');
+        passwordToggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const inputId = this.getAttribute('data-target');
+                const toggleId = this.id;
+                togglePasswordVisibility(inputId, toggleId);
+            });
+        });
+        
+        // Set up navigation buttons
+        const goToEmailCheck = document.getElementById('goToEmailCheck');
+        if (goToEmailCheck) {
+            goToEmailCheck.addEventListener('click', function() {
+                toggleForm('emailCheck');
+            });
+        }
+        
+        const goToLogin = document.getElementById('goToLogin');
+        if (goToLogin) {
+            goToLogin.addEventListener('click', function() {
+                toggleForm('login');
+            });
+        }
+        
+        // Set up modal close button
+        const closeModalBtn = document.getElementById('closeModal');
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeModal);
+        }
+        
+        // লগইন পপআপ এবং ব্লার এফেক্ট
+        const loginButton = document.querySelector('.login-button');
+        const loginPopup = document.querySelector('.login-popup');
+        const blurOverlay = document.querySelector('.blur-overlay');
+        const closeLogin = document.querySelector('.close-login');
+        
+        // লগইন বাটনে ক্লিক করলে
+        if (loginButton) {
+            loginButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginPopup.classList.add('active');
+                blurOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // স্ক্রল বন্ধ করুন
+            });
+        }
+        
+        // ক্লোজ বাটনে ক্লিক করলে
+        if (closeLogin) {
+            closeLogin.addEventListener('click', function() {
+                loginPopup.classList.remove('active');
+                blurOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // স্ক্রল চালু করুন
+            });
+        }
+        
+        // ব্লার ওভারলেতে ক্লিক করলে
+        if (blurOverlay) {
+            blurOverlay.addEventListener('click', function() {
+                loginPopup.classList.remove('active');
+                blurOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // স্ক্রল চালু করুন
+            });
+        }
+        
+        // লগআউট বাটন সেটআপ
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                try {
+                    const token = localStorage.getItem('authToken');
+                    
+                    if (token) {
+                        // লগআউট API কল
+                        const response = await fetch(`${DB_API_URL}/logout`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            // সফল লগআউট
+                            showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
+                        } else {
+                            showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Logout error:', error);
+                } finally {
+                    // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('currentUser');
+                    
+                    // ইন্টারভাল ক্লিয়ার করুন
+                    if (tokenRefreshInterval) {
+                        clearInterval(tokenRefreshInterval);
+                        tokenRefreshInterval = null;
+                    }
+                    
+                    // অ্যাক্টিভিটি ট্র্যাকিং বন্ধ করুন
+                    if (userActivityTimer) {
+                        clearTimeout(userActivityTimer);
+                    }
+                    
+                    // লগইন স্টেটাস আপডেট করুন
+                    checkLoginStatus();
+                }
+            });
+        }
+        
+        // পেজ লোড হওয়ার সময় লগইন স্টেটাস চেক করুন
+        checkLoginStatus();
+        
+        // ইউজার অ্যাক্টিভিটি ট্র্যাকিং সেটআপ করুন
+        setupUserActivityTracking();
+        
+        // পেজ বন্ধ হওয়ার আগে ক্লিনআপ
+        window.addEventListener('beforeunload', function() {
+            if (tokenRefreshInterval) {
+                clearInterval(tokenRefreshInterval);
+            }
+            if (userActivityTimer) {
+                clearTimeout(userActivityTimer);
+            }
+        });
+        
+        // ভিজিবিলিটি চেঞ্জ হ্যান্ডলার
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                // পেজ ভিজিবল হলে লগইন স্টেটাস চেক করুন
+                checkLoginStatus();
+            }
+        });
+    });
+    
+</script>       -->
+
         
 <style>
 .profile-dropdown:hover .dropdown-menu {
