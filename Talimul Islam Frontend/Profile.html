@@ -6812,11 +6812,14 @@ async function handleProfileImageUpload(e) {
 </script>
 
 
+
+
 <script>
-    // প্রোফাইল আইকন ডিসপ্লে স্ক্রিপ্ট - তৃতীয় কোড
+    // প্রোফাইল আইকন ডিসপ্লে স্ক্রিপ্ট - তৃতীয় কোড (Enhanced)
     // এই কোডটি প্রথম কোডের সাথে কাজ করবে এবং প্রোফাইল আইকন সঠিকভাবে দেখাবে
+    // sessionStorage এবং localStorage উভয়ের সাথে সিঙ্ক করবে
     
-    console.log('Profile Icon Display Script Loaded');
+    console.log('Enhanced Profile Icon Display Script Loaded');
     
     // Profile Icon Management Functions
     const ProfileIconManager = {
@@ -6830,7 +6833,7 @@ async function handleProfileImageUpload(e) {
             this.monitorAuthState();
         },
     
-        // Check authentication and display appropriate UI
+        // Check authentication and display appropriate UI - Enhanced version
         checkAndDisplayProfileIcon: function() {
             console.log('Checking authentication for profile icon display');
             
@@ -6839,11 +6842,15 @@ async function handleProfileImageUpload(e) {
             const localToken = localStorage.getItem('authToken');
             const token = sessionToken || localToken;
             
-            const userData = sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser');
+            // Check both storages for user data
+            const sessionUserData = sessionStorage.getItem('currentUser');
+            const localUserData = localStorage.getItem('currentUser');
+            const userData = sessionUserData || localUserData;
             
             console.log('Session Token:', !!sessionToken);
             console.log('Local Token:', !!localToken);
-            console.log('User Data:', !!userData);
+            console.log('Session User Data:', !!sessionUserData);
+            console.log('Local User Data:', !!localUserData);
             
             const loginButton = document.getElementById('loginButton');
             const profileDropdown = document.getElementById('profileDropdown');
@@ -6851,6 +6858,13 @@ async function handleProfileImageUpload(e) {
             if (!loginButton || !profileDropdown) {
                 console.warn('Login button or profile dropdown not found');
                 return;
+            }
+            
+            // Check login expiration (for sessionStorage data)
+            if (sessionToken && this.isLoginExpired()) {
+                console.log('Session login expired, clearing session data');
+                this.clearSessionData();
+                // Continue to check localStorage
             }
             
             if (token && userData) {
@@ -6873,6 +6887,40 @@ async function handleProfileImageUpload(e) {
                 loginButton.style.display = 'block';
                 profileDropdown.style.display = 'none';
             }
+        },
+
+        // Check if login is expired (for sessionStorage)
+        isLoginExpired: function() {
+            const loginTime = sessionStorage.getItem('loginTime');
+            if (!loginTime) return false; // If no login time, don't expire
+            
+            const currentTime = Date.now();
+            const loginTimestamp = parseInt(loginTime);
+            const timeDiff = currentTime - loginTimestamp;
+            
+            // 24 hours = 24 * 60 * 60 * 1000 = 86400000 milliseconds
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            
+            return timeDiff > twentyFourHours;
+        },
+
+        // Clear session data
+        clearSessionData: function() {
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('loginTime');
+        },
+
+        // Clear all authentication data
+        clearAllAuthData: function() {
+            // Clear sessionStorage
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('loginTime');
+            
+            // Clear localStorage
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
         },
     
         // Update profile display with user information
@@ -6957,18 +7005,20 @@ async function handleProfileImageUpload(e) {
             }
         },
     
-        // Handle logout process
+        // Handle logout process - Enhanced to sync with second script
         handleLogout: async function() {
             console.log('Processing logout from profile icon manager');
             
             try {
-                // Get token for logout API call
-                const token = sessionStorage.getItem('authToken') || localStorage.getItem('authToken');
+                // Get token for logout API call (check both storages)
+                const sessionToken = sessionStorage.getItem('authToken');
+                const localToken = localStorage.getItem('authToken');
+                const token = sessionToken || localToken;
                 
                 if (token) {
                     // Optional: Call logout API
                     try {
-                        const response = await fetch(`${DB_API_URL}/logout`, {
+                        const response = await fetch(`${window.DB_API_URL || 'https://t-i-a-storage-backend.onrender.com'}/logout`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -6986,12 +7036,8 @@ async function handleProfileImageUpload(e) {
                     }
                 }
                 
-                // Clear all authentication data
-                sessionStorage.removeItem('authToken');
-                sessionStorage.removeItem('currentUser');
-                sessionStorage.removeItem('loginTime');
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('currentUser');
+                // Clear all authentication data from both storages
+                this.clearAllAuthData();
                 
                 // Update UI
                 this.checkAndDisplayProfileIcon();
@@ -7002,24 +7048,82 @@ async function handleProfileImageUpload(e) {
                 // Show success message
                 if (typeof showNotification === 'function') {
                     showNotification('সফলভাবে লগআউট করা হয়েছে।', 'success');
+                } else {
+                    // Fallback notification
+                    this.showFallbackNotification('সফলভাবে লগআউট করা হয়েছে।', 'success');
                 }
+                
+                // Trigger storage event to notify other tabs/scripts
+                this.triggerStorageEvent();
                 
                 // Optional: Redirect to home page
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    if (window.location.pathname !== '/index.html' && 
+                        !window.location.pathname.includes('Talimul Islam Academi.html')) {
+                        window.location.href = 'index.html';
+                    }
                 }, 1500);
                 
             } catch (error) {
                 console.error('Logout process error:', error);
                 
                 // Force logout even if there's an error
-                sessionStorage.clear();
-                localStorage.clear();
+                this.clearAllAuthData();
                 this.checkAndDisplayProfileIcon();
+                this.triggerStorageEvent();
             }
         },
+
+        // Trigger storage event to notify other scripts/tabs
+        triggerStorageEvent: function() {
+            // Manually trigger storage event for same-tab communication
+            const event = new StorageEvent('storage', {
+                key: 'authToken',
+                oldValue: 'token_removed',
+                newValue: null,
+                url: window.location.href,
+                storageArea: localStorage
+            });
+            window.dispatchEvent(event);
+
+            // Also trigger for sessionStorage
+            const sessionEvent = new StorageEvent('storage', {
+                key: 'authToken',
+                oldValue: 'session_token_removed',
+                newValue: null,
+                url: window.location.href,
+                storageArea: sessionStorage
+            });
+            window.dispatchEvent(sessionEvent);
+        },
+
+        // Fallback notification if showNotification is not available
+        showFallbackNotification: function(message, type) {
+            // Create a simple notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: ${type === 'success' ? '#4CAF50' : '#f44336'};
+                color: white;
+                padding: 15px;
+                border-radius: 5px;
+                z-index: 9999;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        },
     
-        // Monitor authentication state changes
+        // Monitor authentication state changes - Enhanced
         monitorAuthState: function() {
             console.log('Setting up authentication state monitoring');
             
@@ -7028,11 +7132,24 @@ async function handleProfileImageUpload(e) {
                 this.checkAndDisplayProfileIcon();
             }, 5000);
             
-            // Listen for storage events (when user logs in/out in another tab)
+            // Listen for storage events (when user logs in/out in another tab or script)
             window.addEventListener('storage', (e) => {
                 if (e.key === 'authToken' || e.key === 'currentUser') {
-                    console.log('Authentication state changed in another tab');
-                    this.checkAndDisplayProfileIcon();
+                    console.log('Authentication state changed in another tab/script:', e.key);
+                    setTimeout(() => {
+                        this.checkAndDisplayProfileIcon();
+                    }, 100);
+                }
+            });
+
+            // Listen for custom storage events (for same-tab communication)
+            window.addEventListener('storage', (e) => {
+                if (e.storageArea === sessionStorage && 
+                    (e.key === 'authToken' || e.key === 'currentUser')) {
+                    console.log('Session storage changed:', e.key);
+                    setTimeout(() => {
+                        this.checkAndDisplayProfileIcon();
+                    }, 100);
                 }
             });
             
@@ -7043,6 +7160,13 @@ async function handleProfileImageUpload(e) {
                     this.checkAndDisplayProfileIcon();
                 }
             });
+
+            // Listen for custom logout events
+            window.addEventListener('userLoggedOut', () => {
+                console.log('Custom logout event received');
+                this.clearAllAuthData();
+                this.checkAndDisplayProfileIcon();
+            });
         },
     
         // Force refresh profile icon display
@@ -7051,17 +7175,24 @@ async function handleProfileImageUpload(e) {
             this.checkAndDisplayProfileIcon();
         },
     
-        // Check if user is authenticated
+        // Check if user is authenticated - Enhanced
         isAuthenticated: function() {
             const sessionToken = sessionStorage.getItem('authToken');
             const localToken = localStorage.getItem('authToken');
-            const userData = sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser');
+            const sessionUserData = sessionStorage.getItem('currentUser');
+            const localUserData = localStorage.getItem('currentUser');
             
-            return !!(sessionToken || localToken) && !!userData;
+            // Check session expiration
+            if (sessionToken && this.isLoginExpired()) {
+                this.clearSessionData();
+                return !!(localToken && localUserData);
+            }
+            
+            return !!(sessionToken || localToken) && !!(sessionUserData || localUserData);
         }
     };
     
-    // Override existing checkLoginStatus function to prevent conflicts
+    // Override existing checkLoginStatus function to prevent conflicts and sync with second script
     const originalCheckLoginStatus = window.checkLoginStatus;
     window.checkLoginStatus = function() {
         console.log('checkLoginStatus called - delegating to ProfileIconManager');
@@ -7077,6 +7208,24 @@ async function handleProfileImageUpload(e) {
         }
         
         return ProfileIconManager.isAuthenticated();
+    };
+
+    // Override handleLogout function if it exists in the second script
+    const originalHandleLogout = window.handleLogout;
+    window.handleLogout = function(e) {
+        console.log('handleLogout called - delegating to ProfileIconManager');
+        if (e) e.preventDefault();
+        
+        ProfileIconManager.handleLogout();
+        
+        // Call original function if it exists and is different
+        if (originalHandleLogout && originalHandleLogout !== window.handleLogout) {
+            try {
+                return originalHandleLogout(e);
+            } catch (error) {
+                console.error('Error calling original handleLogout:', error);
+            }
+        }
     };
     
     // Initialize when DOM is ready
@@ -7101,6 +7250,18 @@ async function handleProfileImageUpload(e) {
     
     // Make ProfileIconManager globally available
     window.ProfileIconManager = ProfileIconManager;
+
+    // Sync function to manually sync authentication state
+    window.syncAuthState = function() {
+        console.log('Manual auth state sync requested');
+        ProfileIconManager.checkAndDisplayProfileIcon();
+    };
+
+    // Function to trigger logout from external scripts
+    window.triggerLogout = function() {
+        console.log('External logout trigger requested');
+        ProfileIconManager.handleLogout();
+    };
     
     // Add CSS styles for better profile icon display
     document.addEventListener('DOMContentLoaded', function() {
@@ -7193,6 +7354,22 @@ async function handleProfileImageUpload(e) {
                     background-color: #0056b3;
                 }
                 
+                /* User Menu Container Styles */
+                .user-menu-container {
+                    position: relative;
+                    display: inline-block;
+                }
+                
+                /* Font Awesome Fallback */
+                .profile-icon-text {
+                    display: none;
+                }
+                
+                .no-fontawesome .profile-icon-text {
+                    display: inline;
+                    font-weight: bold;
+                }
+                
                 /* Responsive design */
                 @media (max-width: 768px) {
                     .dropdown-menu1 {
@@ -7211,10 +7388,8 @@ async function handleProfileImageUpload(e) {
         }
     });
     
-    console.log('Profile Icon Display Script Fully Loaded');
-    </script>
-
-
+    console.log('Enhanced Profile Icon Display Script Fully Loaded');
+</script>
 
 
 
