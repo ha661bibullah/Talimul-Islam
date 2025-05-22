@@ -4821,25 +4821,8 @@
                    // প্রোফাইল ড্রপডাউন স্টাইল যোগ করুন
                    addProfileDropdownStyles();
                    
-                   // প্রোফাইল আইকন ক্লিক ইভেন্ট সেটআপ
-                   if (profileIcon) {
-                       console.log('Adding click event to profile icon');
-                       profileIcon.addEventListener('click', function(e) {
-                           e.preventDefault();
-                           console.log('Profile icon clicked');
-                           toggleProfileMenu();
-                       });
-                   } else {
-                       console.error('Profile icon not found in the DOM');
-                   }
+     
                    
-                   // বাইরে ক্লিক করলে ড্রপডাউন বন্ধ হবে
-                   document.addEventListener('click', function(e) {
-                       if (profileDropdown && !profileDropdown.contains(e.target) && e.target !== profileIcon) {
-                           console.log('Clicked outside dropdown, closing menu');
-                           closeProfileMenu();
-                       }
-                   });
                    
                    // লগইন স্টেটাস আপডেট করুন
                    checkLoginStatus();
@@ -4854,37 +4837,7 @@
                    }
                });
                
-               // টগল প্রোফাইল মেনু ফাংশন
-               function toggleProfileMenu() {
-                   const dropdown = document.getElementById('profileDropdown');
-                   const menu = document.querySelector('.dropdown-menu1');
-                   
-                   if (!dropdown || !menu) {
-                       console.error('Dropdown or menu elements not found');
-                       return;
-                   }
-                   
-                   console.log('Toggling profile menu');
-                   
-                   // মেনু দেখা যাচ্ছে কিনা চেক করুন
-                   const isVisible = window.getComputedStyle(menu).display !== 'none';
-                   
-                   if (isVisible) {
-                       menu.style.display = 'none';
-                       console.log('Menu hidden');
-                   } else {
-                       menu.style.display = 'block';
-                       console.log('Menu shown');
-                   }
-               }
-               
-               // ক্লোজ প্রোফাইল মেনু ফাংশন
-               function closeProfileMenu() {
-                   const menu = document.querySelector('.dropdown-menu1');
-                   if (menu) {
-                       menu.style.display = 'none';
-                   }
-               }
+    
                
                // লগআউট হ্যান্ডেল করার ফাংশন
                async function handleLogout(e) {
@@ -5153,14 +5106,13 @@
 </script>
         
 <style>
-
-
 .profile-dropdown:hover .dropdown-menu {
 transform: translateY(0);
 opacity: 1;
 visibility: visible;
 }
-.profile-dropdown .dropdown-item{
+.profile-dropdown,
+.dropdown-item{
     border: none;
 }
 </style>
