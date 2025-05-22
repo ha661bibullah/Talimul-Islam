@@ -5022,196 +5022,277 @@ async function handleLogout(e) {
         }
     }
     </style> -->
-
-
+<style>
+    <style>
+    /* প্রাথমিকভাবে উভয়টি লুকিয়ে রাখুন */
+    #loginButton, #profileDropdown {
+        display: none !important;
+    }
+    
+    /* JavaScript লোড হওয়ার পরে দেখাবেন */
+    .auth-loaded #loginButton {
+        display: block !important;
+    }
+    
+    .auth-loaded #profileDropdown {
+        display: block !important;
+    }
+</style>
+</style>
 <script>
-    // বিশেষ Anti-Flicker Script - পেজ রিফ্রেশের সময় লগইন বাটন ফ্ল্িকারিং প্রতিরোধ
-// এই স্ক্রিপ্টটি অন্য সব স্ক্রিপ্টের আগে লোড করতে হবে
+    // সমাধান ১: CSS দিয়ে প্রাথমিকভাবে লগইন বাটন লুকিয়ে রাখুন
+// এই CSS আপনার HTML head এ যোগ করুন
+const initialCSS = `
+<style>
+    /* প্রাথমিকভাবে লগইন বাটন লুকিয়ে রাখুন */
+    #loginButton {
+        display: none !important;
+    }
+    
+    /* লোডিং সম্পূর্ণ হলে দেখাবেন */
+    .login-loaded #loginButton {
+        display: block !important;
+    }
+    
+    .login-loaded .profile-dropdown {
+        display: block !important;
+    }
+</style>
+`;
 
+// সমাধান ২: JavaScript এ তাৎক্ষণিক চেক
+// DOMContentLoaded এর আগেই চেক করুন
 (function() {
-    'use strict';
-    
-    console.log('Anti-Flicker Script: Initializing...');
-    
-    // তাৎক্ষণিক লগইন স্টেটাস চেক করুন
-    function immediateLoginCheck() {
-        const token = sessionStorage.getItem('authToken');
-        const loginTime = sessionStorage.getItem('loginTime');
-        
-        // লগইন এক্সপায়ার চেক
-        const isExpired = loginTime ? 
-            (Date.now() - parseInt(loginTime)) > (24 * 60 * 60 * 1000) : true;
-        
-        console.log('Anti-Flicker: Token exists:', !!token);
-        console.log('Anti-Flicker: Login expired:', isExpired);
-        
-        return token && !isExpired;
-    }
-    
-    // CSS স্টাইল ইনজেকশন - DOM রেডি হওয়ার আগেই
-    function injectAntiFlickerCSS() {
-        const style = document.createElement('style');
-        style.id = 'antiFlickerStyle';
-        style.textContent = `
-            /* Anti-Flicker Initial State */
-            #loginButton {
-                opacity: 0 !important;
-                visibility: hidden !important;
-                transition: none !important;
-            }
-            
-            #profileDropdown {
-                opacity: 0 !important;
-                visibility: hidden !important;
-                transition: none !important;
-            }
-            
-            /* Show states */
-            #loginButton.show-login {
-                opacity: 1 !important;
-                visibility: visible !important;
-                display: block !important;
-            }
-            
-            #profileDropdown.show-profile {
-                opacity: 1 !important;
-                visibility: visible !important;
-                display: block !important;
-            }
-            
-            /* Smooth transition after initial load */
-            .login-state-ready #loginButton,
-            .login-state-ready #profileDropdown {
-                transition: opacity 0.3s ease, visibility 0.3s ease !important;
-            }
-        `;
-        
-        // Head এ স্টাইল যোগ করুন - এমনকি head tag না থাকলেও
-        if (document.head) {
-            document.head.appendChild(style);
-        } else {
-            // Head না থাকলে body তে যোগ করুন
-            document.addEventListener('DOMContentLoaded', function() {
-                if (document.head) {
-                    document.head.appendChild(style);
-                }
-            });
-        }
-        
-        console.log('Anti-Flicker: CSS injected');
-    }
-    
-    // প্রাথমিক UI স্টেট সেট করুন
-    function setInitialUIState() {
-        const isLoggedIn = immediateLoginCheck();
-        
-        // DOM elements খুঁজুন
-        function findAndSetElements() {
-            const loginButton = document.getElementById('loginButton');
-            const profileDropdown = document.getElementById('profileDropdown');
-            
-            if (loginButton && profileDropdown) {
-                console.log('Anti-Flicker: Setting initial UI state, isLoggedIn:', isLoggedIn);
-                
-                if (isLoggedIn) {
-                    // লগইন করা থাকলে প্রোফাইল দেখান
-                    loginButton.classList.remove('show-login');
-                    profileDropdown.classList.add('show-profile');
-                } else {
-                    // লগইন না থাকলে লগইন বাটন দেখান
-                    profileDropdown.classList.remove('show-profile');
-                    loginButton.classList.add('show-login');
-                }
-                
-                // ট্রানজিশন রেডি ক্লাস যোগ করুন
-                setTimeout(() => {
-                    document.body.classList.add('login-state-ready');
-                }, 100);
-                
-                return true;
-            }
-            return false;
-        }
-        
-        // যদি DOM রেডি থাকে তাহলে তাৎক্ষণিক সেট করুন
-        if (document.readyState !== 'loading') {
-            if (!findAndSetElements()) {
-                // Elements না পেলে একটু অপেক্ষা করুন
-                setTimeout(findAndSetElements, 50);
-            }
-        } else {
-            // DOM লোড হওয়ার জন্য অপেক্ষা করুন
-            document.addEventListener('DOMContentLoaded', findAndSetElements);
-        }
-    }
-    
-    // মূল ইনিশিয়ালাইজেশন
-    function initialize() {
-        // CSS ইনজেক্ট করুন
-        injectAntiFlickerCSS();
-        
-        // UI স্টেট সেট করুন
-        setInitialUIState();
-        
-        // অতিরিক্ত সুরক্ষার জন্য window load ইভেন্টেও চেক করুন
-        window.addEventListener('load', function() {
-            console.log('Anti-Flicker: Window loaded, double-checking state');
-            setInitialUIState();
-        });
-        
-        console.log('Anti-Flicker Script: Initialized successfully');
-    }
-    
-    // ইমিডিয়েট ইনিশিয়ালাইজেশন
-    if (document.readyState === 'loading') {
-        // HTML এখনও লোড হচ্ছে
-        document.addEventListener('DOMContentLoaded', initialize);
-    } else {
-        // HTML লোড সম্পন্ন
-        initialize();
-    }
-    
-    // স্টোরেজ চেঞ্জ মনিটর করুন
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'authToken' || e.key === 'loginTime') {
-            console.log('Anti-Flicker: Storage changed, updating UI');
-            setTimeout(setInitialUIState, 10);
-        }
-    });
-    
-    // Visibility change এর সময়ও চেক করুন
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            console.log('Anti-Flicker: Page visible, checking state');
-            setInitialUIState();
-        }
-    });
-    
-})();
-
-// Global function to manually trigger state update (যদি প্রয়োজন হয়)
-window.updateLoginUIState = function() {
-    console.log('Manual UI state update triggered');
+    // যত তাড়াতাড়ি সম্ভব চেক করুন
     const token = sessionStorage.getItem('authToken');
     const loginTime = sessionStorage.getItem('loginTime');
-    const isExpired = loginTime ? 
-        (Date.now() - parseInt(loginTime)) > (24 * 60 * 60 * 1000) : true;
-    const isLoggedIn = token && !isExpired;
+    
+    // লগইন টাইম চেক
+    function isLoginExpired() {
+        if (!loginTime) return true;
+        const currentTime = Date.now();
+        const loginTimestamp = parseInt(loginTime);
+        const timeDiff = currentTime - loginTimestamp;
+        const twentyFourHours = 24 * 60 * 60 * 1000;
+        return timeDiff > twentyFourHours;
+    }
+    
+    // DOM ready হওয়ার সাথে সাথেই UI আপডেট করুন
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (token && !isLoginExpired()) {
+            // লগইন করা আছে
+            if (loginButton) loginButton.style.display = 'none';
+            if (profileDropdown) profileDropdown.style.display = 'block';
+        } else {
+            // লগইন করা নেই
+            if (loginButton) loginButton.style.display = 'block';
+            if (profileDropdown) profileDropdown.style.display = 'none';
+            
+            // এক্সপায়ার্ড ডেটা ক্লিয়ার করুন
+            if (token && isLoginExpired()) {
+                sessionStorage.removeItem('authToken');
+                sessionStorage.removeItem('currentUser');
+                sessionStorage.removeItem('loginTime');
+            }
+        }
+        
+        // লোডিং সম্পূর্ণ হওয়ার সিগন্যাল দিন
+        document.body.classList.add('login-loaded');
+    });
+})();
+
+// সমাধান ৩: আপনার বিদ্যমান checkLoginStatus ফাংশন আপডেট করুন
+async function checkLoginStatus() {
+    console.log('Checking login status');
+    
+    // সেশন স্টোরেজ থেকে টোকেন পড়ুন
+    const token = sessionStorage.getItem('authToken');
     
     const loginButton = document.getElementById('loginButton');
     const profileDropdown = document.getElementById('profileDropdown');
     
-    if (loginButton && profileDropdown) {
-        if (isLoggedIn) {
-            loginButton.classList.remove('show-login');
-            profileDropdown.classList.add('show-profile');
-        } else {
-            profileDropdown.classList.remove('show-profile');
-            loginButton.classList.add('show-login');
-        }
+    // Font Awesome লোড হয়েছে কিনা চেক করুন
+    checkFontAwesome();
+    
+    if (!loginButton || !profileDropdown) {
+        console.error('Login button or profile dropdown not found');
+        return false;
     }
-};
-</script>
+    
+    if (token) {
+        console.log('Auth token found, checking expiration...');
+        
+        // লগইন টাইম এক্সপায়ার হয়েছে কিনা চেক করুন
+        if (isLoginExpired()) {
+            console.log('Login expired, logging out');
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('loginTime');
+            
+            // UI আপডেট - একসাথে করুন
+            loginButton.style.display = 'block';
+            profileDropdown.style.display = 'none';
+            return false;
+        }
+        
+        // লগইন করা আছে এবং এক্সপায়ার হয়নি - UI আপডেট একসাথে করুন
+        console.log('User is logged in and not expired, showing profile dropdown');
+        loginButton.style.display = 'none';
+        profileDropdown.style.display = 'block';
+        return true;
+    } else {
+        // লগইন করা নেই - UI আপডেট একসাথে করুন
+        console.log('No auth token, showing login button');
+        loginButton.style.display = 'block';
+        profileDropdown.style.display = 'none';
+        return false;
+    }
+}
+
+// সমাধান ৪: Preloader ব্যবহার করুন
+function addPreloaderForAuth() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .auth-preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        
+        .auth-preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .auth-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Preloader HTML তৈরি করুন
+    const preloader = document.createElement('div');
+    preloader.className = 'auth-preloader';
+    preloader.innerHTML = '<div class="auth-spinner"></div>';
+    preloader.id = 'authPreloader';
+    
+    document.body.appendChild(preloader);
+    
+    // ১ সেকেন্ড পরে লুকান
+    setTimeout(() => {
+        preloader.classList.add('hidden');
+        setTimeout(() => {
+            preloader.remove();
+        }, 300);
+    }, 1000);
+}
+
+// সমাধান ৫: স্মার্ট visibility control
+function smartVisibilityControl() {
+    const token = sessionStorage.getItem('authToken');
+    const loginTime = sessionStorage.getItem('loginTime');
+    
+    // CSS variable সেট করুন
+    if (token && loginTime) {
+        const currentTime = Date.now();
+        const loginTimestamp = parseInt(loginTime);
+        const timeDiff = currentTime - loginTimestamp;
+        const twentyFourHours = 24 * 60 * 60 * 1000;
+        
+        if (timeDiff <= twentyFourHours) {
+            // লগইন ভ্যালিড - প্রোফাইল দেখান
+            document.documentElement.style.setProperty('--login-display', 'none');
+            document.documentElement.style.setProperty('--profile-display', 'block');
+        } else {
+            // লগইন এক্সপায়ার্ড - লগইন বাটন দেখান
+            document.documentElement.style.setProperty('--login-display', 'block');
+            document.documentElement.style.setProperty('--profile-display', 'none');
+        }
+    } else {
+        // লগইন নেই - লগইন বাটন দেখান
+        document.documentElement.style.setProperty('--login-display', 'block');
+        document.documentElement.style.setProperty('--profile-display', 'none');
+    }
+}
+
+// এই ফাংশনটি সবার আগে কল করুন
+smartVisibilityControl();
+
+// আপনার CSS এ এগুলো যোগ করুন:
+const smartCSS = `
+<style>
+    :root {
+        --login-display: none;
+        --profile-display: none;
+    }
+    
+    #loginButton {
+        display: var(--login-display) !important;
+    }
+    
+    #profileDropdown {
+        display: var(--profile-display) !important;
+    }
+</style>
+`;
+
+// HTML head এ যোগ করার জন্য
+document.head.insertAdjacentHTML('beforeend', smartCSS);
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // ... আপনার বিদ্যমান কোড ...
+    
+    // লগইন স্টেটাস চেক করার পরে এই লাইনটি যোগ করুন
+    checkLoginStatus();
+    
+    // সবশেষে auth-loaded ক্লাস যোগ করুন
+    document.body.classList.add('auth-loaded');
+});
+
+
+async function checkLoginStatus() {
+    // তাৎক্ষণিক চেক - DOM ready হওয়ার আগেই
+    const token = sessionStorage.getItem('authToken');
+    const loginTime = sessionStorage.getItem('loginTime');
+    
+    // এক্সপায়ার চেক
+    const isExpired = loginTime ? 
+        (Date.now() - parseInt(loginTime)) > (24 * 60 * 60 * 1000) : true;
+    
+    // যদি টোকেন এক্সপায়ার্ড হয়ে থাকে তাহলে ক্লিয়ার করুন
+    if (token && isExpired) {
+        sessionStorage.removeItem('authToken');
+        sessionStorage.removeUser('currentUser');
+        sessionStorage.removeItem('loginTime');
+    }
+    
+    // বাকি কোড...
+}
+</script> 
+
 
 
 
