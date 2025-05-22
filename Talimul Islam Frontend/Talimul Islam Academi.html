@@ -3301,15 +3301,37 @@ animation: spin 1s linear infinite;
         immediateStyle.textContent = `
             /* তাৎক্ষণিক স্টাইল প্রয়োগ */
             #loginButton {
-                display: ${isLoggedIn ? 'none' : 'block'} !important;
+                display: ${isLoggedIn ? 'none' : 'inline-block'} !important;
                 opacity: ${isLoggedIn ? '0' : '1'} !important;
                 visibility: ${isLoggedIn ? 'hidden' : 'visible'} !important;
+                width: ${isLoggedIn ? '0' : 'auto'} !important;
+                height: ${isLoggedIn ? '0' : 'auto'} !important;
+                padding: ${isLoggedIn ? '0' : ''} !important;
+                margin: ${isLoggedIn ? '0' : ''} !important;
+                border: ${isLoggedIn ? 'none' : ''} !important;
+                overflow: hidden !important;
             }
             
             #profileDropdown {
-                display: ${isLoggedIn ? 'block' : 'none'} !important;
+                display: ${isLoggedIn ? 'inline-block' : 'none'} !important;
                 opacity: ${isLoggedIn ? '1' : '0'} !important;
                 visibility: ${isLoggedIn ? 'visible' : 'hidden'} !important;
+                width: ${isLoggedIn ? 'auto' : '0'} !important;
+                height: ${isLoggedIn ? 'auto' : '0'} !important;
+                padding: ${isLoggedIn ? '' : '0'} !important;
+                margin: ${isLoggedIn ? '' : '0'} !important;
+                border: ${isLoggedIn ? '' : 'none'} !important;
+                overflow: hidden !important;
+            }
+            
+            /* কন্টেইনার সাইজ ডায়নামিক করুন */
+            .user-menu-container {
+                width: ${isLoggedIn ? 'auto' : 'auto'} !important;
+                height: auto !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                display: inline-block !important;
+                overflow: hidden !important;
             }
             
             /* লোডিং অ্যানিমেশন রোধ করার জন্য */
@@ -3428,17 +3450,38 @@ animation: spin 1s linear infinite;
     antiFlashStyle.textContent = `
         /* ফ্ল্যাশিং প্রতিরোধের জন্য */
         .user-menu-container {
-            position: relative;
-            min-width: 120px; /* স্থির প্রস্থ */
-            min-height: 40px; /* স্থির উচ্চতা */
+            display: inline-block;
+            vertical-align: middle;
+            /* সব অপ্রয়োজনীয় স্পেস রিমুভ */
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            line-height: 1 !important;
         }
         
         #loginButton, #profileDropdown {
-            position: absolute;
-            top: 0;
-            right: 0;
+            display: inline-block;
+            vertical-align: middle;
+            /* অপ্রয়োজনীয় স্পেস রিমুভ */
+            padding: 0;
+            margin: 0;
+            border: none;
+            line-height: 1;
             /* প্রাথমিক অবস্থায় দৃশ্যমানতা লুকানো */
             transition: opacity 0.1s ease-in-out !important;
+        }
+        
+        /* হিডেন এলিমেন্টস সম্পূর্ণভাবে স্পেস না নেওয়ার জন্য */
+        #loginButton[style*="display: none"],
+        #profileDropdown[style*="display: none"] {
+            width: 0 !important;
+            height: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            overflow: hidden !important;
+            position: absolute !important;
+            left: -9999px !important;
         }
         
         /* প্রিলোড অবস্থায় সবকিছু লুকিয়ে রাখুন */
