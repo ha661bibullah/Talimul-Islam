@@ -4812,7 +4812,7 @@
                    // আমাদের এলিমেন্টগুলি আছে কিনা চেক করুন
                    const loginButton = document.getElementById('loginButton');
                    const profileDropdown = document.getElementById('profileDropdown');
-                   const profileIcon = document.querySelector('.profile-icon');
+                  
                    
                    console.log('Login Button found:', !!loginButton);
                    console.log('Profile Dropdown found:', !!profileDropdown);
@@ -5074,16 +5074,7 @@
                        // ফলব্যাক ক্লাস যোগ করুন
                        document.body.classList.add('no-fontawesome');
                        
-                       // প্রোফাইল আইকনে টেক্সট ফলব্যাক যোগ করুন
-                       const profileIcon = document.querySelector('.profile-icon');
-                       if (profileIcon) {
-                           if (!profileIcon.querySelector('.profile-icon-text')) {
-                               const textSpan = document.createElement('span');
-                               textSpan.className = 'profile-icon-text';
-                               textSpan.textContent = 'প্রোফাইল';
-                               profileIcon.appendChild(textSpan);
-                           }
-                       }
+
                    }
                }
                
@@ -7413,29 +7404,10 @@ const ProfileIconManager = {
     setupEventListeners: function() {
         console.log('Setting up profile icon event listeners');
         
-        // Profile icon click handler
-        const profileIcon = document.querySelector('.profile-icon');
-        if (profileIcon) {
-            profileIcon.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Profile icon clicked');
-                this.toggleDropdown();
-            });
-        }
+
         
         // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            const dropdown = document.querySelector('.dropdown-menu1');
-            const profileDropdown = document.getElementById('profileDropdown');
-            
-            if (dropdown && profileDropdown && 
-                !profileDropdown.contains(e.target)) {
-                console.log('Clicked outside dropdown - closing');
-                this.closeDropdown();
-            }
-        });
-        
+     
         // Logout button handler
         const logoutButton = document.getElementById('logoutButton');
         if (logoutButton) {
@@ -7448,24 +7420,8 @@ const ProfileIconManager = {
     },
 
     // Toggle dropdown menu
-    toggleDropdown: function() {
-        const dropdownMenu = document.querySelector('.dropdown-menu1');
-        if (!dropdownMenu) {
-            console.warn('Dropdown menu not found');
-            return;
-        }
-        
-        const isVisible = dropdownMenu.style.display === 'block';
-        
-        if (isVisible) {
-            console.log('Closing dropdown menu');
-            dropdownMenu.style.display = 'none';
-        } else {
-            console.log('Opening dropdown menu');
-            dropdownMenu.style.display = 'block';
-        }
-    },
-
+ 
+    
     // Close dropdown menu
     closeDropdown: function() {
         const dropdownMenu = document.querySelector('.dropdown-menu1');
