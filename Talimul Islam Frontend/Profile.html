@@ -6812,584 +6812,409 @@ async function handleProfileImageUpload(e) {
 </script>
 
 
-
-
 <script>
-    // প্রোফাইল আইকন ডিসপ্লে স্ক্রিপ্ট - তৃতীয় কোড (Enhanced)
-    // এই কোডটি প্রথম কোডের সাথে কাজ করবে এবং প্রোফাইল আইকন সঠিকভাবে দেখাবে
-    // sessionStorage এবং localStorage উভয়ের সাথে সিঙ্ক করবে
-    
-    console.log('Enhanced Profile Icon Display Script Loaded');
-    
-    // Profile Icon Management Functions
-    const ProfileIconManager = {
-        // Initialize profile icon display
-        init: function() {
-            console.log('Initializing Profile Icon Manager');
-            this.setupEventListeners();
-            this.checkAndDisplayProfileIcon();
+// প্রোফাইল আইকন ডিসপ্লে স্ক্রিপ্ট - তৃতীয় কোড
+// এই কোডটি প্রথম কোডের সাথে কাজ করবে এবং প্রোফাইল আইকন সঠিকভাবে দেখাবে
+
+console.log('Profile Icon Display Script Loaded');
+
+// Profile Icon Management Functions
+const ProfileIconManager = {
+    // Initialize profile icon display
+    init: function() {
+        console.log('Initializing Profile Icon Manager');
+        this.setupEventListeners();
+        this.checkAndDisplayProfileIcon();
+        
+        // Monitor authentication state changes
+        this.monitorAuthState();
+    },
+
+    // Check authentication and display appropriate UI
+    checkAndDisplayProfileIcon: function() {
+        console.log('Checking authentication for profile icon display');
+        
+        // Check both sessionStorage and localStorage for tokens
+        const sessionToken = sessionStorage.getItem('authToken');
+        const localToken = localStorage.getItem('authToken');
+        const token = sessionToken || localToken;
+        
+        const userData = sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser');
+        
+        console.log('Session Token:', !!sessionToken);
+        console.log('Local Token:', !!localToken);
+        console.log('User Data:', !!userData);
+        
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (!loginButton || !profileDropdown) {
+            console.warn('Login button or profile dropdown not found');
+            return;
+        }
+        
+        if (token && userData) {
+            // User is logged in - show profile dropdown
+            console.log('User is authenticated - showing profile dropdown');
+            loginButton.style.display = 'none';
+            profileDropdown.style.display = 'block';
             
-            // Monitor authentication state changes
-            this.monitorAuthState();
-        },
-    
-        // Check authentication and display appropriate UI - Enhanced version
-        checkAndDisplayProfileIcon: function() {
-            console.log('Checking authentication for profile icon display');
+            // Update user name in profile if available
+            try {
+                const user = JSON.parse(userData);
+                this.updateProfileDisplay(user);
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+            }
             
-            // Check both sessionStorage and localStorage for tokens
-            const sessionToken = sessionStorage.getItem('authToken');
-            const localToken = localStorage.getItem('authToken');
-            const token = sessionToken || localToken;
-            
-            // Check both storages for user data
-            const sessionUserData = sessionStorage.getItem('currentUser');
-            const localUserData = localStorage.getItem('currentUser');
-            const userData = sessionUserData || localUserData;
-            
-            console.log('Session Token:', !!sessionToken);
-            console.log('Local Token:', !!localToken);
-            console.log('Session User Data:', !!sessionUserData);
-            console.log('Local User Data:', !!localUserData);
-            
-            const loginButton = document.getElementById('loginButton');
+        } else {
+            // User is not logged in - show login button
+            console.log('User is not authenticated - showing login button');
+            loginButton.style.display = 'block';
+            profileDropdown.style.display = 'none';
+        }
+    },
+
+    // Update profile display with user information
+    updateProfileDisplay: function(user) {
+        console.log('Updating profile display for user:', user.name);
+        
+        // Update profile name in dropdown if element exists
+        const profileNameElement = document.querySelector('#profileDropdown .profile-name');
+        if (profileNameElement) {
+            profileNameElement.textContent = user.name || 'ব্যবহারকারী';
+        }
+        
+        // Update profile image if available
+        const profileImage = document.querySelector('#profileDropdown .profile-image');
+        if (profileImage && user.profileImage) {
+            profileImage.src = user.profileImage;
+        }
+    },
+
+    // Setup event listeners for profile dropdown
+    setupEventListeners: function() {
+        console.log('Setting up profile icon event listeners');
+        
+        // Profile icon click handler
+        const profileIcon = document.querySelector('.profile-icon');
+        if (profileIcon) {
+            profileIcon.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Profile icon clicked');
+                this.toggleDropdown();
+            });
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const dropdown = document.querySelector('.dropdown-menu1');
             const profileDropdown = document.getElementById('profileDropdown');
             
-            if (!loginButton || !profileDropdown) {
-                console.warn('Login button or profile dropdown not found');
-                return;
+            if (dropdown && profileDropdown && 
+                !profileDropdown.contains(e.target)) {
+                console.log('Clicked outside dropdown - closing');
+                this.closeDropdown();
             }
+        });
+        
+        // Logout button handler
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Logout button clicked from profile icon manager');
+                this.handleLogout();
+            });
+        }
+    },
+
+    // Toggle dropdown menu
+    toggleDropdown: function() {
+        const dropdownMenu = document.querySelector('.dropdown-menu1');
+        if (!dropdownMenu) {
+            console.warn('Dropdown menu not found');
+            return;
+        }
+        
+        const isVisible = dropdownMenu.style.display === 'block';
+        
+        if (isVisible) {
+            console.log('Closing dropdown menu');
+            dropdownMenu.style.display = 'none';
+        } else {
+            console.log('Opening dropdown menu');
+            dropdownMenu.style.display = 'block';
+        }
+    },
+
+    // Close dropdown menu
+    closeDropdown: function() {
+        const dropdownMenu = document.querySelector('.dropdown-menu1');
+        if (dropdownMenu) {
+            dropdownMenu.style.display = 'none';
+        }
+    },
+
+    // Handle logout process
+    handleLogout: async function() {
+        console.log('Processing logout from profile icon manager');
+        
+        try {
+            // Get token for logout API call
+            const token = sessionStorage.getItem('authToken') || localStorage.getItem('authToken');
             
-            // Check login expiration (for sessionStorage data)
-            if (sessionToken && this.isLoginExpired()) {
-                console.log('Session login expired, clearing session data');
-                this.clearSessionData();
-                // Continue to check localStorage
-            }
-            
-            if (token && userData) {
-                // User is logged in - show profile dropdown
-                console.log('User is authenticated - showing profile dropdown');
-                loginButton.style.display = 'none';
-                profileDropdown.style.display = 'block';
-                
-                // Update user name in profile if available
+            if (token) {
+                // Optional: Call logout API
                 try {
-                    const user = JSON.parse(userData);
-                    this.updateProfileDisplay(user);
-                } catch (error) {
-                    console.error('Error parsing user data:', error);
+                    const response = await fetch(`${DB_API_URL}/logout`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    if (data.success) {
+                        console.log('Server logout successful');
+                    }
+                } catch (apiError) {
+                    console.error('Server logout failed:', apiError);
+                    // Continue with client-side logout even if server call fails
                 }
-                
-            } else {
-                // User is not logged in - show login button
-                console.log('User is not authenticated - showing login button');
-                loginButton.style.display = 'block';
-                profileDropdown.style.display = 'none';
             }
-        },
-
-        // Check if login is expired (for sessionStorage)
-        isLoginExpired: function() {
-            const loginTime = sessionStorage.getItem('loginTime');
-            if (!loginTime) return false; // If no login time, don't expire
             
-            const currentTime = Date.now();
-            const loginTimestamp = parseInt(loginTime);
-            const timeDiff = currentTime - loginTimestamp;
-            
-            // 24 hours = 24 * 60 * 60 * 1000 = 86400000 milliseconds
-            const twentyFourHours = 24 * 60 * 60 * 1000;
-            
-            return timeDiff > twentyFourHours;
-        },
-
-        // Clear session data
-        clearSessionData: function() {
+            // Clear all authentication data
             sessionStorage.removeItem('authToken');
             sessionStorage.removeItem('currentUser');
             sessionStorage.removeItem('loginTime');
-        },
-
-        // Clear all authentication data
-        clearAllAuthData: function() {
-            // Clear sessionStorage
-            sessionStorage.removeItem('authToken');
-            sessionStorage.removeItem('currentUser');
-            sessionStorage.removeItem('loginTime');
-            
-            // Clear localStorage
             localStorage.removeItem('authToken');
             localStorage.removeItem('currentUser');
-        },
-    
-        // Update profile display with user information
-        updateProfileDisplay: function(user) {
-            console.log('Updating profile display for user:', user.name);
             
-            // Update profile name in dropdown if element exists
-            const profileNameElement = document.querySelector('#profileDropdown .profile-name');
-            if (profileNameElement) {
-                profileNameElement.textContent = user.name || 'ব্যবহারকারী';
-            }
-            
-            // Update profile image if available
-            const profileImage = document.querySelector('#profileDropdown .profile-image');
-            if (profileImage && user.profileImage) {
-                profileImage.src = user.profileImage;
-            }
-        },
-    
-        // Setup event listeners for profile dropdown
-        setupEventListeners: function() {
-            console.log('Setting up profile icon event listeners');
-            
-            // Profile icon click handler
-            const profileIcon = document.querySelector('.profile-icon');
-            if (profileIcon) {
-                profileIcon.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Profile icon clicked');
-                    this.toggleDropdown();
-                });
-            }
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                const dropdown = document.querySelector('.dropdown-menu1');
-                const profileDropdown = document.getElementById('profileDropdown');
-                
-                if (dropdown && profileDropdown && 
-                    !profileDropdown.contains(e.target)) {
-                    console.log('Clicked outside dropdown - closing');
-                    this.closeDropdown();
-                }
-            });
-            
-            // Logout button handler
-            const logoutButton = document.getElementById('logoutButton');
-            if (logoutButton) {
-                logoutButton.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    console.log('Logout button clicked from profile icon manager');
-                    this.handleLogout();
-                });
-            }
-        },
-    
-        // Toggle dropdown menu
-        toggleDropdown: function() {
-            const dropdownMenu = document.querySelector('.dropdown-menu1');
-            if (!dropdownMenu) {
-                console.warn('Dropdown menu not found');
-                return;
-            }
-            
-            const isVisible = dropdownMenu.style.display === 'block';
-            
-            if (isVisible) {
-                console.log('Closing dropdown menu');
-                dropdownMenu.style.display = 'none';
-            } else {
-                console.log('Opening dropdown menu');
-                dropdownMenu.style.display = 'block';
-            }
-        },
-    
-        // Close dropdown menu
-        closeDropdown: function() {
-            const dropdownMenu = document.querySelector('.dropdown-menu1');
-            if (dropdownMenu) {
-                dropdownMenu.style.display = 'none';
-            }
-        },
-    
-        // Handle logout process - Enhanced to sync with second script
-        handleLogout: async function() {
-            console.log('Processing logout from profile icon manager');
-            
-            try {
-                // Get token for logout API call (check both storages)
-                const sessionToken = sessionStorage.getItem('authToken');
-                const localToken = localStorage.getItem('authToken');
-                const token = sessionToken || localToken;
-                
-                if (token) {
-                    // Optional: Call logout API
-                    try {
-                        const response = await fetch(`${window.DB_API_URL || 'https://t-i-a-storage-backend.onrender.com'}/logout`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            }
-                        });
-                        
-                        const data = await response.json();
-                        if (data.success) {
-                            console.log('Server logout successful');
-                        }
-                    } catch (apiError) {
-                        console.error('Server logout failed:', apiError);
-                        // Continue with client-side logout even if server call fails
-                    }
-                }
-                
-                // Clear all authentication data from both storages
-                this.clearAllAuthData();
-                
-                // Update UI
-                this.checkAndDisplayProfileIcon();
-                
-                // Close dropdown
-                this.closeDropdown();
-                
-                // Show success message
-                if (typeof showNotification === 'function') {
-                    showNotification('সফলভাবে লগআউট করা হয়েছে।', 'success');
-                } else {
-                    // Fallback notification
-                    this.showFallbackNotification('সফলভাবে লগআউট করা হয়েছে।', 'success');
-                }
-                
-                // Trigger storage event to notify other tabs/scripts
-                this.triggerStorageEvent();
-                
-                // Optional: Redirect to home page
-                setTimeout(() => {
-                    if (window.location.pathname !== '/index.html' && 
-                        !window.location.pathname.includes('Talimul Islam Academi.html')) {
-                        window.location.href = 'index.html';
-                    }
-                }, 1500);
-                
-            } catch (error) {
-                console.error('Logout process error:', error);
-                
-                // Force logout even if there's an error
-                this.clearAllAuthData();
-                this.checkAndDisplayProfileIcon();
-                this.triggerStorageEvent();
-            }
-        },
-
-        // Trigger storage event to notify other scripts/tabs
-        triggerStorageEvent: function() {
-            // Manually trigger storage event for same-tab communication
-            const event = new StorageEvent('storage', {
-                key: 'authToken',
-                oldValue: 'token_removed',
-                newValue: null,
-                url: window.location.href,
-                storageArea: localStorage
-            });
-            window.dispatchEvent(event);
-
-            // Also trigger for sessionStorage
-            const sessionEvent = new StorageEvent('storage', {
-                key: 'authToken',
-                oldValue: 'session_token_removed',
-                newValue: null,
-                url: window.location.href,
-                storageArea: sessionStorage
-            });
-            window.dispatchEvent(sessionEvent);
-        },
-
-        // Fallback notification if showNotification is not available
-        showFallbackNotification: function(message, type) {
-            // Create a simple notification
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background-color: ${type === 'success' ? '#4CAF50' : '#f44336'};
-                color: white;
-                padding: 15px;
-                border-radius: 5px;
-                z-index: 9999;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            `;
-            notification.textContent = message;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 3000);
-        },
-    
-        // Monitor authentication state changes - Enhanced
-        monitorAuthState: function() {
-            console.log('Setting up authentication state monitoring');
-            
-            // Check every 5 seconds for authentication changes
-            setInterval(() => {
-                this.checkAndDisplayProfileIcon();
-            }, 5000);
-            
-            // Listen for storage events (when user logs in/out in another tab or script)
-            window.addEventListener('storage', (e) => {
-                if (e.key === 'authToken' || e.key === 'currentUser') {
-                    console.log('Authentication state changed in another tab/script:', e.key);
-                    setTimeout(() => {
-                        this.checkAndDisplayProfileIcon();
-                    }, 100);
-                }
-            });
-
-            // Listen for custom storage events (for same-tab communication)
-            window.addEventListener('storage', (e) => {
-                if (e.storageArea === sessionStorage && 
-                    (e.key === 'authToken' || e.key === 'currentUser')) {
-                    console.log('Session storage changed:', e.key);
-                    setTimeout(() => {
-                        this.checkAndDisplayProfileIcon();
-                    }, 100);
-                }
-            });
-            
-            // Check when page becomes visible again
-            document.addEventListener('visibilitychange', () => {
-                if (!document.hidden) {
-                    console.log('Page became visible - checking auth state');
-                    this.checkAndDisplayProfileIcon();
-                }
-            });
-
-            // Listen for custom logout events
-            window.addEventListener('userLoggedOut', () => {
-                console.log('Custom logout event received');
-                this.clearAllAuthData();
-                this.checkAndDisplayProfileIcon();
-            });
-        },
-    
-        // Force refresh profile icon display
-        refresh: function() {
-            console.log('Force refreshing profile icon display');
+            // Update UI
             this.checkAndDisplayProfileIcon();
-        },
-    
-        // Check if user is authenticated - Enhanced
-        isAuthenticated: function() {
-            const sessionToken = sessionStorage.getItem('authToken');
-            const localToken = localStorage.getItem('authToken');
-            const sessionUserData = sessionStorage.getItem('currentUser');
-            const localUserData = localStorage.getItem('currentUser');
             
-            // Check session expiration
-            if (sessionToken && this.isLoginExpired()) {
-                this.clearSessionData();
-                return !!(localToken && localUserData);
+            // Close dropdown
+            this.closeDropdown();
+            
+            // Show success message
+            if (typeof showNotification === 'function') {
+                showNotification('সফলভাবে লগআউট করা হয়েছে।', 'success');
             }
             
-            return !!(sessionToken || localToken) && !!(sessionUserData || localUserData);
+            // Optional: Redirect to home page
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Logout process error:', error);
+            
+            // Force logout even if there's an error
+            sessionStorage.clear();
+            localStorage.clear();
+            this.checkAndDisplayProfileIcon();
         }
-    };
-    
-    // Override existing checkLoginStatus function to prevent conflicts and sync with second script
-    const originalCheckLoginStatus = window.checkLoginStatus;
-    window.checkLoginStatus = function() {
-        console.log('checkLoginStatus called - delegating to ProfileIconManager');
-        ProfileIconManager.checkAndDisplayProfileIcon();
-        
-        // Call original function if it exists and is different
-        if (originalCheckLoginStatus && originalCheckLoginStatus !== window.checkLoginStatus) {
-            try {
-                return originalCheckLoginStatus();
-            } catch (error) {
-                console.error('Error calling original checkLoginStatus:', error);
-            }
-        }
-        
-        return ProfileIconManager.isAuthenticated();
-    };
+    },
 
-    // Override handleLogout function if it exists in the second script
-    const originalHandleLogout = window.handleLogout;
-    window.handleLogout = function(e) {
-        console.log('handleLogout called - delegating to ProfileIconManager');
-        if (e) e.preventDefault();
+    // Monitor authentication state changes
+    monitorAuthState: function() {
+        console.log('Setting up authentication state monitoring');
         
-        ProfileIconManager.handleLogout();
+        // Check every 5 seconds for authentication changes
+        setInterval(() => {
+            this.checkAndDisplayProfileIcon();
+        }, 5000);
         
-        // Call original function if it exists and is different
-        if (originalHandleLogout && originalHandleLogout !== window.handleLogout) {
-            try {
-                return originalHandleLogout(e);
-            } catch (error) {
-                console.error('Error calling original handleLogout:', error);
+        // Listen for storage events (when user logs in/out in another tab)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'authToken' || e.key === 'currentUser') {
+                console.log('Authentication state changed in another tab');
+                this.checkAndDisplayProfileIcon();
             }
-        }
-    };
-    
-    // Initialize when DOM is ready
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM loaded - initializing Profile Icon Manager');
+        });
         
-        // Wait a bit to ensure other scripts have loaded
-        setTimeout(() => {
-            ProfileIconManager.init();
-        }, 100);
-    });
+        // Check when page becomes visible again
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                console.log('Page became visible - checking auth state');
+                this.checkAndDisplayProfileIcon();
+            }
+        });
+    },
+
+    // Force refresh profile icon display
+    refresh: function() {
+        console.log('Force refreshing profile icon display');
+        this.checkAndDisplayProfileIcon();
+    },
+
+    // Check if user is authenticated
+    isAuthenticated: function() {
+        const sessionToken = sessionStorage.getItem('authToken');
+        const localToken = localStorage.getItem('authToken');
+        const userData = sessionStorage.getItem('currentUser') || localStorage.getItem('currentUser');
+        
+        return !!(sessionToken || localToken) && !!userData;
+    }
+};
+
+// Override existing checkLoginStatus function to prevent conflicts
+const originalCheckLoginStatus = window.checkLoginStatus;
+window.checkLoginStatus = function() {
+    console.log('checkLoginStatus called - delegating to ProfileIconManager');
+    ProfileIconManager.checkAndDisplayProfileIcon();
     
-    // Initialize immediately if DOM is already loaded
-    if (document.readyState === 'loading') {
-        console.log('DOM still loading - waiting for DOMContentLoaded');
-    } else {
-        console.log('DOM already loaded - initializing Profile Icon Manager immediately');
-        setTimeout(() => {
-            ProfileIconManager.init();
-        }, 100);
+    // Call original function if it exists and is different
+    if (originalCheckLoginStatus && originalCheckLoginStatus !== window.checkLoginStatus) {
+        try {
+            return originalCheckLoginStatus();
+        } catch (error) {
+            console.error('Error calling original checkLoginStatus:', error);
+        }
     }
     
-    // Make ProfileIconManager globally available
-    window.ProfileIconManager = ProfileIconManager;
+    return ProfileIconManager.isAuthenticated();
+};
 
-    // Sync function to manually sync authentication state
-    window.syncAuthState = function() {
-        console.log('Manual auth state sync requested');
-        ProfileIconManager.checkAndDisplayProfileIcon();
-    };
-
-    // Function to trigger logout from external scripts
-    window.triggerLogout = function() {
-        console.log('External logout trigger requested');
-        ProfileIconManager.handleLogout();
-    };
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded - initializing Profile Icon Manager');
     
-    // Add CSS styles for better profile icon display
-    document.addEventListener('DOMContentLoaded', function() {
-        const existingStyle = document.getElementById('profileIconStyles');
-        if (!existingStyle) {
-            const style = document.createElement('style');
-            style.id = 'profileIconStyles';
-            style.textContent = `
-                /* Enhanced Profile Icon Styles */
-                .profile-dropdown {
-                    position: relative;
-                    display: none;
-                }
-                
-                .profile-dropdown.show {
-                    display: block !important;
+    // Wait a bit to ensure other scripts have loaded
+    setTimeout(() => {
+        ProfileIconManager.init();
+    }, 100);
+});
+
+// Initialize immediately if DOM is already loaded
+if (document.readyState === 'loading') {
+    console.log('DOM still loading - waiting for DOMContentLoaded');
+} else {
+    console.log('DOM already loaded - initializing Profile Icon Manager immediately');
+    setTimeout(() => {
+        ProfileIconManager.init();
+    }, 100);
+}
+
+// Make ProfileIconManager globally available
+window.ProfileIconManager = ProfileIconManager;
+
+// Add CSS styles for better profile icon display
+document.addEventListener('DOMContentLoaded', function() {
+    const existingStyle = document.getElementById('profileIconStyles');
+    if (!existingStyle) {
+        const style = document.createElement('style');
+        style.id = 'profileIconStyles';
+        style.textContent = `
+            /* Enhanced Profile Icon Styles */
+            .profile-dropdown {
+                position: relative;
+                display: none;
+            }
+            
+            .profile-dropdown.show {
+                display: block !important;
+            }
+            
+            .profile-icon {
+                background: none;
+                border: none;
+                font-size: 24px;
+                color: #333;
+                cursor: pointer;
+                padding: 8px;
+                border-radius: 50%;
+                transition: background-color 0.3s ease;
+            }
+            
+            .profile-icon:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+            
+            .dropdown-menu1 {
+                display: none;
+                position: absolute;
+                right: 0;
+                top: 100%;
+                background-color: white;
+                min-width: 200px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                border-radius: 8px;
+                overflow: hidden;
+                border: 1px solid #e0e0e0;
+            }
+            
+            .dropdown-menu1.show {
+                display: block !important;
+            }
+            
+            .dropdown-item {
+                display: block;
+                padding: 12px 16px;
+                text-decoration: none;
+                color: #333;
+                transition: background-color 0.2s ease;
+                border-bottom: 1px solid #f0f0f0;
+            }
+            
+            .dropdown-item:last-child {
+                border-bottom: none;
+            }
+            
+            .dropdown-item:hover {
+                background-color: #f8f9fa;
+            }
+            
+            .dropdown-item.logout {
+                color: #dc3545;
+            }
+            
+            .dropdown-item.logout:hover {
+                background-color: #f8d7da;
+            }
+            
+            /* Login button styles */
+            .login-button {
+                display: inline-block;
+                padding: 8px 16px;
+                background-color: #007bff;
+                color: white;
+                border-radius: 4px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: background-color 0.3s ease;
+            }
+            
+            .login-button:hover {
+                background-color: #0056b3;
+            }
+            
+            /* Responsive design */
+            @media (max-width: 768px) {
+                .dropdown-menu1 {
+                    min-width: 160px;
+                    right: -10px;
                 }
                 
                 .profile-icon {
-                    background: none;
-                    border: none;
-                    font-size: 24px;
-                    color: #333;
-                    cursor: pointer;
-                    padding: 8px;
-                    border-radius: 50%;
-                    transition: background-color 0.3s ease;
+                    font-size: 20px;
+                    padding: 6px;
                 }
-                
-                .profile-icon:hover {
-                    background-color: rgba(0, 0, 0, 0.1);
-                }
-                
-                .dropdown-menu1 {
-                    display: none;
-                    position: absolute;
-                    right: 0;
-                    top: 100%;
-                    background-color: white;
-                    min-width: 200px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                    z-index: 1000;
-                    border-radius: 8px;
-                    overflow: hidden;
-                    border: 1px solid #e0e0e0;
-                }
-                
-                .dropdown-menu1.show {
-                    display: block !important;
-                }
-                
-                .dropdown-item {
-                    display: block;
-                    padding: 12px 16px;
-                    text-decoration: none;
-                    color: #333;
-                    transition: background-color 0.2s ease;
-                    border-bottom: 1px solid #f0f0f0;
-                }
-                
-                .dropdown-item:last-child {
-                    border-bottom: none;
-                }
-                
-                .dropdown-item:hover {
-                    background-color: #f8f9fa;
-                }
-                
-                .dropdown-item.logout {
-                    color: #dc3545;
-                }
-                
-                .dropdown-item.logout:hover {
-                    background-color: #f8d7da;
-                }
-                
-                /* Login button styles */
-                .login-button {
-                    display: inline-block;
-                    padding: 8px 16px;
-                    background-color: #007bff;
-                    color: white;
-                    border-radius: 4px;
-                    text-decoration: none;
-                    font-weight: 500;
-                    transition: background-color 0.3s ease;
-                }
-                
-                .login-button:hover {
-                    background-color: #0056b3;
-                }
-                
-                /* User Menu Container Styles */
-                .user-menu-container {
-                    position: relative;
-                    display: inline-block;
-                }
-                
-                /* Font Awesome Fallback */
-                .profile-icon-text {
-                    display: none;
-                }
-                
-                .no-fontawesome .profile-icon-text {
-                    display: inline;
-                    font-weight: bold;
-                }
-                
-                /* Responsive design */
-                @media (max-width: 768px) {
-                    .dropdown-menu1 {
-                        min-width: 160px;
-                        right: -10px;
-                    }
-                    
-                    .profile-icon {
-                        font-size: 20px;
-                        padding: 6px;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
-            console.log('Profile icon styles added');
-        }
-    });
-    
-    console.log('Enhanced Profile Icon Display Script Fully Loaded');
+            }
+        `;
+        document.head.appendChild(style);
+        console.log('Profile icon styles added');
+    }
+});
+
+console.log('Profile Icon Display Script Fully Loaded');
 </script>
+
+
 
 
 
