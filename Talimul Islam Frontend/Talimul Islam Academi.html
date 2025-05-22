@@ -4549,7 +4549,49 @@ animation: spin 1s linear infinite;
       display: none !important;
     }
   </style>
-  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOM loaded, final login status check');
+
+    // Delay check just a bit for safety
+    setTimeout(() => {
+        checkLoginStatus();
+
+        // ✅ Anti-flash CSS সরিয়ে ফেলুন
+        const antiFlash = document.getElementById('antiFlashCSS');
+        if (antiFlash) antiFlash.remove();
+
+        // Smooth operation styles
+        const finalStyle = document.createElement('style');
+        finalStyle.textContent = `
+            #loginButton, #profileDropdown {
+                transition: opacity 0.2s ease-in;
+            }
+        `;
+        document.head.appendChild(finalStyle);
+    }, 50);
+});
+// DOM fully loaded
+document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(() => {
+        checkLoginStatus();
+
+        // Remove anti-flash style
+        const antiFlash = document.getElementById('antiFlashCSS');
+        if (antiFlash) antiFlash.remove();
+
+        // Optional: smooth transition
+        const finalStyle = document.createElement('style');
+        finalStyle.textContent = `
+            #loginButton, #profileDropdown {
+                transition: opacity 0.2s ease-in;
+            }
+        `;
+        document.head.appendChild(finalStyle);
+    }, 50);
+});
+
+  </script>
 
 
 
