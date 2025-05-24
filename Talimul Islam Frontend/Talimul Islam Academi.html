@@ -4540,7 +4540,302 @@ animation: spin 1s linear infinite;
        console.log('Profile dropdown script initialized');
 </script>
 
+<!-- লগআউট অটোভাবে বন্ধ করার কোড  -->
+ <script>
+    // ==============================================
+// PERSISTENT LOGIN SYSTEM - AUTO LOGOUT DISABLER
+// ==============================================
+// এই কোডটি সব অটো লগআউট ফিচার বন্ধ করে দেবে
+// একবার লগইন করলে ম্যানুয়াল লগআউট না করা পর্যন্ত লগইন থাকবে
 
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Persistent Login System activated');
+    
+    // ১. সব টাইমার এবং ইন্টারভাল বন্ধ করুন
+    function disableAutoLogout() {
+        // OTP টাইমার বন্ধ করুন (এটি রাখা যেতে পারে)
+        // if (otpTimer) {
+        //     clearInterval(otpTimer);
+        // }
+        
+        // টোকেন রিফ্রেশ ইন্টারভাল বন্ধ করুন
+        if (window.tokenRefreshInterval) {
+            clearInterval(window.tokenRefreshInterval);
+            window.tokenRefreshInterval = null;
+        }
+        
+        // ইউজার ইনঅ্যাক্টিভিটি টাইমার বন্ধ করুন
+        if (window.userActivityTimer) {
+            clearTimeout(window.userActivityTimer);
+            window.userActivityTimer = null;
+        }
+        
+        console.log('All auto-logout timers disabled');
+    }
+    
+    // ২. Original ফাংশনগুলি Override করুন
+    
+    // Token refresh function কে modify করুন
+    window.originalRefreshToken = window.refreshToken;
+    window.refreshToken = async function() {
+        console.log('Token refresh skipped - persistent login active');
+        return true; // সবসময় true রিটার্ন করুন
+    };
+    
+    // Setup token refresh function কে নিষ্ক্রিয় করুন
+    window.originalSetupTokenRefresh = window.setupTokenRefresh;
+    window.setupTokenRefresh = function() {
+        console.log('Token refresh setup skipped - persistent login active');
+        // কিছুই করবেন না
+    };
+    
+    // Auto logout handler কে নিষ্ক্রিয় করুন
+    window.originalHandleAutoLogout = window.handleAutoLogout;
+    window.handleAutoLogout = function() {
+        console.log('Auto logout prevented - persistent login active');
+        // কিছুই করবেন না
+    };
+    
+    // User activity tracking কে নিষ্ক্রিয় করুন
+    window.originalSetupUserActivityTracking = window.setupUserActivityTracking;
+    window.setupUserActivityTracking = function() {
+        console.log('User activity tracking skipped - persistent login active');
+        // কিছুই করবেন না
+    };
+    
+    // Reset user activity function কে নিষ্ক্রিয় করুন
+    window.originalResetUserActivity = window.resetUserActivity;
+    window.resetUserActivity = function() {
+        // console.log('User activity reset skipped - persistent login active');
+        // কিছুই করবেন না
+    };
+    
+    // ৩. Login expiration check কে bypass করুন
+    window.originalIsLoginExpired = window.isLoginExpired;
+    window.isLoginExpired = function() {
+        console.log('Login expiration check bypassed - persistent login active');
+        return false; // সবসময় false রিটার্ন করুন
+    };
+    
+    // ৪. Enhanced checkLoginStatus function
+    window.originalCheckLoginStatus = window.checkLoginStatus;
+    window.checkLoginStatus = async function() {
+        console.log('Enhanced login status check - persistent login');
+        
+        // localStorage এবং sessionStorage দুটোই চেক করুন
+        const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+        
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        // Font Awesome চেক (যদি ফাংশন থাকে)
+        if (typeof checkFontAwesome === 'function') {
+            checkFontAwesome();
+        }
+        
+        if (!loginButton || !profileDropdown) {
+            console.error('Login button or profile dropdown not found');
+            return false;
+        }
+        
+        if (token) {
+            // টোকেন থাকলে সরাসরি লগইন স্টেট দেখান
+            console.log('Token found, showing logged in state - persistent login');
+            loginButton.style.display = 'none';
+            profileDropdown.style.display = 'block';
+            return true;
+        } else {
+            // টোকেন না থাকলে লগইন বাটন দেখান
+            console.log('No token found, showing login button');
+            loginButton.style.display = 'block';
+            profileDropdown.style.display = 'none';
+            return false;
+        }
+    };
+    
+    // ৫. Enhanced saveAuthToken function
+    window.originalSaveAuthToken = window.saveAuthToken;
+    window.saveAuthToken = function(token, user) {
+        console.log('Saving auth token with persistent login');
+        
+        // localStorage এ সেভ করুন (persistent)
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        
+        // sessionStorage এও সেভ করুন (backup)
+        sessionStorage.setItem('authToken', token);
+        sessionStorage.setItem('currentUser', JSON.stringify(user));
+        
+        // Login time সেভ করুন কিন্তু ব্যবহার করবেন না
+        localStorage.setItem('loginTime', Date.now().toString());
+        sessionStorage.setItem('loginTime', Date.now().toString());
+        
+        // Auto refresh setup করবেন না
+        // setupTokenRefresh(); // এটি কল করবেন না
+        
+        // UI আপডেট করুন
+        checkLoginStatus();
+    };
+    
+    // ৬. Window/Tab close এর আগে localStorage backup করুন
+    window.addEventListener('beforeunload', function() {
+        const token = sessionStorage.getItem('authToken');
+        const user = sessionStorage.getItem('currentUser');
+        
+        if (token && !localStorage.getItem('authToken')) {
+            localStorage.setItem('authToken', token);
+        }
+        if (user && !localStorage.getItem('currentUser')) {
+            localStorage.setItem('currentUser', user);
+        }
+        
+        console.log('Session data backed up to localStorage');
+    });
+    
+    // ৭. Page visibility change এ extra check
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            console.log('Page visible - persistent login check');
+            
+            // localStorage থেকে sessionStorage এ কপি করুন
+            const token = localStorage.getItem('authToken');
+            const user = localStorage.getItem('currentUser');
+            
+            if (token && !sessionStorage.getItem('authToken')) {
+                sessionStorage.setItem('authToken', token);
+                console.log('Token restored from localStorage');
+            }
+            if (user && !sessionStorage.getItem('currentUser')) {
+                sessionStorage.setItem('currentUser', user);
+                console.log('User data restored from localStorage');
+            }
+            
+            checkLoginStatus();
+        }
+    });
+    
+    // ৮. Storage event listener (multiple tabs এর জন্য)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'authToken' || e.key === 'currentUser') {
+            console.log('Storage changed in another tab - syncing');
+            checkLoginStatus();
+        }
+    });
+    
+    // ৯. Manual logout function enhancement
+    window.enhancedLogout = async function() {
+        console.log('Enhanced logout called');
+        
+        try {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            
+            if (token) {
+                // API কল করুন
+                try {
+                    const response = await fetch(`${DB_API_URL}/logout`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
+                    }
+                } catch (apiError) {
+                    console.error('Logout API call failed:', apiError);
+                    showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
+                }
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            // সব storage থেকে ডেটা মুছুন
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('loginTime');
+            
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('loginTime');
+            
+            // UI আপডেট করুন
+            checkLoginStatus();
+        }
+    };
+    
+    // ১০. Original logout button এর event listener কে replace করুন
+    setTimeout(function() {
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+            // পুরাতন event listeners সরান
+            const newLogoutButton = logoutButton.cloneNode(true);
+            logoutButton.parentNode.replaceChild(newLogoutButton, logoutButton);
+            
+            // নতুন event listener যোগ করুন
+            newLogoutButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                enhancedLogout();
+            });
+            
+            console.log('Logout button event updated for persistent login');
+        }
+    }, 1000);
+    
+    // ১১. Initialize করুন
+    disableAutoLogout();
+    
+    // ১২. Page load এ localStorage থেকে restore করুন
+    setTimeout(function() {
+        const token = localStorage.getItem('authToken');
+        const user = localStorage.getItem('currentUser');
+        
+        if (token && !sessionStorage.getItem('authToken')) {
+            sessionStorage.setItem('authToken', token);
+            console.log('Token restored from localStorage on page load');
+        }
+        if (user && !sessionStorage.getItem('currentUser')) {
+            sessionStorage.setItem('currentUser', user);
+            console.log('User data restored from localStorage on page load');
+        }
+        
+        checkLoginStatus();
+    }, 500);
+    
+    console.log('🔒 PERSISTENT LOGIN SYSTEM ACTIVATED');
+    console.log('✅ Auto logout disabled');
+    console.log('✅ Session will persist until manual logout');
+    console.log('✅ Login state will survive browser restarts');
+});
+
+// ==============================================
+// ADDITIONAL SAFETY MEASURES
+// ==============================================
+
+// Global error handler যাতে unexpected logout না হয়
+window.addEventListener('error', function(e) {
+    console.log('Global error caught, but persistent login maintained');
+});
+
+// Unhandled promise rejection handler
+window.addEventListener('unhandledrejection', function(e) {
+    console.log('Unhandled promise rejection, but persistent login maintained');
+});
+
+// Console message
+console.log(`
+🔒 PERSISTENT LOGIN SYSTEM LOADED
+=====================================
+✅ All auto-logout features disabled
+✅ Login will persist across sessions
+✅ Manual logout only
+✅ Cross-tab synchronization enabled
+=====================================
+`);
+ </script>
 
 
 
