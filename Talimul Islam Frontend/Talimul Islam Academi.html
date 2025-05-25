@@ -16,7 +16,8 @@
 
 <!-- *full navigation bar start point -->
 <!-- *full navigation bar start point -->
-    <!-- <style>
+ 
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
         
         * {
@@ -212,11 +213,14 @@
         }
         
         /* রাইট সেকশন - ইউটিলিটি আইটেম */
+      
         .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 10px; /* আইকনগুলোর মধ্যে গ্যাপ কমানো */
-        }
+    display: flex;
+    align-items: center;
+    gap: 10px; /* এই gap শুধুমাত্র ভিতরের আইটেমদের মাঝে */
+    margin-right: 0; /* যদি আগে থেকে থাকে */
+    padding-right: 0; /* যদি প্যাডিং থাকে */
+}
         
 
         
@@ -589,7 +593,7 @@
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    /* padding: 0 15px; */
 }
 
 /* নেভবার জন্য */
@@ -614,896 +618,412 @@ nav {
 
 
 
-    </style>   -->
+    </style>  
 
 
-    
-    
+
+
+
+
+
+
+
+
+
+
 
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Hind Siliguri', sans-serif;
-        }
-        
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #fafafa;
-            padding-top: 80px; /* ডেস্কটপের জন্য */
-        }
-        
         /* =============================================
-           মোবাইল টপ হেডার স্টাইল
+           মোবাইল টপ বার স্টাইল
         ============================================= */
-        
-        .mobile-top-header {
-            display: none; /* ডেস্কটপে লুকানো */
+
+        .mobile-top-bar {
+            display: flex; /* ডেমোর জন্য দেখানো হচ্ছে */
             width: 100%;
             height: 45px;
-            background: linear-gradient(135deg, #6A35F2 0%, #5628d8 100%);
+            background: linear-gradient(135deg, #6A35F2 0%, #8B5CF6 100%);
             position: fixed;
             top: 0;
             left: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 2px 8px rgba(106, 53, 242, 0.2);
-        }
-        
-        .mobile-top-header-container {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding: 0 15px;
-            gap: 15px;
-        }
-        
-        /* মোবাইল টপ হেডার আইটেম স্টাইল */
-        .mobile-header-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .mobile-header-item:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        
-        /* ভাষা টগল মোবাইল */
-        .mobile-language-toggle {
-            gap: 4px;
-            padding: 0 8px;
-            width: auto;
-            min-width: 65px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-        
-        .mobile-language-toggle .fa-globe {
-            font-size: 12px;
-        }
-        
-        /* থিম টগল মোবাইল */
-        .mobile-theme-toggle .fa-moon,
-        .mobile-theme-toggle .fa-sun {
-            font-size: 13px;
-        }
-        
-        /* কার্ট আইকন মোবাইল */
-        .mobile-cart-icon {
-            position: relative;
-        }
-        
-        .mobile-cart-icon .fa-shopping-cart {
-            font-size: 13px;
-        }
-        
-        .mobile-cart-badge {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background: #ff4757;
-            color: white;
-            font-size: 9px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* পালস এনিমেশন কার্ট ব্যাজের জন্য */
-        .mobile-cart-badge.pulse {
-            animation: pulseAnimation 0.6s ease-in-out;
-        }
-        
-        @keyframes pulseAnimation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.3); }
-            100% { transform: scale(1); }
-        }
-        
-        /* =============================================
-           নেভিগেশন বার স্টাইল (আপডেটেড)
-        ============================================= */
-        
-        nav {
-            width: 100%;
-            height: 60px;
-            background-color: white;
-            position: fixed;
-            top: 0; /* ডেস্কটপে টপ 0 */
-            left: 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            display: flex;
             align-items: center;
             justify-content: space-between;
-            z-index: 90;
             padding: 0 15px;
-            box-shadow: 0 3px 6px rgba(30, 30, 30, 0.15);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+
+        @media screen and (min-width: 1024px){
+            .mobile-top-bar{
+                display: none;
+            }
+            
+        }
+        @media screen and (max-width: 1024px) {
+            .language-toggle i{
+                display: none;
+            }
+            .language-toggle {
+    display: none;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    background-color: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
         }
         
-        /* বাকি CSS আগের মতোই থাকবে... */
-        .nav-left {
+
+        /* টপ বারের বাম দিক - ফোন নাম্বার */
+        .top-bar-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
         }
-        
-        .logo {
-            font-size: 20px;
-            font-weight: 700;
-            color: #6A35F2;
-            text-decoration: none;
-            margin-top: 15px;
-        }
-        
-        .logo img {
-            max-width: 120px;
-            height: auto;
-        }
-        
-        .menu-items {
+
+        .phone-info {
             display: flex;
-            gap: 20px;
-        }
-        
-        .menu-item {
-            list-style: none;
-            position: relative;
-        }
-        
-        .menu-link {
-            text-decoration: none;
-            color: #333;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            font-size: 13px;
             font-weight: 500;
-            font-size: 15px;
-            position: relative;
-            transition: color 0.3s ease;
         }
-        
-        .menu-link:hover {
-            color: #6A35F2;
-        }
-        
-        .menu-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 50%;
-            background-color: #6A35F2;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-        
-        .menu-link:hover::after {
-            width: 100%;
-        }
-        
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 25px;
-            left: -20px;
-            width: 160px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 8px 0;
-            z-index: 100;
-            opacity: 0;
-            transform: translateY(-10px);
-            animation: dropdownFade 0.3s ease forwards;
-        }
-        
-        .menu-item:hover .dropdown-menu {
-            display: block;
-        }
-        
-        .dropdown-item {
-            list-style: none;
-        }
-        
-        .dropdown-link {
-            display: block;
-            padding: 8px 16px;
-            color: #333;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 14px;
-        }
-        
-        .dropdown-link:hover {
-            background-color: rgba(106, 53, 242, 0.1);
-            color: #6A35F2;
-            transform: translateX(5px);
-        }
-        
-        .nav-center {
-            flex: 1;
+
+        .phone-icon {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 6px;
+            border-radius: 5%;
+            width: 28px;
+            height: 28px;
             display: flex;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            padding: 0 20px;
         }
-        
-        .search-container {
-            width: 100%;
-            max-width: 450px;
-            position: relative;
+
+        .phone-number {
+            font-weight: 600;
         }
-        
-        .search-box0 {
-            width: 100%;
-            height: 40px;
-            border-radius: 5px;
-            border: 1px solid #dfe1e5;
-            background-color: #f5f5f5;
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
-            transition: all 0.3s ease;
+
+        .phone-time {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-left: 4px;
         }
-        
-        .search-box0:focus-within {
-            box-shadow: 0 1px 6px rgba(106, 53, 242, 0.2);
-            border-color: #6A35F2;
-            background-color: #fff;
-        }
-        
-        .search-icon {
-            color: #6A35F2;
-            margin-right: 8px;
+
+        /* টপ বারের ডান দিক - ভাষা সিলেক্টর */
+        .top-bar-right {
             display: flex;
             align-items: center;
         }
-        
-        .search-input {
-            flex: 1;
-            border: none;
-            outline: none;
-            background: transparent;
-            font-size: 14px;
-            color: #202124;
-        }
-        
-        .search-input::placeholder {
-            color: #5f6368;
-            opacity: 0.8;
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .language-toggle {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            color: #5f6368;
-            font-size: 14px;
-            padding: 5px;
-            border-radius: 4px;
+
+        .language-selector {
             display: flex;
             align-items: center;
             gap: 5px;
-            transition: all 0.3s ease;
-        }
-        
-        .language-toggle:hover {
-            background-color: rgba(106, 53, 242, 0.1);
-            color: #6A35F2;
-        }
-        
-        .cart-icon {
-            position: relative;
-            color: #5f6368;
-            padding: 5px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        
-        .cart-icon:hover {
-            color: #6A35F2;
-            background-color: rgba(106, 53, 242, 0.1);
-        }
-        
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #6A35F2;
-            color: white;
-            font-size: 10px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .login-button {
-            background-color: #6A35F2;
-            color: white;
-            border: none;
-            padding: 6px 15px;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 6px 10px;
             border-radius: 5px;
-            font-size: 13px;
+            color: white;
+            font-size: 12px;
             font-weight: 500;
+            border: none;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
         }
-        
-        .login-button:hover {
-            background-color: #5628d8;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(106, 53, 242, 0.2);
+
+        .language-selector:hover {
+            background-color: rgba(255, 255, 255, 0.25);
         }
-        
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            z-index: 100;
-            width: 30px;
-            height: 30px;
+
+        .flag-icon {
+            width: 16px;
+            height: 12px;
+            border-radius: 2px;
             position: relative;
-            padding: 5px;
+            overflow: hidden;
         }
-        
-        .hamburger div {
-            width: 20px;
-            height: 2px;
-            background-color: #333;
-            margin: 4px 0;
-            transition: all 0.3s ease-in-out;
+
+        /* ইউএস ফ্ল্যাগ স্টাইল */
+        .us-flag {
+            background: 
+                linear-gradient(to right, 
+                    #B22234 0%, #B22234 50%, 
+                    #FFFFFF 50%, #FFFFFF 100%
+                ),
+                linear-gradient(to bottom,
+                    #B22234 7.7%, #FFFFFF 7.7%, #FFFFFF 15.4%,
+                    #B22234 15.4%, #B22234 23.1%, #FFFFFF 23.1%,
+                    #FFFFFF 30.8%, #B22234 30.8%, #B22234 38.5%,
+                    #FFFFFF 38.5%, #FFFFFF 46.2%, #B22234 46.2%,
+                    #B22234 53.9%, #FFFFFF 53.9%, #FFFFFF 61.6%,
+                    #B22234 61.6%, #B22234 69.3%, #FFFFFF 69.3%,
+                    #FFFFFF 77%, #B22234 77%, #B22234 84.7%,
+                    #FFFFFF 84.7%, #FFFFFF 92.4%, #B22234 92.4%
+                );
         }
-        
-        .mobile-search-icon {
-            display: none;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            color: #6A35F2;
-            transition: all 0.3s ease;
-        }
-        
-        .mobile-search-icon:hover {
-            background-color: rgba(106, 53, 242, 0.1);
-            color: #6A35F2;
-        }
-        
-        .fullscreen-search {
-            position: fixed;
+
+        .us-flag::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
+            width: 40%;
+            height: 53.8%;
+            background-color: #3C3B6E;
         }
-        
-        .fullscreen-search.active {
-            opacity: 1;
-            visibility: visible;
+
+        /* বাংলাদেশ ফ্ল্যাগ স্টাইল */
+        .bd-flag {
+            background-color: #006A4E; /* সবুজ পটভূমি */
         }
-        
-        .fullscreen-search-container {
-            width: 90%;
-            max-width: 600px;
+
+        .bd-flag::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 45%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background-color: #F42A41; /* লাল বৃত্ত */
+            border-radius: 50%;
         }
-        
-        .fullscreen-search-box {
-            width: 100%;
-            height: 50px;
-            border-radius: 5px;
-            border: 2px solid #6A35F2;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            box-shadow: 0 4px 20px rgba(106, 53, 242, 0.15);
-        }
-        
-        .fullscreen-search-input {
-            flex: 1;
-            border: none;
-            outline: none;
-            background: transparent;
-            font-size: 16px;
-            color: #202124;
-            padding: 0 10px;
-        }
-        
-        .fullscreen-search-close {
-            cursor: pointer;
-            padding: 5px;
-            color: #5f6368;
-            transition: all 0.3s ease;
-        }
-        
-        .fullscreen-search-close:hover {
-            color: #6A35F2;
-            transform: rotate(90deg);
-        }
-        
-        .container4 {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        nav .container4 {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 100%;
-        }
-        
-        /* =============================================
-           মোবাইল রেসপনসিভ স্টাইল (আপডেটেড)
-        ============================================= */
-        
+
+        /* মোবাইল রেসপনসিভ স্টাইল - টপ বার সংক্রান্ত অংশ */
         @media screen and (max-width: 1024px) {
-            /* মোবাইল টপ হেডার দেখানো */
-            .mobile-top-header {
-                display: block;
+            /* মোবাইল টপ বার দেখাও */
+            .mobile-top-bar {
+                display: flex;
             }
-            
-            /* বডি প্যাডিং অ্যাডজাস্ট (টপ হেডার + নেভবার) */
-            body {
-                padding-top: 105px; /* 45px (টপ হেডার) + 60px (নেভবার) */
-            }
-            
+
             /* নেভবার পজিশন অ্যাডজাস্ট */
             nav {
-                top: 45px; /* টপ হেডারের নিচে */
-                height: 60px;
-                padding: 0 10px;
+                top: 45px; /* টপ বার এর নিচে */
             }
             
-            .nav-left {
-                gap: 5px;
+            body {
+                padding-top: 105px; /* টপ বার + নেভবার */
             }
             
-            .logo img {
-                max-width: 110px;
-            }
-            
+            /* সাইডবার এর বিকল্প স্টাইল */
             .menu-items {
-                position: fixed;
-                top: 45px; /* টপ হেডারের নিচে */
-                left: -280px;
-                width: 280px;
-                height: calc(100vh - 45px); /* টপ হেডার বাদে */
-                background-color: white;
-                flex-direction: column;
-                padding: 80px 20px 30px;
-                gap: 5px;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s ease-in-out;
-                z-index: 95;
-                overflow-y: auto;
-            }
-            
-            .menu-items.active {
-                left: 0;
-                overflow: auto;
-                scrollbar-width: none;
-                -ms-overflow-style: none;
-            }
-            
-            .hamburger {
-                display: block;
-                margin-right: 5px;
-            }
-            
-            .hamburger.active div:nth-child(1) {
-                transform: rotate(-45deg) translate(-5px, 5px);
-            }
-            
-            .hamburger.active div:nth-child(2) {
-                opacity: 0;
-            }
-            
-            .hamburger.active div:nth-child(3) {
-                transform: rotate(45deg) translate(-5px, -5px);
-            }
-            
-            /* নেভবার সেন্টার হাইড */
-            .nav-center {
-                display: none;
-            }
-            
-            /* মোবাইল সার্চ আইকন দেখাও (নেভবারে) */
-            .mobile-search-icon {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            /* ডেস্কটপ নেভবার আইটেম হাইড */
-            .nav-right .language-toggle,
-            .nav-right .theme-toggle:not(.mobile-search-icon),
-            .nav-right .cart-icon {
-                display: none;
-            }
-            
-            .login-button {
-                font-size: 12px;
-                padding: 5px 12px;
-            }
-            
-            .dropdown-menu {
-                position: static;
-                box-shadow: none;
-                width: 100%;
-                border-radius: 6px;
-                margin-top: 5px;
-                margin-bottom: 5px;
-                background-color: #f5f5f5;
-                animation: none;
-                transform: none;
-                opacity: 1;
-                display: none;
-            }
-            
-            .menu-item.show-dropdown .dropdown-menu {
-                display: block;
-            }
-            
-            .dropdown-link:hover {
-                transform: translateX(5px);
-            }
-            
-            .menu-item {
-                width: 100%;
-                border-bottom: 1px solid #f0f0f0;
-            }
-            
-            .menu-link {
-                width: 100%;
-                display: block;
-                padding: 12px 0;
-            }
-            
-            .menu-link::after {
-                display: none;
-            }
-            
-            .overlay {
-                position: fixed;
-                top: 45px; /* টপ হেডারের নিচে */
-                left: 0;
-                width: 100%;
-                height: calc(100% - 45px);
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 90;
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-            }
-            
-            .dropdown-toggle {
-                float: right;
-                transition: transform 0.3s ease;
-            }
-            
-            .menu-item.show-dropdown .dropdown-toggle {
-                transform: rotate(180deg);
-            }
-            
-            .nav-right {
-                gap: 5px;
+                top: 105px; /* টপ বার + নেভবার এর নিচে */
+                height: calc(100vh - 105px);
             }
         }
-        
+
+        /* আরও ছোট মোবাইল ডিভাইসের জন্য অতিরিক্ত অ্যাডজাস্টমেন্ট */
         @media screen and (max-width: 360px) {
-            .mobile-top-header-container {
-                padding: 0 10px;
-                gap: 10px;
-            }
-            
-            .mobile-header-item {
-                width: 28px;
-                height: 28px;
+            /* মোবাইল টপ বার এর জন্য অ্যাডজাস্টমেন্ট */
+            .phone-info {
                 font-size: 12px;
             }
-            
-            .mobile-language-toggle {
-                min-width: 55px;
+
+            .phone-time {
                 font-size: 10px;
             }
-            
-            .nav-right {
-                gap: 3px;
-            }
-            
-            .logo img {
-                max-width: 100px;
-            }
-            
-            .login-button {
-                padding: 4px 10px;
+
+            .language-selector {
                 font-size: 11px;
+                padding: 5px 8px;
             }
         }
-        
-        @keyframes dropdownFade {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        /* ডেমো কনটেন্ট */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 45px;
+            background-color: #f5f5f5;
         }
-        
-        .menu-link.active {
-            color: #6A35F2;
-            font-weight: 600;
-        }
-        
-        .menu-link.active::after {
-            display: none;
-        }
-        
-        /* ডার্ক থিম স্টাইল */
-        .dark-theme {
-            background-color: #1a1a1a;
-            color: #ffffff;
-        }
-        
-        .dark-theme .mobile-top-header {
-            background: linear-gradient(135deg, #4a2b9a 0%, #3d1f7a 100%);
-        }
-        
-        .dark-theme nav {
-            background-color: #2d2d2d;
-            border-bottom-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .dark-theme .menu-link {
-            color: #ffffff;
-        }
-        
-        .dark-theme .search-box0 {
-            background-color: #3d3d3d;
-            border-color: #555;
-        }
-        
-        .dark-theme .search-input {
-            color: #ffffff;
-        }
-        
-        /* নোটিফিকেশন স্টাইল */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #6A35F2;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            animation: slideIn 0.3s ease;
-        }
-        
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+
+        .demo-content {
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
-
-    <!-- মোবাইল টপ হেডার -->
-    <div class="mobile-top-header">
-        <div class="mobile-top-header-container">
-            <!-- ভাষা পরিবর্তন -->
-            <button class="mobile-header-item mobile-language-toggle" id="mobileLanguageToggle">
-                <i class="fas fa-globe"></i>
-                <span>বাংলা</span>
+    <!-- মোবাইল টপ বার -->
+    <div class="mobile-top-bar">
+        <div class="top-bar-left">
+            <div class="phone-info">
+                <div class="phone-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <span class="phone-number">09638-113322</span>
+                <span class="phone-time">(10AM-5PM)</span>
+            </div>
+        </div>
+        <div class="top-bar-right">
+            <button class="language-selector" onclick="toggleLanguage()">
+                <div class="flag-icon us-flag" id="flagIcon"></div>
+                <span id="languageText">English</span>
             </button>
-            
-            <!-- থিম টগল -->
-            <button class="mobile-header-item mobile-theme-toggle" id="mobileThemeToggle">
-                <i class="fas fa-moon"></i>
-            </button>
-            
-            <!-- কার্ট আইকন -->
-            <a href="Add to cart.html" class="mobile-header-item mobile-cart-icon">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="mobile-cart-badge" id="mobileCartBadge">0</span>
-            </a>
         </div>
     </div>
+
+    <script>
+        let isEnglish = true;
+
+        function toggleLanguage() {
+            const flagIcon = document.getElementById('flagIcon');
+            const languageText = document.getElementById('languageText');
+            
+            if (isEnglish) {
+                // বাংলায় পরিবর্তন
+                flagIcon.className = 'flag-icon bd-flag';
+                languageText.textContent = 'বাংলা';
+                isEnglish = false;
+            } else {
+                // ইংরেজিতে পরিবর্তন
+                flagIcon.className = 'flag-icon us-flag';
+                languageText.textContent = 'English';
+                isEnglish = true;
+            }
+        }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- নেভিগেশন বার -->
     <nav>
         <div class="container4">
-            <!-- বাম সাইড - লোগো এবং মেনু -->
-            <div class="nav-left">
-                <!-- হ্যামবার্গার মেনু বাটন (মোবাইল) -->
-                <div class="hamburger" id="hamburgerMenu">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-                
-                <!-- লোগো -->
-                <a href="Talimul Islam Academi.html" class="logo">
-                    <img src="img/talimul islam academy logo.png" alt="Talimul Islam Academy" width="100%">
-                </a>
-                
-                <!-- মেনু আইটেম -->
-                <ul class="menu-items" id="menuItems">
-                    <li class="menu-item">
-                        <a href="Talimul Islam Academi.html" class="menu-link">হোম</a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="blog page.html" class="menu-link">ব্লগ</a>
-                    </li> 
-                    <li class="menu-item">
-                        <a href="About us.html" class="menu-link">আমাদের সম্পর্কে</a>
-                    </li>
-                    <li class="menu-item dropdown">
-                        <a href="javascript:void(0)" class="menu-link">কোর্স <i class="fas fa-chevron-down dropdown-toggle" style="font-size: 10px;"></i></a>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-item">
-                                <a href="#" class="dropdown-link">সকল কোর্স</a>
-                            </li>
-                            <li class="dropdown-item">
-                                <a href="Live course.html" class="dropdown-link">লাইভ কোর্স</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item">
-                        <a href="Book.html" class="menu-link">বই</a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="Teacher.html" class="menu-link">শিক্ষক</a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="Advisors.html" class="menu-link">উপদেষ্টা</a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="Contact.html" class="menu-link">যোগাযোগ</a>
-                    </li>
-                </ul>
+        <!-- বাম সাইড - লোগো এবং মেনু -->
+        <div class="nav-left">
+            <!-- হ্যামবার্গার মেনু বাটন (মোবাইল) -->
+            <div class="hamburger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
             </div>
             
-            <!-- সেন্টার - সার্চ বক্স -->
-            <div class="nav-center">
-                <div class="search-container">
-                    <div class="search-box0">
-                        <div class="search-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <input 
-                            type="text" 
-                            class="search-input"
-                            placeholder="কোর্স সার্চ করুন..." 
-                            autocomplete="off">
+            <!-- লোগো -->
+            <a href="Talimul Islam Academi.html" class="logo"><img src="img/talimul islam academy logo.png" alt="img" width="100%"></a>
+            
+            <!-- মেনু আইটেম -->
+            <ul class="menu-items">
+                <li class="menu-item">
+                    <a href="Talimul Islam Academi.html" class="menu-link">হোম</a>
+                </li>
+                <li class="menu-item">
+                    <a href="blog page.html" class="menu-link">ব্লগ</a>
+                </li> 
+                <li class="menu-item">
+                    <a href="About us.html" class="menu-link">আমাদের সম্পর্কে</a>
+                </li>
+                <li class="menu-item dropdown">
+                    <a href="javascript:void(0)" class="menu-link">কোর্স <i class="fas fa-chevron-down dropdown-toggle" style="font-size: 10px;"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item">
+                            <a href="#" class="dropdown-link">সকল কোর্স</a>
+                        </li>
+                        <li class="dropdown-item">
+                            <a href="Live course.html" class="dropdown-link">লাইভ কোর্স</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="Book.html" class="menu-link">বই</a>
+                </li>
+                <li class="menu-item">
+                    <a href="Teacher.html" class="menu-link">শিক্ষক</a>
+                </li>
+                <li class="menu-item">
+                    <a href="Advisors.html" class="menu-link">উপদেষ্টা</a>
+                </li>
+                <li class="menu-item">
+                    <a href="Contact.html" class="menu-link">যোগাযোগ</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- সেন্টার - সার্চ বক্স -->
+        <div class="nav-center">
+            <div class="search-container">
+                <div class="search-box0">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
                     </div>
+                    <input 
+                        type="text" 
+                        class="search-input"
+                        placeholder="কোর্স সার্চ করুন..." 
+                        autocomplete="off">
                 </div>
-            </div>
-            
-            <!-- ডান সাইড - ইউটিলিটি বাটন -->
-            <div class="nav-right">
-                <!-- মোবাইল সার্চ আইকন -->
-                <div class="mobile-search-icon" id="mobileSearchIcon">
-                    <i class="fas fa-search"></i>
-                </div>
-                
-                <!-- ডেস্কটপ আইটেমগুলো -->
-                <button class="language-toggle">
-                    <i class="fas fa-globe"></i>
-                    <span>বাংলা</span>
-                </button>
-                
-                <button class="theme-toggle" id="desktopThemeToggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-                
-                <a href="Add to cart.html" class="cart-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge" id="desktopCartBadge">0</span>
-                </a>
-                
-                <a href="#" class="login-button" id="loginButton">লগইন</a>
             </div>
         </div>
-    </nav>
+        
+        <!-- ডান সাইড - ইউটিলিটি বাটন -->
+        <div class="nav-right">
+            <!-- মোবাইল সার্চ আইকন -->
+            <div class="mobile-search-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            
+            <!-- থিম টগল -->
+            <button class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
 
-    <!-- ফুল স্ক্রিন সার্চ ওভারলে -->
-    <div class="fullscreen-search" id="fullscreenSearch">
-        <div class="fullscreen-search-container">
-            <div class="fullscreen-search-box">
-                <div class="search-icon">
-                    <i class="fas fa-search"></i>
+            
+            <!-- কার্ট আইকন -->
+            <a href="Add to cart.html" class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-badge">0</span>
+          </a>
+
+
+          <!-- ভাষা পরিবর্তন -->
+          <button class="language-toggle">
+            <i class="fas fa-globe"></i>
+            <span>বাংলা</span>
+        </button>
+
+
+          <div class="user-menu-container">
+            <!-- লগইন বাটন - লগইন করার আগে শুধু এটি দেখানো হবে -->
+            <a href="#" class="login-button" id="loginButton">লগইন</a>
+            
+            <!-- প্রোফাইল আইকন - লগইন করার পরে এটি দেখানো হবে -->
+            <div class="profile-dropdown" id="profileDropdown" style="display: none;">
+                <button class="profile-icon">
+                    <i class="fas fa-user-circle"></i>
+                    <span class="profile-icon-text">প্রোফাইল</span>
+                </button>
+                <div class="dropdown-menu1">
+                    <a href="Profile.html" class="dropdown-item">প্রোফাইল</a>
+                    <a href="AftarLoginInMyCours.html" class="dropdown-item">আমার কোর্স</a>
+                    <a href="#" class="dropdown-item" id="logoutButton"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
                 </div>
-                <input 
-                    type="text" 
-                    class="fullscreen-search-input"
-                    placeholder="কোর্স সার্চ করুন..." 
-                    autocomplete="off">
-                <div class="fullscreen-search-close" id="closeFullscreenSearch">
-                    <i class="fas fa-times"></i>
-                </div>
+            </div>
+        </div>
+
+
             </div>
         </div>
     </div>
-
-    <!-- অভারলে -->
-    <div class="overlay" id="overlay"></div>
-
-  
-
-
-
-
+    </nav>  
 
     <script>
         // চেক করুন যদি Font Awesome আগেই লোড আছে
@@ -1515,6 +1035,7 @@ nav {
             console.log('Font Awesome added to document head');
         }
     </script>
+    
  <!-- *   1. ইউজার লগআউট হওয়ার পর সেশন ডাটা ক্লিয়ার করা -->
  <!-- *   2. কার্ট আইটেম ক্লিয়ার করা (যদি দরকার হয়) -->
  <!-- *   3. লগআউট পরবর্তী হোম পেইজে রিডাইরেক্ট করা -->
@@ -2350,7 +1871,7 @@ nav {
 
         
         // ভাষা পরিবর্তন
-        const languageToggle = document.querySelector('.language-toggle');
+        const languageToggle = document.querySelector('language-toggle');
         let currentLanguage = 'বাংলা';
         
         languageToggle.addEventListener('click', function() {
@@ -6215,7 +5736,7 @@ async function handleLogout(e) {
 <style>
     /* ভাষা পরিবর্তন বাটনের স্টাইল */
 .language-toggle {
-    display: flex;
+    /* display: flex; */
     align-items: center;
     gap: 5px;
     padding: 6px 12px;
@@ -7309,11 +6830,10 @@ document.addEventListener('DOMContentLoaded', function() {
     border-radius: 8px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
     margin-top: 60px;
-
 }
 
 @media (min-width: 768px) {
-    .container {
+    .container12 {
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -7350,6 +6870,20 @@ document.addEventListener('DOMContentLoaded', function() {
         text-align: left;
     }
 }
+
+@media (max-width: 768px){
+    .container12 {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    margin-top: 100px;
+}
+}
+
 
 .hero-image {
     width: 100%;
