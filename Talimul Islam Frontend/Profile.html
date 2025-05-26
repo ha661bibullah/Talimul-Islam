@@ -741,32 +741,7 @@
                     console.log('Font Awesome added to document head');
                 }
             </script>
-
-
-<script>
-    // লগআউট ফাংশনালিটি
-document.addEventListener('DOMContentLoaded', function() {
-    const logoutButton = document.getElementById('logoutButton');
-    const loginButton = document.getElementById('loginButton');
-    const profileDropdown = document.getElementById('profileDropdown');
-
-    // লগআউট বাটনে ক্লিক ইভেন্ট
-    if (logoutButton) {
-        logoutButton.addEventListener('click', function(e) {
-            e.preventDefault();
             
-            // প্রোফাইল ড্রপডাউন লুকিয়ে ফেলুন
-            profileDropdown.style.display = 'none';
-            
-            // লগইন বাটন দেখান
-            loginButton.style.display = 'inline-block';
-            
-            // হোম পেইজে রিডায়রেক্ট
-            window.location.href = 'Talimul Islam Academi.html';
-        });
-    }
-});
-</script>
          <!-- *   1. ইউজার লগআউট হওয়ার পর সেশন ডাটা ক্লিয়ার করা -->
          <!-- *   2. কার্ট আইটেম ক্লিয়ার করা (যদি দরকার হয়) -->
          <!-- *   3. লগআউট পরবর্তী হোম পেইজে রিডাইরেক্ট করা -->
@@ -4423,8 +4398,80 @@ throw error;
             }
         });
     });
+
+
+
+
+
+
+
+
+
+
+
+    // লগআউট বাটন সেটআপ - সংশোধিত ভার্সন
+const logoutButton = document.getElementById('logoutButton');
+if (logoutButton) {
+    logoutButton.addEventListener('click', async function(e) {
+        e.preventDefault();
+        
+        try {
+            const token = localStorage.getItem('authToken');
+            
+            if (token) {
+                // দ্রুত লগআউট API কল (৩ সেকেন্ড টাইমআউট)
+                const response = await fetchWithTimeout(`${DB_API_URL}/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }, 3000);
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // সফল লগআউট
+                    showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
+                } else {
+                    showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
+                }
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+            
+            // ইন্টারভাল ক্লিয়ার করুন
+            if (tokenRefreshInterval) {
+                clearInterval(tokenRefreshInterval);
+                tokenRefreshInterval = null;
+            }
+            
+            // অ্যাক্টিভিটি ট্র্যাকিং বন্ধ করুন
+            if (userActivityTimer) {
+                clearTimeout(userActivityTimer);
+            }
+            
+            // UI আপডেট করুন - দ্রুত
+            const loginButton = document.getElementById('loginButton');
+            const profileDropdown = document.getElementById('profileDropdown');
+            
+            if (loginButton) loginButton.style.display = 'block';
+            if (profileDropdown) profileDropdown.style.display = 'none';
+            
+            // হোম পেইজে রিডাইরেক্ট করুন - এই লাইনটি যোগ করুন
+            setTimeout(() => {
+                window.location.href = '/'; // অথবা আপনার হোম পেইজের URL
+                // যদি নির্দিষ্ট URL চান তাহলে: window.location.href = 'https://yourdomain.com';
+            }, 1000); // ১ সেকেন্ড পরে রিডাইরেক্ট (নোটিফিকেশন দেখার জন্য)
+        }
+    });
+}
     
-</script>
+</script> 
 <script>
     // Handle Email Check form submission
     document.addEventListener('DOMContentLoaded', function() {
