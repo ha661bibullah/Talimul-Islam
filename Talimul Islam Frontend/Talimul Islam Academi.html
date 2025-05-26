@@ -5528,60 +5528,75 @@ throw error;
        
 
        
-       // লগআউট হ্যান্ডেল করার ফাংশন
-       async function handleLogout(e) {
-           e.preventDefault();
-           console.log('Logout button clicked');
-           
-           try {
-               const token = sessionStorage.getItem('authToken');
-               
-               if (token) {
-                   // লগআউট API কল
-                   console.log('Calling logout API');
-                   try {
-                       const response = await fetch(`${DB_API_URL}/logout`, {
-                           method: 'POST',
-                           headers: {
-                               'Content-Type': 'application/json',
-                               'Authorization': `Bearer ${token}`
-                           }
-                       });
-                       
-                       const data = await response.json();
-                       
-                       if (data.success) {
-                           console.log('Logout successful');
-                           showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
-                       } else {
-                           console.error('Logout API returned error:', data.message);
-                           showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
-                       }
-                   } catch (apiError) {
-                       console.error('Logout API call failed:', apiError);
-                       // এপিআই কল ব্যর্থ হলেও লগআউট করুন
-                       showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
-                   }
-               } else {
-                   console.warn('No auth token found for logout');
-               }
-           } catch (error) {
-               console.error('Logout error:', error);
-           } finally {
-               // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন
-               console.log('Removing user data from session storage');
-               sessionStorage.removeItem('authToken');
-               sessionStorage.removeItem('currentUser');
-               sessionStorage.removeItem('loginTime');
-               
-               // লগইন স্টেটাস আপডেট করুন
-               checkLoginStatus();
-               
-               // পেজ রিলোড করুন (অপশনাল)
-               console.log('Reloading page');
-               window.location.href = 'Talimul Islam Academi.html';
-           }
-       }
+
+       
+// লগআউট হ্যান্ডেল করার ফাংশন (সংশোধিত)
+async function handleLogout(e) {
+    e.preventDefault();
+    console.log('Logout button clicked');
+    
+    try {
+        const token = sessionStorage.getItem('authToken');
+        
+        // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন (অগ্রাধিকারে)
+        console.log('Removing user data from session storage');
+        sessionStorage.removeItem('authToken');
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('loginTime');
+        
+        // লগইন স্টেটাস আপডেট করুন
+        checkLoginStatus();
+        
+        if (token) {
+            // লগআউট API কল (optional - ব্যাকগ্রাউন্ডে চলবে)
+            console.log('Calling logout API');
+            try {
+                const response = await fetch(`${DB_API_URL}/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    console.log('Logout API successful');
+                } else {
+                    console.error('Logout API returned error:', data.message);
+                }
+            } catch (apiError) {
+                console.error('Logout API call failed:', apiError);
+            }
+        }
+        
+        // সফল লগআউট মেসেজ
+        showNotification('আপনি সফলভাবে লগআউট করেছেন।', 'success');
+        
+        // 1 সেকেন্ড অপেক্ষা করে হোম পেইজে রিডাইরেক্ট
+        setTimeout(() => {
+            console.log('Redirecting to home page');
+            window.location.href = 'Talimul Islam Academi.html';
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Logout error:', error);
+        
+        // এরর হলেও ডেটা মুছে দিন এবং রিডাইরেক্ট করুন
+        sessionStorage.clear();
+        showNotification('লগআউট সম্পন্ন হয়েছে।', 'success');
+        
+        setTimeout(() => {
+            window.location.href = 'Talimul Islam Academi.html';
+        }, 1000);
+    }
+}
+
+
+
+
+       
        
        // স্টাইল যোগ করার ফাংশন
        function addProfileDropdownStyles() {
