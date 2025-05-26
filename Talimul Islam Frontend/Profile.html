@@ -627,12 +627,12 @@
                     </div>
                     
                     <!-- লোগো -->
-                    <a href="Talimul Islam Academy.html" class="logo"><img src="img/talimul islam academy logo.png" alt="img" width="100%"></a>
+                    <a href="Talimul Islam Academi.html" class="logo"><img src="img/talimul islam academy logo.png" alt="img" width="100%"></a>
                     
                     <!-- মেনু আইটেম -->
                     <ul class="menu-items">
                         <li class="menu-item">
-                            <a href="Talimul Islam Academy.html" class="menu-link">হোম</a>
+                            <a href="Talimul Islam Academi.html" class="menu-link">হোম</a>
                         </li>
                         <li class="menu-item">
                             <a href="blog page.html" class="menu-link">ব্লগ</a>
@@ -5132,6 +5132,35 @@ document.addEventListener('visibilitychange', function() {
 console.log('Profile dropdown script initialized');
 </script>
 
+
+<script>
+    // সংক্ষিপ্ত লগআউট এবং রিডাইরেক্ট স্ক্রিপ্ট
+document.addEventListener('DOMContentLoaded', function() {
+    // লগআউট বাটন সিলেক্ট করুন
+    const logoutButton = document.getElementById('logoutButton');
+    
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // সেশন স্টোরেজ থেকে সব ডেটা মুছুন
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('loginTime');
+            
+            // লোকাল স্টোরেজ থেকেও মুছুন (যদি থাকে)
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+            
+            // সফল লগআউট মেসেজ দেখান
+            alert('আপনি সফলভাবে লগআউট করেছেন।');
+            
+            // Talimul Islam Academy.html পেজে রিডাইরেক্ট করুন
+            window.location.href = 'Talimul Islam Academi.html';
+        });
+    }
+});
+</script>
 
 
 
