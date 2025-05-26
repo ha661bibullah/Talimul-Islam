@@ -928,7 +928,7 @@ nav {
 
 
 
-<style>
+<!-- <style>
     /* =============================================
        মোবাইল টপ বার স্টাইল
     ============================================= */
@@ -1143,9 +1143,9 @@ transition: all 0.3s ease;
         text-align: center;
         margin-top: 20px;
     }
-</style>
+</style> -->
     <!-- মোবাইল টপ বার -->
-    <div class="mobile-top-bar">
+    <!-- <div class="mobile-top-bar">
         <div class="top-bar-left">
             <div class="phone-info">
                 <div class="phone-icon">
@@ -1161,9 +1161,9 @@ transition: all 0.3s ease;
                 <span id="languageText">English</span>
             </button>
         </div>
-    </div>
+    </div> -->
 
-    <script>
+    <!-- <script>
         let isEnglish = true;
 
         function toggleLanguage() {
@@ -1182,7 +1182,7 @@ transition: all 0.3s ease;
                 isEnglish = true;
             }
         }
-    </script>
+    </script> -->
 
 
 
@@ -1319,6 +1319,34 @@ transition: all 0.3s ease;
         </div>
     </div>
     </nav>  
+
+
+    <script>
+        // লগআউট ফাংশনালিটি
+document.addEventListener('DOMContentLoaded', function() {
+    const logoutButton = document.getElementById('logoutButton');
+    const loginButton = document.getElementById('loginButton');
+    const profileDropdown = document.getElementById('profileDropdown');
+
+    // লগআউট বাটনে ক্লিক ইভেন্ট
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // প্রোফাইল ড্রপডাউন লুকিয়ে ফেলুন
+            profileDropdown.style.display = 'none';
+            
+            // লগইন বাটন দেখান
+            loginButton.style.display = 'inline-block';
+            
+            // হোম পেইজে রিডায়রেক্ট
+            window.location.href = 'Talimul Islam Academi.html';
+        });
+    }
+});
+    </script>
+
+
 
     <script>
         // চেক করুন যদি Font Awesome আগেই লোড আছে
