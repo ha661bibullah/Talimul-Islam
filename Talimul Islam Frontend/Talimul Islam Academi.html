@@ -5786,7 +5786,156 @@ throw error;
 </script> 
 
 
+<script>
+    // আপডেটেড লগআউট ফাংশন - আপনার বর্তমান কোডের সাথে সামঞ্জস্যপূর্ণ
+document.addEventListener('DOMContentLoaded', function() {
+    // লগআউট বাটন খুঁজে নিন
+    const logoutButton = document.getElementById('logoutButton');
+    
+    if (logoutButton) {
+        logoutButton.addEventListener('click', async function(e) {
+            e.preventDefault(); // ডিফল্ট লিংক আচরণ বন্ধ করুন
+            
+            console.log('Logout button clicked - Enhanced version');
+            
+            try {
+                // আপনার বর্তমান কোডের DB_API_URL ব্যবহার করুন
+                const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
+                const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+                
+                if (token) {
+                    try {
+                        // লগআউট API কল (আপনার কোডের মতো)
+                        const response = await fetch(`${DB_API_URL}/logout`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            console.log('Logout API successful');
+                            // আপনার showNotification ফাংশন ব্যবহার করুন
+                            if (typeof showNotification === 'function') {
+                                showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
+                            }
+                        } else {
+                            console.error('Logout API returned error:', data.message);
+                        }
+                    } catch (apiError) {
+                        console.error('Logout API call failed:', apiError);
+                        // API ব্যর্থ হলেও লগআউট প্রক্রিয়া চালিয়ে যান
+                    }
+                }
+                
+                // সব ধরনের স্টোরেজ ক্লিয়ার করুন (localStorage + sessionStorage)
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('loginTime');
+                sessionStorage.removeItem('authToken');
+                sessionStorage.removeItem('currentUser');
+                sessionStorage.removeItem('loginTime');
+                
+                // কুকি ক্লিয়ার করুন
+                document.cookie.split(";").forEach(function(c) { 
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+                });
+                
+                // আপনার কোডের tokenRefreshInterval ক্লিয়ার করুন
+                if (typeof tokenRefreshInterval !== 'undefined' && tokenRefreshInterval) {
+                    clearInterval(tokenRefreshInterval);
+                }
+                
+                // আপনার কোডের userActivityTimer ক্লিয়ার করুন
+                if (typeof userActivityTimer !== 'undefined' && userActivityTimer) {
+                    clearTimeout(userActivityTimer);
+                }
+                
+                // UI আপডেট করুন (আপনার কোডের মতো)
+                const loginButton = document.getElementById('loginButton');
+                const profileDropdown = document.getElementById('profileDropdown');
+                
+                if (loginButton) loginButton.style.display = 'block';
+                if (profileDropdown) profileDropdown.style.display = 'none';
+                
+                // আপনার checkLoginStatus ফাংশন কল করুন
+                if (typeof checkLoginStatus === 'function') {
+                    checkLoginStatus();
+                }
+                
+                // সফল লগআউটের নোটিফিকেশন
+                if (typeof showNotification === 'function') {
+                    showNotification('সফলভাবে লগআউট হয়েছে!', 'success');
+                } else {
+                    alert('সফলভাবে লগআউট হয়েছে!');
+                }
+                
+                // ২ সেকেন্ড পর Talimul Islam Academi.html পেইজে রিডাইরেক্ট
+                setTimeout(() => {
+                    window.location.href = 'Talimul Islam Academi.html';
+                }, 2000);
+                
+            } catch (error) {
+                console.error('Logout process error:', error);
+                
+                // এরর হলেও বেসিক ক্লিনআপ করুন
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                if (typeof showNotification === 'function') {
+                    showNotification('লগআউট সম্পন্ন হয়েছে।', 'success');
+                } else {
+                    alert('লগআউট সম্পন্ন হয়েছে।');
+                }
+                
+                // সরাসরি রিডাইরেক্ট
+                window.location.href = 'Talimul Islam Academi.html';
+            }
+        });
+    } else {
+        console.error('Logout button with ID "logoutButton" not found');
+    }
+});
 
+// ব্যাকআপ ফাংশন - যদি উপরের ইভেন্ট লিস্টেনার কাজ না করে
+function handleLogoutClick() {
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.click();
+    } else {
+        // ম্যানুয়াল লগআউট
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = 'Talimul Islam Academi.html';
+    }
+}
+
+// অতিরিক্ত নিরাপত্তার জন্য - window.onload এ আবার চেক করুন
+window.addEventListener('load', function() {
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton && !logoutButton.hasAttribute('data-logout-listener')) {
+        logoutButton.setAttribute('data-logout-listener', 'true');
+        logoutButton.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            // সিম্পল লগআউট প্রক্রিয়া
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            if (typeof showNotification === 'function') {
+                showNotification('লগআউট সম্পন্ন হয়েছে।', 'success');
+            }
+            
+            setTimeout(() => {
+                window.location.href = 'Talimul Islam Academi.html';
+            }, 1000);
+        });
+    }
+});
+</script>
 
 
 <!-- সংশোধন লডিং কমানোর জন্য -->
@@ -8885,7 +9034,7 @@ console.log('Profile dropdown script initialized');
 
 
 <!-- লগআউট অটোভাবে বন্ধ করার কোড  -->
- <script>
+ <!-- <script>
     // ==============================================
 // PERSISTENT LOGIN SYSTEM - AUTO LOGOUT DISABLER
 // ==============================================
@@ -9066,7 +9215,51 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-
+    // ৯. Manual logout function enhancement
+    window.enhancedLogout = async function() {
+        console.log('Enhanced logout called');
+        
+        try {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            
+            if (token) {
+                // API কল করুন
+                try {
+                    const response = await fetch(`${DB_API_URL}/logout`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
+                    }
+                } catch (apiError) {
+                    console.error('Logout API call failed:', apiError);
+                    showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
+                }
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            // সব storage থেকে ডেটা মুছুন
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('loginTime');
+            
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('loginTime');
+            
+            // UI আপডেট করুন
+            checkLoginStatus();
+        }
+    };
+    
     // ১০. Original logout button এর event listener কে replace করুন
     setTimeout(function() {
         const logoutButton = document.getElementById('logoutButton');
@@ -9135,7 +9328,7 @@ console.log(`
 ✅ Cross-tab synchronization enabled
 =====================================
 `);
- </script>
+ </script> -->
 
 
 
