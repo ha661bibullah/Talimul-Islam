@@ -1355,8 +1355,7 @@ transition: all 0.3s ease;
             // কার্ট ক্লিয়ার করা (যদি দরকার হয়)
             localStorage.removeItem('cartItems');
             
-            // হোম পেইজে রিডাইরেক্ট করা
-            window.location.href = 'Talimul Islam Academi.html';
+            
         });
     }
 });
@@ -5891,8 +5890,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert('লগআউট সম্পন্ন হয়েছে।');
                 }
                 
-                // সরাসরি রিডাইরেক্ট
-                window.location.href = 'Talimul Islam Academi.html';
+                
             }
         });
     } else {
@@ -5909,7 +5907,6 @@ function handleLogoutClick() {
         // ম্যানুয়াল লগআউট
         localStorage.clear();
         sessionStorage.clear();
-        window.location.href = 'Talimul Islam Academi.html';
     }
 }
 
@@ -5929,9 +5926,7 @@ window.addEventListener('load', function() {
                 showNotification('লগআউট সম্পন্ন হয়েছে।', 'success');
             }
             
-            setTimeout(() => {
-                window.location.href = 'Talimul Islam Academi.html';
-            }, 1000);
+            
         });
     }
 });
