@@ -4929,7 +4929,7 @@ async function handleLogout(e) {
        
        // পেজ রিলোড করুন (অপশনাল)
        console.log('Reloading page');
-       window.location.href = 'Talimul Islam Academi.html';
+       window.location.href = 'index.html';
    }
 }
 
@@ -5133,86 +5133,6 @@ document.addEventListener('visibilitychange', function() {
 
 // ইনিশিয়ালাইজ স্ক্রিপ্ট ইমিডিয়েটলি
 console.log('Profile dropdown script initialized');
-
-
-
-
-
-
-
-
-
-
-
-
-// লগআউট হ্যান্ডেল করার ফাংশন (সংশোধিত)
-async function handleLogout(e) {
-   e.preventDefault();
-   console.log('Logout button clicked');
-   
-   try {
-       const token = sessionStorage.getItem('authToken');
-       
-       if (token) {
-           // লগআউট API কল
-           console.log('Calling logout API');
-           try {
-               const response = await fetch(`${DB_API_URL}/logout`, {
-                   method: 'POST',
-                   headers: {
-                       'Content-Type': 'application/json',
-                       'Authorization': `Bearer ${token}`
-                   }
-               });
-               
-               const data = await response.json();
-               
-               if (data.success) {
-                   console.log('Logout successful');
-                   showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
-               } else {
-                   console.error('Logout API returned error:', data.message);
-                   showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
-               }
-           } catch (apiError) {
-               console.error('Logout API call failed:', apiError);
-               // এপিআই কল ব্যর্থ হলেও লগআউট করুন
-               showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
-           }
-       } else {
-           console.warn('No auth token found for logout');
-       }
-   } catch (error) {
-       console.error('Logout error:', error);
-   } finally {
-       // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন
-       console.log('Removing user data from session storage');
-       sessionStorage.removeItem('authToken');
-       sessionStorage.removeItem('currentUser');
-       sessionStorage.removeItem('loginTime');
-       
-       // লগইন স্টেটাস আপডেট করুন
-       checkLoginStatus();
-       
-       // হোম পেইজে রিডাইরেক্ট করুন - বিভিন্ন অপশন
-       console.log('Redirecting to home page');
-       
-       // অপশন ১: সরাসরি হোম পেইজে যান (সবচেয়ে সাধারণ)
-       window.location.href = 'Talimul Islam Academi.html';
-       
-       // অপশন ২: যদি আপনার হোম পেইজের নাম index.html হয়
-       // window.location.href = 'index.html';
-       
-       // অপশন ৩: যদি আপনার নির্দিষ্ট ফাইলের নাম থাকে (স্পেস ছাড়া)
-       // window.location.href = 'home.html';
-       
-       // অপশন ৪: যদি আপনি পূর্ণ URL দিতে চান
-       // window.location.href = 'https://yourdomain.com/';
-       
-       // অপশন ৫: পেইজ রিলোড করতে চাইলে
-       // window.location.reload();
-   }
-}
 </script> 
 
 
