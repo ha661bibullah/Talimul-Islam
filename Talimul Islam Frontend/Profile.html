@@ -627,12 +627,12 @@
                     </div>
                     
                     <!-- লোগো -->
-                    <a href="Talimul Islam Academi.html" class="logo"><img src="img/talimul islam academy logo.png" alt="img" width="100%"></a>
+                    <a href="Talimul Islam Academy.html" class="logo"><img src="img/talimul islam academy logo.png" alt="img" width="100%"></a>
                     
                     <!-- মেনু আইটেম -->
                     <ul class="menu-items">
                         <li class="menu-item">
-                            <a href="Talimul Islam Academi.html" class="menu-link">হোম</a>
+                            <a href="Talimul Islam Academy.html" class="menu-link">হোম</a>
                         </li>
                         <li class="menu-item">
                             <a href="blog page.html" class="menu-link">ব্লগ</a>
@@ -3239,10 +3239,10 @@
         </div>
         
         
-                <!-- * ১. "লগইন" বাটনে ক্লিক করলে পপআপ চালু হয় এবং ব্যাকগ্রাউন্ড ব্লার হয়। -->
-                <!-- * ২. "×" ক্লোজ বাটন বা ব্যাকগ্রাউন্ডে (blur overlay) ক্লিক করলে পপআপ বন্ধ হয়। -->
-                <!-- * ৩. পপআপ খোলার সময় স্ক্রল বন্ধ করে এবং বন্ধ হলে আবার চালু করে। -->
-                <!-- * ৪. ফর্ম সাবমিট করলে (ডেমো উদ্দেশ্যে) লগইন সফল বার্তা দেখায় এবং পপআপ বন্ধ করে। -->
+        <!-- * ১. "লগইন" বাটনে ক্লিক করলে পপআপ চালু হয় এবং ব্যাকগ্রাউন্ড ব্লার হয়। -->
+        <!-- * ২. "×" ক্লোজ বাটন বা ব্যাকগ্রাউন্ডে (blur overlay) ক্লিক করলে পপআপ বন্ধ হয়। -->
+        <!-- * ৩. পপআপ খোলার সময় স্ক্রল বন্ধ করে এবং বন্ধ হলে আবার চালু করে। -->
+        <!-- * ৪. ফর্ম সাবমিট করলে (ডেমো উদ্দেশ্যে) লগইন সফল বার্তা দেখায় এবং পপআপ বন্ধ করে। -->
         
         
         
@@ -5132,6 +5132,35 @@ document.addEventListener('visibilitychange', function() {
 console.log('Profile dropdown script initialized');
 </script>
 
+<!-- লগআউটে ক্লিক করলে রিটার্ন করবে হোমে -->
+<script>
+    // সংক্ষিপ্ত লগআউট এবং রিডাইরেক্ট স্ক্রিপ্ট
+document.addEventListener('DOMContentLoaded', function() {
+    // লগআউট বাটন সিলেক্ট করুন
+    const logoutButton = document.getElementById('logoutButton');
+    
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // সেশন স্টোরেজ থেকে সব ডেটা মুছুন
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('loginTime');
+            
+            // লোকাল স্টোরেজ থেকেও মুছুন (যদি থাকে)
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+            
+            // সফল লগআউট মেসেজ দেখান
+            alert('আপনি সফলভাবে লগআউট করেছেন।');
+            
+            // Talimul Islam Academy.html পেজে রিডাইরেক্ট করুন
+            window.location.href = 'Talimul Islam Academy.html';
+        });
+    }
+});
+ </script>
 
 
 
