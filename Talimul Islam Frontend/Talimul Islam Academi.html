@@ -12,6 +12,302 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+        /* লোডিং স্ক্রিন স্টাইল */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* থাম্বস আপ আইকন স্টাইল */
+        .thumbs-up-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .thumbs-up-icon {
+            font-size: 80px;
+            color: #fff;
+            animation: thumbsUpAnimation 2s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        /* থাম্বস আপ এনিমেশন */
+        @keyframes thumbsUpAnimation {
+            0% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.8;
+            }
+            25% {
+                transform: scale(1.2) rotate(-5deg);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.3) rotate(0deg);
+                opacity: 1;
+            }
+            75% {
+                transform: scale(1.2) rotate(5deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.8;
+            }
+        }
+
+        /* পার্টিকেল ইফেক্ট */
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            animation: particleFloat 3s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) {
+            top: -20px;
+            left: -30px;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            top: -15px;
+            right: -25px;
+            animation-delay: 0.5s;
+        }
+
+        .particle:nth-child(3) {
+            bottom: -10px;
+            left: -20px;
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(4) {
+            bottom: -15px;
+            right: -30px;
+            animation-delay: 1.5s;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(0px) scale(0.5);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-20px) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* লোডিং টেক্সট */
+        .loading-text {
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: textPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        /* প্রগ্রেস বার */
+        .progress-container {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #fff, #f0f0f0, #fff);
+            border-radius: 2px;
+            animation: progressAnimation 3s ease-in-out;
+            transform: translateX(-100%);
+        }
+
+        @keyframes progressAnimation {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(0%);
+            }
+        }
+
+        /* মূল কনটেন্ট */
+        .main-content {
+            opacity: 0;
+            transition: opacity 0.5s ease 0.5s;
+            padding: 50px 20px;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .main-content.visible {
+            opacity: 1;
+        }
+
+        .welcome-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .welcome-message h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .welcome-message p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* রেসপনসিভ ডিজাইন */
+        @media (max-width: 768px) {
+            .thumbs-up-icon {
+                font-size: 60px;
+            }
+
+            .loading-text {
+                font-size: 20px;
+            }
+
+            .progress-container {
+                width: 150px;
+            }
+
+            .welcome-message {
+                padding: 30px 20px;
+            }
+
+            .welcome-message h1 {
+                font-size: 2em;
+            }
+
+            .welcome-message p {
+                font-size: 1em;
+            }
+        }
+    </style>
+    <!-- লোডিং স্ক্রিন -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">স্বাগতম</div>
+        <div class="thumbs-up-container">
+            <i class="fas fa-thumbs-up thumbs-up-icon"></i>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+
+ 
+
+    <script>
+        // পেজ লোড হওয়ার পর এনিমেশন চালু করা
+        window.addEventListener('load', function() {
+            // 3.5 সেকেন্ড পর লোডিং স্ক্রিন লুকানো
+            setTimeout(function() {
+                const loadingScreen = document.getElementById('loadingScreen');
+                const mainContent = document.getElementById('mainContent');
+                
+                // লোডিং স্ক্রিন লুকানো
+                loadingScreen.classList.add('hidden');
+                
+                // মূল কনটেন্ট দেখানো
+                setTimeout(function() {
+                    mainContent.classList.add('visible');
+                }, 500);
+                
+            }, 3500); // 3.5 সেকেন্ড
+        });
+
+        // ব্যাকআপ - যদি কোন কারণে window.load কাজ না করে
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                if (!document.getElementById('loadingScreen').classList.contains('hidden')) {
+                    document.getElementById('loadingScreen').classList.add('hidden');
+                    document.getElementById('mainContent').classList.add('visible');
+                }
+            }, 4000);
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <head class="navHandler">
 
 <!-- *full navigation bar start point -->
@@ -7310,12 +7606,405 @@ function showDeviceInfo() {
 
 
 
+
+
+
+
+
+
+
+
     
     
 
 
 
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
+    body {
+        font-family: 'Noto Sans Bengali', Arial, sans-serif;
+        /* background: linear-gradient(145deg, #1e3c72 0%, #2a5298 50%, #667eea 100%); */
+        min-height: 100vh;
+        padding: 15px;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        z-index: -1;
+    }
+
+    .courses-grid0 {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+        color: white;
+        padding: 20px;
+    }
+
+    .header h1 {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+        background: linear-gradient(45deg, #ffffff, #f0f8ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .header p {
+        font-size: 1.3rem;
+        opacity: 0.95;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.6s;
+    }
+
+    .card:hover::before {
+        left: 100%;
+    }
+
+    .card:hover {
+        transform: translateY(-15px) scale(1.02);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        background: rgba(255, 255, 255, 1);
+    }
+
+    .card-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: white;
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .card:hover .card-icon {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .card h3 {
+        font-size: 1.4rem;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    .card p {
+        color: #5a6c7d;
+        text-align: center;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+    }
+
+    .card-btn {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: block;
+        margin: 0 auto;
+        font-size: 13px;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .card-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        background: linear-gradient(135deg, #764ba2, #667eea);
+    }
+
+    .special-btn {
+        background: rgba(255, 255, 255, 0.95);
+        color: #667eea;
+        border: none;
+        padding: 15px 35px;
+        border-radius: 35px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .special-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 30px rgba(255, 255, 255, 0.4);
+        background: white;
+    }
+
+    /* Mobile Responsive - Medium mobile */
+    @media (max-width: 768px) {
+        body {
+            padding: 10px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+        }
+
+        .header p {
+            font-size: 1rem;
+        }
+
+        .grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .card {
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .card-btn {
+            padding: 6px 12px;
+            font-size: 10px;
+            border-radius: 15px;
+        }
+
+        .special-btn {
+            padding: 12px 25px;
+            font-size: 14px;
+        }
+    }
+
+    /* Very Small Mobile Devices */
+    @media (max-width: 480px) {
+        body {
+            padding: 8px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+        }
+
+        .grid {
+            gap: 8px;
+        }
+
+        .card {
+            padding: 12px;
+            border-radius: 12px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .card h3 {
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .card p {
+            font-size: 0.7rem;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .card-btn {
+            padding: 4px 8px;
+            font-size: 8px;
+            border-radius: 12px;
+        }
+    }
+
+    /* Extra Small Mobile Devices */
+    @media (max-width: 360px) {
+        body {
+            padding: 6px;
+        }
+
+        .grid {
+            gap: 6px;
+        }
+
+        .card {
+            padding: 10px;
+        }
+
+        .card-icon {
+            width: 35px;
+            height: 35px;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .card h3 {
+            font-size: 0.75rem;
+            margin-bottom: 4px;
+        }
+
+        .card p {
+            font-size: 0.65rem;
+            margin-bottom: 6px;
+        }
+
+        .card-btn {
+            padding: 3px 6px;
+            font-size: 7px;
+            border-radius: 10px;
+        }
+    }
+
+    /* Tablet */
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            padding: 20px;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+        }
+    }
+
+    /* Animation */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    .card {
+        animation: slideInUp 0.8s ease forwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
+    .card:nth-child(5) { animation-delay: 0.5s; }
+    .card:nth-child(6) { animation-delay: 0.6s; }
+
+    /* Floating particles effect */
+    .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px) rotate(0deg);
+            opacity: 0;
+        }
+        50% {
+            transform: translateY(-20px) rotate(180deg);
+            opacity: 1;
+        }
+    }
+</style>
+    <script>
+        function showDetails(type) {
+            alert('Details for ' + type + ' will be shown here');
+        }
+    </script>
 <style>
             * {
                 margin: 0;
@@ -7763,9 +8452,6 @@ function showDeviceInfo() {
                     padding: 15px 10px;
                 }
                 
-                .container00 {
-                    padding: 30px 15px;
-                }
     
                 .additional-sections {
                     grid-template-columns: 1fr;
@@ -8639,47 +9325,49 @@ function showDeviceInfo() {
         padding: 15px 12px;
     }
 }
-</style>  
+</style>   
 
 <div class="container00">
             <h1 class="section-title">একাডেমি কোর্স</h1>
             
-            <div class="courses-grid">
-                <a href="#kowmi" class="course-card1">
-                    <div class="course-image">
-                        <div class="image-overlay-text">কওমী মাদ্রাসা</div>
+            <div class="courses-grid0">        
+                <div class="grid">
+                    <div class="card">
+                        <div class="card-icon">📚</div>
+                        <h3>কওমী মাদ্রাসা</h3>
+                        <button class="card-btn" onclick="showDetails('qawmi')">বিস্তারিত দেখুন</button>
                     </div>
-                </a>
-                
-                <a href="#aliya" class="course-card1">
-                    <div class="course-image">
-                        <div class="image-overlay-text">আলিয়া মাদ্রাসা</div>
+        
+                    <div class="card">
+                        <div class="card-icon">🎓</div>
+                        <h3>আলিয়া মাদ্রাসা</h3>
+                        <button class="card-btn" onclick="showDetails('aliya')">বিস্তারিত দেখুন</button>
                     </div>
-                </a>
-                
-                <a href="#women" class="course-card1">
-                    <div class="course-image">
-                        <div class="image-overlay-text">মহিলা মাদ্রাসা</div>
+        
+                    <div class="card">
+                        <div class="card-icon">👩‍🎓</div>
+                        <h3>মহিলা মাদ্রাসা</h3>
+                        <button class="card-btn" onclick="showDetails('women')">বিস্তারিত দেখুন</button>
                     </div>
-                </a>
-                
-                <a href="#maktab" class="course-card1">
-                    <div class="course-image">
-                        <div class="image-overlay-text">মক্তব আফটার স্কুল</div>
+        
+                    <div class="card">
+                        <div class="card-icon">⏰</div>
+                        <h3>মক্তব আফটার স্কুল</h3>
+                        <button class="card-btn" onclick="showDetails('maktab')">বিস্তারিত দেখুন</button>
                     </div>
-                </a>
-                
-                <a href="#night" class="course-card1">
-                    <div class="course-image">
-                        <div class="image-overlay-text">নৈশ্য মাদ্রাসা</div>
+        
+                    <div class="card">
+                        <div class="card-icon">🌙</div>
+                        <h3>নৈশ্য মাদ্রাসা</h3>
+                        <button class="card-btn" onclick="showDetails('night')">বিস্তারিত দেখুন</button>
                     </div>
-                </a>
-                
-                <a href="#everyone" class="course-card1">
-                    <div class="course-image">
-                        <div class="image-overlay-text">সবার জন্য দ্বীন শিক্ষা</div>
+        
+                    <div class="card">
+                        <div class="card-icon">🌙</div>
+                        <h3>সবার জন্য দ্বীন শিক্ষা</h3>
+                        <button class="card-btn" onclick="showDetails('general')">বিস্তারিত দেখুন</button>
                     </div>
-                </a>
+                </div>
             </div>
     
             <!-- নতুন সেকশন -->
@@ -8913,8 +9601,8 @@ function showDeviceInfo() {
             backdrop-filter: blur(20px);
             border-radius: 25px;     
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);     
-            margin-top: 30px;
-            margin-bottom: 30px;
+            margin-top: 15px;
+            margin-bottom: 15px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
             overflow: hidden;
@@ -9310,9 +9998,9 @@ function showDeviceInfo() {
 
         @media (max-width: 768px) { 
             .container03 {
-                padding: 20px 15px 0;
-                margin: 15px;
-                border-radius: 20px;
+                /* padding: 20px 15px 0; */
+                /* margin: 15px; */
+                border-radius: 10px;
             }
 
             .madrasah-categories {     
@@ -9373,10 +10061,6 @@ function showDeviceInfo() {
         }  
 
         @media (max-width: 576px) { 
-            .container03 {
-                margin: 10px;
-                padding: 15px 10px 0;
-            }
 
             .madrasah-categories {     
                 gap: 12px;
@@ -9738,7 +10422,7 @@ function showDeviceInfo() {
       background-color: white;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+    /* margin-top: 15px; */
     padding-bottom: 2px;
     }
 
@@ -10673,7 +11357,7 @@ body {
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+    margin-top: 15px;
     padding-bottom: 2px;
 }
 
@@ -10864,10 +11548,7 @@ body {
 
 /* ছোট মোবাইল ডিভাইসের জন্য */
 @media (max-width: 480px) {
-    .container6 {
-        margin: 10px;
-        padding: 0 10px;
-    }
+    
     
     .header2 {
         padding: 1.5rem 0.5rem;
