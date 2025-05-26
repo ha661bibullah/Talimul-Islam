@@ -5054,7 +5054,7 @@ throw error;
     
     
 </script> 
-<script>
+<!-- <script>
     // Handle Email Check form submission
     document.addEventListener('DOMContentLoaded', function() {
        const emailCheckForm = document.getElementById('emailCheckForm');
@@ -5785,16 +5785,1047 @@ document.addEventListener('visibilitychange', function() {
 
 // ইনিশিয়ালাইজ স্ক্রিপ্ট ইমিডিয়েটলি
 console.log('Profile dropdown script initialized');
-</script> 
+</script>  -->
+
+<!-- টেষ্ট -->
+<script>
+    // Handle Email Check form submission
+    document.addEventListener('DOMContentLoaded', function() {
+       const emailCheckForm = document.getElementById('emailCheckForm');
+       if (emailCheckForm) {
+           emailCheckForm.addEventListener('submit', async function(e) {
+               e.preventDefault();
+               
+               // Reset error messages
+               document.querySelectorAll('.error-message').forEach(el => {
+                   el.classList.remove('show-error');
+               });
+               
+               const email = document.getElementById('checkEmail').value;
+               let isValid = true;
+               
+               // Email validation
+               if (!email || !validateEmail(email)) {
+                   showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+                   isValid = false;
+               }
+               
+               if (isValid) {
+                   try {
+                       showLoading();
+                       
+                       // API কল - ইমেইল চেক করুন
+                       const checkResponse = await fetch(`${DB_API_URL}/check-email`, {
+                           method: 'POST',
+                           headers: {
+                               'Content-Type': 'application/json',
+                           },
+                           body: JSON.stringify({ email: email }),
+                       });
+                       
+                       const checkData = await checkResponse.json();
+                       
+                       if (checkData.exists) {
+                           showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
+                           hideLoading();
+                           return;
+                       }
+                       
+                       // Store the email for later use
+                       currentEmail = email;
+                       document.getElementById('userEmail').textContent = email;
+                       
+                       // API কল - সার্ভারে OTP পাঠানোর অনুরোধ
+                       const response = await fetch(`${API_URL}/api/send-otp`, {
+                           method: 'POST',
+                           headers: {
+                               'Content-Type': 'application/json',
+                           },
+                           body: JSON.stringify({ email: email }),
+                       });
+                       
+                       const data = await response.json();
+                       
+                       if (!data.success) {
+                           throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                       }
+                       
+                       // Clear OTP input fields
+                       document.querySelectorAll('.otp-digit').forEach(input => {
+                           input.value = '';
+                       });
+                       
+                       // Start timer
+                       startOTPTimer();
+                       
+                       // Show OTP verification form
+                       toggleForm('otpVerification');
+                       
+                   } catch (error) {
+                       console.error('Error:', error);
+                       showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+                   } finally {
+                       hideLoading();
+                   }
+               }
+           });
+       }
+   });
+   
+   // Handle Resend OTP button
+   document.addEventListener('DOMContentLoaded', function() {
+       const resendOtpButton = document.getElementById('resendOtp');
+       if (resendOtpButton) {
+           resendOtpButton.addEventListener('click', async function() {
+               if (this.disabled) return;
+               
+               try {
+                   showLoading();
+                   this.disabled = true;
+                   
+                   // API কল - পুনরায় OTP পাঠানোর অনুরোধ
+                   const response = await fetch(`${API_URL}/api/send-otp`, {
+                       method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json',
+                       },
+                       body: JSON.stringify({ email: currentEmail }),
+                   });
+                   
+                   const data = await response.json();
+                   
+                   if (!data.success) {
+                       throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                   }
+                   
+                   // Clear OTP input fields
+                   document.querySelectorAll('.otp-digit').forEach(input => {
+                       input.value = '';
+                   });
+                   
+                   // Restart timer
+                   startOTPTimer();
+                   
+                   // Show message
+                   showNotification('নতুন অটিপি পাঠানো হয়েছে। অনুগ্রহ করে আপনার ইমেইল চেক করুন।', 'success');
+                   
+               } catch (error) {
+                   console.error('Error:', error);
+                   showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+                   this.disabled = false;
+               } finally {
+                   hideLoading();
+               }
+           });
+       }
+   });
+   
+   // Handle OTP Verification form submission
+   document.addEventListener('DOMContentLoaded', function() {
+       const otpVerificationForm = document.getElementById('otpVerificationForm');
+       if (otpVerificationForm) {
+           otpVerificationForm.addEventListener('submit', async function(e) {
+               e.preventDefault();
+               
+               // Reset error messages
+               hideError('otpError');
+               
+               // Get entered OTP
+               const enteredOTP = 
+                   document.getElementById('otp1').value +
+                   document.getElementById('otp2').value +
+                   document.getElementById('otp3').value +
+                   document.getElementById('otp4').value;
+               
+               // Validate OTP
+               if (enteredOTP.length !== 4) {
+                   showError('otpError', 'অনুগ্রহ করে সম্পূর্ণ অটিপি দিন');
+                   return;
+               }
+               
+               try {
+                   showLoading();
+                   
+                   // API কল - OTP যাচাই করার অনুরোধ
+                   const response = await fetch(`${API_URL}/api/verify-otp`, {
+                       method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json',
+                       },
+                       body: JSON.stringify({ 
+                           email: currentEmail,
+                           otp: enteredOTP
+                       }),
+                   });
+                   
+                   const data = await response.json();
+                   
+                   if (!data.success) {
+                       // Show error message
+                       showError('otpError', data.message || 'অবৈধ OTP');
+                       return;
+                   }
+                   
+                   // OTP is valid, proceed to final registration step
+                   clearInterval(otpTimer);
+                   toggleForm('signup');
+                   
+               } catch (error) {
+                   console.error('Error:', error);
+                   showError('otpError', error.message || 'OTP যাচাই করতে ত্রুটি হয়েছে।');
+               } finally {
+                   hideLoading();
+               }
+           });
+       }
+   });
+   
+   // Handle Registration form submission
+   document.addEventListener('DOMContentLoaded', function() {
+       const signupForm = document.getElementById('signupForm');
+       if (signupForm) {
+           signupForm.addEventListener('submit', async function(e) {
+               e.preventDefault();
+               
+               // Reset error messages
+               document.querySelectorAll('.error-message').forEach(el => {
+                   el.classList.remove('show-error');
+               });
+               
+               const name = document.getElementById('signupName').value.trim();
+               const password = document.getElementById('signupPassword').value;
+               const confirmPassword = document.getElementById('signupConfirmPassword').value;
+               
+               let isValid = true;
+               
+               // Validation
+               if (!name) {
+                   showError('signupNameError', 'নাম আবশ্যক');
+                   isValid = false;
+               }
+               
+               if (!password || password.length < 6) {
+                   showError('signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
+                   isValid = false;
+               }
+               
+               if (password !== confirmPassword) {
+                   showError('signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না');
+                   isValid = false;
+               }
+               
+               if (!isValid) return;
+               
+               try {
+                   showLoading();
+                   
+                   // নতুন ইউজার তৈরির জন্য API কল
+                   const response = await fetch(`${DB_API_URL}/register`, {
+                       method: 'POST',
+                       headers: {
+                           'Content-Type': 'application/json',
+                       },
+                       body: JSON.stringify({
+                           name: name,
+                           email: currentEmail,
+                           password: password
+                       }),
+                   });
+                   
+                   const data = await response.json();
+                   
+                   if (!data.success) {
+                       throw new Error(data.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে');
+                   }
+                   
+                   console.log('User registered:', data.user); // For demo purposes
+                   
+                   // Show success modal
+                   openModal();
+                   
+                   // Clear form fields
+                   document.getElementById('signupForm').reset();
+                   
+               } catch (error) {
+                   console.error('Registration error:', error);
+                   showNotification(error.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+               } finally {
+                   hideLoading();
+               }
+           });
+       }
+   });
+   
+   // Handle Login form submission
+   document.addEventListener('DOMContentLoaded', function() {
+       const loginForm = document.getElementById('loginForm');
+       if (loginForm) {
+           loginForm.addEventListener('submit', async function(e) {
+               e.preventDefault();
+               
+               // Reset error messages
+               document.querySelectorAll('.error-message').forEach(el => {
+                   el.classList.remove('show-error');
+               });
+               
+               const email = document.getElementById('loginEmail').value;
+               const password = document.getElementById('loginPassword').value;
+               let isValid = true;
+               
+               // Email validation
+               if (!email || !validateEmail(email)) {
+                   showError('loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+                   isValid = false;
+               }
+               
+               // Password validation
+               if (!password) {
+                   showError('loginPasswordError', 'পাসওয়ার্ড আবশ্যক');
+                   isValid = false;
+               }
+               
+               if (isValid) {
+                   try {
+                       showLoading();
+                       
+                       // লগইন API কল
+                       const response = await fetch(`${DB_API_URL}/login`, {
+                           method: 'POST',
+                           headers: {
+                               'Content-Type': 'application/json',
+                           },
+                           body: JSON.stringify({
+                               email: email,
+                               password: password
+                           }),
+                       });
+                       
+                       const data = await response.json();
+                       
+                       if (!data.success) {
+                           throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
+                       }
+                       
+                       // সেশন স্টোরেজে টোকেন এবং ইউজার ডেটা সংরক্ষণ করুন
+                       sessionStorage.setItem('authToken', data.token);
+                       sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+                       
+                       // লগইন টাইম স্টোর করুন
+                       sessionStorage.setItem('loginTime', Date.now().toString());
+                       
+                       // লগইন পপআপ বন্ধ করুন
+                       const loginPopup = document.querySelector('.login-popup');
+                       const blurOverlay = document.querySelector('.blur-overlay');
+                       
+                       if (loginPopup) loginPopup.classList.remove('active');
+                       if (blurOverlay) blurOverlay.classList.remove('active');
+                       document.body.style.overflow = '';
+                       
+                       // লগইন স্টেটাস আপডেট করুন
+                       checkLoginStatus();
+                       
+                       showNotification('সফলভাবে লগইন করা হয়েছে! স্বাগতম ' + data.user.name, 'success');
+                       
+                   } catch (error) {
+                       console.error('Login error:', error);
+                       showNotification(error.message || 'ভুল ইমেইল বা পাসওয়ার্ড। অনুগ্রহ করে আবার চেষ্টা করুন।', 'error');
+                   } finally {
+                       hideLoading();
+                   }
+               }
+           });
+       }
+   });
+   
+   // জেনারেল লগইন পপআপ ফাংশনালিটি
+   document.addEventListener('DOMContentLoaded', function() {
+       const loginForm = document.getElementById('login-form');
+       if (loginForm) {
+           loginForm.addEventListener('submit', function(e) {
+               e.preventDefault();
+               // লগইন লজিক এখানে লিখুন
+               showNotification('লগইন সম্পন্ন হয়েছে!', 'success');
+               
+               const loginPopup = document.querySelector('.login-popup');
+               const blurOverlay = document.querySelector('.blur-overlay');
+               
+               if (loginPopup) loginPopup.classList.remove('active');
+               if (blurOverlay) blurOverlay.classList.remove('active');
+               document.body.style.overflow = '';
+           });
+       }
+   });
+
+   // CSS for custom notification
+   document.addEventListener('DOMContentLoaded', function() {
+       const style = document.createElement('style');
+       style.textContent = `
+           .custom-notification {
+               position: fixed;
+               top: 20px;
+               right: 20px;
+               padding: 15px;
+               border-radius: 5px;
+               box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+               z-index: 9999;
+               opacity: 0;
+               transition: all 0.3s ease;
+           }
+           
+           .custom-notification.success {
+               background-color: #4CAF50;
+               color: white;
+           }
+           
+           .custom-notification.error {
+               background-color: #f44336;
+               color: white;
+           }
+           
+           .notification-content {
+               display: flex;
+               align-items: center;
+               justify-content: space-between;
+           }
+           
+           .notification-close {
+               margin-left: 15px;
+               cursor: pointer;
+               font-weight: bold;
+           }
+           
+           .loader {
+               position: fixed;
+               top: 0;
+               left: 0;
+               width: 100%;
+               height: 100%;
+               background-color: rgba(255, 255, 255, 0.7);
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               z-index: 9999;
+           }
+           
+           .spinner {
+               width: 40px;
+               height: 40px;
+               border: 4px solid #f3f3f3;
+               border-top: 4px solid #3498db;
+               border-radius: 50%;
+               animation: spin 1s linear infinite;
+           }
+           
+           @keyframes spin {
+               0% { transform: rotate(0deg); }
+               100% { transform: rotate(360deg); }
+           }
+       `;
+       document.head.appendChild(style);
+   });
+
+   // ডিবাগিং কোড যোগ করা - সব ফাংশনের সাথে লগ বার্তা দেখাবে
+console.log('Profile Dropdown Script Loaded');
+
+document.addEventListener('DOMContentLoaded', function() {
+   console.log('DOM Content Loaded - Setting up profile dropdown');
+   
+   // সেশন স্টোরেজ চেক করুন
+   const token = sessionStorage.getItem('authToken');
+   console.log('Auth Token exists:', !!token);
+   
+   // আমাদের এলিমেন্টগুলি আছে কিনা চেক করুন
+   const loginButton = document.getElementById('loginButton');
+   const profileDropdown = document.getElementById('profileDropdown');
+   const profileIcon = document.querySelector('.profile-icon');
+   
+   console.log('Login Button found:', !!loginButton);
+   console.log('Profile Dropdown found:', !!profileDropdown);
+   console.log('Profile Icon found:', !!profileIcon);
+   
+   // প্রোফাইল ড্রপডাউন স্টাইল যোগ করুন
+   addProfileDropdownStyles();
+   
+
+   
+   
+   // লগইন স্টেটাস আপডেট করুন
+   checkLoginStatus();
+   
+   // লগআউট বাটন ইভেন্ট
+   const logoutButton = document.getElementById('logoutButton');
+   if (logoutButton) {
+       console.log('Adding click event to logout button');
+       logoutButton.addEventListener('click', handleLogout);
+   } else {
+       console.error('Logout button not found in the DOM');
+   }
+});
 
 
+
+// লগআউট হ্যান্ডেল করার ফাংশন
+async function handleLogout(e) {
+   e.preventDefault();
+   console.log('Logout button clicked');
+   
+   try {
+       const token = sessionStorage.getItem('authToken');
+       
+       if (token) {
+           // লগআউট API কল
+           console.log('Calling logout API');
+           try {
+               const response = await fetch(`${DB_API_URL}/logout`, {
+                   method: 'POST',
+                   headers: {
+                       'Content-Type': 'application/json',
+                       'Authorization': `Bearer ${token}`
+                   }
+               });
+               
+               const data = await response.json();
+               
+               if (data.success) {
+                   console.log('Logout successful');
+                   showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
+               } else {
+                   console.error('Logout API returned error:', data.message);
+                   showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
+               }
+           } catch (apiError) {
+               console.error('Logout API call failed:', apiError);
+               // এপিআই কল ব্যর্থ হলেও লগআউট করুন
+               showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
+           }
+       } else {
+           console.warn('No auth token found for logout');
+       }
+   } catch (error) {
+       console.error('Logout error:', error);
+   } finally {
+       // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন
+       console.log('Removing user data from session storage');
+       sessionStorage.removeItem('authToken');
+       sessionStorage.removeItem('currentUser');
+       sessionStorage.removeItem('loginTime');
+       
+       // লগইন স্টেটাস আপডেট করুন
+       checkLoginStatus();
+   }
+}
+
+// স্টাইল যোগ করার ফাংশন
+function addProfileDropdownStyles() {
+   console.log('Adding profile dropdown styles');
+   
+   // আগে থেকে স্টাইল এলিমেন্ট আছে কিনা চেক করুন
+   if (document.getElementById('profileDropdownStyles')) {
+       console.log('Styles already exist, skipping');
+       return;
+   }
+   
+   const style = document.createElement('style');
+   style.id = 'profileDropdownStyles';
+   style.textContent = `
+       /* User Menu Container Styles */
+       .user-menu-container {
+           position: relative;
+           display: inline-block;
+       }
+       
+       /* Login Button Styles */
+       .login-button {
+           display: inline-block;
+           padding: 8px 15px;
+           background-color: #4CAF50;
+           color: white;
+           border-radius: 4px;
+           text-decoration: none;
+           font-weight: bold;
+           transition: background-color 0.3s;
+       }
+       
+       .login-button:hover {
+           background-color: #45a049;
+       }
+       
+       /* Profile Dropdown Styles */
+       .profile-dropdown {
+           display: none;
+           position: relative;
+       }
+       
+       .profile-icon {
+           background: none;
+           border: none;
+           font-size: 24px;
+           color: #333;
+           cursor: pointer;
+           padding: 5px;
+       }
+       
+       /* Font Awesome Fallback */
+       .profile-icon-text {
+           display: none;
+       }
+       
+       .no-fontawesome .profile-icon-text {
+           display: inline;
+           font-weight: bold;
+       }
+       
+       .dropdown-menu1 {
+           display: none;
+           position: absolute;
+           right: 0;
+           background-color: white;
+           min-width: 180px;
+           box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+           z-index: 1000;
+           border-radius: 4px;
+           overflow: hidden;
+       }
+       
+       .dropdown-item {
+           display: block;
+           padding: 10px 15px;
+           text-decoration: none;
+           color: #333;
+           transition: background-color 0.2s;
+       }
+       
+       .dropdown-item:hover {
+           background-color: #f8f8f8;
+       }
+   `;
+   document.head.appendChild(style);
+   console.log('Styles added to document head');
+}
+
+// লগইন টাইম চেক করার ফাংশন
+function isLoginExpired() {
+   const loginTime = sessionStorage.getItem('loginTime');
+   if (!loginTime) return true;
+   
+   const currentTime = Date.now();
+   const loginTimestamp = parseInt(loginTime);
+   const timeDiff = currentTime - loginTimestamp;
+   
+   // 24 ঘন্টা = 24 * 60 * 60 * 1000 = 86400000 মিলিসেকেন্ড
+   const twentyFourHours = 24 * 60 * 60 * 1000;
+   
+   return timeDiff > twentyFourHours;
+}
+
+// চেক লগইন স্ট্যাটাস আপডেটেড ফাংশন (Fixed)
+async function checkLoginStatus() {
+   console.log('Checking login status');
+   
+   // সেশন স্টোরেজ থেকে টোকেন পড়ুন
+   const token = sessionStorage.getItem('authToken');
+   
+   const loginButton = document.getElementById('loginButton');
+   const profileDropdown = document.getElementById('profileDropdown');
+   
+   // Font Awesome লোড হয়েছে কিনা চেক করুন
+   checkFontAwesome();
+   
+   if (!loginButton || !profileDropdown) {
+       console.error('Login button or profile dropdown not found');
+       console.log('loginButton:', loginButton);
+       console.log('profileDropdown:', profileDropdown);
+       return false;
+   }
+   
+   if (token) {
+       console.log('Auth token found, checking expiration...');
+       
+       // লগইন টাইম এক্সপায়ার হয়েছে কিনা চেক করুন
+       if (isLoginExpired()) {
+           console.log('Login expired, logging out');
+           sessionStorage.removeItem('authToken');
+           sessionStorage.removeItem('currentUser');
+           sessionStorage.removeItem('loginTime');
+           loginButton.style.display = 'block';
+           profileDropdown.style.display = 'none';
+           return false;
+       }
+       
+       // লগইন করা আছে এবং এক্সপায়ার হয়নি, প্রোফাইল আইকন দেখান
+       console.log('User is logged in and not expired, showing profile dropdown');
+       loginButton.style.display = 'none';
+       profileDropdown.style.display = 'block';
+       return true;
+   } else {
+       // লগইন করা নেই, লগইন বাটন দেখান
+       console.log('No auth token, showing login button');
+       loginButton.style.display = 'block';
+       profileDropdown.style.display = 'none';
+       return false;
+   }
+}
+
+// Font Awesome লোড হয়েছে কিনা চেক করুন
+function checkFontAwesome() {
+   console.log('Checking if Font Awesome is loaded');
+   
+   // Font Awesome লোড হয়েছে কিনা চেক করুন
+   const isFontAwesomeLoaded = (function() {
+       // Check if any Font Awesome classes are applied
+       const span = document.createElement('span');
+       span.className = 'fa';
+       span.style.display = 'none';
+       document.body.appendChild(span);
+       const result = window.getComputedStyle(span).fontFamily.includes('Font');
+       document.body.removeChild(span);
+       return result;
+   })();
+   
+   console.log('Font Awesome loaded:', isFontAwesomeLoaded);
+   
+   if (!isFontAwesomeLoaded) {
+       console.log('Font Awesome not detected, adding fallback');
+       // Font Awesome না থাকলে লিংক যোগ করুন
+       const link = document.createElement('link');
+       link.rel = 'stylesheet';
+       link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
+       document.head.appendChild(link);
+       
+       // ফলব্যাক ক্লাস যোগ করুন
+       document.body.classList.add('no-fontawesome');
+       
+
+   }
+}
+
+// পেজ লোড এবং রিফ্রেশের সময় লগইন স্টেটাস চেক করুন
+window.addEventListener('load', function() {
+   console.log('Page loaded, checking login status');
+   checkLoginStatus();
+});
+
+// পেজ ভিজিবল হলে লগইন স্টেটাস চেক করুন
+document.addEventListener('visibilitychange', function() {
+   if (!document.hidden) {
+       console.log('Page became visible, checking login status');
+       checkLoginStatus();
+   }
+});
+
+// ইনিশিয়ালাইজ স্ক্রিপ্ট ইমিডিয়েটলি
+console.log('Profile dropdown script initialized');
+</script>
+<!-- লগআউট অটোভাবে বন্ধ করার কোড টেষ্ট  -->
+<script>
+    // ==============================================
+// PERSISTENT LOGIN SYSTEM - AUTO LOGOUT DISABLER
+// ==============================================
+// এই কোডটি সব অটো লগআউট ফিচার বন্ধ করে দেবে
+// একবার লগইন করলে ম্যানুয়াল লগআউট না করা পর্যন্ত লগইন থাকবে
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Persistent Login System activated');
+    
+    // ১. সব টাইমার এবং ইন্টারভাল বন্ধ করুন
+    function disableAutoLogout() {
+        // OTP টাইমার বন্ধ করুন (এটি রাখা যেতে পারে)
+        // if (otpTimer) {
+        //     clearInterval(otpTimer);
+        // }
+        
+        // টোকেন রিফ্রেশ ইন্টারভাল বন্ধ করুন
+        if (window.tokenRefreshInterval) {
+            clearInterval(window.tokenRefreshInterval);
+            window.tokenRefreshInterval = null;
+        }
+        
+        // ইউজার ইনঅ্যাক্টিভিটি টাইমার বন্ধ করুন
+        if (window.userActivityTimer) {
+            clearTimeout(window.userActivityTimer);
+            window.userActivityTimer = null;
+        }
+        
+        console.log('All auto-logout timers disabled');
+    }
+    
+    // ২. Original ফাংশনগুলি Override করুন
+    
+    // Token refresh function কে modify করুন
+    window.originalRefreshToken = window.refreshToken;
+    window.refreshToken = async function() {
+        console.log('Token refresh skipped - persistent login active');
+        return true; // সবসময় true রিটার্ন করুন
+    };
+    
+    // Setup token refresh function কে নিষ্ক্রিয় করুন
+    window.originalSetupTokenRefresh = window.setupTokenRefresh;
+    window.setupTokenRefresh = function() {
+        console.log('Token refresh setup skipped - persistent login active');
+        // কিছুই করবেন না
+    };
+    
+    // Auto logout handler কে নিষ্ক্রিয় করুন
+    window.originalHandleAutoLogout = window.handleAutoLogout;
+    window.handleAutoLogout = function() {
+        console.log('Auto logout prevented - persistent login active');
+        // কিছুই করবেন না
+    };
+    
+    // User activity tracking কে নিষ্ক্রিয় করুন
+    window.originalSetupUserActivityTracking = window.setupUserActivityTracking;
+    window.setupUserActivityTracking = function() {
+        console.log('User activity tracking skipped - persistent login active');
+        // কিছুই করবেন না
+    };
+    
+    // Reset user activity function কে নিষ্ক্রিয় করুন
+    window.originalResetUserActivity = window.resetUserActivity;
+    window.resetUserActivity = function() {
+        // console.log('User activity reset skipped - persistent login active');
+        // কিছুই করবেন না
+    };
+    
+    // ৩. Login expiration check কে bypass করুন
+    window.originalIsLoginExpired = window.isLoginExpired;
+    window.isLoginExpired = function() {
+        console.log('Login expiration check bypassed - persistent login active');
+        return false; // সবসময় false রিটার্ন করুন
+    };
+    
+    // ৪. Enhanced checkLoginStatus function
+    window.originalCheckLoginStatus = window.checkLoginStatus;
+    window.checkLoginStatus = async function() {
+        console.log('Enhanced login status check - persistent login');
+        
+        // localStorage এবং sessionStorage দুটোই চেক করুন
+        const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+        
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        // Font Awesome চেক (যদি ফাংশন থাকে)
+        if (typeof checkFontAwesome === 'function') {
+            checkFontAwesome();
+        }
+        
+        if (!loginButton || !profileDropdown) {
+            console.error('Login button or profile dropdown not found');
+            return false;
+        }
+        
+        if (token) {
+            // টোকেন থাকলে সরাসরি লগইন স্টেট দেখান
+            console.log('Token found, showing logged in state - persistent login');
+            loginButton.style.display = 'none';
+            profileDropdown.style.display = 'block';
+            return true;
+        } else {
+            // টোকেন না থাকলে লগইন বাটন দেখান
+            console.log('No token found, showing login button');
+            loginButton.style.display = 'block';
+            profileDropdown.style.display = 'none';
+            return false;
+        }
+    };
+    
+    // ৫. Enhanced saveAuthToken function
+    window.originalSaveAuthToken = window.saveAuthToken;
+    window.saveAuthToken = function(token, user) {
+        console.log('Saving auth token with persistent login');
+        
+        // localStorage এ সেভ করুন (persistent)
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        
+        // sessionStorage এও সেভ করুন (backup)
+        sessionStorage.setItem('authToken', token);
+        sessionStorage.setItem('currentUser', JSON.stringify(user));
+        
+        // Login time সেভ করুন কিন্তু ব্যবহার করবেন না
+        localStorage.setItem('loginTime', Date.now().toString());
+        sessionStorage.setItem('loginTime', Date.now().toString());
+        
+        // Auto refresh setup করবেন না
+        // setupTokenRefresh(); // এটি কল করবেন না
+        
+        // UI আপডেট করুন
+        checkLoginStatus();
+    };
+    
+    // ৬. Window/Tab close এর আগে localStorage backup করুন
+    window.addEventListener('beforeunload', function() {
+        const token = sessionStorage.getItem('authToken');
+        const user = sessionStorage.getItem('currentUser');
+        
+        if (token && !localStorage.getItem('authToken')) {
+            localStorage.setItem('authToken', token);
+        }
+        if (user && !localStorage.getItem('currentUser')) {
+            localStorage.setItem('currentUser', user);
+        }
+        
+        console.log('Session data backed up to localStorage');
+    });
+    
+    // ৭. Page visibility change এ extra check
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            console.log('Page visible - persistent login check');
+            
+            // localStorage থেকে sessionStorage এ কপি করুন
+            const token = localStorage.getItem('authToken');
+            const user = localStorage.getItem('currentUser');
+            
+            if (token && !sessionStorage.getItem('authToken')) {
+                sessionStorage.setItem('authToken', token);
+                console.log('Token restored from localStorage');
+            }
+            if (user && !sessionStorage.getItem('currentUser')) {
+                sessionStorage.setItem('currentUser', user);
+                console.log('User data restored from localStorage');
+            }
+            
+            checkLoginStatus();
+        }
+    });
+    
+    // ৮. Storage event listener (multiple tabs এর জন্য)
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'authToken' || e.key === 'currentUser') {
+            console.log('Storage changed in another tab - syncing');
+            checkLoginStatus();
+        }
+    });
+    
+    // ৯. Manual logout function enhancement with home page redirect
+    window.enhancedLogout = async function() {
+        console.log('Enhanced logout called');
+        
+        try {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            
+            if (token) {
+                // API কল করুন
+                try {
+                    const response = await fetch(`${DB_API_URL}/logout`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
+                    }
+                } catch (apiError) {
+                    console.error('Logout API call failed:', apiError);
+                    showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
+                }
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            // সব storage থেকে ডেটা মুছুন
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('loginTime');
+            
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('currentUser');
+            sessionStorage.removeItem('loginTime');
+            
+            // UI আপডেট করুন (লগইন বাটন দেখান)
+            checkLoginStatus();
+            
+            // হোম পেইজে রিডাইরেক্ট করুন
+            setTimeout(function() {
+                window.location.href = '/';
+            }, 1000); // ১ সেকেন্ড পরে রিডাইরেক্ট
+        }
+    };
+    
+    // ১০. Original logout button এর event listener কে replace করুন
+    setTimeout(function() {
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+            // পুরাতন event listeners সরান
+            const newLogoutButton = logoutButton.cloneNode(true);
+            logoutButton.parentNode.replaceChild(newLogoutButton, logoutButton);
+            
+            // নতুন event listener যোগ করুন
+            newLogoutButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                enhancedLogout();
+            });
+            
+            console.log('Logout button event updated for persistent login with home redirect');
+        }
+    }, 1000);
+    
+    // ১১. Initialize করুন
+    disableAutoLogout();
+    
+    // ১২. Page load এ localStorage থেকে restore করুন
+    setTimeout(function() {
+        const token = localStorage.getItem('authToken');
+        const user = localStorage.getItem('currentUser');
+        
+        if (token && !sessionStorage.getItem('authToken')) {
+            sessionStorage.setItem('authToken', token);
+            console.log('Token restored from localStorage on page load');
+        }
+        if (user && !sessionStorage.getItem('currentUser')) {
+            sessionStorage.setItem('currentUser', user);
+            console.log('User data restored from localStorage on page load');
+        }
+        
+        checkLoginStatus();
+    }, 500);
+    
+    console.log('🔒 PERSISTENT LOGIN SYSTEM ACTIVATED');
+    console.log('✅ Auto logout disabled');
+    console.log('✅ Session will persist until manual logout');
+    console.log('✅ Login state will survive browser restarts');
+    console.log('✅ Home page redirect on logout enabled');
+});
+
+// ==============================================
+// ADDITIONAL SAFETY MEASURES
+// ==============================================
+
+// Global error handler যাতে unexpected logout না হয়
+window.addEventListener('error', function(e) {
+    console.log('Global error caught, but persistent login maintained');
+});
+
+// Unhandled promise rejection handler
+window.addEventListener('unhandledrejection', function(e) {
+    console.log('Unhandled promise rejection, but persistent login maintained');
+});
+
+// Console message
+console.log(`
+🔒 PERSISTENT LOGIN SYSTEM LOADED
+=====================================
+✅ All auto-logout features disabled
+✅ Login will persist across sessions
+✅ Manual logout only
+✅ Cross-tab synchronization enabled
+✅ Home page redirect on logout
+=====================================
+`);
+</script>
 
 
 
 
 
 <!-- লগআউট অটোভাবে বন্ধ করার কোড  -->
-<script>
+<!-- <script>
     // ==============================================
 // PERSISTENT LOGIN SYSTEM - AUTO LOGOUT DISABLER
 // ==============================================
@@ -6088,7 +7119,7 @@ console.log(`
 ✅ Cross-tab synchronization enabled
 =====================================
 `);
- </script>
+ </script> -->
 
 
 
