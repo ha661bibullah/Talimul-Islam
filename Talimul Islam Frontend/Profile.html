@@ -5139,7 +5139,7 @@ console.log('Profile dropdown script initialized');
 
 
 <!-- লগআউট অটোভাবে বন্ধ করার কোড  -->
-<!-- <script>
+<script>
     // ==============================================
 // PERSISTENT LOGIN SYSTEM - AUTO LOGOUT DISABLER
 // ==============================================
@@ -5320,51 +5320,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // ৯. Manual logout function enhancement
-    window.enhancedLogout = async function() {
-        console.log('Enhanced logout called');
-        
-        try {
-            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-            
-            if (token) {
-                // API কল করুন
-                try {
-                    const response = await fetch(`${DB_API_URL}/logout`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
-                    }
-                } catch (apiError) {
-                    console.error('Logout API call failed:', apiError);
-                    showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
-                }
-            }
-        } catch (error) {
-            console.error('Logout error:', error);
-        } finally {
-            // সব storage থেকে ডেটা মুছুন
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('loginTime');
-            
-            sessionStorage.removeItem('authToken');
-            sessionStorage.removeItem('currentUser');
-            sessionStorage.removeItem('loginTime');
-            
-            // UI আপডেট করুন
-            checkLoginStatus();
-        }
-    };
-    
+
     // ১০. Original logout button এর event listener কে replace করুন
     setTimeout(function() {
         const logoutButton = document.getElementById('logoutButton');
@@ -5433,7 +5389,7 @@ console.log(`
 ✅ Cross-tab synchronization enabled
 =====================================
 `);
- </script> -->
+ </script>
 
 
 <!-- <script>
