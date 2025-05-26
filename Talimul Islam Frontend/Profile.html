@@ -4876,8 +4876,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    // লগআউট হ্যান্ডেল করার ফাংশন (সংশোধিত)
-    async function handleLogout(e) {
+// লগআউট হ্যান্ডেল করার ফাংশন (সংশোধিত)
+async function handleLogout(e) {
     e.preventDefault();
     console.log('Logout button clicked');
     
@@ -4937,92 +4937,6 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = 'Talimul Islam Academi.html';
         }, 1000);
     }
-}
-
-// বিকল্প সমাধান ১: সরাসরি রিডাইরেক্ট
-function handleLogoutDirect(e) {
-    e.preventDefault();
-    console.log('Direct logout clicked');
-    
-    // সেশন ডেটা মুছুন
-    sessionStorage.removeItem('authToken');
-    sessionStorage.removeItem('currentUser');
-    sessionStorage.removeItem('loginTime');
-    
-    // নোটিফিকেশন দেখান
-    showNotification('আপনি সফলভাবে লগআউট করেছেন।', 'success');
-    
-    // তৎক্ষণাৎ রিডাইরেক্ট
-    window.location.href = 'Talimul Islam Academi.html';
-}
-
-// বিকল্প সমাধান ২: window.location.replace ব্যবহার
-function handleLogoutReplace(e) {
-    e.preventDefault();
-    console.log('Logout with replace');
-    
-    // সেশন ডেটা মুছুন
-    sessionStorage.clear();
-    
-    // replace ব্যবহার করে রিডাইরেক্ট (browser history থেকে current page মুছে দেয়)
-    window.location.replace('Talimul Islam Academi.html');
-}
-
-// বিকল্প সমাধান ৩: ফাইল এক্সটেনশন ছাড়া
-function handleLogoutSimple(e) {
-    e.preventDefault();
-    
-    // ডেটা মুছুন
-    sessionStorage.clear();
-    
-    // বিভিন্ন রিডাইরেক্ট অপশন ট্রাই করুন
-    try {
-        // Option 1: নির্দিষ্ট ফাইল নাম
-        window.location.href = 'Talimul Islam Academi.html';
-    } catch (error1) {
-        try {
-            // Option 2: ইনডেক্স পেইজ
-            window.location.href = 'index.html';
-        } catch (error2) {
-            try {
-                // Option 3: রুট ডিরেক্টরি
-                window.location.href = '/';
-            } catch (error3) {
-                // Option 4: পেইজ রিলোড
-                window.location.reload();
-            }
-        }
-    }
-}
-
-// ইভেন্ট লিসেনার আপডেট করুন
-document.addEventListener('DOMContentLoaded', function() {
-    const logoutButton = document.getElementById('logoutButton');
-    if (logoutButton) {
-        console.log('Adding updated click event to logout button');
-        
-        // পুরাতন ইভেন্ট লিসেনার মুছুন
-        logoutButton.removeEventListener('click', handleLogout);
-        
-        // নতুন ইভেন্ট লিসেনার যোগ করুন
-        logoutButton.addEventListener('click', handleLogout); // অথবা handleLogoutDirect
-    } else {
-        console.error('Logout button not found in the DOM');
-    }
-});
-
-// যদি ড্রপডাউন মেনু বন্ধ না হয়ে থাকে
-function closeDropdownAndLogout(e) {
-    e.preventDefault();
-    
-    // ড্রপডাউন বন্ধ করুন
-    const dropdownMenu = document.querySelector('.dropdown-menu1');
-    if (dropdownMenu) {
-        dropdownMenu.style.display = 'none';
-    }
-    
-    // লগআউট প্রসেস
-    handleLogout(e);
 }
 
 
