@@ -4875,7 +4875,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// লগআউট হ্যান্ডেল করার ফাংশন (Fixed)
+// লগআউট হ্যান্ডেল করার ফাংশন
 async function handleLogout(e) {
    e.preventDefault();
    console.log('Logout button clicked');
@@ -4924,249 +4924,11 @@ async function handleLogout(e) {
        // লগইন স্টেটাস আপডেট করুন
        checkLoginStatus();
        
-       // হোম পেইজে রিডাইরেক্ট করুন - এখানে সমস্যা ছিল
-       console.log('Redirecting to home page');
-       
-       // বিভিন্ন অপশন চেষ্টা করুন:
-       
-       // অপশন ১: বর্তমান পেইজ রিলোড করুন (সবচেয়ে সহজ)
-       setTimeout(() => {
-           window.location.reload();
-       }, 1000); // ১ সেকেন্ড পর রিলোড
-       
-       // অপশন ২: নির্দিষ্ট হোম পেইজে যান (file name সঠিক হলে)
-       // setTimeout(() => {
-       //     window.location.href = 'index.html'; // অথবা আপনার সঠিক হোম পেইজের নাম
-       // }, 1000);
-       
-       // অপশন ৩: Root directory তে যান
-       // setTimeout(() => {
-       //     window.location.href = '/';
-       // }, 1000);
-       
-       // অপশন ৪: History ব্যবহার করে পূর্বের পেইজে যান
-       // setTimeout(() => {
-       //     if (window.history.length > 1) {
-       //         window.history.back();
-       //     } else {
-       //         window.location.href = '/';
-       //     }
-       // }, 1000);
+       // পেজ রিলোড করুন (অপশনাল)
+       console.log('Reloading page');
+       window.location.href = 'Talimul Islam Academi.html';
    }
 }
-
-// আরো নিরাপদ রিডাইরেক্ট ফাংশন
-function redirectToHome() {
-    console.log('Attempting to redirect to home page');
-    
-    // বিভিন্ন হোম পেইজের সম্ভাব্য নাম চেক করুন
-    const possibleHomePages = [
-        'index.html',
-        'home.html', 
-        'main.html',
-        'Talimul-Islam-Academi.html', // space এর পরিবর্তে dash
-        '/', // root directory
-        '../index.html' // parent directory
-    ];
-    
-    // প্রথমে বর্তমান URL চেক করুন
-    const currentUrl = window.location.pathname;
-    console.log('Current URL:', currentUrl);
-    
-    // যদি ইতিমধ্যে হোম পেইজে থাকেন তাহলে শুধু রিলোড করুন
-    if (currentUrl === '/' || currentUrl.includes('index.html') || currentUrl.includes('home.html')) {
-        window.location.reload();
-        return;
-    }
-    
-    // অন্যথায় হোম পেইজে রিডাইরেক্ট করুন
-    try {
-        // সবচেয়ে নিরাপদ উপায় - root directory তে যান
-        window.location.href = window.location.origin;
-    } catch (error) {
-        console.error('Redirect error:', error);
-        // ব্যর্থ হলে পেইজ রিলোড করুন
-        window.location.reload();
-    }
-}
-
-// আপডেটেড handleLogout ফাংশন - আরো নিরাপদ
-async function handleLogoutSafe(e) {
-   e.preventDefault();
-   console.log('Logout button clicked');
-   
-   // লোডিং দেখান
-   showLoading();
-   
-   try {
-       const token = sessionStorage.getItem('authToken');
-       
-       if (token) {
-           console.log('Calling logout API');
-           try {
-               const response = await fetchWithTimeout(`${DB_API_URL}/logout`, {
-                   method: 'POST',
-                   headers: {
-                       'Content-Type': 'application/json',
-                       'Authorization': `Bearer ${token}`
-                   }
-               }, 5000); // 5 second timeout
-               
-               const data = await response.json();
-               
-               if (data.success) {
-                   console.log('Logout successful');
-                   showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
-               } else {
-                   console.error('Logout API returned error:', data.message);
-                   showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
-               }
-           } catch (apiError) {
-               console.error('Logout API call failed:', apiError);
-               showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
-           }
-       }
-       
-       // সেশন ক্লিয়ার করুন
-       sessionStorage.clear(); // সব সেশন ডেটা মুছে দিন
-       localStorage.removeItem('authToken'); // localStorage থেকেও মুছুন যদি থাকে
-       localStorage.removeItem('currentUser');
-       
-       // UI আপডেট করুন
-       const loginButton = document.getElementById('loginButton');
-       const profileDropdown = document.getElementById('profileDropdown');
-       
-       if (loginButton) loginButton.style.display = 'block';
-       if (profileDropdown) profileDropdown.style.display = 'none';
-       
-       // লোডিং বন্ধ করুন
-       hideLoading();
-       
-       // হোম পেইজে রিডাইরেক্ট করুন
-       setTimeout(() => {
-           redirectToHome();
-       }, 1500); // নোটিফিকেশন দেখার জন্য একটু সময় দিন
-       
-   } catch (error) {
-       console.error('Logout error:', error);
-       hideLoading();
-       
-       // এরর হলেও সেশন ক্লিয়ার করুন এবং রিডাইরেক্ট করুন
-       sessionStorage.clear();
-       setTimeout(() => {
-           redirectToHome();
-       }, 1000);
-   }
-}
-
-
-
-
-// আরো নিরাপদ রিডাইরেক্ট ফাংশন
-function redirectToHome() {
-    console.log('Attempting to redirect to home page');
-    
-    // বিভিন্ন হোম পেইজের সম্ভাব্য নাম চেক করুন
-    const possibleHomePages = [
-        'index.html',
-        'home.html', 
-        'main.html',
-        'Talimul-Islam-Academi.html', // space এর পরিবর্তে dash
-        '/', // root directory
-        '../index.html' // parent directory
-    ];
-    
-    // প্রথমে বর্তমান URL চেক করুন
-    const currentUrl = window.location.pathname;
-    console.log('Current URL:', currentUrl);
-    
-    // যদি ইতিমধ্যে হোম পেইজে থাকেন তাহলে শুধু রিলোড করুন
-    if (currentUrl === '/' || currentUrl.includes('index.html') || currentUrl.includes('home.html')) {
-        window.location.reload();
-        return;
-    }
-    
-    // অন্যথায় হোম পেইজে রিডাইরেক্ট করুন
-    try {
-        // সবচেয়ে নিরাপদ উপায় - root directory তে যান
-        window.location.href = window.location.origin;
-    } catch (error) {
-        console.error('Redirect error:', error);
-        // ব্যর্থ হলে পেইজ রিলোড করুন
-        window.location.reload();
-    }
-}
-
-// আপডেটেড handleLogout ফাংশন - আরো নিরাপদ
-async function handleLogoutSafe(e) {
-   e.preventDefault();
-   console.log('Logout button clicked');
-   
-   // লোডিং দেখান
-   showLoading();
-   
-   try {
-       const token = sessionStorage.getItem('authToken');
-       
-       if (token) {
-           console.log('Calling logout API');
-           try {
-               const response = await fetchWithTimeout(`${DB_API_URL}/logout`, {
-                   method: 'POST',
-                   headers: {
-                       'Content-Type': 'application/json',
-                       'Authorization': `Bearer ${token}`
-                   }
-               }, 5000); // 5 second timeout
-               
-               const data = await response.json();
-               
-               if (data.success) {
-                   console.log('Logout successful');
-                   showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
-               } else {
-                   console.error('Logout API returned error:', data.message);
-                   showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
-               }
-           } catch (apiError) {
-               console.error('Logout API call failed:', apiError);
-               showNotification('লগআউট প্রক্রিয়া সম্পন্ন হয়েছে।', 'success');
-           }
-       }
-       
-       // সেশন ক্লিয়ার করুন
-       sessionStorage.clear(); // সব সেশন ডেটা মুছে দিন
-       localStorage.removeItem('authToken'); // localStorage থেকেও মুছুন যদি থাকে
-       localStorage.removeItem('currentUser');
-       
-       // UI আপডেট করুন
-       const loginButton = document.getElementById('loginButton');
-       const profileDropdown = document.getElementById('profileDropdown');
-       
-       if (loginButton) loginButton.style.display = 'block';
-       if (profileDropdown) profileDropdown.style.display = 'none';
-       
-       // লোডিং বন্ধ করুন
-       hideLoading();
-       
-       // হোম পেইজে রিডাইরেক্ট করুন
-       setTimeout(() => {
-           redirectToHome();
-       }, 1500); // নোটিফিকেশন দেখার জন্য একটু সময় দিন
-       
-   } catch (error) {
-       console.error('Logout error:', error);
-       hideLoading();
-       
-       // এরর হলেও সেশন ক্লিয়ার করুন এবং রিডাইরেক্ট করুন
-       sessionStorage.clear();
-       setTimeout(() => {
-           redirectToHome();
-       }, 1000);
-   }
-}
-
-
 
 // স্টাইল যোগ করার ফাংশন
 function addProfileDropdownStyles() {
@@ -5371,7 +5133,58 @@ console.log('Profile dropdown script initialized');
 </script>
 
 
+<script>
+    // লগআউট ফাংশন
+document.addEventListener('DOMContentLoaded', function() {
+    // লগআউট বাটন খুঁজে নিন
+    const logoutButton = document.getElementById('logoutButton');
+    
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault(); // ডিফল্ট লিংক আচরণ বন্ধ করুন
+            
+            // কনফার্মেশন ডায়ালগ (ঐচ্ছিক)
+            const confirmLogout = confirm('আপনি কি সত্যিই লগআউট করতে চান?');
+            
+            if (confirmLogout) {
+                // localStorage/sessionStorage থেকে ডেটা ক্লিয়ার করুন (যদি থাকে)
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // কুকি ক্লিয়ার করুন (যদি থাকে)
+                document.cookie.split(";").forEach(function(c) { 
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+                });
+                
+                // সাফল্যের বার্তা
+                alert('সফলভাবে লগআউট হয়েছে!');
+                
+                // Talimul Islam Academi.html পেইজে রিডাইরেক্ট
+                window.location.href = 'Talimul Islam Academi.html';
+            }
+        });
+    }
+});
 
+// অথবা সরাসরি ফাংশন (উপরের কোডের বিকল্প)
+function logout() {
+    const confirmLogout = confirm('আপনি কি সত্যিই লগআউট করতে চান?');
+    
+    if (confirmLogout) {
+        // ডেটা ক্লিয়ার করুন
+        localStorage.clear();
+        sessionStorage.clear();
+        
+        // কুকি ক্লিয়ার করুন
+        document.cookie.split(";").forEach(function(c) { 
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+        });
+        
+        alert('সফলভাবে লগআউট হয়েছে!');
+        window.location.href = 'Talimul Islam Academi.html';
+    }
+}
+</script>
 
 
 

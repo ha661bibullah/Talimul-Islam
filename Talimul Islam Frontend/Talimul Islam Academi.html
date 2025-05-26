@@ -5786,7 +5786,58 @@ throw error;
 </script> 
 
 
+<script>
+    // লগআউট ফাংশন
+document.addEventListener('DOMContentLoaded', function() {
+    // লগআউট বাটন খুঁজে নিন
+    const logoutButton = document.getElementById('logoutButton');
+    
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function(e) {
+            e.preventDefault(); // ডিফল্ট লিংক আচরণ বন্ধ করুন
+            
+            // কনফার্মেশন ডায়ালগ (ঐচ্ছিক)
+            const confirmLogout = confirm('আপনি কি সত্যিই লগআউট করতে চান?');
+            
+            if (confirmLogout) {
+                // localStorage/sessionStorage থেকে ডেটা ক্লিয়ার করুন (যদি থাকে)
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // কুকি ক্লিয়ার করুন (যদি থাকে)
+                document.cookie.split(";").forEach(function(c) { 
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+                });
+                
+                // সাফল্যের বার্তা
+                alert('সফলভাবে লগআউট হয়েছে!');
+                
+                // Talimul Islam Academi.html পেইজে রিডাইরেক্ট
+                window.location.href = 'Talimul Islam Academi.html';
+            }
+        });
+    }
+});
 
+// অথবা সরাসরি ফাংশন (উপরের কোডের বিকল্প)
+function logout() {
+    const confirmLogout = confirm('আপনি কি সত্যিই লগআউট করতে চান?');
+    
+    if (confirmLogout) {
+        // ডেটা ক্লিয়ার করুন
+        localStorage.clear();
+        sessionStorage.clear();
+        
+        // কুকি ক্লিয়ার করুন
+        document.cookie.split(";").forEach(function(c) { 
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+        });
+        
+        alert('সফলভাবে লগআউট হয়েছে!');
+        window.location.href = 'Talimul Islam Academi.html';
+    }
+}
+</script>
 
 
 <!-- সংশোধন লডিং কমানোর জন্য -->
