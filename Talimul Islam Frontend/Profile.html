@@ -720,7 +720,7 @@
                         <div class="dropdown-menu1">
                             <a href="Profile.html" class="dropdown-item">প্রোফাইল</a>
                             <a href="AftarLoginInMyCours.html" class="dropdown-item">আমার কোর্স</a>
-                            <a href="Talimul Islam Academi.html" class="dropdown-item"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
+                            <a href="Talimul Islam Academi.html" class="dropdown-item" id="logoutButton"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
                         </div>
                     </div>
                 </div>
@@ -4314,62 +4314,7 @@ throw error;
         // CSS হোভার ইফেক্ট ব্যবহার করার জন্য JavaScript ক্লিক ইভেন্ট রিমুভ করুন
         // এখন শুধুমাত্র CSS :hover সিলেক্টর কাজ করবে
         
-        // লগআউট বাটন সেটআপ
-        const logoutButton = document.getElementById('logoutButton');
-        if (logoutButton) {
-            logoutButton.addEventListener('click', async function(e) {
-                e.preventDefault();
-                
-                try {
-                    const token = localStorage.getItem('authToken');
-                    
-                    if (token) {
-                        // দ্রুত লগআউট API কল (৩ সেকেন্ড টাইমআউট)
-                        const response = await fetchWithTimeout(`${DB_API_URL}/logout`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            }
-                        }, 3000);
-                        
-                        const data = await response.json();
-                        
-                        if (data.success) {
-                            // সফল লগআউট
-                            showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
-                        } else {
-                            showNotification(data.message || 'লগআউট করতে সমস্যা হয়েছে।', 'error');
-                        }
-                    }
-                } catch (error) {
-                    console.error('Logout error:', error);
-                } finally {
-                    // সেশন স্টোরেজ থেকে উসার ডেটা মুছুন
-                    localStorage.removeItem('authToken');
-                    localStorage.removeItem('currentUser');
-                    
-                    // ইন্টারভাল ক্লিয়ার করুন
-                    if (tokenRefreshInterval) {
-                        clearInterval(tokenRefreshInterval);
-                        tokenRefreshInterval = null;
-                    }
-                    
-                    // অ্যাক্টিভিটি ট্র্যাকিং বন্ধ করুন
-                    if (userActivityTimer) {
-                        clearTimeout(userActivityTimer);
-                    }
-                    
-                    // UI আপডেট করুন - দ্রুত
-                    const loginButton = document.getElementById('loginButton');
-                    const profileDropdown = document.getElementById('profileDropdown');
-                    
-                    if (loginButton) loginButton.style.display = 'block';
-                    if (profileDropdown) profileDropdown.style.display = 'none';
-                }
-            });
-        }
-        
+      
         // পেজ লোড হওয়ার সময় দেরি করে লগইন স্টেটাস চেক করুন (ব্যাকগ্রাউন্ডে)
         setTimeout(() => {
             checkLoginStatus();
@@ -4866,14 +4811,7 @@ document.addEventListener('DOMContentLoaded', function() {
    // লগইন স্টেটাস আপডেট করুন
    checkLoginStatus();
    
-   // লগআউট বাটন ইভেন্ট
-   const logoutButton = document.getElementById('logoutButton');
-   if (logoutButton) {
-       console.log('Adding click event to logout button');
-       logoutButton.addEventListener('click', handleLogout);
-   } else {
-       console.error('Logout button not found in the DOM');
-   }
+
 });
 
 
@@ -5368,24 +5306,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // ১০. Original logout button এর event listener কে replace করুন
-    setTimeout(function() {
-        const logoutButton = document.getElementById('logoutButton');
-        if (logoutButton) {
-            // পুরাতন event listeners সরান
-            const newLogoutButton = logoutButton.cloneNode(true);
-            logoutButton.parentNode.replaceChild(newLogoutButton, logoutButton);
-            
-            // নতুন event listener যোগ করুন
-            newLogoutButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                enhancedLogout();
-            });
-            
-            console.log('Logout button event updated for persistent login');
-        }
-    }, 1000);
-    
+
     // ১১. Initialize করুন
     disableAutoLogout();
     
@@ -8302,16 +8223,7 @@ const ProfileIconManager = {
         
         // Close dropdown when clicking outside
      
-        // Logout button handler
-        const logoutButton = document.getElementById('logoutButton');
-        if (logoutButton) {
-            logoutButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                console.log('Logout button clicked from profile icon manager');
-                this.handleLogout();
-            });
-        }
-    },
+ },
 
     // Toggle dropdown menu
  
