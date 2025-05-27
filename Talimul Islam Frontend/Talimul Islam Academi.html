@@ -6843,154 +6843,363 @@ async function handleLogout(e) {
 
 
 <script>
-    // ইমেইল রেজিস্ট্রেশন সমস্যা ডিবাগ করার জন্য স্ক্রিপ্ট
-
-// 1. নির্দিষ্ট ইমেইলগুলো চেক করার ফাংশন
-async function debugEmailCheck(email) {
-    console.log(`🔍 Checking email: ${email}`);
-    
-    try {
-        // ইমেইল ভ্যালিডেশন চেক
-        const isValidEmail = validateEmail(email);
-        console.log(`✅ Email validation: ${isValidEmail ? 'Valid' : 'Invalid'}`);
-        
-        if (!isValidEmail) {
-            console.log('❌ Email format is invalid');
-            return;
-        }
-        
-        // Database-এ ইমেইল আছে কিনা চেক
-        const checkResponse = await fetch(`${DB_API_URL}/check-email`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email })
-        });
-        
-        const checkData = await checkResponse.json();
-        console.log(`📧 Email exists in database: ${checkData.exists ? 'YES' : 'NO'}`);
-        
-        if (checkData.exists) {
-            console.log('❌ Email already registered');
-            return;
-        }
-        
-        // OTP পাঠানোর চেষ্টা
-        console.log('📤 Attempting to send OTP...');
-        const otpResponse = await fetch(`${API_URL}/api/send-otp`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email })
-        });
-        
-        const otpData = await otpResponse.json();
-        console.log(`📨 OTP send result:`, otpData);
-        
-        if (otpData.success) {
-            console.log('✅ OTP sent successfully');
-        } else {
-            console.log('❌ OTP sending failed:', otpData.message);
-        }
-        
-    } catch (error) {
-        console.error('🚫 Error during email check:', error);
-    }
-}
-
-// 2. সমস্যাযুক্ত ইমেইলগুলো চেক করুন
-async function checkProblematicEmails() {
-    const emails = [
+    // বিশেষ অনুমোদিত ইমেইল তালিকা
+    const ADMIN_EMAILS = [
         'billaharif661@gmail.com',
-        'arifhabib612@gmail.com',
-        'ha661bibullah@gmail.com'
+        'ha661bibullah@gmail.com', 
+        'arifhabib612@gmail.com'
     ];
-    
-    console.log('🔍 Starting email debug check...\n');
-    
-    for (const email of emails) {
-        await debugEmailCheck(email);
-        console.log('─'.repeat(50));
-    }
-}
 
-// 3. Database ক্লিন করার ফাংশন (যদি প্রয়োজন হয়)
-async function cleanupEmail(email) {
-    try {
-        const response = await fetch(`${DB_API_URL}/cleanup-email`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            },
-            body: JSON.stringify({ email })
+
+    // Email validation
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    // Check if email is in admin list
+    function isAdminEmail(email) {
+        return ADMIN_EMAILS.includes(email.toLowerCase().trim());
+    }
+
+    // Modified Email Check Handler for Admin Emails
+    function setupAdminEmailCheck() {
+        const emailCheckForm = document.getElementById('emailCheckForm');
+        if (!emailCheckForm) return;
+
+        // Remove existing event listeners and add new one
+        const newForm = emailCheckForm.cloneNode(true);
+        emailCheckForm.parentNode.replaceChild(newForm, emailCheckForm);
+
+        newForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Reset errors
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.classList.remove('show-error');
+            });
+            
+            const email = document.getElementById('checkEmail').value.trim().toLowerCase();
+            
+            // Quick validation
+            if (!email || !validateEmail(email)) {
+                showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+                return;
+            }
+
+            try {
+                showLoading();
+                currentEmail = email;
+                
+                const userEmailElement = document.getElementById('userEmail');
+                if (userEmailElement) {
+                    userEmailElement.textContent = email;
+                }
+
+                // Check if it's an admin email
+                if (isAdminEmail(email)) {
+                    console.log(`Admin email detected: ${email}`);
+                    
+                    // Skip email existence check for admin emails
+                    // Directly send OTP
+                    try {
+                        const otpResponse = await optimizedFetch(`${API_URL}/api/send-otp`, {
+                            method: 'POST',
+                            body: JSON.stringify({ email })
+                        });
+                        
+                        const otpData = await otpResponse.json();
+                        
+                        if (!otpData.success) {
+                            throw new Error(otpData.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                        }
+                        
+                        // Clear OTP inputs and start timer
+                        document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+                        startOTPTimer();
+                        toggleForm('otpVerification');
+                        
+                        showNotification('অ্যাডমিন ইমেইল চিহ্নিত হয়েছে। OTP পাঠানো হয়েছে।', 'success');
+                        
+                    } catch (error) {
+                        throw new Error('OTP পাঠাতে ত্রুটি হয়েছে');
+                    }
+                } else {
+                    // Regular process for non-admin emails
+                    const [checkResponse, otpResponse] = await Promise.allSettled([
+                        optimizedFetch(`${DB_API_URL}/check-email`, {
+                            method: 'POST',
+                            body: JSON.stringify({ email })
+                        }),
+                        optimizedFetch(`${API_URL}/api/send-otp`, {
+                            method: 'POST',
+                            body: JSON.stringify({ email })
+                        })
+                    ]);
+                    
+                    // Handle email check result
+                    if (checkResponse.status === 'fulfilled') {
+                        const checkData = await checkResponse.value.json();
+                        if (checkData.exists) {
+                            showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
+                            return;
+                        }
+                    }
+                    
+                    // Handle OTP sending result
+                    if (otpResponse.status === 'fulfilled') {
+                        const otpData = await otpResponse.value.json();
+                        if (!otpData.success) {
+                            throw new Error(otpData.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                        }
+                        
+                        // Clear OTP inputs and start timer
+                        document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+                        startOTPTimer();
+                        toggleForm('otpVerification');
+                    } else {
+                        throw new Error('OTP পাঠাতে ত্রুটি হয়েছে');
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+            } finally {
+                hideLoading();
+            }
         });
-        
-        const data = await response.json();
-        console.log(`🧹 Cleanup result for ${email}:`, data);
-        
-    } catch (error) {
-        console.error('🚫 Cleanup error:', error);
     }
-}
 
-// 4. Manual email check without API
-function manualEmailValidation(email) {
-    console.log(`🔍 Manual validation for: ${email}`);
-    
-    // Basic format check
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isBasicValid = emailRegex.test(email);
-    console.log(`📧 Basic format: ${isBasicValid ? 'Valid' : 'Invalid'}`);
-    
-    // Gmail specific check
-    const isGmail = email.toLowerCase().includes('@gmail.com');
-    console.log(`📬 Gmail account: ${isGmail ? 'Yes' : 'No'}`);
-    
-    // Length check
-    console.log(`📏 Email length: ${email.length} characters`);
-    
-    // Special characters check
-    const hasSpecialChars = /[!#$%&'*+/=?^`{|}~]/.test(email.split('@')[0]);
-    console.log(`🔤 Has special characters: ${hasSpecialChars ? 'Yes' : 'No'}`);
-    
-    return {
-        isValid: isBasicValid,
-        isGmail,
-        length: email.length,
-        hasSpecialChars
+    // Modified Registration Handler for Admin Emails
+    function setupAdminRegistration() {
+        const signupForm = document.getElementById('signupForm');
+        if (!signupForm) return;
+
+        // Remove existing event listeners and add new one
+        const newForm = signupForm.cloneNode(true);
+        signupForm.parentNode.replaceChild(newForm, signupForm);
+
+        newForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Clear errors
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.classList.remove('show-error');
+            });
+            
+            const formData = {
+                name: document.getElementById('signupName') ? document.getElementById('signupName').value.trim() : '',
+                password: document.getElementById('signupPassword') ? document.getElementById('signupPassword').value : '',
+                confirmPassword: document.getElementById('signupConfirmPassword') ? document.getElementById('signupConfirmPassword').value : ''
+            };
+            
+            // Validation
+            const validationErrors = [];
+            if (!formData.name) validationErrors.push(['signupNameError', 'নাম আবশ্যক']);
+            if (!formData.password || formData.password.length < 6) {
+                validationErrors.push(['signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে']);
+            }
+            if (formData.password !== formData.confirmPassword) {
+                validationErrors.push(['signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না']);
+            }
+            
+            if (validationErrors.length > 0) {
+                validationErrors.forEach(([id, message]) => showError(id, message));
+                return;
+            }
+            
+            try {
+                showLoading();
+                
+                const registrationData = {
+                    name: formData.name,
+                    email: currentEmail,
+                    password: formData.password
+                };
+
+                // Add admin flag if it's an admin email
+                if (isAdminEmail(currentEmail)) {
+                    registrationData.isAdmin = true;
+                    registrationData.adminEmail = true;
+                    console.log(`Admin registration for: ${currentEmail}`);
+                }
+                
+                const response = await optimizedFetch(`${DB_API_URL}/register`, {
+                    method: 'POST',
+                    body: JSON.stringify(registrationData)
+                }, 8000, 1);
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে');
+                }
+                
+                // Success handling
+                openModal();
+                newForm.reset();
+                
+                // Special message for admin registration
+                if (isAdminEmail(currentEmail)) {
+                    setTimeout(() => {
+                        showNotification('অ্যাডমিন অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!', 'success');
+                    }, 1000);
+                }
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                showNotification(error.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে।', 'error');
+            } finally {
+                hideLoading();
+            }
+        });
+    }
+
+    // Enhanced Login Handler for Admin Accounts
+    function setupAdminLogin() {
+        const loginForm = document.getElementById('loginForm');
+        if (!loginForm) return;
+
+        // Remove existing event listeners and add new one
+        const newForm = loginForm.cloneNode(true);
+        loginForm.parentNode.replaceChild(newForm, loginForm);
+
+        newForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Reset errors
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.classList.remove('show-error');
+            });
+            
+            const credentials = {
+                email: document.getElementById('loginEmail') ? document.getElementById('loginEmail').value.trim().toLowerCase() : '',
+                password: document.getElementById('loginPassword') ? document.getElementById('loginPassword').value : ''
+            };
+            
+            // Validation
+            const errors = [];
+            if (!credentials.email || !validateEmail(credentials.email)) {
+                errors.push(['loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন']);
+            }
+            if (!credentials.password) {
+                errors.push(['loginPasswordError', 'পাসওয়ার্ড আবশ্যক']);
+            }
+            
+            if (errors.length > 0) {
+                errors.forEach(([id, message]) => showError(id, message));
+                return;
+            }
+            
+            try {
+                showLoading();
+                
+                const response = await optimizedFetch(`${DB_API_URL}/login`, {
+                    method: 'POST',
+                    body: JSON.stringify(credentials)
+                }, 6000, 1);
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
+                }
+                
+                // Store authentication data
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('currentUser', JSON.stringify(data.user));
+                localStorage.setItem('loginTime', Date.now().toString());
+                
+                // Store admin status if applicable
+                if (isAdminEmail(credentials.email)) {
+                    localStorage.setItem('isAdminUser', 'true');
+                    console.log(`Admin login: ${credentials.email}`);
+                }
+                
+                // UI updates
+                const elementsToHide = ['.login-popup', '.blur-overlay'];
+                elementsToHide.forEach(selector => {
+                    const element = document.querySelector(selector);
+                    if (element) element.classList.remove('active');
+                });
+                
+                document.body.style.overflow = '';
+                
+                // Defer heavy operations
+                setTimeout(() => {
+                    if (typeof checkLoginStatus === 'function') {
+                        checkLoginStatus();
+                    }
+                }, 0);
+                
+                const welcomeMessage = isAdminEmail(credentials.email) 
+                    ? `অ্যাডমিন হিসেবে সফলভাবে লগইন! স্বাগতম ${data.user.name}` 
+                    : `সফলভাবে লগইন করা হয়েছে! স্বাগতম ${data.user.name}`;
+                
+                showNotification(welcomeMessage, 'success');
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                showNotification(error.message || 'ভুল ইমেইল বা পাসওয়ার্ড।', 'error');
+            } finally {
+                hideLoading();
+            }
+        });
+    }
+
+    // Admin Status Check Function
+    function checkAdminStatus() {
+        const currentUser = localStorage.getItem('currentUser');
+        const isAdminUser = localStorage.getItem('isAdminUser');
+        
+        if (currentUser && isAdminUser === 'true') {
+            const user = JSON.parse(currentUser);
+            if (isAdminEmail(user.email)) {
+                console.log('Admin user detected in session');
+                // You can add admin-specific UI elements here
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Initialize admin email functionality
+    function initializeAdminEmailSystem() {
+        console.log('Initializing Admin Email System...');
+        console.log('Admin emails configured:', ADMIN_EMAILS);
+        
+        // Setup admin-specific handlers
+        setupAdminEmailCheck();
+        setupAdminRegistration();
+        setupAdminLogin();
+        
+        // Check admin status on page load
+        setTimeout(() => {
+            checkAdminStatus();
+        }, 500);
+        
+        console.log('Admin Email System initialized successfully');
+    }
+
+    // Auto-initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeAdminEmailSystem);
+    } else {
+        initializeAdminEmailSystem();
+    }
+
+    // Re-initialize after form resets
+    document.addEventListener('formReset', initializeAdminEmailSystem);
+
+    // Export functions for external use
+    window.AdminEmailSystem = {
+        isAdminEmail,
+        checkAdminStatus,
+        ADMIN_EMAILS: [...ADMIN_EMAILS] // Copy to prevent modification
     };
-}
 
-// 5. Console থেকে চালানোর জন্য
-window.debugEmailRegistration = {
-    checkProblematicEmails,
-    debugEmailCheck,
-    cleanupEmail,
-    manualEmailValidation
-};
-
-// সমস্যা সমাধানের পদক্ষেপ
-console.log(`
-🔧 Email Registration Debug Steps:
-1. Browser Console-এ যান (F12)
-2. চালান: debugEmailRegistration.checkProblematicEmails()
-3. ফলাফল দেখুন এবং সমস্যা চিহ্নিত করুন
-
-📝 Common Solutions:
-- যদি "Email already exists" দেখায়, তাহলে database থেকে মুছুন
-- যদি OTP fail হয়, তাহলে OTP service চেক করুন  
-- যদি validation fail হয়, তাহলে email format চেক করুন
-`);
-
-// Auto-run check for the problematic emails
-setTimeout(() => {
-    if (typeof DB_API_URL !== 'undefined' && typeof API_URL !== 'undefined') {
-        checkProblematicEmails();
-    }
-}, 2000);
+    console.log('Admin Email Registration Script loaded successfully');
 </script>
 
 
