@@ -6253,57 +6253,126 @@ async function handleLogout(e) {
         }
     });
     
-    // OTP Verification Handler - Optimized
-    document.addEventListener('DOMContentLoaded', function() {
-        const otpVerificationForm = document.getElementById('otpVerificationForm');
-        if (otpVerificationForm) {
-            otpVerificationForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
+    // // OTP Verification Handler - Optimized
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const otpVerificationForm = document.getElementById('otpVerificationForm');
+    //     if (otpVerificationForm) {
+    //         otpVerificationForm.addEventListener('submit', async function(e) {
+    //             e.preventDefault();
                 
-                hideError('otpError');
+    //             hideError('otpError');
                 
-                // Get OTP efficiently
-                const otpInputs = ['otp1', 'otp2', 'otp3', 'otp4'];
-                const enteredOTP = otpInputs.map(id => {
-                    const element = document.getElementById(id);
-                    return element ? element.value : '';
-                }).join('');
+    //             // Get OTP efficiently
+    //             const otpInputs = ['otp1', 'otp2', 'otp3', 'otp4'];
+    //             const enteredOTP = otpInputs.map(id => {
+    //                 const element = document.getElementById(id);
+    //                 return element ? element.value : '';
+    //             }).join('');
                 
-                if (enteredOTP.length !== 4) {
-                    showError('otpError', 'অনুগ্রহ করে সম্পূর্ণ OTP দিন');
+    //             if (enteredOTP.length !== 4) {
+    //                 showError('otpError', 'অনুগ্রহ করে সম্পূর্ণ OTP দিন');
+    //                 return;
+    //             }
+                
+    //             try {
+    //                 showLoading();
+                    
+    //                 const response = await optimizedFetch(`${API_URL}/api/verify-otp`, {
+    //                     method: 'POST',
+    //                     body: JSON.stringify({ 
+    //                         email: currentEmail,
+    //                         otp: enteredOTP
+    //                     })
+    //                 }, 4000, 1);
+                    
+    //                 const data = await response.json();
+                    
+    //                 if (!data.success) {
+    //                     showError('otpError', data.message || 'অবৈধ OTP');
+    //                     return;
+    //                 }
+                    
+    //                 toggleForm('signup');
+                    
+    //             } catch (error) {
+    //                 console.error('Error:', error);
+    //                 showError('otpError', error.message || 'OTP যাচাই করতে ত্রুটি হয়েছে।');
+    //             } finally {
+    //                 hideLoading();
+    //             }
+    //         });
+    //     }
+    // });
+    // OTP Verification Handler - Fixed Version
+document.addEventListener('DOMContentLoaded', function() {
+    const otpVerificationForm = document.getElementById('otpVerificationForm');
+    if (otpVerificationForm) {
+        otpVerificationForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            hideError('otpError');
+            
+            // Get OTP efficiently
+            const otpInputs = ['otp1', 'otp2', 'otp3', 'otp4'];
+            const enteredOTP = otpInputs.map(id => {
+                const element = document.getElementById(id);
+                return element ? element.value : '';
+            }).join('');
+            
+            if (enteredOTP.length !== 4) {
+                showError('otpError', 'অনুগ্রহ করে সম্পূর্ণ OTP দিন');
+                return;
+            }
+            
+            try {
+                showLoading();
+                
+                const response = await optimizedFetch(`${API_URL}/api/verify-otp`, {
+                    method: 'POST',
+                    body: JSON.stringify({ 
+                        email: currentEmail,
+                        otp: enteredOTP
+                    })
+                }, 4000, 1);
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    // Check if it's specifically an invalid OTP error
+                    if (data.message && (
+                        data.message.includes('invalid') || 
+                        data.message.includes('wrong') || 
+                        data.message.includes('incorrect') ||
+                        data.message.includes('OTP') ||
+                        data.message.includes('অবৈধ')
+                    )) {
+                        showError('otpError', 'অবৈধ OTP');
+                    } else {
+                        showError('otpError', data.message || 'অবৈধ OTP');
+                    }
                     return;
                 }
                 
-                try {
-                    showLoading();
-                    
-                    const response = await optimizedFetch(`${API_URL}/api/verify-otp`, {
-                        method: 'POST',
-                        body: JSON.stringify({ 
-                            email: currentEmail,
-                            otp: enteredOTP
-                        })
-                    }, 4000, 1);
-                    
-                    const data = await response.json();
-                    
-                    if (!data.success) {
-                        showError('otpError', data.message || 'অবৈধ OTP');
-                        return;
-                    }
-                    
-                    toggleForm('signup');
-                    
-                } catch (error) {
-                    console.error('Error:', error);
-                    showError('otpError', error.message || 'OTP যাচাই করতে ত্রুটি হয়েছে।');
-                } finally {
-                    hideLoading();
+                toggleForm('signup');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // Better error handling for different types of errors
+                if (error.message.includes('টাইমআউট') || error.message.includes('timeout')) {
+                    showError('otpError', 'রিকোয়েস্ট টাইমআউট হয়েছে। আবার চেষ্টা করুন।');
+                } else if (error.message.includes('সংযোগ সমস্যা') || error.message.includes('network')) {
+                    showError('otpError', 'ইন্টারনেট সংযোগ চেক করুন।');
+                } else {
+                    // Default to invalid OTP for other errors during OTP verification
+                    showError('otpError', 'অবৈধ OTP');
                 }
-            });
-        }
-    });
-    
+            } finally {
+                hideLoading();
+            }
+        });
+    }
+});
     // Registration Handler - Optimized
     document.addEventListener('DOMContentLoaded', function() {
         const signupForm = document.getElementById('signupForm');
