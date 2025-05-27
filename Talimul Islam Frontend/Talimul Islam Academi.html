@@ -6362,7 +6362,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (error.message.includes('টাইমআউট') || error.message.includes('timeout')) {
                     showError('otpError', 'রিকোয়েস্ট টাইমআউট হয়েছে। আবার চেষ্টা করুন।');
                 } else if (error.message.includes('সংযোগ সমস্যা') || error.message.includes('network')) {
-                    showError('otpError', 'ইন্টারনেট সংযোগ চেক করুন।');
+                    showError('otpError', 'অবৈধ OTP');
                 } else {
                     // Default to invalid OTP for other errors during OTP verification
                     showError('otpError', 'অবৈধ OTP');
