@@ -5631,6 +5631,802 @@ throw error;
 
 
 
+<script>
+
+
+
+    // Optimized fetch with retry
+    const optimizedFetch = async (url, options, timeout = 8000, retries = 2) => {
+        for (let i = 0; i <= retries; i++) {
+            try {
+                const response = await fetchWithTimeout(url, options, timeout);
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                return response;
+            } catch (error) {
+                if (i === retries) {
+                    throw error;
+                }
+                // Wait before retry
+                await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+            }
+        }
+    };
+
+    // Toggle between forms
+    function toggleForm(formType) {
+        // Hide all sections and forms
+        const sections = ['loginSection', 'emailCheckSection', 'otpVerificationSection', 'signupSection'];
+        const forms = ['loginForm', 'emailCheckForm', 'otpVerificationForm', 'signupForm'];
+        
+        sections.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.style.display = 'none';
+        });
+        
+        forms.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.style.display = 'none';
+        });
+        
+        // Show the requested form
+        if (formType === 'login') {
+            const loginSection = document.getElementById('loginSection');
+            const loginForm = document.getElementById('loginForm');
+            if (loginSection) loginSection.style.display = 'block';
+            if (loginForm) loginForm.style.display = 'block';
+        } else if (formType === 'emailCheck') {
+            const emailSection = document.getElementById('emailCheckSection');
+            const emailForm = document.getElementById('emailCheckForm');
+            if (emailSection) emailSection.style.display = 'block';
+            if (emailForm) emailForm.style.display = 'block';
+        } else if (formType === 'otpVerification') {
+            const otpSection = document.getElementById('otpVerificationSection');
+            const otpForm = document.getElementById('otpVerificationForm');
+            if (otpSection) otpSection.style.display = 'block';
+            if (otpForm) otpForm.style.display = 'block';
+        } else if (formType === 'signup') {
+            const signupSection = document.getElementById('signupSection');
+            const signupForm = document.getElementById('signupForm');
+            if (signupSection) signupSection.style.display = 'block';
+            if (signupForm) signupForm.style.display = 'block';
+        }
+    }
+    
+    // Toggle password visibility
+    function togglePasswordVisibility(inputId, toggleId) {
+        const passwordInput = document.getElementById(inputId);
+        const toggleButton = document.getElementById(toggleId);
+        
+        if (passwordInput && toggleButton) {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = 'লুকান';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = 'দেখুন';
+            }
+        }
+    }
+    
+    // Start OTP timer
+    function startOTPTimer() {
+        let totalSeconds = 120; // 2 minutes
+        
+        clearInterval(otpTimer);
+        const resendButton = document.getElementById('resendOtp');
+        const timerElement = document.getElementById('timer');
+        
+        if (resendButton) resendButton.disabled = true;
+        
+        const updateTimer = () => {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            
+            if (timerElement) {
+                timerElement.textContent = 
+                    (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+                    (seconds < 10 ? '0' + seconds : seconds);
+            }
+        };
+        
+        updateTimer(); // Update immediately
+        
+        otpTimer = setInterval(function() {
+            totalSeconds--;
+            updateTimer();
+            
+            if (totalSeconds <= 0) {
+                clearInterval(otpTimer);
+                if (resendButton) resendButton.disabled = false;
+            }
+        }, 1000);
+    }
+    
+    // Loading functions
+    function createLoader() {
+        if (document.getElementById('pageLoader')) return;
+        
+        const loader = document.createElement('div');
+        loader.className = 'loader';
+        loader.id = 'pageLoader';
+        loader.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        `;
+        
+        const spinner = document.createElement('div');
+        spinner.className = 'spinner';
+        spinner.style.cssText = `
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        `;
+        
+        // Add spin animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        loader.appendChild(spinner);
+        document.body.appendChild(loader);
+    }
+    
+    function showLoading() {
+        createLoader();
+        const loader = document.getElementById('pageLoader');
+        if (loader) loader.style.display = 'flex';
+    }
+    
+    function hideLoading() {
+        const loader = document.getElementById('pageLoader');
+        if (loader) loader.style.display = 'none';
+    }
+    
+    // Show/Hide error functions
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.classList.add('show-error');
+        }
+    }
+    
+    function hideError(elementId) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.classList.remove('show-error');
+        }
+    }
+    
+    // Email validation
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    // Notification function
+    function showNotification(message, type = 'success') {
+        // Remove existing notification
+        const existingNotification = document.getElementById('customNotification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        // Create new notification
+        const notification = document.createElement('div');
+        notification.id = 'customNotification';
+        notification.className = `custom-notification ${type}`;
+        
+        notification.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-message">${message}</span>
+                <span class="notification-close">&times;</span>
+            </div>
+        `;
+        
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: ${type === 'success' ? '#4CAF50' : '#f44336'};
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 9999;
+            transition: all 0.3s ease;
+            opacity: 0;
+            max-width: 350px;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.opacity = '1';
+        }, 10);
+        
+        const closeButton = notification.querySelector('.notification-close');
+        if (closeButton) {
+            closeButton.style.cssText = `
+                margin-left: 15px;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 18px;
+            `;
+            
+            closeButton.addEventListener('click', function() {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            });
+        }
+        
+        // Auto close after 5 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 5000);
+    }
+    
+    // Modal functions
+    function openModal() {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+    
+    function closeModal() {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+        toggleForm('login');
+    }
+    
+    // Token and authentication functions
+    async function refreshToken() {
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) return false;
+            
+            const response = await fetchWithTimeout(`${DB_API_URL}/refresh-token`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }, 5000);
+            
+            const data = await response.json();
+            
+            if (data.success && data.token) {
+                localStorage.setItem('authToken', data.token);
+                if (data.user) {
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error('Token refresh error:', error);
+            return false;
+        }
+    }
+    
+    function setupTokenRefresh() {
+        tokenRefreshInterval = setInterval(async () => {
+            const isRefreshed = await refreshToken();
+            if (!isRefreshed) {
+                handleAutoLogout();
+            }
+        }, 15 * 60 * 1000); // 15 minutes
+    }
+    
+    function handleAutoLogout() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('currentUser');
+        
+        if (tokenRefreshInterval) {
+            clearInterval(tokenRefreshInterval);
+            tokenRefreshInterval = null;
+        }
+        
+        checkLoginStatus();
+        showNotification('আপনার সেশন শেষ হয়ে গেছে। আবার লগইন করুন।', 'error');
+    }
+    
+    async function checkLoginStatus() {
+        const token = localStorage.getItem('authToken');
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (token) {
+            try {
+                const response = await fetchWithTimeout(`${DB_API_URL}/validate-token`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }, 3000);
+                
+                const data = await response.json();
+                
+                if (data.valid) {
+                    if (loginButton) loginButton.style.display = 'none';
+                    if (profileDropdown) profileDropdown.style.display = 'block';
+                    
+                    if (data.user) {
+                        localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    }
+                    
+                    if (!tokenRefreshInterval) {
+                        setupTokenRefresh();
+                    }
+                    
+                    return true;
+                } else {
+                    handleAutoLogout();
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error validating token:', error);
+                handleAutoLogout();
+                return false;
+            }
+        } else {
+            if (loginButton) loginButton.style.display = 'block';
+            if (profileDropdown) profileDropdown.style.display = 'none';
+            
+            if (tokenRefreshInterval) {
+                clearInterval(tokenRefreshInterval);
+                tokenRefreshInterval = null;
+            }
+            
+            return false;
+        }
+    }
+    
+    function saveAuthToken(token, user) {
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        
+        setupTokenRefresh();
+        
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (loginButton) loginButton.style.display = 'none';
+        if (profileDropdown) profileDropdown.style.display = 'block';
+    }
+
+    // Main initialization when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize the page
+        toggleForm('login');
+        
+        // Set up OTP input fields
+        const otpInputs = document.querySelectorAll('.otp-digit');
+        
+        for (let i = 0; i < otpInputs.length; i++) {
+            otpInputs[i].addEventListener('input', function() {
+                if (this.value.length === 1) {
+                    if (i < otpInputs.length - 1) {
+                        otpInputs[i + 1].focus();
+                    }
+                }
+            });
+            
+            otpInputs[i].addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value.length === 0) {
+                    if (i > 0) {
+                        otpInputs[i - 1].focus();
+                    }
+                }
+            });
+        }
+        
+        // Login popup setup
+        const loginButton = document.querySelector('.login-button');
+        const loginPopup = document.querySelector('.login-popup');
+        const blurOverlay = document.querySelector('.blur-overlay');
+        const closeLogin = document.querySelector('.close-login');
+        
+        if (loginButton) {
+            loginButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (loginPopup) loginPopup.classList.add('active');
+                if (blurOverlay) blurOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        
+        if (closeLogin) {
+            closeLogin.addEventListener('click', function() {
+                if (loginPopup) loginPopup.classList.remove('active');
+                if (blurOverlay) blurOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        if (blurOverlay) {
+            blurOverlay.addEventListener('click', function() {
+                if (loginPopup) loginPopup.classList.remove('active');
+                if (blurOverlay) blurOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        // Email Check Form Handler
+        const emailCheckForm = document.getElementById('emailCheckForm');
+        if (emailCheckForm) {
+            emailCheckForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Clear errors
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
+                });
+                
+                const email = document.getElementById('checkEmail').value.trim();
+                
+                if (!email || !validateEmail(email)) {
+                    showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    currentEmail = email;
+                    
+                    const userEmailElement = document.getElementById('userEmail');
+                    if (userEmailElement) {
+                        userEmailElement.textContent = email;
+                    }
+                    
+                    // Check if email exists
+                    const checkResponse = await optimizedFetch(`${DB_API_URL}/check-email`, {
+                        method: 'POST',
+                        body: JSON.stringify({ email })
+                    });
+                    
+                    const checkData = await checkResponse.json();
+                    if (checkData.exists) {
+                        showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
+                        return;
+                    }
+                    
+                    // Send OTP
+                    const otpResponse = await optimizedFetch(`${API_URL}/api/send-otp`, {
+                        method: 'POST',
+                        body: JSON.stringify({ email })
+                    });
+                    
+                    const otpData = await otpResponse.json();
+                    if (!otpData.success) {
+                        throw new Error(otpData.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                    }
+                    
+                    // Clear OTP inputs and start timer
+                    document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+                    startOTPTimer();
+                    toggleForm('otpVerification');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+        
+        // Resend OTP Handler
+        const resendOtpButton = document.getElementById('resendOtp');
+        if (resendOtpButton) {
+            resendOtpButton.addEventListener('click', async function() {
+                if (this.disabled || !currentEmail) return;
+                
+                try {
+                    showLoading();
+                    this.disabled = true;
+                    
+                    const response = await optimizedFetch(`${API_URL}/api/send-otp`, {
+                        method: 'POST',
+                        body: JSON.stringify({ email: currentEmail })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                    }
+                    
+                    document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+                    startOTPTimer();
+                    showNotification('নতুন OTP পাঠানো হয়েছে।', 'success');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে।', 'error');
+                    this.disabled = false;
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+        
+        // OTP Verification Handler
+        const otpVerificationForm = document.getElementById('otpVerificationForm');
+        if (otpVerificationForm) {
+            otpVerificationForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                hideError('otpError');
+                
+                const otpInputs = ['otp1', 'otp2', 'otp3', 'otp4'];
+                const enteredOTP = otpInputs.map(id => {
+                    const element = document.getElementById(id);
+                    return element ? element.value : '';
+                }).join('');
+                
+                if (enteredOTP.length !== 4) {
+                    showError('otpError', 'অনুগ্রহ করে সম্পূর্ণ OTP দিন');
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    
+                    const response = await optimizedFetch(`${API_URL}/api/verify-otp`, {
+                        method: 'POST',
+                        body: JSON.stringify({ 
+                            email: currentEmail,
+                            otp: enteredOTP
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        showError('otpError', data.message || 'অবৈধ OTP');
+                        return;
+                    }
+                    
+                    toggleForm('signup');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('otpError', error.message || 'OTP যাচাই করতে ত্রুটি হয়েছে।');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+        
+        // Registration Handler
+        const signupForm = document.getElementById('signupForm');
+        if (signupForm) {
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
+                });
+                
+                const formData = {
+                    name: document.getElementById('signupName') ? document.getElementById('signupName').value.trim() : '',
+                    password: document.getElementById('signupPassword') ? document.getElementById('signupPassword').value : '',
+                    confirmPassword: document.getElementById('signupConfirmPassword') ? document.getElementById('signupConfirmPassword').value : ''
+                };
+                
+                // Validation
+                const validationErrors = [];
+                if (!formData.name) validationErrors.push(['signupNameError', 'নাম আবশ্যক']);
+                if (!formData.password || formData.password.length < 6) {
+                    validationErrors.push(['signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে']);
+                }
+                if (formData.password !== formData.confirmPassword) {
+                    validationErrors.push(['signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না']);
+                }
+                
+                if (validationErrors.length > 0) {
+                    validationErrors.forEach(([id, message]) => showError(id, message));
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    
+                    const response = await optimizedFetch(`${DB_API_URL}/register`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            name: formData.name,
+                            email: currentEmail,
+                            password: formData.password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে');
+                    }
+                    
+                    openModal();
+                    signupForm.reset();
+                    
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    showNotification(error.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে।', 'error');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+        
+        // Login Handler
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
+                });
+                
+                const credentials = {
+                    email: document.getElementById('loginEmail') ? document.getElementById('loginEmail').value.trim() : '',
+                    password: document.getElementById('loginPassword') ? document.getElementById('loginPassword').value : ''
+                };
+                
+                // Validation
+                const errors = [];
+                if (!credentials.email || !validateEmail(credentials.email)) {
+                    errors.push(['loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন']);
+                }
+                if (!credentials.password) {
+                    errors.push(['loginPasswordError', 'পাসওয়ার্ড আবশ্যক']);
+                }
+                
+                if (errors.length > 0) {
+                    errors.forEach(([id, message]) => showError(id, message));
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    
+                    const response = await optimizedFetch(`${DB_API_URL}/login`, {
+                        method: 'POST',
+                        body: JSON.stringify(credentials)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
+                    }
+                    
+                    // Store authentication data
+                    saveAuthToken(data.token, data.user);
+                    
+                    // Close popup
+                    const elementsToHide = ['.login-popup', '.blur-overlay'];
+                    elementsToHide.forEach(selector => {
+                        const element = document.querySelector(selector);
+                        if (element) element.classList.remove('active');
+                    });
+                    
+                    document.body.style.overflow = '';
+                    
+                    showNotification(`স্বাগতম ${data.user.name}! সফলভাবে লগইন করা হয়েছে।`, 'success');
+                    
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showNotification(error.message || 'ভুল ইমেইল বা পাসওয়ার্ড।', 'error');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+        
+        // Logout Handler
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                try {
+                    const token = localStorage.getItem('authToken');
+                    
+                    if (token) {
+                        const response = await fetchWithTimeout(`${DB_API_URL}/logout`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        }, 3000);
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            showNotification(data.message || 'আপনি সফলভাবে লগআউট করেছেন।', 'success');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Logout error:', error);
+                } finally {
+                    // Clean up storage
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('currentUser');
+                    
+                    if (tokenRefreshInterval) {
+                        clearInterval(tokenRefreshInterval);
+                        tokenRefreshInterval = null;
+                    }
+                    
+                    checkLoginStatus();
+                }
+            });
+        }
+        
+        // Modal close handler
+        const closeModalBtn = document.getElementById('closeModal');
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeModal);
+        }
+        
+        // Check login status on page load
+        setTimeout(() => {
+            checkLoginStatus();
+        }, 1000);
+        
+        // Page visibility change handler
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                setTimeout(() => {
+                    checkLoginStatus();
+                }, 500);
+            }
+        });
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (tokenRefreshInterval) {
+                clearInterval(tokenRefreshInterval);
+            }
+            if (otpTimer) {
+                clearInterval(otpTimer);
+            }
+        });
+    });
+</script>
+
 
 
 
@@ -6174,7 +6970,7 @@ async function handleLogout(e) {
     });
 </script> -->
 <!-- এটিকে সংশোধন করা হয়েছে -->
-<script>
+<!-- <script>
     // Optimized fetch with retry mechanism
     const optimizedFetch = async (url, options, timeout = 5000, retries = 1) => {
         const controller = new AbortController();
@@ -6833,7 +7629,7 @@ async function handleLogout(e) {
             setTimeout(checkLoginStatus, 50);
         }
     });
-</script>
+</script> -->
 
 
 
