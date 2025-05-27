@@ -6843,6 +6843,515 @@ async function handleLogout(e) {
 
 
 
+<script>
+    // Email Unblock Management System
+    // এই স্ক্রিপ্টটি ব্লক হওয়া ইমেইলগুলো আনব্লক করার জন্য ব্যবহৃত হবে
+    
+    // ব্লক হওয়া ইমেইলের তালিকা
+    const BLOCKED_EMAILS = [
+        'billaharif661@gmail.com',
+        'arifhabib612@gmail.com',
+        'ha661bibullah@gmail.com'
+    ];
+    
+    // Admin/Developer email for verification
+    const ADMIN_EMAIL = 'admin@talimul-islam.com'; // এটি আপনার admin email দিয়ে পরিবর্তন করুন
+    
+    // Unblock করার জন্য অপ্টিমাইজড fetch function
+    const unblockFetch = async (url, options, timeout = 8000) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
+        
+        try {
+            const response = await fetch(url, {
+                ...options,
+                signal: controller.signal,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Admin-Request': 'true', // Special header for admin requests
+                    ...options.headers
+                }
+            });
+            clearTimeout(timeoutId);
+            return response;
+        } catch (error) {
+            clearTimeout(timeoutId);
+            if (error.name === 'AbortError') {
+                throw new Error('রিকোয়েস্ট টাইমআউট হয়েছে');
+            }
+            throw error;
+        }
+    };
+    
+    // ইমেইল আনব্লক করার মূল ফাংশন
+    async function unblockEmail(email) {
+        try {
+            console.log(`Attempting to unblock email: ${email}`);
+            
+            // Step 1: Database থেকে ইমেইল status check এবং update
+            const dbResponse = await unblockFetch(`${DB_API_URL}/admin/unblock-email`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: email,
+                    adminEmail: ADMIN_EMAIL,
+                    action: 'unblock',
+                    reason: 'Manual unblock request',
+                    timestamp: new Date().toISOString()
+                })
+            });
+            
+            const dbData = await dbResponse.json();
+            
+            if (!dbData.success) {
+                throw new Error(`DB Unblock failed: ${dbData.message}`);
+            }
+            
+            console.log(`Database unblock successful for: ${email}`);
+            
+            // Step 2: Email service থেকে block list remove
+            const emailServiceResponse = await unblockFetch(`${API_URL}/api/admin/remove-from-blocklist`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: email,
+                    adminKey: 'TALIMUL_ISLAM_ADMIN_2024', // Admin key
+                    service: 'gmail',
+                    unblockReason: 'Administrative action'
+                })
+            });
+            
+            const emailData = await emailServiceResponse.json();
+            
+            if (!emailData.success) {
+                console.warn(`Email service unblock warning for ${email}: ${emailData.message}`);
+            }
+            
+            // Step 3: Reset failed login attempts
+            await resetFailedAttempts(email);
+            
+            // Step 4: Clear any temporary bans
+            await clearTemporaryBans(email);
+            
+            return {
+                success: true,
+                email: email,
+                message: 'Email successfully unblocked',
+                timestamp: new Date().toISOString()
+            };
+            
+        } catch (error) {
+            console.error(`Error unblocking ${email}:`, error);
+            return {
+                success: false,
+                email: email,
+                error: error.message,
+                timestamp: new Date().toISOString()
+            };
+        }
+    }
+    
+    // Failed login attempts reset করার ফাংশন
+    async function resetFailedAttempts(email) {
+        try {
+            const response = await unblockFetch(`${DB_API_URL}/admin/reset-failed-attempts`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: email,
+                    adminEmail: ADMIN_EMAIL
+                })
+            });
+            
+            const data = await response.json();
+            console.log(`Failed attempts reset for ${email}:`, data.success);
+            
+        } catch (error) {
+            console.warn(`Failed to reset attempts for ${email}:`, error.message);
+        }
+    }
+    
+    // Temporary bans clear করার ফাংশন
+    async function clearTemporaryBans(email) {
+        try {
+            const response = await unblockFetch(`${DB_API_URL}/admin/clear-temp-bans`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: email,
+                    adminEmail: ADMIN_EMAIL,
+                    clearAll: true
+                })
+            });
+            
+            const data = await response.json();
+            console.log(`Temporary bans cleared for ${email}:`, data.success);
+            
+        } catch (error) {
+            console.warn(`Failed to clear temp bans for ${email}:`, error.message);
+        }
+    }
+    
+    // সমস্ত ব্লক ইমেইল আনব্লক করার ফাংশন
+    async function unblockAllEmails() {
+        console.log('Starting bulk email unblock process...');
+        
+        const results = [];
+        const batchSize = 1; // এক সময়ে একটি করে process করুন
+        
+        for (let i = 0; i < BLOCKED_EMAILS.length; i += batchSize) {
+            const batch = BLOCKED_EMAILS.slice(i, i + batchSize);
+            
+            console.log(`Processing batch ${Math.floor(i/batchSize) + 1}/${Math.ceil(BLOCKED_EMAILS.length/batchSize)}`);
+            
+            const batchPromises = batch.map(email => unblockEmail(email));
+            const batchResults = await Promise.allSettled(batchPromises);
+            
+            batchResults.forEach((result, index) => {
+                if (result.status === 'fulfilled') {
+                    results.push(result.value);
+                } else {
+                    results.push({
+                        success: false,
+                        email: batch[index],
+                        error: result.reason?.message || 'Unknown error',
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            });
+            
+            // Batch এর মধ্যে delay যোগ করুন
+            if (i + batchSize < BLOCKED_EMAILS.length) {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+        }
+        
+        return results;
+    }
+    
+    // Email status check করার ফাংশন
+    async function checkEmailStatus(email) {
+        try {
+            const response = await unblockFetch(`${DB_API_URL}/check-email-status`, {
+                method: 'POST',
+                body: JSON.stringify({ email: email })
+            });
+            
+            const data = await response.json();
+            return {
+                email: email,
+                status: data.status || 'unknown',
+                blocked: data.blocked || false,
+                lastActivity: data.lastActivity || null,
+                failedAttempts: data.failedAttempts || 0
+            };
+            
+        } catch (error) {
+            console.error(`Error checking status for ${email}:`, error);
+            return {
+                email: email,
+                status: 'error',
+                error: error.message
+            };
+        }
+    }
+    
+    // Whitelist এ add করার ফাংশন
+    async function addToWhitelist(email) {
+        try {
+            const response = await unblockFetch(`${DB_API_URL}/admin/add-to-whitelist`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: email,
+                    adminEmail: ADMIN_EMAIL,
+                    whitelistReason: 'Admin approved email',
+                    priority: 'high'
+                })
+            });
+            
+            const data = await response.json();
+            return data.success;
+            
+        } catch (error) {
+            console.error(`Error adding ${email} to whitelist:`, error);
+            return false;
+        }
+    }
+    
+    // Notification system
+    function showUnblockNotification(message, type = 'success') {
+        // Remove existing notification
+        const existingNotification = document.getElementById('unblockNotification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        // Create new notification
+        const notification = document.createElement('div');
+        notification.id = 'unblockNotification';
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: ${type === 'success' ? '#4CAF50' : type === 'warning' ? '#ff9800' : '#f44336'};
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            font-weight: bold;
+            text-align: center;
+            min-width: 300px;
+            transition: all 0.3s ease;
+            opacity: 0;
+        `;
+        
+        notification.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <span>${message}</span>
+                <span style="margin-left: 15px; cursor: pointer; font-size: 18px;" onclick="this.parentElement.parentElement.remove()">&times;</span>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Fade in
+        setTimeout(() => {
+            notification.style.opacity = '1';
+        }, 10);
+        
+        // Auto remove after 8 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 300);
+        }, 8000);
+    }
+    
+    // Progress tracker
+    function createProgressTracker() {
+        const progressDiv = document.createElement('div');
+        progressDiv.id = 'unblockProgress';
+        progressDiv.style.cssText = `
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            z-index: 10001;
+            min-width: 400px;
+            text-align: center;
+            border: 2px solid #4CAF50;
+        `;
+        
+        progressDiv.innerHTML = `
+            <h3 style="margin: 0 0 15px 0; color: #333;">Email Unblock Progress</h3>
+            <div id="progressBar" style="width: 100%; height: 20px; background-color: #f0f0f0; border-radius: 10px; overflow: hidden; margin-bottom: 15px;">
+                <div id="progressFill" style="height: 100%; background-color: #4CAF50; width: 0%; transition: width 0.3s ease;"></div>
+            </div>
+            <div id="progressText" style="color: #666;">Starting process...</div>
+            <div id="progressDetails" style="margin-top: 10px; font-size: 12px; color: #888;"></div>
+        `;
+        
+        document.body.appendChild(progressDiv);
+        return progressDiv;
+    }
+    
+    // Main execution function
+    async function executeEmailUnblock() {
+        console.log('=== Email Unblock Process Started ===');
+        
+        showUnblockNotification('Email unblock process শুরু হচ্ছে...', 'info');
+        
+        const progressTracker = createProgressTracker();
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const progressDetails = document.getElementById('progressDetails');
+        
+        try {
+            // Step 1: Check current status
+            progressText.textContent = 'Checking current email status...';
+            progressDetails.textContent = 'Verifying blocked emails';
+            progressFill.style.width = '10%';
+            
+            const statusChecks = await Promise.allSettled(
+                BLOCKED_EMAILS.map(email => checkEmailStatus(email))
+            );
+            
+            console.log('Current email statuses:', statusChecks);
+            
+            // Step 2: Start unblocking process
+            progressText.textContent = 'Starting unblock process...';
+            progressDetails.textContent = 'Processing blocked emails';
+            progressFill.style.width = '25%';
+            
+            const unblockResults = await unblockAllEmails();
+            
+            // Step 3: Add to whitelist
+            progressText.textContent = 'Adding emails to whitelist...';
+            progressDetails.textContent = 'Ensuring future access';
+            progressFill.style.width = '75%';
+            
+            const whitelistPromises = BLOCKED_EMAILS.map(email => addToWhitelist(email));
+            const whitelistResults = await Promise.allSettled(whitelistPromises);
+            
+            // Step 4: Final verification
+            progressText.textContent = 'Verifying unblock status...';
+            progressDetails.textContent = 'Final checks';
+            progressFill.style.width = '90%';
+            
+            const finalStatusChecks = await Promise.allSettled(
+                BLOCKED_EMAILS.map(email => checkEmailStatus(email))
+            );
+            
+            progressFill.style.width = '100%';
+            progressText.textContent = 'Process completed!';
+            progressDetails.textContent = 'All operations finished';
+            
+            // Generate report
+            const successCount = unblockResults.filter(r => r.success).length;
+            const totalCount = BLOCKED_EMAILS.length;
+            
+            console.log('=== Email Unblock Results ===');
+            console.log(`Successfully unblocked: ${successCount}/${totalCount} emails`);
+            console.log('Detailed results:', unblockResults);
+            
+            if (successCount === totalCount) {
+                showUnblockNotification(`✅ সফলভাবে ${successCount}টি ইমেইল আনব্লক করা হয়েছে!`, 'success');
+            } else {
+                showUnblockNotification(`⚠️ ${successCount}/${totalCount} ইমেইল আনব্লক হয়েছে। কিছু সমস্যা হয়েছে।`, 'warning');
+            }
+            
+            // Remove progress tracker after delay
+            setTimeout(() => {
+                progressTracker.remove();
+            }, 3000);
+            
+            return {
+                success: true,
+                totalProcessed: totalCount,
+                successfullyUnblocked: successCount,
+                results: unblockResults,
+                finalStatuses: finalStatusChecks
+            };
+            
+        } catch (error) {
+            console.error('Email unblock process failed:', error);
+            
+            progressText.textContent = 'Process failed!';
+            progressDetails.textContent = error.message;
+            progressFill.style.backgroundColor = '#f44336';
+            
+            showUnblockNotification(`❌ Process failed: ${error.message}`, 'error');
+            
+            setTimeout(() => {
+                progressTracker.remove();
+            }, 5000);
+            
+            return {
+                success: false,
+                error: error.message
+            };
+        }
+    }
+    
+    // Manual individual email unblock function
+    async function unblockSingleEmail(email) {
+        if (!BLOCKED_EMAILS.includes(email)) {
+            showUnblockNotification(`${email} is not in the blocked list`, 'warning');
+            return;
+        }
+        
+        showUnblockNotification(`Processing ${email}...`, 'info');
+        
+        try {
+            const result = await unblockEmail(email);
+            
+            if (result.success) {
+                showUnblockNotification(`✅ ${email} successfully unblocked!`, 'success');
+                
+                // Add to whitelist
+                await addToWhitelist(email);
+                
+            } else {
+                showUnblockNotification(`❌ Failed to unblock ${email}: ${result.error}`, 'error');
+            }
+            
+            return result;
+            
+        } catch (error) {
+            showUnblockNotification(`❌ Error processing ${email}: ${error.message}`, 'error');
+            return { success: false, email: email, error: error.message };
+        }
+    }
+    
+    // Console commands for manual control
+    window.emailUnblockManager = {
+        // Unblock all emails
+        unblockAll: executeEmailUnblock,
+        
+        // Unblock single email
+        unblockSingle: unblockSingleEmail,
+        
+        // Check status of all emails
+        checkAllStatus: async function() {
+            const results = await Promise.allSettled(
+                BLOCKED_EMAILS.map(email => checkEmailStatus(email))
+            );
+            console.table(results.map(r => r.status === 'fulfilled' ? r.value : { email: 'error', status: 'failed' }));
+            return results;
+        },
+        
+        // Get blocked emails list
+        getBlockedEmails: () => BLOCKED_EMAILS,
+        
+        // Force whitelist all
+        whitelistAll: async function() {
+            const results = await Promise.allSettled(
+                BLOCKED_EMAILS.map(email => addToWhitelist(email))
+            );
+            console.log('Whitelist results:', results);
+            showUnblockNotification('All emails added to whitelist', 'success');
+            return results;
+        }
+    };
+    
+    // Auto-start when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Email Unblock System Loaded');
+        console.log('Available commands in console:');
+        console.log('- emailUnblockManager.unblockAll() - Unblock all emails');
+        console.log('- emailUnblockManager.unblockSingle("email") - Unblock single email');
+        console.log('- emailUnblockManager.checkAllStatus() - Check all email statuses');
+        console.log('- emailUnblockManager.whitelistAll() - Add all to whitelist');
+        
+        // Show ready notification
+        setTimeout(() => {
+            showUnblockNotification('📧 Email Unblock System Ready! Open console for commands.', 'info');
+        }, 1000);
+        
+        // Optional: Auto-start the unblock process
+        // Uncomment the next line if you want it to start automatically
+        // setTimeout(executeEmailUnblock, 3000);
+    });
+    
+    // Keyboard shortcut to start the process
+    document.addEventListener('keydown', function(e) {
+        // Ctrl + Shift + U to start unblock process
+        if (e.ctrlKey && e.shiftKey && e.key === 'U') {
+            e.preventDefault();
+            executeEmailUnblock();
+        }
+    });
+    
+    console.log('Email Unblock Management System Initialized');
+    console.log('Blocked Emails:', BLOCKED_EMAILS);
+    console.log('Use Ctrl+Shift+U to start the unblock process');
+</script>
+
 
 
 
