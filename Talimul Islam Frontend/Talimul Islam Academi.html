@@ -6886,7 +6886,7 @@ async function handleLogout(e) {
         return re.test(email);
     }
 
-    // Show/Hide Loading Functions
+    // Show/Hide Loading Functions (Assuming these exist from first script)
     function showLoading() {
         if (!document.getElementById('pageLoader')) {
             createLoader();
@@ -7065,7 +7065,7 @@ async function handleLogout(e) {
         toggleForm('login');
     }
 
-    // Email Check Form Handler - Optimized
+    // Email Check Form Handler - Fixed for server compatibility
     document.addEventListener('DOMContentLoaded', function() {
         const emailCheckForm = document.getElementById('emailCheckForm');
         if (emailCheckForm) {
@@ -7094,27 +7094,16 @@ async function handleLogout(e) {
                         userEmailElement.textContent = email;
                     }
                     
-                    // Check if email already exists
-                    const checkResponse = await optimizedFetch(`${DB_API_URL}/check-email`, {
+                    // Send OTP - সার্ভারের endpoint অনুযায়ী ঠিক করা হয়েছে
+                    const response = await optimizedFetch(`${API_URL}/api/send-otp`, {
                         method: 'POST',
                         body: JSON.stringify({ email })
                     });
                     
-                    const checkData = await checkResponse.json();
-                    if (checkData.exists) {
-                        showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
-                        return;
-                    }
+                    const data = await response.json();
                     
-                    // If email doesn't exist, send OTP
-                    const otpResponse = await optimizedFetch(`${API_URL}/api/send-otp`, {
-                        method: 'POST',
-                        body: JSON.stringify({ email })
-                    });
-                    
-                    const otpData = await otpResponse.json();
-                    if (!otpData.success) {
-                        throw new Error(otpData.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                    if (!data.success) {
+                        throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
                     }
                     
                     // Clear OTP inputs and start timer
@@ -7132,7 +7121,7 @@ async function handleLogout(e) {
         }
     });
     
-    // Resend OTP Handler - Optimized
+    // Resend OTP Handler - Fixed for server compatibility
     document.addEventListener('DOMContentLoaded', function() {
         const resendOtpButton = document.getElementById('resendOtp');
         if (resendOtpButton) {
@@ -7170,7 +7159,7 @@ async function handleLogout(e) {
         }
     });
     
-    // OTP Verification Handler - Optimized
+    // OTP Verification Handler - Fixed for server compatibility
     document.addEventListener('DOMContentLoaded', function() {
         const otpVerificationForm = document.getElementById('otpVerificationForm');
         if (otpVerificationForm) {
@@ -7221,7 +7210,7 @@ async function handleLogout(e) {
         }
     });
     
-    // Registration Handler - Optimized
+    // Registration Handler - Fixed for server compatibility
     document.addEventListener('DOMContentLoaded', function() {
         const signupForm = document.getElementById('signupForm');
         if (signupForm) {
@@ -7257,7 +7246,8 @@ async function handleLogout(e) {
                 try {
                     showLoading();
                     
-                    const response = await optimizedFetch(`${DB_API_URL}/register`, {
+                    // সার্ভারের endpoint অনুযায়ী ঠিক করা হয়েছে
+                    const response = await optimizedFetch(`${API_URL}/api/register`, {
                         method: 'POST',
                         body: JSON.stringify({
                             name: formData.name,
@@ -7286,14 +7276,14 @@ async function handleLogout(e) {
         }
     });
     
-    // Login Handler - FIXED VERSION
+    // Login Handler - Fixed for server compatibility
     document.addEventListener('DOMContentLoaded', function() {
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
             loginForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
-                // Clear previous errors
+                // Quick error reset
                 document.querySelectorAll('.error-message').forEach(el => {
                     el.classList.remove('show-error');
                 });
@@ -7303,7 +7293,7 @@ async function handleLogout(e) {
                     password: document.getElementById('loginPassword') ? document.getElementById('loginPassword').value : ''
                 };
                 
-                // Basic validation
+                // Fast validation
                 const errors = [];
                 if (!credentials.email || !validateEmail(credentials.email)) {
                     errors.push(['loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন']);
@@ -7320,8 +7310,8 @@ async function handleLogout(e) {
                 try {
                     showLoading();
                     
-                    // Direct login attempt - NO email check here
-                    const response = await optimizedFetch(`${DB_API_URL}/login`, {
+                    // সার্ভারের endpoint অনুযায়ী ঠিক করা হয়েছে
+                    const response = await optimizedFetch(`${API_URL}/api/login`, {
                         method: 'POST',
                         body: JSON.stringify(credentials)
                     }, 5000, 1);
@@ -7329,23 +7319,14 @@ async function handleLogout(e) {
                     const data = await response.json();
                     
                     if (!data.success) {
-                        // Show appropriate error message
-                        if (data.message && data.message.includes('ইমেইল')) {
-                            showError('loginEmailError', 'এই ইমেইল দিয়ে কোনো একাউন্ট নেই');
-                        } else if (data.message && data.message.includes('পাসওয়ার্ড')) {
-                            showError('loginPasswordError', 'ভুল পাসওয়ার্ড');
-                        } else {
-                            showNotification(data.message || 'ভুল ইমেইল বা পাসওয়ার্ড।', 'error');
-                        }
-                        return;
+                        throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
                     }
                     
-                    // Successful login
-                    localStorage.setItem('authToken', data.token);
+                    // Store authentication data - সার্ভারের response অনুযায়ী ঠিক করা
                     localStorage.setItem('currentUser', JSON.stringify(data.user));
                     localStorage.setItem('loginTime', Date.now().toString());
                     
-                    // Hide login popup
+                    // Quick UI updates
                     const elementsToHide = ['.login-popup', '.blur-overlay'];
                     elementsToHide.forEach(selector => {
                         const element = document.querySelector(selector);
@@ -7354,7 +7335,7 @@ async function handleLogout(e) {
                     
                     document.body.style.overflow = '';
                     
-                    // Update UI
+                    // Defer heavy operations
                     setTimeout(() => {
                         checkLoginStatus();
                     }, 0);
@@ -7363,7 +7344,7 @@ async function handleLogout(e) {
                     
                 } catch (error) {
                     console.error('Login error:', error);
-                    showNotification(error.message || 'লগইন করতে সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+                    showNotification(error.message || 'ভুল ইমেইল বা পাসওয়ার্ড।', 'error');
                 } finally {
                     hideLoading();
                 }
@@ -7371,22 +7352,22 @@ async function handleLogout(e) {
         }
     });
 
-    // Login Status Check Function
+    // Login Status Check Function - Fixed for server compatibility
     async function checkLoginStatus() {
-        const token = localStorage.getItem('authToken');
+        const currentUser = localStorage.getItem('currentUser');
         const loginButton = document.getElementById('loginButton');
         const profileDropdown = document.getElementById('profileDropdown');
         
         if (!loginButton || !profileDropdown) return false;
         
-        if (token && !isLoginExpired()) {
+        if (currentUser && !isLoginExpired()) {
             loginButton.style.display = 'none';
             profileDropdown.style.display = 'block';
             return true;
         } else {
-            if (token && isLoginExpired()) {
+            if (currentUser && isLoginExpired()) {
                 // Quick cleanup for expired sessions
-                ['authToken', 'currentUser', 'loginTime'].forEach(key => {
+                ['currentUser', 'loginTime'].forEach(key => {
                     localStorage.removeItem(key);
                 });
             }
@@ -7405,28 +7386,18 @@ async function handleLogout(e) {
         return timeDiff > (24 * 60 * 60 * 1000); // 24 hours
     }
 
-    // Logout handler
+    // Logout handler - Fixed for server compatibility
     async function handleLogout(e) {
         if (e) e.preventDefault();
         
         try {
-            const token = localStorage.getItem('authToken');
-            
             // Quick cleanup first
-            ['authToken', 'currentUser', 'loginTime'].forEach(key => {
+            ['currentUser', 'loginTime'].forEach(key => {
                 localStorage.removeItem(key);
             });
             
             checkLoginStatus();
             showNotification('আপনি সফলভাবে লগআউট করেছেন।', 'success');
-            
-            // Background API call (non-blocking)
-            if (token) {
-                optimizedFetch(`${DB_API_URL}/logout`, {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                }, 2000, 0).catch(() => {}); // Ignore errors
-            }
             
             // Redirect after a short delay
             setTimeout(() => {
