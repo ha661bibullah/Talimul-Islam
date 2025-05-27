@@ -8831,11 +8831,6 @@ async function loadProfileData() {
         // সেশন স্টোরেজ থেকে টোকেন পড়ুন
         const token = sessionStorage.getItem('authToken');
         
-        if (!token) {
-            // টোকেন না থাকলে লগইন পেজে রিডাইরেক্ট করুন
-            window.location.href = 'index.html'; // সাইটের হোম পেজ
-            return;
-        }
         
         // API থেকে সম্পূর্ণ প্রোফাইল ডেটা পান
         const response = await fetch(`${DB_API_URL}/user-profile`, {
@@ -8997,10 +8992,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             
             // প্রোফাইল ছবি ফাইল আপলোড ইভেন্ট
             document.getElementById('profilePictureInput').addEventListener('change', handleProfileImageUpload);
-        } else {
-            // লগইন না থাকলে হোম পেজে রিডাইরেক্ট করুন
-            window.location.href = 'index.html';
-        }
+        } 
     }
 });
 
@@ -9400,11 +9392,7 @@ const ProfileIconManager = {
                 showNotification('সফলভাবে লগআউট করা হয়েছে।', 'success');
             }
             
-            // Optional: Redirect to home page
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1500);
-            
+          
         } catch (error) {
             console.error('Logout process error:', error);
             
