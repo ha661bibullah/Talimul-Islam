@@ -2,3 +2,15 @@
   from = "/"
   to = "/Talimul Islam Academi.html"
   status = 200
+  
+[[redirects]]
+  from = "http://www.talimulislamacademy.com/*"
+  to = "https://talimulislamacademy.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://talimulislamacademy.com/*"
+  to = "https://talimulislamacademy.com/:splat"
+  status = 301
+  force = true
