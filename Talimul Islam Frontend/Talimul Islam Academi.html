@@ -887,7 +887,8 @@ transition: all 0.3s ease;
         text-align: center;
         margin-top: 20px;
     }
-</style>
+    
+</style> 
     <!-- মোবাইল টপ বার -->
     <div class="mobile-top-bar">
         <div class="top-bar-left">
@@ -927,18 +928,6 @@ transition: all 0.3s ease;
             }
         }
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -11902,8 +11891,8 @@ document.addEventListener('DOMContentLoaded', function() {
     max-width: 1200px;
     margin: 0 auto;
     padding: 15px;
-    /* background-color: white; */
-    border-radius: 8px;
+    background-color: white;
+    /* border-radius: 8px; */
     /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); */
     margin-top: 60px;
 }
@@ -11921,7 +11910,7 @@ document.addEventListener('DOMContentLoaded', function() {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 25px 0;
+    padding: 25px 0px;
 }
 
 @media (min-width: 768px) {
@@ -11929,7 +11918,7 @@ document.addEventListener('DOMContentLoaded', function() {
         flex-direction: row;
         justify-content: space-between;
         gap: 30px;
-        padding: 40px 0;
+        padding: 40px 0px;
     }
 }
 
@@ -12144,7 +12133,7 @@ p {
                 <!-- <p>তালিমুল ইসলাম একাডেমি সব ধরনের মাদ্রাসার সবচেয়ে সমৃদ্ধ প্লাটফর্ম এখানে সব জামাতের রেকর্ডেড ও লাইভ ক্লাস পাবেন।</p> -->
                 <div class="buttons">
                     <a href="#" class="btn btn-secondary">ফ্রি কোর্স</a>
-                    <a href="#" class="btn btn-primary">পেইড কোর্স</a>
+                    <a href="#" class="btn btn-primary">পেইড কোর্স <i class="fa-solid fa-arrow-down"></i></a>
                 </div>
             </div>
             <div class="hero-image">
@@ -12404,312 +12393,20 @@ function showDeviceInfo() {
 
 
 
+
+
+
+
     
     
 
-<!-- বিভাগ সমূহ -->
-<!-- cards-grida -->
+
+
+
+<!-- আমাদের বিভাগ সমূহ -->
 <style>
-
-
-    .headera h1 {
-        font-size: 3rem;
-        color: white;
-        font-weight: 700;
-        margin-bottom: 15px;
-        text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        letter-spacing: -1px;
-    }
-
-    .headera p {
-        font-size: 1.2rem;
-        color: rgba(255,255,255,0.9);
-        font-weight: 300;
-    }
-
-    .cards-grida {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-        margin-bottom: 40px;
-    }
-
-    .carda {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        padding: 30px 20px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    }
-
-    .carda::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-        transition: left 0.6s;
-    }
-
-    .carda:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
-
-    .carda:hover::before {
-        left: 100%;
-    }
-
-    .card-icona {
-        width: 70px;
-        height: 70px;
-        margin: 0 auto 20px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.8rem;
-        font-weight: bold;
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        transition: all 0.3s ease;
-    }
-
-    .carda:hover .card-icona {
-        transform: rotateY(180deg);
-        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
-    }
-
-    .carda h2 {
-        font-size: 1.4rem;
-        color: #2c3e50;
-        margin-bottom: 25px;
-        font-weight: 600;
-        line-height: 1.3;
-    }
-
-    .btna {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        border: none;
-        padding: 8px 20px;
-        border-radius: 25px;
-        font-size: 0.85rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        position: relative;
-        overflow: hidden;
-        min-width: 120px;
-        white-space: nowrap;
-    }
-
-    .btna::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left 0.5s;
-    }
-
-    .btna:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-    }
-
-    .btna:hover::before {
-        left: 100%;
-    }
-
-    .btna:active {
-        transform: translateY(0);
-    }
-
-    .footera {
-        text-align: center;
-        padding: 30px;
-        color: rgba(255,255,255,0.8);
-        font-size: 0.9rem;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-        .headera h1 {
-            font-size: 2.5rem;
-        }
-        
-        .cards-grida {
-            gap: 20px;
-        }
-        
-        .carda {
-            padding: 25px 15px;
-        }
-        
-        .card-icona {
-            width: 60px;
-            height: 60px;
-            font-size: 1.6rem;
-        }
-        
-        .carda h2 {
-            font-size: 1.3rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .containera {
-            padding: 15px;
-        }
-
-        .headera {
-            margin-bottom: 30px;
-            padding: 30px 15px;
-        }
-
-        .headera h1 {
-            font-size: 2.2rem;
-        }
-
-        .headera p {
-            font-size: 1rem;
-        }
-
-        .cards-grida {
-            gap: 15px;
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .carda {
-            padding: 18px 10px;
-        }
-
-        .card-icona {
-            width: 45px;
-            height: 45px;
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .carda h2 {
-            font-size: 0.95rem;
-            margin-bottom: 12px;
-            line-height: 1.2;
-        }
-
-        .btna {
-            padding: 5px 12px;
-            font-size: 0.7rem;
-            border-radius: 18px;
-            min-width: 80px;
-            white-space: nowrap;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .containera {
-            padding: 8px;
-        }
-
-        .headera h1 {
-            font-size: 1.8rem;
-        }
-
-        .cards-grida {
-            gap: 8px;
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .carda {
-            padding: 15px 8px;
-        }
-
-        .card-icona {
-            width: 35px;
-            height: 35px;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-
-        .carda h2 {
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-            line-height: 1.1;
-        }
-
-        .btna {
-            padding: 4px 6px;
-            font-size: 0.6rem;
-            border-radius: 15px;
-            min-width: 60px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    }
-
-    /* Extra small devices */
-    @media (max-width: 360px) {
-        .btna {
-            padding: 3px 4px;
-            font-size: 0.55rem;
-            min-width: 55px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    }
-
-    /* Animation */
-    .carda {
-        opacity: 0;
-        transform: translateY(30px);
-        animation: fadeInUp 0.6s ease forwards;
-    }
-
-    .carda:nth-child(1) { animation-delay: 0.1s; }
-    .carda:nth-child(2) { animation-delay: 0.2s; }
-    .carda:nth-child(3) { animation-delay: 0.3s; }
-    .carda:nth-child(4) { animation-delay: 0.4s; }
-    .carda:nth-child(5) { animation-delay: 0.5s; }
-    .carda:nth-child(6) { animation-delay: 0.6s; }
-
-    @keyframes fadeInUp {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Glassmorphism effect */
-    .carda {
-        background: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-    }
-
-    /* Hover glow effect */
-    .carda:hover {
-        box-shadow: 
-            0 20px 40px rgba(0,0,0,0.1),
-            0 0 0 1px rgba(255,255,255,0.5),
-            inset 0 1px 0 rgba(255,255,255,0.6);
-    }
-</style>
-
-<style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+    
     * {
         margin: 0;
         padding: 0;
@@ -12717,1844 +12414,224 @@ function showDeviceInfo() {
     }
 
     body {
-        font-family: 'Noto Sans Bengali', Arial, sans-serif;
-        /* background: linear-gradient(145deg, #1e3c72 0%, #2a5298 50%, #667eea 100%); */
+        font-family: 'Hind Siliguri', sans-serif;
+        line-height: 1.6;
+        color: #333;
+        /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
         min-height: 100vh;
-        padding: 15px;
-        position: relative;
     }
 
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-        z-index: -1;
-    }
-
-    .courses-grid0 {
-        max-width: 1400px;
+    .container123 {
+        max-width: 1200px;
         margin: 0 auto;
     }
 
-    .header {
-        text-align: center;
-        margin-bottom: 40px;
+    .sectionF {
+        max-width: 1200px;
+        background: white;
+        /* border-radius: 20px; */
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        padding: 60px 40px;
+        margin: 0px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .trust-badge {
+        color: #f39c12;
+        font-weight: 600;
+        font-size: 14px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+    /* Second Section Styles */
+    .cyber-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        padding: 20px;
     }
 
-    .header h1 {
-        font-size: 3rem;
-        margin-bottom: 15px;
-        text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-        background: linear-gradient(45deg, #ffffff, #f0f8ff);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+    .cyber-section .trust-badge {
+        color: #ffd700;
     }
 
-    .header p {
-        font-size: 1.3rem;
-        opacity: 0.95;
-        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    .cyber-section h2 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        font-weight: 700;
     }
 
-    .grid {
+    .cyber-section p {
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 40px;
+        font-size: 1.1em;
+        line-height: 1.8;
+    }
+
+    .cyber-services {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr 1fr;
         gap: 20px;
-        margin-bottom: 30px;
     }
 
-    .card {
-        background: rgba(255, 255, 255, 0.95);
+    .cyber-item {
+        background: rgba(255,255,255,0.1);
+        padding: 20px;
+        border-radius: 12px;
         backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 25px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        border: 1px solid rgba(255,255,255,0.2);
+        transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
         cursor: pointer;
-        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-        transition: left 0.6s;
+    .cyber-item {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  padding: 20px 40px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  /* color: #fff; */
+  cursor: pointer;
+  border: none;
+}
+
+.cyber-item::before {
+  content: '';
+  position: absolute;
+  width: 50px; /* শুরুতে ছোট */
+  height: 50px;
+  border-radius: 50%;
+  /* background: var(--hover-color, rgba(255, 255, 255, 0.3)); */
+  background: white;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.9s ease, background 0.6s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cyber-item:hover::before {
+  transform: translate(-50%, -50%) scale(20); /* পুরো বাটন ভরবে */
+}
+
+.cyber-item span {
+  position: relative;
+  z-index: 1;
+}
+
+
+    .cyber-item span {
+        position: relative;
+        z-index: 2;
+        transition: color 0.4s ease;
+        font-weight: 500;
     }
 
-    .card:hover::before {
-        left: 100%;
+    .cyber-item:hover span {
+        color: #333;
     }
 
-    .card:hover {
-        transform: translateY(-15px) scale(1.02);
-        box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-        background: rgba(255, 255, 255, 1);
+    .cyber-item:hover {
+        transform: translateY(-5px);
     }
 
-    .card-icon {
-        width: 70px;
-        height: 70px;
-        margin: 0 auto 20px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
-        color: white;
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        transition: all 0.3s ease;
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .section {
+            padding: 40px 30px;
+        }
     }
 
-    .card:hover .card-icon {
-        transform: scale(1.1) rotate(5deg);
-        box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
-    }
-
-    .card h3 {
-        font-size: 1.4rem;
-        color: #2c3e50;
-        text-align: center;
-        margin-bottom: 15px;
-        font-weight: 600;
-    }
-
-    .card p {
-        color: #5a6c7d;
-        text-align: center;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        font-size: 0.95rem;
-    }
-
-    .card-btn {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: block;
-        margin: 0 auto;
-        font-size: 13px;
-        font-weight: 600;
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
-    }
-
-    .card-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
-        background: linear-gradient(135deg, #764ba2, #667eea);
-    }
-
-    .special-btn {
-        background: rgba(255, 255, 255, 0.95);
-        color: #667eea;
-        border: none;
-        padding: 15px 35px;
-        border-radius: 35px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
-    }
-
-    .special-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 12px 30px rgba(255, 255, 255, 0.4);
-        background: white;
-    }
-
-    /* Mobile Responsive - Medium mobile */
     @media (max-width: 768px) {
-        body {
-            padding: 10px;
+
+        .section {
+            padding: 30px 20px;
+            margin: 20px 0;
         }
 
-        .header h1 {
-            font-size: 2.2rem;
-        }
-
-        .header p {
-            font-size: 1rem;
-        }
-
-        .grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .card {
-            padding: 15px;
-            border-radius: 15px;
-        }
-
-        .card-icon {
-            width: 50px;
-            height: 50px;
-            font-size: 20px;
-            margin-bottom: 12px;
-        }
-
-        .card h3 {
-            font-size: 1rem;
-            margin-bottom: 8px;
-        }
-
-        .card p {
-            font-size: 0.8rem;
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-
-        .card-btn {
-            padding: 6px 12px;
-            font-size: 10px;
-            border-radius: 15px;
-        }
-
-        .special-btn {
-            padding: 12px 25px;
-            font-size: 14px;
-        }
-    }
-
-    /* Very Small Mobile Devices */
-    @media (max-width: 480px) {
-        body {
-            padding: 8px;
-        }
-
-        .header h1 {
-            font-size: 1.8rem;
-        }
-
-        .header p {
-            font-size: 0.9rem;
-        }
-
-        .grid {
-            gap: 8px;
-        }
-
-        .card {
-            padding: 12px;
-            border-radius: 12px;
-        }
-
-        .card-icon {
-            width: 40px;
-            height: 40px;
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .card h3 {
-            font-size: 0.85rem;
-            margin-bottom: 6px;
-        }
-
-        .card p {
-            font-size: 0.7rem;
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-
-        .card-btn {
-            padding: 4px 8px;
-            font-size: 8px;
-            border-radius: 12px;
-        }
-    }
-
-    /* Extra Small Mobile Devices */
-    @media (max-width: 360px) {
-        body {
-            padding: 6px;
-        }
-
-        .grid {
-            gap: 6px;
-        }
-
-        .card {
-            padding: 10px;
-        }
-
-        .card-icon {
-            width: 35px;
-            height: 35px;
-            font-size: 14px;
-            margin-bottom: 6px;
-        }
-
-        .card h3 {
-            font-size: 0.75rem;
-            margin-bottom: 4px;
-        }
-
-        .card p {
-            font-size: 0.65rem;
-            margin-bottom: 6px;
-        }
-
-        .card-btn {
-            padding: 3px 6px;
-            font-size: 7px;
-            border-radius: 10px;
-        }
-    }
-
-    /* Tablet */
-    @media (min-width: 769px) and (max-width: 1024px) {
-        .grid {
-            grid-template-columns: repeat(3, 1fr);
+        .cyber-services {
+            grid-template-columns: 1fr;
             gap: 15px;
         }
 
-        .card {
-            padding: 20px;
+        .cyber-item {
+            padding: 18px;
+            text-align: center;
         }
 
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            font-size: 24px;
-        }
-    }
-
-    /* Animation */
-    @keyframes slideInUp {
-        from {
-            opacity: 0;
-            transform: translateY(50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+        .cyber-section h2 {
+            font-size: 2em;
         }
     }
 
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
+    @media (max-width: 480px) {
+        .cyber-section h2 {
+            font-size: 1.6em;
         }
-        50% {
-            transform: scale(1.05);
-        }
-    }
 
-    .card {
-        animation: slideInUp 0.8s ease forwards;
-    }
-
-    .card:nth-child(1) { animation-delay: 0.1s; }
-    .card:nth-child(2) { animation-delay: 0.2s; }
-    .card:nth-child(3) { animation-delay: 0.3s; }
-    .card:nth-child(4) { animation-delay: 0.4s; }
-    .card:nth-child(5) { animation-delay: 0.5s; }
-    .card:nth-child(6) { animation-delay: 0.6s; }
-
-    /* Floating particles effect */
-    .particle {
-        position: absolute;
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 50%;
-        pointer-events: none;
-        animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-        0%, 100% {
-            transform: translateY(0px) rotate(0deg);
-            opacity: 0;
-        }
-        50% {
-            transform: translateY(-20px) rotate(180deg);
-            opacity: 1;
+        .cyber-item {
+            padding: 15px;
+            font-size: 0.9em;
         }
     }
 </style>
-    <script>
-        function showDetails(type) {
-            alert('Details for ' + type + ' will be shown here');
-        }
-    </script>
-<style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-    
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background-color: #f5f5f5;
-                padding: 20px;
-            }
-    
-            .container00 {
-                width: 100%;
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 20px 20px;
-                /* background-color: white; */
-                border-radius: 12px;
-                /* box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); */
-                margin-top: 15px;
-            }
-    
-            .section-title {
-                text-align: center;
-                font-size: 2.8rem;
-                color: #2c3e50;
-                /* margin-bottom: 50px; */
-                font-weight: 800;
-                
-            }
-    
-            @keyframes titleGlow {
-                0% {
-                    filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.3));
-                }
-                100% {
-                    filter: drop-shadow(0 0 15px rgba(118, 75, 162, 0.5));
-                }
-            }
-    
-            @keyframes titleBg {
-                0%, 100% { transform: translateX(-50%) scale(1); }
-                50% { transform: translateX(-50%) scale(1.05); }
-            }
-    
-
-    
-            .courses-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 30px;
-                margin-top: 50px;
-                padding: 20px;
-            }
-    
-            .course-card1 {
-                background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-                border-radius: 25px;
-                overflow: hidden;
-                box-shadow: 
-                    0 20px 40px rgba(0, 0, 0, 0.1),
-                    0 0 0 1px rgba(255, 255, 255, 0.05);
-                transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
-                position: relative;
-                cursor: pointer;
-                text-decoration: none;
-                color: inherit;
-                transform-style: preserve-3d;
-                border: 2px solid transparent;
-            }
-    
-            /* .course-card1:hover {
-                transform: translateY(-15px) rotateX(5deg);
-                box-shadow: 
-                    0 35px 60px rgba(0, 0, 0, 0.15),
-                    0 0 0 1px rgba(255, 255, 255, 0.1);
-                border: 2px solid rgba(255, 255, 255, 0.2);
-            } */
-    
-            .course-image {
-                width: 100%;
-                height: 180px;
-                position: relative;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                border-radius: 20px 20px 0 0;
-            }
-    
-            .course-card1:nth-child(1) .course-image { 
-                background: radial-gradient(circle at 30% 20%, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            }
-            .course-card1:nth-child(2) .course-image { 
-                background: radial-gradient(circle at 70% 30%, #f093fb 0%, #f5576c 50%, #4facfe 100%);
-            }
-            .course-card1:nth-child(3) .course-image { 
-                background: radial-gradient(circle at 20% 80%, #4facfe 0%, #00f2fe 50%, #43e97b 100%);
-            }
-            .course-card1:nth-child(4) .course-image { 
-                background: radial-gradient(circle at 80% 20%, #43e97b 0%, #38f9d7 50%, #667eea 100%);
-            }
-            .course-card1:nth-child(5) .course-image { 
-                background: radial-gradient(circle at 50% 10%, #fa709a 0%, #fee140 50%, #667eea 100%);
-            }
-            .course-card1:nth-child(6) .course-image { 
-                background: radial-gradient(circle at 10% 50%, #a8edea 0%, #fed6e3 50%, #f093fb 100%);
-            }
-    
-            .image-overlay-text {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                color: white;
-                font-size: 1.3rem;
-                font-weight: 800;
-                text-align: center;
-                text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-                z-index: 2;
-                width: 85%;
-                letter-spacing: 0.5px;
-                line-height: 1.2;
-            }
-    
-            .course-content {
-                padding: 25px 20px;
-                text-align: center;
-                position: relative;
-                background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            }
-    
-            .course-title {
-                display: block;
-                font-size: 1.1rem;
-                font-weight: 700;
-                color: #2c3e50;
-                margin-bottom: 8px;
-                line-height: 1.3;
-            }
-    
-            .course-subtitle {
-                font-size: 0.85rem;
-                color: #7f8c8d;
-                margin-bottom: 15px;
-                line-height: 1.4;
-            }
-    
-            .course-stats {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                font-size: 0.8rem;
-                color: #95a5a6;
-            }
-    
-            .course-duration {
-                display: flex;
-                align-items: center;
-                gap: 5px;
-            }
-    
-            .course-level {
-                background: linear-gradient(45deg, #3498db, #2ecc71);
-                color: white;
-                padding: 4px 12px;
-                border-radius: 15px;
-                font-weight: 600;
-                font-size: 0.75rem;
-            }
-    
-            /* .course-card1::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: linear-gradient(45deg, 
-                    rgba(102, 126, 234, 0.1) 0%, 
-                    rgba(240, 147, 251, 0.1) 25%,
-                    rgba(79, 172, 254, 0.1) 50%,
-                    rgba(67, 233, 123, 0.1) 75%,
-                    rgba(250, 112, 154, 0.1) 100%);
-                opacity: 0;
-                transition: opacity 0.3s ease;
-                border-radius: 25px;
-                pointer-events: none;
-            } */
-    
-            .course-card1:hover::before {
-                opacity: 1;
-            }
-    
-            .course-card1::after {
-                content: '';
-                position: absolute;
-                top: -2px;
-                left: -2px;
-                right: -2px;
-                bottom: -2px;
-                background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
-                background-size: 300% 300%;
-                border-radius: 27px;
-                z-index: -1;
-                animation: gradientBorder 4s ease infinite;
-                opacity: 0;
-                transition: opacity 0.3s ease;
-            }
-    
-            .course-card1:hover::after {
-                opacity: 1;
-            }
-    
-            @keyframes gradientBorder {
-                0%, 100% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-            }
-    
-            .floating-elements {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                pointer-events: none;
-                overflow: hidden;
-                border-radius: 25px;
-            }
-    
-            .floating-elements::before,
-            .floating-elements::after {
-                content: '';
-                position: absolute;
-                width: 6px;
-                height: 6px;
-                background: rgba(255, 255, 255, 0.6);
-                border-radius: 50%;
-                animation: float 3s ease-in-out infinite;
-            }
-    
-            .floating-elements::before {
-                top: 20%;
-                right: 15%;
-                animation-delay: -1s;
-            }
-    
-            .floating-elements::after {
-                bottom: 25%;
-                left: 20%;
-                animation-delay: -2s;
-            }
-    
-            @keyframes float {
-                0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
-                50% { transform: translateY(-10px) rotate(180deg); opacity: 1; }
-            }
-    
-            /* নতুন সেকশনের স্টাইল */
-            .additional-sections {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 40px;
-                /* margin-top: 60px; */
-                /* padding-top: 40px; */
-                /* border-top: 2px solid #ecf0f1; */
-            }
-    
-            .section {
-                background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-                padding: 30px;
-                border-radius: 20px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-                transition: all 0.3s ease;
-                position: relative;
-                overflow: hidden;
-            }
-    
-            .section:hover {
-                /* transform: translateY(-5px); */
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-            }
-    
-            .section::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 4px;
-                background: linear-gradient(45deg, #e74c3c, #f39c12, #f1c40f, #27ae60, #3498db, #9b59b6);
-                background-size: 300% 300%;
-                animation: gradient 3s ease infinite;
-            }
-    
-            @keyframes gradient {
-                0% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-                100% { background-position: 0% 50%; }
-            }
-    
-            .section-header {
-                font-size: 1.8rem;
-                color: #2c3e50;
-                /* margin-bottom: 25px; */
-                font-weight: 700;
-                text-align: center;
-                position: relative;
-            }
-    
-         
-    
-            .course-list {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 15px;
-            }
-    
-            .course-item {
-                background: white;
-                padding: 20px;
-                border-radius: 12px;
-                border-left: 4px solid #3498db;
-                transition: all 0.3s ease;
-                cursor: pointer;
-                position: relative;
-                overflow: hidden;
-            }
-    
-            .course-item:hover {
-                transform: translateX(5px);
-                box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
-                border-left-color: #e74c3c;
-            }
-    
-            .course-item::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 0;
-                height: 100%;
-                background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1));
-                transition: width 0.3s ease;
-                z-index: 0;
-            }
-    
-            .course-item:hover::before {
-                width: 100%;
-            }
-    
-            .course-item-title {
-                font-size: 1.1rem;
-                color: #2c3e50;
-                font-weight: 600;
-                margin-bottom: 8px;
-                position: relative;
-                z-index: 1;
-            }
-    
-            .course-item-desc {
-                font-size: 0.9rem;
-                color: #7f8c8d;
-                line-height: 1.4;
-                position: relative;
-                z-index: 1;
-            }
-    
-            .course-item:nth-child(odd) {
-                border-left-color: #e74c3c;
-            }
-    
-            .course-item:nth-child(even) {
-                border-left-color: #f39c12;
-            }
-    
-            .course-item:nth-child(3n) {
-                border-left-color: #27ae60;
-            }
-    
-            .course-item:nth-child(4n) {
-                border-left-color: #9b59b6;
-            }
-    
-            /* Mobile Responsive */
-            @media (max-width: 768px) {
-                .courses-grid {
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 15px;
-                }
-                
-                .section-title {
-                    font-size: 2.2rem;
-                    margin-bottom: 35px;
-                }
-    
-                .course-list {
-                    grid-template-columns: 1fr 1fr;
-                    gap: 12px;
-                }
-                
-                .course-image {
-                    height: 150px;
-                }
-                
-                .image-overlay-text {
-                    font-size: 1rem;
-                }
-                
-                .course-title {
-                    font-size: 0.95rem;
-                    padding: 15px 10px;
-                }
-                
-    
-                .additional-sections {
-                    grid-template-columns: 1fr;
-                    gap: 30px;
-                    /* margin-top: 40px; */
-                }
-    
-                .section {
-                    padding: 25px 20px;
-                }
-    
-                .section-header {
-                    font-size: 1.5rem;
-                    margin-bottom: 20px;
-                }
-    
-                .course-list {
-                    grid-template-columns: 1fr 1fr;
-                    gap: 10px;
-                }
-    
-                .course-item {
-                    padding: 15px;
-                }
-    
-                .course-item-title {
-                    font-size: 1rem;
-                }
-    
-                .course-item-desc {
-                    font-size: 0.85rem;
-                }
-            }
-    
-            @media (max-width: 480px) {
-                .courses-grid {
-                    gap: 12px;
-                }
-                
-                .course-image {
-                    height: 120px;
-                }
-                
-                .image-overlay-text {
-                    font-size: 0.9rem;
-                }
-                
-                .course-title {
-                    font-size: 0.9rem;
-                    padding: 12px 8px;
-                }
-    
-                .section {
-                    padding: 20px 15px;
-                }
-    
-                .section-title {
-                    font-size: 1.8rem;
-                    margin-bottom: 10px;
-                }
-    
-                .course-list {
-                    grid-template-columns: 1fr 1fr;
-                    gap: 8px;
-                }
-    
-                .course-item {
-                    padding: 10px;
-                }
-    
-                .course-item-title {
-                    font-size: 0.9rem;
-                    margin-bottom: 5px;
-                }
-    
-                .course-item-desc {
-                    font-size: 0.75rem;
-                }
-            }
-
-
-            /* .skill-bundle-sections {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    margin-top: 60px;
-    padding: 30px;
-    background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 50%, #2d1b69 100%);
-    border-radius: 20px;
-    position: relative;
-    overflow: hidden;
-} */
-
-/* .skill-bundle-sections::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(0, 255, 0, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-    animation: digitalPulse 4s ease-in-out infinite;
-} */
-
-@keyframes digitalPulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 0.8; }
-}
-
-.skill-section, .bundle-section {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 25px;
-    position: relative;
-    overflow: hidden;
-}
-
-.skill-section::before, .bundle-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #00ffff, #ff00ff, #ffff00, #00ff00);
-    background-size: 300% 100%;
-    animation: digitalFlow 2s linear infinite;
-}
-
-@keyframes digitalFlow {
-    0% { background-position: 0% 0%; }
-    100% { background-position: 300% 0%; }
-}
-
-.digital-header {
-    color: #ffffff;
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    text-align: center;
-    position: relative;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-
-
-@keyframes headerGlow {
-    0% { box-shadow: 0 0 5px #00ffff; }
-    100% { box-shadow: 0 0 15px #ff00ff; }
-}
-
-.digital-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-
-
-.digital-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-}
-
-.digital-btn:hover::before {
-    left: 100%;
-}
-
-.digital-btn:hover {
-    border: 2px solid rgba(0, 255, 255, 0.5);
-    box-shadow: 
-        0 0 20px rgba(0, 255, 255, 0.3),
-        inset 0 0 20px rgba(255, 0, 255, 0.1);
-    /* transform: translateY(-3px); */
-}
-
-.digital-btn:nth-child(odd) {
-    background: linear-gradient(45deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 0, 0.1));
-}
-
-.digital-btn:nth-child(even) {
-    background: linear-gradient(45deg, rgba(255, 0, 255, 0.1), rgba(255, 255, 0, 0.1));
-}
-
-.digital-btn:nth-child(odd):hover {
-    border-color: rgba(0, 255, 0, 0.5);
-    box-shadow: 
-        0 0 20px rgba(0, 255, 0, 0.3),
-        inset 0 0 20px rgba(0, 255, 255, 0.1);
-}
-
-.digital-btn:nth-child(even):hover {
-    border-color: rgba(255, 255, 0, 0.5);
-    box-shadow: 
-        0 0 20px rgba(255, 255, 0, 0.3),
-        inset 0 0 20px rgba(255, 0, 255, 0.1);
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .skill-bundle-sections {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        /* margin-top: 40px; */
-        padding: 20px;
-    }
-    
-    .digital-header {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-    }
-    
-    .digital-buttons {
-        gap: 12px;
-    }
-    
-    .digital-btn {
-        padding: 12px 15px;
-        font-size: 0.85rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .skill-bundle-sections {
-        padding: 15px;
-        /* margin-top: 30px; */
-    }
-    
-    .digital-header {
-        font-size: 1.2rem;
-    }
-    
-    .digital-buttons {
-        gap: 10px;
-    }
-    
-    .digital-btn {
-        padding: 10px 12px;
-        font-size: 0.8rem;
-    }
-}
-
-
-
-
-
-
-/* Replace the existing skill-bundle-sections styles with this: */
-
-.skill-bundle-sections {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    /* margin-top: 60px; */
-    padding-top: 40px;
-    /* border-top: 2px solid #ecf0f1; */
-}
-
-.skill-section, .bundle-section {
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.skill-section:hover, .bundle-section:hover {
-    /* transform: translateY(-5px); */
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-}
-
-.skill-section::before, .bundle-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(45deg, #e74c3c, #f39c12, #f1c40f, #27ae60, #3498db, #9b59b6);
-    background-size: 300% 300%;
-    animation: gradient 3s ease infinite;
-}
-
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.digital-header {
-    font-size: 1.8rem;
-    color: #2c3e50;
-    margin-bottom: 25px;
-    font-weight: 700;
-    text-align: center;
-    position: relative;
-}
-
-
-
-.digital-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.digital-btn {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 4px solid #3498db;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    color: #2c3e50;
-    font-weight: 600;
-    font-size: 1rem;
-    text-align: left;
-    border: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.digital-btn:hover {
-    /* transform: translateX(5px); */
-    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.2);
-    border-left-color: #e74c3c;
-}
-
-
-
-
-
-.digital-btn:nth-child(odd) {
-    border-left-color: #e74c3c;
-}
-
-.digital-btn:nth-child(even) {
-    border-left-color: #f39c12;
-}
-
-.digital-btn:nth-child(3n) {
-    border-left-color: #27ae60;
-}
-
-.digital-btn:nth-child(4n) {
-    border-left-color: #9b59b6;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .skill-bundle-sections {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        margin-top: 40px;
-    }
-    
-    .skill-section, .bundle-section {
-        padding: 25px 20px;
-    }
-    
-    .digital-header {
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-    }
-    
-    .digital-buttons {
-        gap: 12px;
-    }
-    
-    .digital-btn {
-        padding: 15px;
-        font-size: 0.95rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .skill-bundle-sections {
-        margin-top: 30px;
-        gap: 25px;
-    }
-    
-    .skill-section, .bundle-section {
-        padding: 20px 15px;
-    }
-    
-    .digital-header {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
-    }
-    
-    .digital-buttons {
-        gap: 10px;
-    }
-    
-    .digital-btn {
-        padding: 12px;
-        font-size: 0.9rem;
-    }
-}
-
-
-
-
-
-
-
-
-
-/* Digital Courses Grid - Complete New Design */
-
-.courses-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    margin-top: 50px;
-    padding: 30px;
-    /* background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%); */
-    /* background: linear-gradient(135deg, #f0f0f0 0%, #1a1a2e 40%, #16213e 100%); */
-    /* background: linear-gradient(135deg, #ffffff 0%, #e6ecf0 30%, #1a1a2e 70%, #0a0a1a 100%); */
-
-    border-radius: 25px;
-    position: relative;
-    overflow: hidden;
-}
-
-.courses-grid::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.05) 0%, transparent 70%);
-    pointer-events: none;
-    animation: digitalAmbient 6s ease-in-out infinite alternate;
-}
-
-@keyframes digitalAmbient {
-    0% { opacity: 0.4; }
-    100% { opacity: 0.8; }
-}
-
-.courses-grid::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        #00ffff 25%, 
-        #ff00ff 50%, 
-        #ffff00 75%, 
-        transparent 100%);
-    background-size: 200% 100%;
-    animation: digitalScan 3s linear infinite;
-}
-
-@keyframes digitalScan {
-    0% { background-position: -200% 0%; }
-    100% { background-position: 200% 0%; }
-}
-
-.course-card1 {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-    transform-style: preserve-3d;
-}
-
-/* .course-card1::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, 
-        #00ffff, #ff00ff, #ffff00, #00ff00, 
-        #0080ff, #ff0080, #80ff00, #ff8000);
-    background-size: 400% 400%;
-    border-radius: 22px;
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    animation: digitalBorderFlow 4s ease infinite;
-} */
-
-@keyframes digitalBorderFlow {
-    0%, 100% { background-position: 0% 50%; }
-    25% { background-position: 100% 50%; }
-    50% { background-position: 100% 100%; }
-    75% { background-position: 0% 100%; }
-}
-
-.course-card1:hover::before {
-    opacity: 1;
-}
-
-/* .course-card1:hover {
-    transform: translateY(-10px) rotateX(5deg) scale(1.02);
-    box-shadow: 
-        0 25px 50px rgba(0, 255, 255, 0.2),
-        0 0 30px rgba(255, 0, 255, 0.1),
-        inset 0 0 20px rgba(255, 255, 255, 0.05);
-} */
-
-.course-image {
-    width: 100%;
-    height: 180px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    border-radius: 20px 20px 0 0;
-}
-
-.course-card1:nth-child(1) .course-image { 
-    background: linear-gradient(135deg, 
-        rgba(0, 255, 255, 0.2) 0%, 
-        rgba(0, 128, 255, 0.2) 50%, 
-        rgba(128, 0, 255, 0.2) 100%);
-}
-
-.course-card1:nth-child(2) .course-image { 
-    background: linear-gradient(135deg, 
-        rgba(255, 0, 255, 0.2) 0%, 
-        rgba(255, 0, 128, 0.2) 50%, 
-        rgba(255, 128, 0, 0.2) 100%);
-}
-
-.course-card1:nth-child(3) .course-image { 
-    background: linear-gradient(135deg, 
-        rgba(0, 255, 0, 0.2) 0%, 
-        rgba(128, 255, 0, 0.2) 50%, 
-        rgba(255, 255, 0, 0.2) 100%);
-}
-
-.course-card1:nth-child(4) .course-image { 
-    background: linear-gradient(135deg, 
-        rgba(255, 255, 0, 0.2) 0%, 
-        rgba(255, 128, 0, 0.2) 50%, 
-        rgba(255, 0, 0, 0.2) 100%);
-}
-
-.course-card1:nth-child(5) .course-image { 
-    background: linear-gradient(135deg, 
-        rgba(128, 0, 255, 0.2) 0%, 
-        rgba(255, 0, 255, 0.2) 50%, 
-        rgba(0, 255, 255, 0.2) 100%);
-}
-
-.course-card1:nth-child(6) .course-image { 
-    background: linear-gradient(135deg, 
-        rgba(0, 255, 128, 0.2) 0%, 
-        rgba(0, 128, 255, 0.2) 50%, 
-        rgba(128, 255, 255, 0.2) 100%);
-}
-
-.course-image::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: 
-        repeating-linear-gradient(
-            90deg,
-            transparent 0px,
-            rgba(255, 255, 255, 0.03) 1px,
-            transparent 2px,
-            transparent 100px
-        ),
-        repeating-linear-gradient(
-            0deg,
-            transparent 0px,
-            rgba(255, 255, 255, 0.03) 1px,
-            transparent 2px,
-            transparent 100px
-        );
-    animation: digitalGrid 4s linear infinite;
-}
-
-@keyframes digitalGrid {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(100px, 100px); }
-}
-
-.image-overlay-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: black;
-    font-size: 2rem;
-    font-weight: 400;
-    text-align: center;
-    z-index: 2;
-    width: 85%;
-    letter-spacing: 1px;
-    line-height: 1.2;
-    animation: digitalTextGlow 2s ease-in-out infinite alternate;
-}
-
-@keyframes digitalTextGlow {
-    0% { 
-        text-shadow: 
-            0 0 10px rgba(255, 255, 255, 0.5),
-            0 0 20px rgba(0, 255, 255, 0.3),
-            0 0 30px rgba(255, 0, 255, 0.2);
-    }
-    100% { 
-        text-shadow: 
-            0 0 15px rgba(255, 255, 255, 0.8),
-            0 0 25px rgba(0, 255, 255, 0.5),
-            0 0 35px rgba(255, 0, 255, 0.4);
-    }
-}
-
-.course-content {
-    padding: 25px 20px;
-    text-align: center;
-    position: relative;
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(5px);
-}
-
-.course-content::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(0, 255, 255, 0.5) 50%, 
-        transparent 100%);
-}
-
-.course-title {
-    display: block;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 8px;
-    line-height: 1.3;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-}
-
-.course-subtitle {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 15px;
-    line-height: 1.4;
-}
-
-.course-stats {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.course-duration {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.course-level {
-    background: linear-gradient(45deg, #00ffff, #ff00ff);
-    color: #000000;
-    padding: 4px 12px;
-    border-radius: 15px;
-    font-weight: 700;
-    font-size: 0.75rem;
-    text-shadow: none;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-}
-
-/* Digital Floating Elements */
-.floating-elements {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    overflow: hidden;
-    border-radius: 20px;
-}
-
-.floating-elements::before,
-.floating-elements::after {
-    content: '';
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #00ffff;
-    box-shadow: 0 0 10px #00ffff;
-    animation: digitalFloat 4s ease-in-out infinite;
-}
-
-.floating-elements::before {
-    top: 20%;
-    right: 15%;
-    animation-delay: -1s;
-}
-
-.floating-elements::after {
-    bottom: 25%;
-    left: 20%;
-    animation-delay: -2s;
-    background: #ff00ff;
-    box-shadow: 0 0 10px #ff00ff;
-}
-
-@keyframes digitalFloat {
-    0%, 100% { 
-        transform: translateY(0px) rotate(0deg); 
-        opacity: 0.7; 
-    }
-    50% { 
-        transform: translateY(-15px) rotate(180deg); 
-        opacity: 1; 
-    }
-}
-
-/* Digital Pulse Effect */
-.course-card1::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, rgba(0, 255, 255, 0.2) 0%, transparent 70%);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.6s ease;
-    pointer-events: none;
-}
-
-.course-card1:hover::after {
-    width: 200px;
-    height: 200px;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .courses-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-        padding: 20px;
-    }
-    
-    .course-image {
-        height: 150px;
-    }
-    
-    .image-overlay-text {
-        font-size: 1rem;
-    }
-    
-    .course-title {
-        font-size: 0.95rem;
-    }
-    
-    .course-content {
-        padding: 20px 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .courses-grid {
-        gap: 12px;
-        padding: 15px;
-    }
-    
-    .course-image {
-        height: 120px;
-    }
-    
-    .image-overlay-text {
-        font-size: 0.9rem;
-    }
-    
-    .course-title {
-        font-size: 0.9rem;
-    }
-    
-    .course-content {
-        padding: 15px 12px;
-    }
-}
-</style>   
-
-<div class="container00">
-<h1 class="section-title">বিভাগ সমূহ</h1>
-    
+<div class="container123">
+    <div class="sectionF cyber-section">
+        <div class="trust-badge">আমাদের বিভাগ সমূহ</div>
         
-                
-<div class="cards-grida">
-    <div class="carda">
-        <div class="card-icona">ক</div>
-        <h2>কওমী মাদ্রাসা</h2>
-        <button class="btna" onclick="window.location.href='QawmiMadrasa.html';">বিস্তারিত দেখুন</button>
-    </div>
-
-    <div class="carda">
-        <div class="card-icona">আ</div>
-        <h2>আলিয়া মাদ্রাসা</h2>
-        <button class="btna" onclick="showDetails('আলিয়া মাদ্রাসা')">বিস্তারিত দেখুন</button>
-    </div>
-
-    <div class="carda">
-        <div class="card-icona">ম</div>
-        <h2>মহিলা মাদ্রাসা</h2>
-        <button class="btna" onclick="window.location.href='WomensMadrasa.html';">বিস্তারিত দেখুন</button>
-
-    </div>
-
-    <div class="carda">
-        <div class="card-icona">স</div>
-        <h2>মক্তব আফটার স্কুল</h2>
-        <button class="btna" onclick="showDetails('মক্তব আফটার স্কুল')">বিস্তারিত দেখুন</button>
-    </div>
-
-    <div class="carda">
-        <div class="card-icona">ন</div>
-        <h2>নৈশ্য মাদ্রাসা</h2>
-        <button class="btna" onclick="showDetails('নৈশ্য মাদ্রাসা')">বিস্তারিত দেখুন</button>
-    </div>
-
-    <div class="carda">
-        <div class="card-icona">দ</div>
-        <h2>মাদানী নেসাব</h2>
-        <button class="btna" onclick="window.location.href='MadaniNisab.html';">বিস্তারিত দেখুন</button>
-    </div>
-</div>
-          
-    
-<!-- নতুন সেকশন -->
-<div class="additional-sections">
-                <!-- জনপ্রিয় কোর্স -->
-                <div class="section">
-                    <h2 class="section-header">জনপ্রিয় কোর্স</h2>
-                    <div class="course-list">
-                        <div class="course-item">
-                            <h3 class="course-item-title">কুরআন তিলাওয়াত</h3>
-                            <p class="course-item-desc">সহীহ উচ্চারণে কুরআন পড়া শিখুন</p>
-                        </div>
-                        <div class="course-item">
-                            <h3 class="course-item-title">হাদিস অধ্যয়ন</h3>
-                            <p class="course-item-desc">রাসূলের সুন্নাহ জানুন ও বুঝুন</p>
-                        </div>
-                        <div class="course-item">
-                            <h3 class="course-item-title">ইসলামিক ইতিহাস</h3>
-                            <p class="course-item-desc">ইসলামের গৌরবময় ইতিহাস জানুন</p>
-                        </div>
-                        <div class="course-item">
-                            <h3 class="course-item-title">আরবি ভাষা</h3>
-                            <p class="course-item-desc">কুরআনের ভাষা শিখুন সহজে</p>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- বিশেষ কোর্স -->
-                <div class="section">
-                    <h2 class="section-header">বিশেষ কোর্স</h2>
-                    <div class="course-list">
-                        <div class="course-item">
-                            <h3 class="course-item-title">তাজভীদ শিক্ষা</h3>
-                            <p class="course-item-desc">কুরআন তিলাওয়াতের নিয়মকানুন</p>
-                        </div>
-                        <div class="course-item">
-                            <h3 class="course-item-title">ফিকহ শাস্ত্র</h3>
-                            <p class="course-item-desc">ইসলামি জীবনবিধান শিখুন</p>
-                        </div>
-                        <div class="course-item">
-                            <h3 class="course-item-title">আকীদা বিশ্বাস</h3>
-                            <p class="course-item-desc">সঠিক ইসলামি বিশ্বাস জানুন</p>
-                        </div>
-                        <div class="course-item">
-                            <h3 class="course-item-title">দাওয়াত ও তাবলীগ</h3>
-                            <p class="course-item-desc">ইসলাম প্রচারের পদ্ধতি শিখুন</p>
-                        </div>
-                    </div>
-                </div>
-</div>
-
-
-
-<!-- নতুন স্কিল ডেবলাপমেন্ট এবং বান্ডেল কোর্স সেকশন -->
-<div class="skill-bundle-sections">
-    <div class="skill-section">
-        <h2 class="digital-header">স্কিল ডেবলপমেন্ট কোর্স</h2>
-        <div class="digital-buttons">
-            <button class="digital-btn">ওয়েব ডিজাইন</button>
-            <button class="digital-btn">গ্রাফিক ডিজাইন</button>
-            <button class="digital-btn">ডিজিটাল মার্কেটিং</button>
-            <button class="digital-btn">প্রোগ্রামিং</button>
-        </div>
-    </div>
-
-    <div class="bundle-section">
-        <h2 class="digital-header">বান্ডেল কোর্স</h2>
-        <div class="digital-buttons">
-            <button class="digital-btn">কম্বো প্যাকেজ ১</button>
-            <button class="digital-btn">কম্বো প্যাকেজ ২</button>
-            <button class="digital-btn">প্রিমিয়াম বান্ডেল</button>
-            <button class="digital-btn">স্পেশাল অফার</button>
+        <p>আমাদের শিক্ষা কার্যক্রম এমনভাবে সাজানো হয়েছে, যাতে যে কেউ—ছাত্র, পেশাজীবী বা জ্ঞানপিপাসু—সহজে শিখতে পারে। প্রতিটি বিভাগে রয়েছে বাস্তবমুখী পাঠক্রম ও মানসম্মত শিক্ষার নিশ্চয়তা।</p>
+        
+        <div class="cyber-services">
+            <div class="cyber-item" onclick="window.location.href='MadaniNisab.html'">
+                <span>কওমী মাদ্রাসা</span>
+            </div>
+            <div class="cyber-item">
+                <span>আলিয়া মাদ্রাসা</span>
+            </div>
+            <div class="cyber-item" onclick="window.location.href='WomensMadrasa.html'">
+                <span>মহিলা মাদ্রাসা</span>
+            </div>
+            <div class="cyber-item">
+                <span>মক্তব আফটার স্কুল</span>
+            </div>
+            <div class="cyber-item">
+                <span>নৈশ্য মাদ্রাসা</span>
+            </div>
+            <div class="cyber-item" onclick="window.location.href='MadaniNisab.html'">
+                <span>মাদানী নেসাব</span>
+            </div>
         </div>
     </div>
 </div>
-
-</div> 
 <script>
-            // Custom image URLs - Replace these with your actual image URLs
-            const courseImages = {
-                'kowmi': 'img/al-quran-7737590_1280.jpg',
-                'aliya': 'img/Darul_Uloom_Deoband.jpg',
-                'women': 'img/man-7757211_1280.png',
-                'maktab': 'img/al-quran-7741928_1280.jpg',
-                'night': 'img/mardin-3551714_1280.jpg',
-                'everyone': 'img/holy-quran-1528446_1280.jpg'
-            };
+    // Ripple effect for service items
+    const cyberItems = document.querySelectorAll('.cyber-item');
     
-            // Function to update images
-            function updateCourseImages() {
-                const cards = document.querySelectorAll('.course-card');
-                const imageKeys = Object.keys(courseImages);
-                
-                cards.forEach((card, index) => {
-                    const imageDiv = card.querySelector('.course-image');
-                    const key = imageKeys[index];
-                    if (key && courseImages[key]) {
-                        // Update background image while keeping the gradient overlay
-                        const currentStyle = imageDiv.style.background || '';
-                        if (currentStyle.includes('linear-gradient')) {
-                            imageDiv.style.background = currentStyle.replace(/url\([^)]*\)/, `url('${courseImages[key]}')`);
-                        } else {
-                            imageDiv.style.backgroundImage = `url('${courseImages[key]}')`;
-                        }
-                    }
-                });
-            }
-    
-            // Add smooth scroll effect for links
-            document.querySelectorAll('.course-card, .course-item').forEach(card => {
-                card.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Add a click effect
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 150);
-                    
-                    // Get the href attribute and navigate
-                    const href = this.getAttribute('href');
-                    console.log('Navigating to:', href);
-                    
-                    // You can add actual navigation logic here
-                    // window.location.href = href; // Uncomment for actual navigation
-                });
-            });
-    
-            // Add loading animation
-            window.addEventListener('load', function() {
-                updateCourseImages(); // Apply custom images
-                
-                const cards = document.querySelectorAll('.course-card');
-                cards.forEach((card, index) => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(30px)';
-                    
-                    setTimeout(() => {
-                        card.style.transition = 'all 0.6s ease';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, index * 100);
-                });
-    
-                // Animate additional sections
-                const sections = document.querySelectorAll('.section');
-                sections.forEach((section, index) => {
-                    section.style.opacity = '0';
-                    section.style.transform = 'translateY(40px)';
-                    
-                    setTimeout(() => {
-                        section.style.transition = 'all 0.8s ease';
-                        section.style.opacity = '1';
-                        section.style.transform = 'translateY(0)';
-                    }, 600 + (index * 200));
-                });
-    
-                // Animate course items
-                const courseItems = document.querySelectorAll('.course-item');
-                courseItems.forEach((item, index) => {
-                    item.style.opacity = '0';
-                    item.style.transform = 'translateX(-20px)';
-                    
-                    setTimeout(() => {
-                        item.style.transition = 'all 0.5s ease';
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateX(0)';
-                    }, 1000 + (index * 100));
-                });
-            });
+    cyberItems.forEach(item => {
+        item.addEventListener('mouseenter', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            this.style.setProperty('--mouse-x', x + 'px');
+            this.style.setProperty('--mouse-y', y + 'px');
+        });
+    });
 </script>
 
 
@@ -14563,6 +12640,323 @@ function showDeviceInfo() {
 
 
 
+<!-- জনপ্রিয় কোর্স -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+    /* নতুন সেকশনের জন্য স্টাইল */
+    .additional-sectionsD {
+    margin: 0 0;
+    padding: 0 0px;
+    max-width: 1200px;     
+    margin: 0 auto;     
+    /* padding-top: 20px;      */
+    text-align: center;     
+    /* background: rgba(255, 255, 255, 0.95); */
+    /* backdrop-filter: blur(20px); */
+    /* border-radius: 25px;      */
+    /* box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);      */
+    /* margin-top: 15px; */
+    /* margin-bottom: 15px; */
+    /* border: 1px solid rgba(255, 255, 255, 0.3); */
+    position: relative;
+    overflow: hidden;
+    }
+    /* ডেক্সটপে পাশাপাশি দেখানোর জন্য */
+    .course-sections-containerD{
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* ডেক্সটপে ২টি কলাম */
+    /* gap: 40px; */
+    /* margin-bottom: 10px; */
+    /* background: white; */
+    /* border-radius: 15px; */
+    /* padding: 40px; */
+    /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); */
+    /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+    }
+
+    .sectionD {
+        max-width: 1200px;
+        /* margin-bottom: 10px; */
+        /* background: white; */
+        /* border-radius: 20px; */
+        /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        padding-right: 20px;
+    }
+    .sectionDE{
+        max-width: 1200px;
+        margin-bottom: 10px;
+        /* background: white; */
+        /* border-radius: 20px; */
+        /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .section-headerD {
+        width: 100%;
+        height: auto;
+        background: #dcdcdc;
+        font-size: 1.5rem;
+        /* font-weight: 700; */
+        color: #2d3748;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 5px;
+        position: relative;
+        font-family: 'SolaimanLipi', 'Kalpurush', 'Arial', sans-serif;
+        font-family: 'Hind Siliguri', sans-serif;
+    }
+    
+    /* ডেক্সটপে ২টি, ট্যাবলেটে ২টি, মোবাইলে ২টি */
+    .course-listD {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* ডেক্সটপে ২টি কলাম (কারণ এখন সেকশন পাশাপাশি) */
+        gap: 25px;
+    }
+
+    .course-itemD {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+        padding: 25px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        cursor: pointer;
+    }
+
+    .course-itemD::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #48bb78, #38a169);
+        transition: left 0.4s ease;
+        z-index: 1;
+        opacity: 0.9;
+    }
+
+    .course-itemD:hover::before {
+        left: 0;
+    }
+
+    .course-itemD:hover {
+        /* transform: translateY(-8px); */
+        border-color: #48bb78;
+        box-shadow: 0 15px 35px rgba(72, 187, 120, 0.2);
+    }
+
+    .course-itemD:hover .course-item-titleD,
+    .course-itemD:hover .course-item-descD {
+        color: white;
+        /* transform: translateY(-2px); */
+    }
+
+    .course-item-titleD {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 10px;
+        position: relative;
+        z-index: 2;
+        transition: all 0.3s ease;
+        font-family: 'SolaimanLipi', 'Kalpurush', 'Arial', sans-serif;
+        font-family: 'Hind Siliguri', sans-serif;
+    }
+
+    .course-item-descD {
+        font-size: 0.8rem;
+        color: #718096;
+        line-height: 1.6;
+        position: relative;
+        z-index: 2;
+        transition: all 0.3s ease;
+        font-family: 'SolaimanLipi', 'Kalpurush', 'Arial', sans-serif;
+        font-family: 'Hind Siliguri', sans-serif;
+    }
+
+    /* ট্যাবলেটের জন্য - এখনও পাশাপাশি থাকবে */
+    @media (max-width: 1024px) {
+        .course-sections-containerD {
+            gap: 30px;
+        }
+        
+        .course-listD {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+    }
+
+    /* ট্যাবলেট এবং মোবাইলের জন্য রেসপন্সিভ */
+    @media (max-width: 768px) {
+        .additional-sectionsD {
+            margin: 10px 0;
+            padding: 0 15px;
+        }
+
+        /* মোবাইলে উপর-নিচে দেখানোর জন্য */
+        .course-sections-containerD {
+            grid-template-columns: 1fr; /* মোবাইলে ১টি কলাম */
+            gap: 20px;
+        }
+
+        .section-headerD {
+            font-size: 1.8rem;
+            /* margin-bottom: 30px; */
+        }
+
+        .course-listD {
+            grid-template-columns: repeat(2, 1fr); /* মোবাইলে ২টি কলাম */
+            gap: 20px;
+        }
+
+        .course-itemD {
+            padding: 20px;
+        }
+
+        .course-item-titleD {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .course-item-descD {
+            font-size: 0.95rem;
+        }
+    }
+
+    /* ছোট মোবাইলের জন্য */
+    @media (max-width: 480px) {
+        /* .sectionD {
+            padding: 25px 15px;
+        } */
+
+        .section-headerD {
+            font-size: 1.5rem;
+        }
+
+        .course-listD {
+            grid-template-columns: repeat(2, 1fr); /* এখনও ২টি কলাম */
+            gap: 15px;
+        }
+
+        .course-itemD {
+            padding: 18px;
+        }
+
+        .course-item-titleD {
+            font-size: 1.1rem;
+        }
+
+        .course-item-descD {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* অতিরিক্ত এনিমেশন এফেক্ট */
+    .course-itemD:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .course-itemD:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .course-itemD:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .course-itemD:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+    @keyframes fadeInUpD {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .course-itemD {
+        animation: fadeInUpD 0.6s ease forwards;
+    }
+
+    /* হোভার এফেক্টে আইকন যোগ করার জন্য */
+    .course-itemD::after {
+        content: '→';
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        font-size: 1.5rem;
+        color: #48bb78;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.3s ease;
+        z-index: 3;
+    }
+
+    .course-itemD:hover::after {
+        opacity: 1;
+        transform: translateX(0);
+        color: white;
+    }
+</style>
+<div class="additional-sectionsD">
+    <!-- পাশাপাশি সেকশনের জন্য কন্টেইনার -->
+    <div class="course-sections-containerD">
+        <!-- জনপ্রিয় কোর্স -->
+        <div class="sectionD">
+            <h2 class="section-headerD">জনপ্রিয় কোর্স</h2>
+            <div class="course-listD">
+                <div class="course-itemD">
+                    <h3 class="course-item-titleD">কুরআন তিলাওয়াত</h3>
+                    <p class="course-item-descD">সহীহ উচ্চারণে কুরআন পড়া শিখুন</p>
+                </div>
+                <div class="course-itemD">
+                    <h3 class="course-item-titleD">হাদিস অধ্যয়ন</h3>
+                    <p class="course-item-descD">রাসূলের সুন্নাহ জানুন ও বুঝুন</p>
+                </div>
+                <div class="course-itemD">
+                    <h3 class="course-item-titleD">ইসলামিক ইতিহাস</h3>
+                    <p class="course-item-descD">ইসলামের গৌরবময় ইতিহাস জানুন</p>
+                </div>
+                <div class="course-itemD">
+                    <h3 class="course-item-titleD">আরবি ভাষা</h3>
+                    <p class="course-item-descD">কুরআনের ভাষা শিখুন সহজে</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- বিশেষ কোর্স -->
+        <div class="sectionDE">
+            <h2 class="section-headerD">বিশেষ কোর্স</h2>
+            <div class="course-listD">
+                <div class="course-itemD">
+                    <h3 class="course-item-titleD">তাজভীদ শিক্ষা</h3>
+                    <p class="course-item-descD">কুরআন তিলাওয়াতের নিয়মকানুন</p>
+                </div>
+                <div class="course-itemD">
+                    <h3 class="course-item-titleD">ফিকহ শাস্ত্র</h3>
+                    <p class="course-item-descD">ইসলামি জীবনবিধান শিখুন</p>
+                </div>
+                <div class="course-itemD">
+                    <h3 class="course-item-titleD">আকীদা বিশ্বাস</h3>
+                    <p class="course-item-descD">সঠিক ইসলামি বিশ্বাস জানুন</p>
+                </div>
+                <div class="course-itemD">
+                    <h3 class="course-item-titleD">দাওয়াত ও তাবলীগ</h3>
+                    <p class="course-item-descD">ইসলাম প্রচারের পদ্ধতি শিখুন</p>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
 
 
 
@@ -14570,9 +12964,351 @@ function showDeviceInfo() {
 
 
 
+<!-- স্কিল ডেবলপমেন্ট কোর্স -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-family: 'Hind Siliguri', sans-serif;
+        background-color: #f8f9fa;
+        padding: 20px;
+    }
+    
+    .containerE {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        /* background: white; */
+        /* box-shadow: 0 2px 8px rgba(0,0,0,0.1); */
+    }
+    
+    .sectionE {
+        /* background: white; */
+        border-radius: 8px;
+        padding: 24px;
+        /* box-shadow: 0 2px 8px rgba(0,0,0,0.1); */
+    }
+    
+    .section-titleE {
+    width: 100%;
+    height: auto;
+    background: #dcdcdc;
+  font-size: 24px;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 20px;
+  position: relative;
+}
 
+.section-titleE::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 30%; /* progress-এর পরিমাণ (% হিসেবে) */
+  height: 5px;
+  background: #48bb78; /* লোড হওয়া অংশের রঙ */
+  border-radius: 2px; /* কিছুটা গোল করা */
+}
 
+/* progress bar-এর বাকী ফাঁকা অংশের ব্যাকগ্রাউন্ড */
+.section-titleE::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #e2e8f0; /* ফাঁকা অংশের ব্যাকগ্রাউন্ড */
+  border-radius: 2px;
+}
 
+    
+    .product-listE {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .product-itemE {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px;
+        background: #f7fafc;
+        border-radius: 8px;
+        transition: transform 0.2s ease;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .product-itemE:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .product-imageE {
+        width: 80px;
+        height: 80px;
+        background: white;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        flex-shrink: 0;
+    }
+    
+    .product-detailsE {
+        flex: 1;
+    }
+    
+    .product-nameE {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 8px;
+        line-height: 1.3;
+    }
+    
+    .ratingE {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+    
+    .starsE {
+        color: #f6ad55;
+        font-size: 14px;
+    }
+    
+    .rating-textE {
+        color: #718096;
+        font-size: 14px;
+    }
+    
+    .price-containerE {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .current-priceE {
+        font-size: 18px;
+        font-weight: 700;
+        color: #48bb78;
+    }
+    
+    .original-priceE {
+        font-size: 14px;
+        color: #a0aec0;
+        text-decoration: line-through;
+    }
+    
+    @media (max-width: 768px) {
+        .containerE {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .sectionE {
+            padding: 16px;
+        }
+        
+        .section-titleE {
+            font-size: 20px;
+        }
+        
+        .product-itemE {
+            flex-direction: row;
+            text-align: left;
+            padding: 12px;
+            position: relative;
+        }
+        
+        .product-imageE {
+            width: 60px;
+            height: 60px;
+            font-size: 30px;
+        }
+        
+        .product-detailsE {
+            flex: 1;
+        }
+        
+        .product-nameE {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+        
+        .ratingE {
+            margin-bottom: 6px;
+        }
+        
+        .starsE {
+            font-size: 12px;
+        }
+        
+        .rating-textE {
+            font-size: 12px;
+        }
+        
+        .current-priceE {
+            font-size: 16px;
+        }
+        
+        .original-priceE {
+            font-size: 12px;
+        }
+    }
+</style>
+<div class="containerE">
+    <!-- Top Selling Section -->
+    <div class="sectionE">
+        <h2 class="section-titleE">স্কিল ডেবলপমেন্ট কোর্স</h2>
+        <div class="product-listE">
+            <a href="#arabic-course" class="product-itemE">
+                <div class="product-imageE"><i class="fa-solid fa-handshake-angle"></i></div>
+                <div class="product-detailsE">
+                    <div class="product-nameE">আরবি ভাষার ভিত্তি মজবুত করতে এই কোর্স।</div>
+                    <div class="ratingE">
+                        <span class="starsE">★★★★☆</span>
+                        <span class="rating-textE">(4.3)</span>
+                    </div>
+                    <div class="price-containerE">
+                        <span class="current-priceE">৳৪,৫৯৬</span>
+                        <span class="original-priceE">৳৯,৯৩০</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#hadith-course" class="product-itemE">
+                <div class="product-imageE"><i class="fa-solid fa-marker"></i></div>
+                <div class="product-detailsE">
+                    <div class="product-nameE">হাদিস শাস্ত্রের গভীর অধ্যয়ন ও ব্যাখ্যা শিখতে।</div>
+                    <div class="ratingE">
+                        <span class="starsE">★★★★☆</span>
+                        <span class="rating-textE">(4.3)</span>
+                    </div>
+                    <div class="price-containerE">
+                        <span class="current-priceE">৳৪,৫৯৬</span>
+                        <span class="original-priceE">৳৯,৯৩০</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="#dawah-course" class="product-itemE">
+                <div class="product-imageE"><i class="fa-solid fa-scale-unbalanced-flip"></i></div>
+                <div class="product-detailsE">
+                    <div class="product-nameE">ইসলামিক বক্তৃতা ও দাওয়াহ দক্ষতা উন্নত করার কোর্স।</div>
+                    <div class="ratingE">
+                        <span class="starsE">★★★★☆</span>
+                        <span class="rating-textE">(4.3)</span>
+                    </div>
+                    <div class="price-containerE">
+                        <span class="current-priceE">৳৪,৫৯৬</span>
+                        <span class="original-priceE">৳৯,৯৩০</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#quran-course" class="product-itemE">
+                <div class="product-imageE"><i class="fa-solid fa-book-quran"></i></div>
+                <div class="product-detailsE">
+                    <div class="product-nameE">শুদ্ধ তাজবিদসহ সুন্দর কুরআন তিলাওয়াতের কোর্স।</div>
+                    <div class="ratingE">
+                        <span class="starsE">★★★★☆</span>
+                        <span class="rating-textE">(4.3)</span>
+                    </div>
+                    <div class="price-containerE">
+                        <span class="current-priceE">৳৪,৫৯৬</span>
+                        <span class="original-priceE">৳৯,৯৩০</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Trending Products Section -->
+    <div class="sectionE">
+        <h2 class="section-titleE">বান্ডেল কোর্স</h2>
+        <div class="product-listE">
+            <a href="#arabic-quran-bundle" class="product-itemE">
+                <div class="product-imageE"><i class="fa-solid fa-language"></i></div>
+                <div class="product-detailsE">
+                    <div class="product-nameE"> আরবি ভাষার মৌলিকতা ও কুরআন তাজবিদ একসাথে শিখুন।</div>
+                    <div class="ratingE">
+                        <span class="starsE">★★★★☆</span>
+                        <span class="rating-textE">(4.3)</span>
+                    </div>
+                    <div class="price-containerE">
+                        <span class="current-priceE">৳৪,৫৯৬</span>
+                        <span class="original-priceE">৳৯,৯৩০</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#hadith-fiqh-bundle" class="product-itemE">
+                <div class="product-imageE"><i class="fa-solid fa-scroll"></i></div>
+                <div class="product-detailsE">
+                    <div class="product-nameE"> হাদিসের বুনিয়াদি শিক্ষা ও ইসলামী আইন (ফিকহ) একসাথে আয়ত্ত করুন।</div>
+                    <div class="ratingE">
+                        <span class="starsE">★★★★☆</span>
+                        <span class="rating-textE">(4.3)</span>
+                    </div>
+                    <div class="price-containerE">
+                        <span class="current-priceE">৳৪,৫৯৬</span>
+                        <span class="original-priceE">৳৯,৯৩০</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="#dawah-speech-bundle" class="product-itemE">
+                <div class="product-imageE"><i class="fa-solid fa-users-gear"></i></div>
+                <div class="product-detailsE">
+                    <div class="product-nameE">দাওয়াহ কৌশল ও ইসলামিক বক্তৃতা দক্ষতা বাড়ানোর জন্য একসাথে।</div>
+                    <div class="ratingE">
+                        <span class="starsE">★★★★☆</span>
+                        <span class="rating-textE">(4.3)</span>
+                    </div>
+                    <div class="price-containerE">
+                        <span class="current-priceE">৳৪,৫৯৬</span>
+                        <span class="original-priceE">৳৯,৯৩০</span>
+                    </div>
+                </div>
+            </a>
+            
+            <a href="#maktab-madrasa-bundle" class="product-itemE">
+                <div class="product-imageE"><i class="fa-solid fa-chalkboard-user"></i></div>
+                <div class="product-detailsE">
+                    <div class="product-nameE">শিশু ও প্রাপ্তবয়স্কদের জন্য মক্তব ও নৈশ্য মাদ্রাসার কন্টেন্ট একসাথে শিখুন।</div>
+                    <div class="ratingE">
+                        <span class="starsE">★★★★☆</span>
+                        <span class="rating-textE">(4.3)</span>
+                    </div>
+                    <div class="price-containerE">
+                        <span class="current-priceE">৳৪,৫৯৬</span>
+                        <span class="original-priceE">৳৯,৯৩০</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
 
 
 
@@ -14590,537 +13326,532 @@ function showDeviceInfo() {
 
 <!-- আপনি কি শিখতে চান? -->
 <style>
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box;
-        } 
+    * { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+} 
 
-        body {
-            font-family: 'Hind Siliguri', 'Bangla', Arial, sans-serif;
-            padding: 0;
-            margin: 0;
-            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
+body {
+    font-family: 'Hind Siliguri', 'Bangla', Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+    background-attachment: fixed;
+    min-height: 100vh;
+}
 
-        .container03 {     
-            max-width: 1200px;     
-            margin: 0 auto;     
-            /* padding-top: 20px;      */
-            text-align: center;     
-            /* background: rgba(255, 255, 255, 0.95); */
-            /* backdrop-filter: blur(20px); */
-            border-radius: 25px;     
-            /* box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);      */
-            /* margin-top: 15px; */
-            /* margin-bottom: 15px; */
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
+.container03 {     
+    max-width: 1200px;     
+    margin: 0 auto;     
+    padding-top: 20px;     
+    text-align: center; 
+    padding: 0px 10px;    
+    /* background: rgba(255, 255, 255, 0.95); */
+    /* backdrop-filter: blur(20px); */
+    /* border-radius: 25px;      */
+    /* box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);      */
+    /* margin-top: 15px; */
+    /* margin-bottom: 15px; */
+    /* border: 1px solid rgba(255, 255, 255, 0.3); */
+    position: relative;
+    overflow: hidden;
+}
 
-        .container03::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            /* background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c); */
-            /* background-size: 300% 100%; */
-            animation: gradientShift 3s ease-in-out infinite;
-        }
+.container03::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    /* background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c); */
+    /* background-size: 300% 100%; */
+    animation: gradientShift 3s ease-in-out infinite;
+}
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
 
+.headerB h2 { 
+    font-size: 1.5rem; 
+    /* margin-bottom: 0px;  */
+    /* padding-top: 20px; */
+    /* max-width: 100%; */
+    height: auto;
+    background: #dcdcdc;
+    color: #2d3748;
+    /* margin-bottom: 10px;     */
+}
+
+.headerB p { 
+    font-size: 1.4rem; 
+    color: #555;
+    font-weight: 400;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.5s forwards;
+    display: none;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.madrasah-categories { 
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+    justify-items: center;
+    padding: 0 0px 0px;
+}  
+
+.madrasah-category { 
+    width: 100%;
+    max-width: 200px;
+    padding: 30px 20px 25px; 
+    text-align: center; 
+    cursor: pointer; 
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.madrasah-category::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s;
+}
+
+.madrasah-category:hover::before {
+    left: 100%;
+}
+
+.madrasah-category:hover { 
+    /* transform: translateY(-8px) scale(1.02); */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border-color: rgba(102, 126, 234, 0.3);
+}  
+
+.icon-container { 
+    width: 80px; 
+    height: 80px; 
+    margin: 0 auto 20px; 
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    font-size: 2.5rem;
+    color: white;
+}
+
+.icon-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+}
+
+.madrasah-category:hover .icon-container::before {
+    width: 100%;
+    height: 100%;
+}
+
+.madrasah-category:hover .icon-container {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+/* Icon background colors with gradients */
+.madrasah-quran .icon-container { 
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}  
+
+.madrasah-hadith .icon-container { 
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}  
+
+.madrasah-fiqh .icon-container { 
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}  
+
+.madrasah-arabic .icon-container { 
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+}  
+
+.madrasah-tafsir .icon-container { 
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+}  
+
+.madrasah-islamic .icon-container { 
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.madrasah-sirat .icon-container {
+    background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+}
+
+.madrasah-history .icon-container {
+    background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+}
+
+.madrasah-research .icon-container {
+    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+}
+
+.madrasah-category h3 { 
+    font-size: 1.2rem; 
+    margin-bottom: 8px; 
+    color: #1e293b;
+    font-weight: 600;
+    line-height: 1.3;
+    transition: all 0.3s ease;
+}
+
+.madrasah-category:hover h3 {
+    color: #667eea;
+    transform: scale(1.05);
+}
+
+.madrasah-category p { 
+    font-size: 0.9rem; 
+    color: #64748b;
+    font-weight: 400;
+    line-height: 1.2;
+    transition: all 0.3s ease;
+}
+
+.madrasah-category:hover p {
+    color: #4a5568;
+}
+
+/* Floating particles animation */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 50%;
+    animation: float 6s infinite linear;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Features section styles */
+
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    /* border-radius: 25px; */
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    background-size: 200% 100%;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+.feature-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+}
+
+.feature-card:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+
+
+.feature-card h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+    position: relative;
+    padding-bottom: 15px;
+    z-index: 2;
+}
+
+.feature-card h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.feature-card:hover h2::after {
+    width: 80px;
+}
+
+.feature-card span {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    z-index: 2;
+    position: relative;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .madrasah-categories {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    .madrasah-categories {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        padding: 0 20px 40px;
+    }
     
-
-        .headerB h1 { 
-            font-size: 40px; 
-            margin-bottom: 0px; 
-            padding-top: 20px;    
-        }
-
-        .headerB p { 
-            font-size: 1.4rem; 
-            color: #555;
-            font-weight: 400;
-            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.5s forwards;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .madrasah-categories { 
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 25px;
-            justify-items: center;
-            padding: 0 30px 50px;
-        }  
-
-        .madrasah-category { 
-            width: 100%;
-            max-width: 200px;
-            padding: 30px 20px 25px; 
-            text-align: center; 
-            cursor: pointer; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .madrasah-category::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.6s;
-        }
-
-        .madrasah-category:hover::before {
-            left: 100%;
-        }
-
-        .madrasah-category:hover { 
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            border-color: rgba(102, 126, 234, 0.3);
-        }  
-
-        .icon-container { 
-            width: 80px; 
-            height: 80px; 
-            margin: 0 auto 20px; 
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-            font-size: 2.5rem;
-            color: white;
-        }
-
-        .icon-container::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            transition: all 0.4s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        .madrasah-category:hover .icon-container::before {
-            width: 100%;
-            height: 100%;
-        }
-
-        .madrasah-category:hover .icon-container {
-            transform: scale(1.1) rotate(-5deg);
-        }
-
-        /* Icon background colors with gradients */
-        .madrasah-quran .icon-container { 
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }  
-
-        .madrasah-hadith .icon-container { 
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        }  
-
-        .madrasah-fiqh .icon-container { 
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }  
-
-        .madrasah-arabic .icon-container { 
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-        }  
-
-        .madrasah-tafsir .icon-container { 
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-        }  
-
-        .madrasah-islamic .icon-container { 
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-        }
-
-        .madrasah-sirat .icon-container {
-            background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
-        }
-
-        .madrasah-history .icon-container {
-            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
-        }
-
-        .madrasah-research .icon-container {
-            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-        }
-
-        .madrasah-category h3 { 
-            font-size: 1.2rem; 
-            margin-bottom: 8px; 
-            color: #1e293b;
-            font-weight: 600;
-            line-height: 1.3;
-            transition: all 0.3s ease;
-        }
-
-        .madrasah-category:hover h3 {
-            color: #667eea;
-            transform: scale(1.05);
-        }
-
-        .madrasah-category p { 
-            font-size: 0.9rem; 
-            color: #64748b;
-            font-weight: 400;
-            line-height: 1.2;
-            transition: all 0.3s ease;
-        }
-
-        .madrasah-category:hover p {
-            color: #4a5568;
-        }
-
-        /* Floating particles animation */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(102, 126, 234, 0.3);
-            border-radius: 50%;
-            animation: float 6s infinite linear;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Features section styles */
-       
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-
-        @media (min-width: 768px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 992px) {
-            .features-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            height: 100%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .feature-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
-            background-size: 200% 100%;
-            animation: gradientShift 3s ease-in-out infinite;
-        }
-
-        .feature-card::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            transition: all 0.4s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        .feature-card:hover::after {
-            width: 300px;
-            height: 300px;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-            border-color: rgba(102, 126, 234, 0.4);
-        }
-
-        .feature-card h2 {
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #333;
-            position: relative;
-            padding-bottom: 15px;
-            z-index: 2;
-        }
-
-        .feature-card h2::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 2px;
-            transition: width 0.3s ease;
-        }
-
-        .feature-card:hover h2::after {
-            width: 80px;
-        }
-
-        .feature-card span {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: #555;
-            z-index: 2;
-            position: relative;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .madrasah-categories {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 20px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .madrasah-categories {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 18px;
-                padding: 0 20px 40px;
-            }
-            
-            .madrasah-category {
-                max-width: none;
-                padding: 25px 15px 20px;
-            }
-
-            .icon-container {
-                width: 70px;
-                height: 70px;
-                font-size: 2.2rem;
-            }
-        }
-
-        @media (max-width: 768px) { 
-            .container03 {
-                /* padding: 20px 15px 0; */
-                /* margin: 15px; */
-                border-radius: 10px;
-            }
-
-            .madrasah-categories {     
-                grid-template-columns: repeat(3, 1fr);
-                gap: 15px;
-                padding: 0 15px 30px;
-            }  
-
-            .madrasah-category {     
-                padding: 20px 12px 16px;
-                border-radius: 16px;
-            }  
-
-            .icon-container {
-                width: 60px;
-                height: 60px;
-                margin-bottom: 15px;
-                font-size: 2rem;
-            }
-
-
-            .headerB h1 {     
-                font-size: 2.5rem; 
-            }  
-
-            .headerB p {     
-                font-size: 1.2rem; 
-            } 
-
-            .madrasah-category h3 {
-                font-size: 1.1rem;
-                margin-bottom: 6px;
-            }
-
-            .madrasah-category p {
-                font-size: 0.85rem;
-            }
-
-            .feature-card {
-                padding: 30px 20px;
-            }
-            
-            .feature-card h2 {
-                font-size: 1.4rem;
-            }
-
-            .feature-card span {
-                font-size: 1rem;
-            }
-        }  
-
-        @media (max-width: 576px) { 
-
-            .madrasah-categories {     
-                gap: 12px;
-                padding: 0 10px 25px;
-            }  
-
-            .madrasah-category {     
-                padding: 16px 8px 12px;
-                border-radius: 12px;
-            }  
-
-            .icon-container {     
-                width: 50px;     
-                height: 50px;
-                margin-bottom: 12px;
-                font-size: 1.8rem;
-            }
-
-            .madrasah-category h3 {     
-                font-size: 1rem; 
-                margin-bottom: 4px;
-            }  
-
-            .madrasah-category p {     
-                font-size: 0.8rem; 
-            }
-
-
-            .headerB h1 {
-                font-size: 2rem;
-                margin-bottom: 0px;
-            }
-
-            .headerB p {
-                font-size: 1.1rem;
-            }
-        }
-
-        /* Icon pulse animation */
-        @keyframes iconPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .madrasah-category:hover .icon-container i {
-            animation: iconPulse 0.6s ease-in-out;
-        }
-
-        /* Ripple effect animation */
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        /* Bounce animation */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-
-        /* Pulse animation */
-        @keyframes pulse {
-            0% {
-                opacity: 0;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(1);
-            }
-        }
+    .madrasah-category {
+        max-width: none;
+        padding: 25px 15px 20px;
+    }
+
+    .icon-container {
+        width: 70px;
+        height: 70px;
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) { 
+    .container03 {
+        /* padding: 20px 15px 0; */
+        /* margin: 15px; */
+        border-radius: 10px;
+    }
+
+    .madrasah-categories {     
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        padding: 0 15px 30px;
+    }  
+
+    .madrasah-category {     
+        padding: 20px 12px 16px;
+        border-radius: 16px;
+    }  
+
+    .icon-container {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+        font-size: 2rem;
+    }
+
+    .headerB h1 {     
+        font-size: 1.5rem; 
+    }  
+
+    .headerB p {     
+        font-size: 1.2rem; 
+    } 
+
+    .madrasah-category h3 {
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+    }
+
+    .madrasah-category p {
+        font-size: 0.85rem;
+    }
+
+    .feature-card {
+        padding: 30px 20px;
+    }
+    
+    .feature-card h2 {
+        font-size: 1.4rem;
+    }
+
+    .feature-card span {
+        font-size: 1rem;
+    }
+}  
+
+@media (max-width: 576px) { 
+    .madrasah-categories {     
+        gap: 12px;
+        padding: 0 10px 25px;
+    }  
+
+    .madrasah-category {     
+        padding: 16px 8px 12px;
+        border-radius: 12px;
+    }  
+
+    .icon-container {     
+        width: 50px;     
+        height: 50px;
+        margin-bottom: 12px;
+        font-size: 1.8rem;
+    }
+
+    .madrasah-category h3 {     
+        font-size: 1rem; 
+        margin-bottom: 4px;
+    }  
+
+    .madrasah-category p {     
+        font-size: 0.8rem; 
+    }
+
+    .headerB h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0px;
+    }
+
+    .headerB p {
+        font-size: 1.1rem;
+    }
+}
+
+/* Icon pulse animation */
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.madrasah-category:hover .icon-container i {
+    animation: iconPulse 0.6s ease-in-out;
+}
+
+/* Ripple effect animation */
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Bounce animation */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Pulse animation */
+@keyframes pulse {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
 </style>
-<!-- Floating Particles -->
-<div class="particles" id="particles"></div>
 <div class="container03">
         <div class="headerB">
-            <h1>আপনি কি শিখতে চান?</h1>
+            <h2>আপনি কি শিখতে চান?</h2>
             <p>আমাদের থেকে সব বিষয়ে শিখতে পারেন</p>
         </div>
 
@@ -15197,177 +13928,184 @@ function showDeviceInfo() {
                 <p>৪৭ কোর্স</p>
             </div>
         </div>
-
-        <section class="features">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h2>কুরআন ও তাজবিদ</h2>
-                    <span>বিশ্বস্ত ক্বারিদের তত্ত্বাবধানে শুদ্ধ তাজবিদসহ কুরআন শিখুন সহজে ও সঠিকভাবে।</span>
-                </div>
-                <div class="feature-card">
-                    <h2>দাওয়াহমুখী প্ল্যাটফর্ম</h2>
-                    <span>দ্বীনের দাওয়াহ ও জ্ঞানের সমন্বয়ে গড়ে উঠুক আপনার সচেতন ঈমানি পরিচয়।</span>
-                </div>
-                <div class="feature-card">
-                    <h2>তালিমুল ইসলাম একাডেমী</h2>
-                    <span>বিশুদ্ধ দ্বীনি শিক্ষায় জীবন আলোকিত করতে তালিমুল ইসলাম একাডেমীর কোর্সে ভর্তি হন।</span>
-                </div>
-            </div>
-        </section>
 </div>
-<script>
-        // Create floating particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                particlesContainer.appendChild(particle);
-            }
-        }
-
-        // Enhanced hover effects for cards
-        function initializeCardEffects() {
-            const cards = document.querySelectorAll('.madrasah-category');
-            
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', (e) => {
-                    // Create ripple effect
-                    const ripple = document.createElement('div');
-                    ripple.style.position = 'absolute';
-                    ripple.style.borderRadius = '50%';
-                    ripple.style.background = 'rgba(102, 126, 234, 0.3)';
-                    ripple.style.transform = 'scale(0)';
-                    ripple.style.animation = 'ripple 0.6s linear';
-                    ripple.style.left = '50%';
-                    ripple.style.top = '50%';
-                    ripple.style.width = '20px';
-                    ripple.style.height = '20px';
-                    ripple.style.marginLeft = '-10px';
-                    ripple.style.marginTop = '-10px';
-                    
-                    card.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
-            });
-        }
-
-        // Intersection Observer for scroll animations
-        function setupScrollAnimations() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
-
-            // Animate categories on scroll
-            document.querySelectorAll('.madrasah-category').forEach((category, index) => {
-                category.style.opacity = '0';
-                category.style.transform = 'translateY(50px)';
-                category.style.transition = `all 0.6s ease ${index * 0.1}s`;
-                observer.observe(category);
-            });
-
-            // Animate feature cards on scroll
-            document.querySelectorAll('.feature-card').forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(50px)';
-                card.style.transition = `all 0.6s ease ${index * 0.2}s`;
-                observer.observe(card);
-            });
-        }
-
-        // Add click effects
-        function setupClickEffects() {
-            document.querySelectorAll('.madrasah-category').forEach(category => {
-                category.addEventListener('click', () => {
-                    // Create pulse effect
-                    category.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        category.style.transform = 'scale(1)';
-                    }, 150);
-                    
-                    // Add visual feedback
-                    const feedback = document.createElement('div');
-                    feedback.style.position = 'absolute';
-                    feedback.style.top = '0';
-                    feedback.style.left = '0';
-                    feedback.style.right = '0';
-                    feedback.style.bottom = '0';
-                    feedback.style.background = 'rgba(102, 126, 234, 0.1)';
-                    feedback.style.borderRadius = '20px';
-                    feedback.style.animation = 'pulse 0.3s ease-out';
-                    
-                    category.appendChild(feedback);
-                    
-                    setTimeout(() => {
-                        feedback.remove();
-                    }, 300);
-                });
-            });
-        }
-
-        // Initialize everything when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            initializeCardEffects();
-            setupScrollAnimations();
-            setupClickEffects();
-            
-            // Add smooth scrolling
-            document.documentElement.style.scrollBehavior = 'smooth';
-            
-            // Random particles animation
-            setInterval(() => {
-                const particles = document.querySelectorAll('.particle');
-                particles.forEach(particle => {
-                    if (Math.random() > 0.8) {
-                        particle.style.background = `hsl(${Math.random() * 60 + 200}, 70%, 60%)`;
-                    }
-                });
-            }, 2000);
-        });
-
-        // Performance optimization: throttle scroll events
-        let ticking = false;
-        
-        function updateScrollEffects() {
-            // Add scroll-based effects here if needed
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', () => {
-            if (!ticking) {
-                requestAnimationFrame(updateScrollEffects);
-                ticking = true;
-            }
-        });
-
-        // Add loading animation
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease-in-out';
-            
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
-        });
-</script>
 
 
 
+<!-- কুরআন ও তাজবিদ -->
+<style>
+    /* Features section styles */
+    .container019{
+        max-width: 1200px;     
+            margin: 0 auto;     
+            /* margin-top: 20px;   */
+            padding: 24px;   
+            text-align: center;     
+            /* background: rgba(255, 255, 255, 0.95); */
+    }
+
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    /* border-radius: 25px; */
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    background-size: 200% 100%;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+.feature-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    transition: all 0.4s ease;
+    transform: translate(-50%, -50%);
+}
+
+.feature-card:hover::after {
+    width: 300px;
+    height: 300px;
+}
 
 
+.feature-card h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+    position: relative;
+    padding-bottom: 15px;
+    z-index: 2;
+}
+
+.feature-card h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.feature-card:hover h2::after {
+    width: 80px;
+}
+
+.feature-card span {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    z-index: 2;
+    position: relative;
+}
+
+/* Responsive Design for Features */
+@media (max-width: 768px) {
+    .features {
+        padding: 10px 0;
+    }
+
+    .feature-card {
+        padding: 30px 20px;
+    }
+    
+    .feature-card h2 {
+        font-size: 1.4rem;
+    }
+
+    .feature-card span {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .features {
+        padding: 10px 0;
+    }
+
+    .feature-card {
+        padding: 25px 15px;
+        border-radius: 20px;
+    }
+    
+    .feature-card h2 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+
+    .feature-card span {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+}
+
+/* Required animation keyframes */
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+</style>
+<div class="container019">
+<section class="features">
+    <div class="features-grid">
+        <div class="feature-card">
+            <h2>কুরআন ও তাজবিদ</h2>
+            <span>বিশ্বস্ত ক্বারিদের তত্ত্বাবধানে শুদ্ধ তাজবিদসহ কুরআন শিখুন সহজে ও সঠিকভাবে।</span>
+        </div>
+        <div class="feature-card">
+            <h2>দাওয়াহমুখী প্ল্যাটফর্ম</h2>
+            <span>দ্বীনের দাওয়াহ ও জ্ঞানের সমন্বয়ে গড়ে উঠুক আপনার সচেতন ঈমানি পরিচয়।</span>
+        </div>
+        <div class="feature-card">
+            <h2>তালিমুল ইসলাম একাডেমী</h2>
+            <span>বিশুদ্ধ দ্বীনি শিক্ষায় জীবন আলোকিত করতে তালিমুল ইসলাম একাডেমীর কোর্সে ভর্তি হন।</span>
+        </div>
+    </div>
+</section>
+</div>
 
 
 
@@ -15384,9 +14122,9 @@ function showDeviceInfo() {
     .container1 {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 15px;
+      padding: 0 10px;
       /* background-color: white; */
-    border-radius: 10px;
+    /* border-radius: 10px; */
     /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
     /* margin-top: 15px; */
     padding-bottom: 2px;
@@ -15395,15 +14133,19 @@ function showDeviceInfo() {
     .section-header {
         text-align: center;
         margin-bottom: 10px;
+        margin-top: 10px;
         /* padding-top: 30px; */
     }
     
     .section-header h2 {
-        font-size: 32px;
-        font-weight: 700;
-        color: #333;
+        width: 100%;
+        height: auto;
+        background: #dcdcdc;
+        font-size: 1.5rem;
+        /* font-weight: 700; */
+        color: #2d3748;
         /* margin-bottom: 10px; */
-        padding-top: 20px;
+        /* padding-top: 20px; */
         position: relative;
         display: inline-block;
     }
@@ -15414,6 +14156,7 @@ function showDeviceInfo() {
         max-width: 600px;
         margin: 0 auto;
         /* padding-top: 15px; */
+        display: none;
     }
     
     
@@ -15422,7 +14165,7 @@ function showDeviceInfo() {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 20px;
-      padding: 30px 0;
+      /* padding: 30px 0; */
     }
     
     /* বিভিন্ন স্ক্রিন সাইজে রেসপনসিভ গ্রিড */
@@ -15531,7 +14274,7 @@ function showDeviceInfo() {
     }
     
     .course-card:hover {
-      transform: translateY(-5px);
+      /* transform: translateY(-5px); */
       box-shadow: 0 8px 20px rgba(106, 53, 242, 0.15);
       border-color: rgba(106, 53, 242, 0.1);
     }
@@ -15916,7 +14659,7 @@ function showDeviceInfo() {
       </div>
       <div class="course-info">
         <div class="instructor">
-          <img src="img/ChatGPT_Image১-removebg-preview.png" alt="শিক্ষক" class="instructor-img">
+          <img src="img/80px.png" alt="শিক্ষক" class="instructor-img">
           <span>মাওলানা জাকির</span>
         </div>
         <h3 class="course-title">ইসলামী আইন ও জীবন বিধান শিখে আপনার দৈনন্দিন জীবনে সঠিক সিদ্ধান্ত নিন।</h3>
@@ -16232,18 +14975,18 @@ function showDeviceInfo() {
         </div>
 
   <!-- আরো দেখুন বাটন ও এর কন্টেইনার -->
-<div class="see-more-container">
-    <button id="seeMoreBtn" class="see-more-btn" onclick="showMoreCourses()">
-      আরো দেখুন <i class="fas fa-arrow-right"></i>
-    </button>
-  </div>
+  <button class="toggle-button" id="toggleCoursesBtn" onclick="toggleCourses()">
+    <i class="fas fa-plus"></i>
+    <span id="buttonText">আরো দেখুন</span>
+</button>
+  </div>  
 </div> 
 
  <!-- * এই স্ক্রিপ্টটি কোর্স সেকশনে "আরো দেখুন" / "সংকুচিত করুন" ফিচার পরিচালনা করে: -->
  <!-- * - শুরুতে প্রথম ৫টি কোর্স দেখানো হয় -->
  <!-- * - "আরো দেখুন" বাটনে ক্লিক করলে বাকি কোর্সগুলো দেখা যায় -->
  <!-- * - "সংকুচিত করুন" বাটনে আবার অতিরিক্ত কোর্স লুকানো হয় -->
-<script>
+<!-- <script>
     function showMoreCourses() {
   const courseGrid = document.getElementById('courseGrid');
   const seeMoreBtn = document.getElementById('seeMoreBtn');
@@ -16278,14 +15021,126 @@ function hideExtraCourses() {
   seeMoreBtn.onclick = showMoreCourses;
 }
 
+</script> -->
+
+
+
+
+
+
+
+<style>
+        /* বাটনের স্টাইল */
+        .toggle-button {
+            background: #6A35F2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .toggle-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .toggle-button:active {
+            transform: translateY(0);
+        }
+
+        .toggle-button i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+
+        
+
+        
+
+        /* হিডেন কোর্সের স্টাইল */
+        .hidden-course {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .hidden-course.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+</style>
+
+
+<script>
+let isCoursesVisible = false;
+
+function toggleCourses() {
+    const hiddenCourses = document.querySelectorAll('.hidden-course');
+    const toggleBtn = document.getElementById('toggleCoursesBtn');
+    const buttonText = document.getElementById('buttonText');
+    const buttonIcon = toggleBtn.querySelector('i');
+    
+    if (!isCoursesVisible) {
+        // কোর্সগুলো দেখান
+        hiddenCourses.forEach((course, index) => {
+            setTimeout(() => {
+                course.style.display = 'block';
+                // সামান্য অ্যানিমেশনের জন্য
+                setTimeout(() => {
+                    course.style.opacity = '1';
+                    course.style.transform = 'translateY(0)';
+                }, 50);
+            }, index * 100); // একটার পর একটা দেখানোর জন্য
+        });
+        
+        // বাটনের টেক্সট ও আইকন পরিবর্তন
+        buttonText.textContent = 'সংকুচিত করুন';
+        buttonIcon.className = 'fas fa-minus';
+        isCoursesVisible = true;
+        
+    } else {
+        // কোর্সগুলো লুকান
+        hiddenCourses.forEach((course, index) => {
+            setTimeout(() => {
+                course.style.opacity = '0';
+                course.style.transform = 'translateY(20px)';
+                
+                // অ্যানিমেশন শেষে সম্পূর্ণ লুকান
+                setTimeout(() => {
+                    course.style.display = 'none';
+                }, 300);
+            }, index * 50);
+        });
+        
+        // বাটনের টেক্সট ও আইকন পরিবর্তন
+        buttonText.textContent = 'আরো দেখুন';
+        buttonIcon.className = 'fas fa-plus';
+        isCoursesVisible = false;
+    }
+}
+
+// প্রাথমিকভাবে হিডেন কোর্সগুলো লুকানো রাখার জন্য
+document.addEventListener('DOMContentLoaded', function() {
+    const hiddenCourses = document.querySelectorAll('.hidden-course');
+    hiddenCourses.forEach(course => {
+        course.style.display = 'none';
+        course.style.opacity = '0';
+        course.style.transform = 'translateY(20px)';
+        course.style.transition = 'all 0.3s ease';
+    });
+});
 </script>
 
-
-
-
-
-
-
+        
 
 
 
@@ -16320,26 +15175,31 @@ body {
 .container6 {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 10px;
     /* background-color: white; */
-    border-radius: 10px;
+    /* border-radius: 10px; */
     /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
-    margin-top: 15px;
+    /* margin-top: 15px; */
     padding-bottom: 2px;
 }
 
 .header2 {
+
     /* background-color: #fff; */
-    padding: 2rem 1rem;
+    /* padding: 2rem 1rem; */
     text-align: center;
+
 }
 
-.header2 h1 {
-    color: black;
-    margin-bottom: 1rem;
-    font-size: 2rem;
-    padding: 0;
-    margin: 0;           
+.header2 h2 {
+    /* width: 100%; */
+    height: auto;
+    background-color: #dcdcdc;
+    color: #2d3748;
+    /* margin-bottom: 1rem; */
+    font-size: 1.5rem;
+    margin-top: 10px;
+             
 }
 
 .header2 p {
@@ -16347,13 +15207,14 @@ body {
     font-size: 1rem;
     max-width: 800px;
     margin: 0 auto;
+    display: none;
 }
 
 .features1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 1rem;
+    /* padding: 1rem; */
     /* background-color: #fff; */
 }
 
@@ -16396,10 +15257,10 @@ body {
 }
 
 .testimonials h2 {
-    color: black;
-    margin-bottom: 1rem;
+    color: #2d3748;
+    /* margin-bottom: 1.5rem; */
     padding: 0;
-    margin: 0;
+    margin-top: 10px;
 }
 
 .testimonials p {
@@ -16546,7 +15407,7 @@ body {
    </style>
     <div class="container6">
     <section class="header2">
-        <h1>কেন মাদ্রাসা অনলাইন বেছে নিবেন</h1>
+        <h2>কেন মাদ্রাসা অনলাইন বেছে নিবেন</h2>
         <p>বাংলাদেশ থেকে শুরু, লক্ষ্য বিশ্বজুড়ে ইসলামী শিক্ষা ছড়িয়ে দেওয়া।</p>
     </section>
     
@@ -16605,29 +15466,32 @@ body {
                 font-family: 'Hind Siliguri', Arial, sans-serif;
                 line-height: 1.6;
                 color: #333;
-                background-color: #f5f5f5;
+                /* background-color: #f5f5f5; */
             }
             
             .testimonials {
 
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 15px;
+            padding: 0 0px;
             /* background-color: white; */
-            border-radius: 10px;
+            /* border-radius: 10px; */
             /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
-            margin-top: 20px;
-            padding-top: 20px;
+            /* margin-top: 15px; */
+            /* padding-top: 20px; */
             padding-bottom: 10px;
             }
             
             .testimonials h2 {
-                color: black;
+                width: 100%;
+                height: auto;
+                background: #dcdcdc;
+                color: #2d3748;
                 /* margin-bottom: 1rem; */
                 padding: 0;
-                margin: 0;
-                font-size: 2rem;
-                font-weight: 600;
+                margin-top: 10px;
+                font-size: 1.5rem;
+                /* font-weight: 600; */
                 position: relative;
                 display: inline-block;
             }
@@ -16748,11 +15612,12 @@ body {
             /* Medium devices (tablets, less than 992px) */
             @media (max-width: 991.98px) {
                 .testimonials h2 {
-                    font-size: 1.6rem;
+                    font-size: 1.5rem;
+                margin-top: 10px;
                 }
                 
                 .testimonials p {
-                    font-size: 0.95rem;
+                    font-size: 1.5rem;
                     margin-bottom: 1.8rem;
                 }
                 
@@ -16774,7 +15639,8 @@ body {
                 }
                 
                 .testimonials h2 {
-                    font-size: 1.4rem;
+                    font-size: 1.5rem;
+                margin-top: 10px;
                 }
                 
                 .testimonials h2:after {
@@ -16822,6 +15688,7 @@ body {
                 
                 .testimonials h2 {
                     font-size: 1.2rem;
+                margin-top: 10px;
                 }
                 
                 .testimonials h2:after {
@@ -16879,7 +15746,9 @@ body {
                 }
                 
                 .testimonials h2 {
-                    font-size: 1.1rem;
+                    font-size: 1.5rem;
+                   margin-top: 10px;
+
                 }
                 
                 .testimonials h2:after {
@@ -16890,7 +15759,7 @@ body {
                 
                 .testimonials p {
                     font-size: 0.75rem;
-                    margin-bottom: 1rem;
+                    /* margin-bottom: 1rem; */
                 }
                 
                 .testimonial {
@@ -16933,7 +15802,7 @@ body {
         </style>
         <section class="testimonials">
             <h2>আমাদের শিক্ষার্থীরা কী বলেন?</h2>
-            <p>আমাদের প্ল্যাটফর্ম কীভাবে বদলে দিয়েছে শিক্ষার্থীদের ইসলামী জীবনধারা, তা জানুন।</p>
+            <!-- <p>আমাদের প্ল্যাটফর্ম কীভাবে বদলে দিয়েছে শিক্ষার্থীদের ইসলামী জীবনধারা, তা জানুন।</p> -->
             
             <div class="testimonial-container">
                 <div class="testimonial">
@@ -16997,16 +15866,16 @@ body {
 
 
 
-<style>
+<!-- <style>
             @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
             
             .counter-section {
                 /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
                 /* background: linear-gradient(135deg, #ffffff 0%, #667eea 30%, #764ba2 100%); */
                 /* background: linear-gradient(135deg, #fafafa 0%, #ccd9ff 25%, #667eea 60%, #764ba2 100%); */
-                /* background: white; */
-                padding: 80px 20px;
-                min-height: 400px;
+                background: white;
+                padding: 10px 20px;
+                /* min-height: 400px; */
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -17017,7 +15886,7 @@ body {
                 max-width: 1200px;
                 margin: 0 auto;
                 /* background-color: white; */
-                border-radius: 10px;
+                /* border-radius: 10px; */
                 /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
                 margin-top: 15px;
             }
@@ -17188,9 +16057,9 @@ body {
                     margin-bottom: 6px;
                 }
             }
-</style>
+</style> -->
 <!-- মূল কাউন্টার সেকশন -->
-<section class="counter-section">
+<!-- <section class="counter-section">
                 <div class="container0">
                     <div class="stats-grid" id="statsGrid">
                         <div class="stat-item">
@@ -17296,8 +16165,280 @@ body {
                         }, 300);
                     }
                 });
-</script>
-   
+</script> -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .stats-banner {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            /* margin-top: 15px; */
+            height: 400px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3b6bb3 100%);
+            background-color: rgb(50, 49, 49);
+            background-image: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .stats-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.05) 50%, transparent 70%),
+                radial-gradient(ellipse at top left, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .building-silhouette {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 100%);
+            clip-path: polygon(
+                0% 100%, 
+                8% 45%, 
+                15% 35%, 
+                22% 55%, 
+                28% 25%, 
+                35% 40%, 
+                42% 30%, 
+                48% 50%, 
+                55% 20%, 
+                62% 45%, 
+                68% 35%, 
+                75% 60%, 
+                82% 25%, 
+                88% 40%, 
+                95% 30%, 
+                100% 45%, 
+                100% 100%
+            );
+            opacity: 0.6;
+        }
+
+        .stats-container {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 60px;
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: white;
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 0.2s; }
+        .stat-item:nth-child(2) { animation-delay: 0.4s; }
+        .stat-item:nth-child(3) { animation-delay: 0.6s; }
+        .stat-item:nth-child(4) { animation-delay: 0.8s; }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: #ffffff;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            font-weight: 300;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            line-height: 1.4;
+            color: #ffffff;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-dot:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-dot:nth-child(2) { top: 40%; left: 85%; animation-delay: 2s; }
+        .floating-dot:nth-child(3) { top: 70%; left: 20%; animation-delay: 4s; }
+        .floating-dot:nth-child(4) { top: 30%; left: 70%; animation-delay: 1s; }
+        .floating-dot:nth-child(5) { top: 80%; left: 90%; animation-delay: 3s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .counter {
+            display: inline-block;
+        }
+
+        @media (max-width: 1024px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+                padding: 0 30px;
+            }
+            
+            .stat-number {
+                font-size: 3rem;
+            }
+            
+            .stat-label {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-banner {
+                height: 500px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 0 20px;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .stat-label {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <div class="stats-banner">
+        <div class="building-silhouette"></div>
+        
+        <div class="floating-elements">
+            <div class="floating-dot"></div>
+            <div class="floating-dot"></div>
+            <div class="floating-dot"></div>
+            <div class="floating-dot"></div>
+            <div class="floating-dot"></div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number"><span class="counter" data-target="23">0</span>+</div>
+                <div class="stat-label">শিক্ষার্থী</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-number"><span class="counter" data-target="250">0</span>+</div>
+                <div class="stat-label">শিক্ষক</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-number"><span class="counter" data-target="4500">0</span>+</div>
+                <div class="stat-label">ফ্রি কোর্স</div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-number"><span class="counter" data-target="3000">0</span>+</div>
+                <div class="stat-label">পেইড কোর্স</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Counter Animation Function
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000; // 2 seconds
+            const step = target / (duration / 16); // 60fps
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current);
+            }, 16);
+        }
+
+        // Intersection Observer for triggering animation when visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        if (!counter.classList.contains('animated')) {
+                            counter.classList.add('animated');
+                            animateCounter(counter);
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Start observing when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const statsContainer = document.querySelector('.stats-container');
+            observer.observe(statsContainer);
+        });
+    </script>
+
+
+
+
+
+
 
 
 
@@ -17314,8 +16455,9 @@ body {
             max-width: 1200px;
             margin: 0 auto;
             padding: 15px;
-            /* background-color: white; */
-            border-radius: 8px;
+            background-color: white;
+            /* margin-top: 15px; */
+            /* border-radius: 8px; */
             /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); */
             /* margin-top: 60px; */
         }
@@ -17324,7 +16466,7 @@ body {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            margin-top: 20px;
+            /* margin-top: 20px; */
         }
 
         .tutorial-card {
@@ -17336,7 +16478,7 @@ body {
         }
 
         .tutorial-card:hover {
-            transform: translateY(-5px);
+            /* transform: translateY(-5px); */
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
@@ -17985,7 +17127,7 @@ body {
 
 
 <!-- ব্যাক টু টপ বাটন -->
-<style>
+<!-- <style>
     /* ব্যাক টু টপ বাটন স্টাইল */
     .back-to-top {
         position: fixed;
@@ -18092,9 +17234,159 @@ body {
             });
         });
     });
-</script>
+</script> -->
 
+     
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+        }
+
+        /* প্রগ্রেস ইন্ডিকেটর */
+        .progress-container {
+            position: fixed;
+            top: 94%;
+            right: 10px;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        .progress-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            /* background: black; */
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .progress-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                #00d4ff 0deg,
+                #5b86e5 90deg,
+                transparent 90deg
+            );
+            transition: all 0.1s ease-out;
+            transform: rotate(-90deg);
+        }
+
+        .arrow {
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+       
+        /* মোবাইল রেসপন্সিভ */
+        @media (max-width: 768px) {
+            .progress-container {
+                right: 10px;
+            }
+            
+            .progress-circle {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .arrow {
+                font-size: 16px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content-section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+
+    <!-- প্রগ্রেস ইন্ডিকেটর -->
+    <div class="progress-container">
+        <div class="progress-circle">
+            <div class="progress-fill" id="progressFill"></div>
+            <div class="arrow"><i class="fas fa-chevron-up"></i></div>
+        </div>
+    </div>
+
+
+    <script>
+        // স্ক্রল প্রগ্রেস ক্যালকুলেট করার ফাংশন
+        function updateScrollProgress() {
+            const progressFill = document.getElementById('progressFill');
+            
+            // মোট স্ক্রল করা যাবে এমন উচ্চতা
+            const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            
+            // বর্তমান স্ক্রল পজিশন
+            const currentScroll = window.pageYOffset;
+            
+            // প্রগ্রেস পার্সেন্টেজ ক্যালকুলেট করা
+            const scrollProgress = (currentScroll / totalScrollHeight) * 100;
+            
+            // সার্কুলার প্রগ্রেস এর জন্য ডিগ্রি ক্যালকুলেট করা
+            const progressDegree = (scrollProgress / 100) * 360;
+            
+            // প্রগ্রেস ফিল এর conic-gradient আপডেট করা
+            progressFill.style.background = `conic-gradient(
+                #5628d8 0deg,
+                #6A35F2 ${progressDegree}deg,
+                transparent ${progressDegree}deg
+            )`;
+        }
+
+        // স্ক্রল ইভেন্ট লিসেনার
+        window.addEventListener('scroll', updateScrollProgress);
         
+        // পেজ লোডের সময় প্রাথমিক প্রগ্রেস সেট করা
+        window.addEventListener('load', updateScrollProgress);
+        
+        // রিসাইজ ইভেন্টের সময় প্রগ্রেস আপডেট করা
+        window.addEventListener('resize', updateScrollProgress);
+        
+        // প্রগ্রেস সার্কেলে ক্লিক করলে টপে যাওয়ার ফিচার
+        document.querySelector('.progress-circle').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+
+
+
 
 </body>
 </html>
