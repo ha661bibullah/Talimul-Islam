@@ -11893,6 +11893,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .container12 {
         padding: 20px;
         border-radius: 10px;
+        margin-top: 20px;
         /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
     }
    
@@ -11937,7 +11938,7 @@ document.addEventListener('DOMContentLoaded', function() {
     /* background-color: white; */
     border-radius: 8px;
     /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); */
-    margin-top: 60px;
+    margin-top: 80px;
 }
 }
 
@@ -12423,7 +12424,7 @@ function showDeviceInfo() {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 25px;
-        margin-bottom: 40px;
+        margin-bottom: 10px;
     }
 
     .cardaTA {
@@ -13367,7 +13368,7 @@ function showDeviceInfo() {
 </div> -->
 
 
-    <style>
+    <!-- <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
         .additional-sectionsD {
             max-width: 1200px;
@@ -13658,8 +13659,468 @@ function showDeviceInfo() {
                 </div>
             </div>
         </div>   
-    </div>
+    </div> -->
 
+
+<style>
+            @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+            .additional-sectionsD {
+                max-width: 1200px;
+                margin: 0 auto;
+                position: relative;
+            }
+    
+            .course-sections-containerD {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+                margin-bottom: 20px;
+            }
+    
+            .sectionD, .sectionDE {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
+                padding: 30px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+    
+            .section-headerD {
+                font-size: 1.8rem;
+                font-weight: 600;
+                color: #2d3748;
+                text-align: center;
+                margin-bottom: 25px;
+                position: relative;
+                padding-bottom: 10px;
+            }
+            
+            .course-listD {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+    
+            .course-itemD {
+                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                border-radius: 15px;
+                padding: 20px;
+                position: relative;
+                overflow: hidden;
+                transition: all 0.4s ease;
+                border: 2px solid transparent;
+                cursor: pointer;
+                min-height: 120px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+    
+            .course-itemD::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: radial-gradient(circle, rgba(72, 187, 120, 0.3) 0%, rgba(72, 187, 120, 0.1) 70%, transparent 100%);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                z-index: 1;
+            }
+    
+            .course-itemD:hover::before {
+                width: 200%;
+                height: 200%;
+            }
+    
+            .course-itemD:hover {
+                transform: scale(1.05) rotate(2deg);
+                border-color: #48bb78;
+                box-shadow: 0 10px 30px rgba(72, 187, 120, 0.3), 
+                            0 0 0 3px rgba(72, 187, 120, 0.1);
+            }
+    
+            .course-itemD:hover .course-item-titleD {
+                transform: scale(1.1);
+                color: #2d3748;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+    
+            .course-itemD:hover .course-item-descD {
+                transform: translateY(-5px);
+                color: #4a5568;
+            }
+    
+            .course-item-titleD {
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: #2d3748;
+                margin-bottom: 8px;
+                position: relative;
+                z-index: 2;
+                transition: all 0.3s ease;
+                text-align: center;
+            }
+    
+            .course-item-descD {
+                font-size: 0.9rem;
+                color: #718096;
+                line-height: 1.5;
+                position: relative;
+                z-index: 2;
+                transition: all 0.3s ease;
+                text-align: center;
+            }
+    
+            .course-itemD::after {
+                content: '→';
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                font-size: 1.2rem;
+                color: #48bb78;
+                opacity: 0;
+                transform: translateX(-10px);
+                transition: all 0.3s ease;
+                z-index: 3;
+            }
+    
+            .course-itemD:hover::after {
+                opacity: 1;
+                transform: translateX(0);
+                color: white;
+            }
+    
+            /* অ্যানিমেশন */
+            .course-itemD {
+                animation: fadeInUp 0.6s ease forwards;
+            }
+    
+            .course-itemD:nth-child(1) { animation-delay: 0.1s; }
+            .course-itemD:nth-child(2) { animation-delay: 0.2s; }
+            .course-itemD:nth-child(3) { animation-delay: 0.3s; }
+            .course-itemD:nth-child(4) { animation-delay: 0.4s; }
+    
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+    
+            /* ট্যাবলেট স্টাইল */
+            @media (max-width: 1024px) {
+                .additional-sectionsD {
+                    padding: 0 15px;
+                }
+                
+                .course-sections-containerD {
+                    gap: 30px;
+                }
+                
+                .sectionD, .sectionDE {
+                    padding: 25px;
+                }
+                
+                .section-headerD {
+                    font-size: 1.6rem;
+                }
+                
+                .course-listD {
+                    gap: 15px;
+                }
+            }
+    
+            /* মোবাইল স্টাইল - মিনিমাল কার্ড ডিজাইন */
+            @media (max-width: 768px) {
+                body {
+                    background: #f8fafc;
+                    padding: 15px;
+                }
+                
+                .additional-sectionsD {
+                    padding: 0;
+                }
+    
+                .course-sections-containerD {
+                    grid-template-columns: 1fr;
+                    gap: 25px;
+                }
+    
+                .sectionD, .sectionDE {
+                    background: white;
+                    border: none;
+                    border-radius: 20px;
+                    padding: 25px 20px;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                }
+    
+                .section-headerD {
+                    font-size: 1.4rem;
+                    margin-bottom: 20px;
+                    color: #1a202c;
+                    font-weight: 700;
+                    position: relative;
+                }
+    
+                .section-headerD::after {
+                    /* content: ''; */
+                    position: absolute;
+                    bottom: -8px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 40px;
+                    height: 3px;
+                    background: linear-gradient(90deg, #667eea, #764ba2);
+                    border-radius: 2px;
+                }
+    
+                .course-listD {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 15px;
+                }
+    
+                .course-itemD {
+                    background: #ffffff;
+                    border: 2px solid #e2e8f0;
+                    border-radius: 16px;
+                    padding: 20px 15px;
+                    min-height: 85px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    overflow: hidden;
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                }
+    
+                .course-itemD::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    height: 4px;
+                    background: linear-gradient(90deg, #667eea, #764ba2, #48bb78);
+                    transform: scaleX(0);
+                    transform-origin: left;
+                    transition: transform 0.5s ease;
+                    border-radius: 16px 16px 0 0;
+                }
+    
+                .course-itemD::after {
+                    content: '📚';
+                    position: absolute;
+                    top: 10px;
+                    right: 12px;
+                    font-size: 1.2rem;
+                    opacity: 0;
+                    transform: scale(0) rotate(180deg);
+                    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                }
+    
+                .course-itemD:hover {
+                    transform: translateY(-8px) scale(1.03);
+                    border-color: #667eea;
+                    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.25),
+                               0 5px 15px rgba(0, 0, 0, 0.1);
+                    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                }
+    
+                .course-itemD:hover::before {
+                    transform: scaleX(1);
+                }
+    
+                .course-itemD:hover::after {
+                    opacity: 1;
+                    transform: scale(1) rotate(0deg);
+                }
+    
+                .course-itemD:hover .course-item-titleD {
+                    color: #667eea;
+                    transform: scale(1.05);
+                }
+    
+                .course-item-titleD {
+                    font-size: 0.95rem;
+                    font-weight: 600;
+                    color: #2d3748;
+                    margin-bottom: 0;
+                    text-align: center;
+                    line-height: 1.4;
+                    position: relative;
+                    z-index: 2;
+                    transition: all 0.3s ease;
+                }
+    
+                /* p ট্যাগ লুকানো */
+                .course-item-descD {
+                    display: none;
+                }
+    
+                /* বিভিন্ন কোর্সের জন্য আলাদা হোবার রঙ */
+                .course-itemD:nth-child(1):hover {
+                    border-color: #48bb78;
+                    box-shadow: 0 15px 40px rgba(72, 187, 120, 0.25),
+                               0 5px 15px rgba(0, 0, 0, 0.1);
+                }
+    
+                .course-itemD:nth-child(1):hover .course-item-titleD {
+                    color: #48bb78;
+                }
+    
+                .course-itemD:nth-child(2):hover {
+                    border-color: #ed8936;
+                    box-shadow: 0 15px 40px rgba(237, 137, 54, 0.25),
+                               0 5px 15px rgba(0, 0, 0, 0.1);
+                }
+    
+                .course-itemD:nth-child(2):hover .course-item-titleD {
+                    color: #ed8936;
+                }
+    
+                .course-itemD:nth-child(3):hover {
+                    border-color: #9f7aea;
+                    box-shadow: 0 15px 40px rgba(159, 122, 234, 0.25),
+                               0 5px 15px rgba(0, 0, 0, 0.1);
+                }
+    
+                .course-itemD:nth-child(3):hover .course-item-titleD {
+                    color: #9f7aea;
+                }
+    
+                .course-itemD:nth-child(4):hover {
+                    border-color: #4299e1;
+                    box-shadow: 0 15px 40px rgba(66, 153, 225, 0.25),
+                               0 5px 15px rgba(0, 0, 0, 0.1);
+                }
+    
+                .course-itemD:nth-child(4):hover .course-item-titleD {
+                    color: #4299e1;
+                }
+    
+                /* বিশেষ কোর্সের জন্য ভিন্ন আইকন */
+                .sectionDE .course-itemD::after {
+                    content: '⭐';
+                }
+    
+                .sectionDE .course-itemD:nth-child(1)::after {
+                    content: '🕌';
+                }
+    
+                .sectionDE .course-itemD:nth-child(2)::after {
+                    content: '📖';
+                }
+    
+                .sectionDE .course-itemD:nth-child(3)::after {
+                    content: '🤲';
+                }
+    
+                .sectionDE .course-itemD:nth-child(4)::after {
+                    content: '💬';
+                }
+            }
+    
+            /* ছোট মোবাইল */
+            @media (max-width: 480px) {
+             
+    
+                .course-sections-containerD {
+                    gap: 20px;
+                }
+    
+                .sectionD, .sectionDE {
+                    padding: 16px;
+                }
+    
+                .section-headerD {
+                    font-size: 1.25rem;
+                    margin-bottom: 15px;
+                }
+    
+                .course-listD {
+                    gap: 10px;
+                }
+    
+                .course-itemD {
+                    padding: 14px 10px;
+                    min-height: 75px;
+                }
+    
+                .course-item-titleD {
+                    font-size: 0.85rem;
+                    line-height: 1.2;
+                }
+            }
+    
+            /* অতি ছোট মোবাইল */
+            @media (max-width: 360px) {
+                .course-item-titleD {
+                    font-size: 0.8rem;
+                }
+    
+                .course-itemD {
+                    min-height: 70px;
+                    padding: 12px 8px;
+                }
+            }
+</style>
+<div class="additional-sectionsD">
+            <div class="course-sections-containerD">
+                <div class="sectionD">
+                    <h2 class="section-headerD">জনপ্রিয় কোর্স</h2>
+                    <div class="course-listD">
+                        <div class="course-itemD">
+                            <h3 class="course-item-titleD">কুরআন তিলাওয়াত</h3>
+                            <p class="course-item-descD">সহীহ উচ্চারণে কুরআন পড়া শিখুন</p>
+                        </div>
+                        <div class="course-itemD">
+                            <h3 class="course-item-titleD">হাদিস অধ্যয়ন</h3>
+                            <p class="course-item-descD">রাসূলের সুন্নাহ জানুন ও বুঝুন</p>
+                        </div>
+                        <div class="course-itemD">
+                            <h3 class="course-item-titleD">ইসলামিক ইতিহাস</h3>
+                            <p class="course-item-descD">ইসলামের গৌরবময় ইতিহাস জানুন</p>
+                        </div>
+                        <div class="course-itemD">
+                            <h3 class="course-item-titleD">আরবি ভাষা</h3>
+                            <p class="course-item-descD">কুরআনের ভাষা শিখুন সহজে</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="sectionDE">
+                    <h2 class="section-headerD">বিশেষ কোর্স</h2>
+                    <div class="course-listD">
+                        <div class="course-itemD">
+                            <h3 class="course-item-titleD">তাজভীদ শিক্ষা</h3>
+                            <p class="course-item-descD">কুরআন তিলাওয়াতের নিয়মকানুন</p>
+                        </div>
+                        <div class="course-itemD">
+                            <h3 class="course-item-titleD">ফিকহ শাস্ত্র</h3>
+                            <p class="course-item-descD">ইসলামি জীবনবিধান শিখুন</p>
+                        </div>
+                        <div class="course-itemD">
+                            <h3 class="course-item-titleD">আকীদা বিশ্বাস</h3>
+                            <p class="course-item-descD">সঠিক ইসলামি বিশ্বাস জানুন</p>
+                        </div>
+                        <div class="course-itemD">
+                            <h3 class="course-item-titleD">দাওয়াত ও তাবলীগ</h3>
+                            <p class="course-item-descD">ইসলাম প্রচারের পদ্ধতি শিখুন</p>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+</div>
 
 
 
@@ -16175,7 +16636,7 @@ document.addEventListener('DOMContentLoaded', function() {
         max-width: 1200px;
         margin: 0 auto;
         background: white;
-        padding: 20px;
+        /* padding: 20px; */
         border-radius: 12px;
     }
 
