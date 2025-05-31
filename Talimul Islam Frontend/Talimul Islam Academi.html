@@ -5908,8 +5908,11 @@ async function handleLogout(e) {
         }
     });
 </script> -->
+
+
+
 <!-- এটিকে সংশোধন করা হয়েছে -->
-<script>
+<!-- <script>
     // Optimized fetch with retry mechanism
     const optimizedFetch = async (url, options, timeout = 5000, retries = 1) => {
         const controller = new AbortController();
@@ -6558,6 +6561,699 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Background API call (non-blocking)
             if (token) {
+                optimizedFetch(`${DB_API_URL}/logout`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }, 2000, 0).catch(() => {}); // Ignore errors
+            }
+            
+            // Redirect after a short delay
+            setTimeout(() => {
+                window.location.href = 'Talimul Islam Academi.html';
+            }, 500);
+            
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    }
+
+    // Profile dropdown styles
+    let profileStylesLoaded = false;
+    
+    function addProfileDropdownStyles() {
+        if (profileStylesLoaded) return;
+        
+        const style = document.createElement('style');
+        style.id = 'profileDropdownStyles';
+        style.textContent = `
+            .user-menu-container { position: relative; display: inline-block; }
+            .login-button { 
+                display: inline-block; padding: 8px 15px; background-color: #4CAF50; 
+                color: white; border-radius: 4px; text-decoration: none; font-weight: bold; 
+                transition: background-color 0.3s; 
+            }
+            .login-button:hover { background-color: #45a049; }
+            .profile-dropdown { display: none; position: relative; }
+            .profile-icon { 
+                background: none; border: none; font-size: 24px; color: #333; 
+                cursor: pointer; padding: 5px; 
+            }
+            .dropdown-menu1 { 
+                display: none; position: absolute; right: 0; background-color: white; 
+                min-width: 180px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); z-index: 1000; 
+                border-radius: 4px; overflow: hidden; 
+            }
+            .dropdown-item { 
+                display: block; padding: 10px 15px; text-decoration: none; color: #333; 
+                transition: background-color 0.2s; 
+            }
+            .dropdown-item:hover { background-color: #f8f8f8; }
+        `;
+        document.head.appendChild(style);
+        profileStylesLoaded = true;
+    }
+
+    // Main initialization
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add styles immediately
+        addProfileDropdownStyles();
+        
+        // Setup logout handler
+        const logoutButton = document.getElementById('logoutButton');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', handleLogout);
+        }
+        
+        // Setup close modal handler
+        const closeModalBtn = document.getElementById('closeModal');
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeModal);
+        }
+        
+        // Defer login status check
+        setTimeout(checkLoginStatus, 0);
+    });
+    
+    // Page visibility optimization
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            setTimeout(checkLoginStatus, 50);
+        }
+    });
+</script> -->
+
+<!-- otp পাঠাতে ব্যর্থ হয়েছে তার সমাধান  -->
+<script>
+    // Optimized fetch with retry mechanism
+    const optimizedFetch = async (url, options, timeout = 5000, retries = 1) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
+        
+        for (let i = 0; i <= retries; i++) {
+            try {
+                const response = await fetch(url, {
+                    ...options,
+                    signal: controller.signal,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    }
+                });
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                return response;
+            } catch (error) {
+                clearTimeout(timeoutId);
+                
+                if (i === retries) {
+                    if (error.name === 'AbortError') {
+                        throw new Error('রিকোয়েস্ট টাইমআউট হয়েছে। ইন্টারনেট সংযোগ চেক করুন।');
+                    }
+                    throw new Error(`সংযোগ সমস্যা: ${error.message}`);
+                }
+                
+                // Wait before retry with exponential backoff
+                await new Promise(resolve => setTimeout(resolve, 500 * (i + 1)));
+            }
+        }
+    };
+
+    // Email validation function
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    // Show/Hide Loading Functions (Assuming these exist from first script)
+    function showLoading() {
+        if (!document.getElementById('pageLoader')) {
+            createLoader();
+        }
+        document.getElementById('pageLoader').style.display = 'flex';
+    }
+    
+    function hideLoading() {
+        const loader = document.getElementById('pageLoader');
+        if (loader) {
+            loader.style.display = 'none';
+        }
+    }
+
+    function createLoader() {
+        const loader = document.createElement('div');
+        loader.className = 'loader';
+        loader.id = 'pageLoader';
+        
+        const spinner = document.createElement('div');
+        spinner.className = 'spinner';
+        
+        loader.appendChild(spinner);
+        document.body.appendChild(loader);
+    }
+
+    // Show error function
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.classList.add('show-error');
+        }
+    }
+
+    // Hide error function
+    function hideError(elementId) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.classList.remove('show-error');
+        }
+    }
+
+    // Notification function
+    function showNotification(message, type = 'success') {
+        // Remove existing notification
+        const existingNotification = document.getElementById('customNotification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        // Create new notification
+        const notification = document.createElement('div');
+        notification.id = 'customNotification';
+        notification.className = `custom-notification ${type}`;
+        
+        notification.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-message">${message}</span>
+                <span class="notification-close">&times;</span>
+            </div>
+        `;
+        
+        notification.style.position = 'fixed';
+        notification.style.top = '20px';
+        notification.style.right = '20px';
+        notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+        notification.style.color = 'white';
+        notification.style.padding = '15px';
+        notification.style.borderRadius = '5px';
+        notification.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+        notification.style.zIndex = '9999';
+        notification.style.transition = 'all 0.3s ease';
+        notification.style.opacity = '0';
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.opacity = '1';
+        }, 10);
+        
+        const closeButton = notification.querySelector('.notification-close');
+        closeButton.style.marginLeft = '15px';
+        closeButton.style.cursor = 'pointer';
+        closeButton.style.fontWeight = 'bold';
+        
+        closeButton.addEventListener('click', function() {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        });
+        
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 5000);
+    }
+
+    // Toggle form function
+    function toggleForm(formType) {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('emailCheckSection').style.display = 'none';
+        document.getElementById('otpVerificationSection').style.display = 'none';
+        document.getElementById('signupSection').style.display = 'none';
+        
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('emailCheckForm').style.display = 'none';
+        document.getElementById('otpVerificationForm').style.display = 'none';
+        document.getElementById('signupForm').style.display = 'none';
+        
+        if (formType === 'login') {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'block';
+        } else if (formType === 'emailCheck') {
+            document.getElementById('emailCheckSection').style.display = 'block';
+            document.getElementById('emailCheckForm').style.display = 'block';
+        } else if (formType === 'otpVerification') {
+            document.getElementById('otpVerificationSection').style.display = 'block';
+            document.getElementById('otpVerificationForm').style.display = 'block';
+        } else if (formType === 'signup') {
+            document.getElementById('signupSection').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'block';
+        }
+    }
+
+    // Start OTP timer
+    function startOTPTimer() {
+        let totalSeconds = 120;
+        
+        const resendButton = document.getElementById('resendOtp');
+        const timerElement = document.getElementById('timer');
+        
+        if (resendButton) resendButton.disabled = true;
+        
+        const updateTimer = () => {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            
+            if (timerElement) {
+                timerElement.textContent = 
+                    (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+                    (seconds < 10 ? '0' + seconds : seconds);
+            }
+        };
+        
+        updateTimer();
+        
+        const timer = setInterval(() => {
+            totalSeconds--;
+            updateTimer();
+            
+            if (totalSeconds <= 0) {
+                clearInterval(timer);
+                if (resendButton) resendButton.disabled = false;
+            }
+        }, 1000);
+    }
+
+    // Open modal function
+    function openModal() {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    // Close modal function
+    function closeModal() {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+        toggleForm('login');
+    }
+
+    // Email Check Form Handler - Fixed Version
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailCheckForm = document.getElementById('emailCheckForm');
+        if (emailCheckForm) {
+            emailCheckForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Reset errors efficiently
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
+                });
+                
+                const email = document.getElementById('checkEmail').value.trim();
+                
+                // Quick validation
+                if (!email || !validateEmail(email)) {
+                    showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    currentEmail = email;
+                    
+                    const userEmailElement = document.getElementById('userEmail');
+                    if (userEmailElement) {
+                        userEmailElement.textContent = email;
+                    }
+                    
+                    // First check if email exists
+                    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
+                    const API_URL = 'https://talimul-islam.onrender.com';
+                    
+                    const checkResponse = await optimizedFetch(`${DB_API_URL}/check-email`, {
+                        method: 'POST',
+                        body: JSON.stringify({ email })
+                    }, 8000, 2); // Increased timeout and retries
+                    
+                    const checkData = await checkResponse.json();
+                    
+                    if (checkData.exists) {
+                        showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
+                        return;
+                    }
+                    
+                    // If email doesn't exist, send OTP
+                    const otpResponse = await optimizedFetch(`${API_URL}/api/send-otp`, {
+                        method: 'POST',
+                        body: JSON.stringify({ email })
+                    }, 10000, 3); // Even higher timeout and retries for OTP
+                    
+                    const otpData = await otpResponse.json();
+                    
+                    if (!otpData.success) {
+                        throw new Error(otpData.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                    }
+                    
+                    // Clear OTP inputs and start timer
+                    document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+                    startOTPTimer();
+                    toggleForm('otpVerification');
+                    showNotification('OTP আপনার ইমেইলে পাঠানো হয়েছে।', 'success');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    if (error.message.includes('টাইমআউট') || error.message.includes('timeout')) {
+                        showNotification('ইন্টারনেট সংযোগ ধীর। আবার চেষ্টা করুন।', 'error');
+                    } else {
+                        showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+                    }
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+    
+    // Resend OTP Handler - Optimized
+    document.addEventListener('DOMContentLoaded', function() {
+        const resendOtpButton = document.getElementById('resendOtp');
+        if (resendOtpButton) {
+            resendOtpButton.addEventListener('click', async function() {
+                if (this.disabled || !currentEmail) return;
+                
+                try {
+                    showLoading();
+                    this.disabled = true;
+                    
+                    const API_URL = 'https://talimul-islam.onrender.com';
+                    
+                    const response = await optimizedFetch(`${API_URL}/api/send-otp`, {
+                        method: 'POST',
+                        body: JSON.stringify({ email: currentEmail })
+                    }, 8000, 2);
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                    }
+                    
+                    // Clear inputs and restart timer
+                    document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+                    startOTPTimer();
+                    showNotification('নতুন OTP পাঠানো হয়েছে।', 'success');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে।', 'error');
+                    this.disabled = false;
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+    
+    // OTP Verification Handler - Fixed Version
+    document.addEventListener('DOMContentLoaded', function() {
+        const otpVerificationForm = document.getElementById('otpVerificationForm');
+        if (otpVerificationForm) {
+            otpVerificationForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                hideError('otpError');
+                
+                // Get OTP efficiently
+                const otpInputs = ['otp1', 'otp2', 'otp3', 'otp4'];
+                const enteredOTP = otpInputs.map(id => {
+                    const element = document.getElementById(id);
+                    return element ? element.value : '';
+                }).join('');
+                
+                if (enteredOTP.length !== 4) {
+                    showError('otpError', 'অনুগ্রহ করে সম্পূর্ণ OTP দিন');
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    
+                    const API_URL = 'https://talimul-islam.onrender.com';
+                    
+                    const response = await optimizedFetch(`${API_URL}/api/verify-otp`, {
+                        method: 'POST',
+                        body: JSON.stringify({ 
+                            email: currentEmail,
+                            otp: enteredOTP
+                        })
+                    }, 6000, 2);
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        // Check if it's specifically an invalid OTP error
+                        if (data.message && (
+                            data.message.includes('invalid') || 
+                            data.message.includes('wrong') || 
+                            data.message.includes('incorrect') ||
+                            data.message.includes('OTP') ||
+                            data.message.includes('অবৈধ')
+                        )) {
+                            showError('otpError', 'অবৈধ OTP');
+                        } else {
+                            showError('otpError', data.message || 'অবৈধ OTP');
+                        }
+                        return;
+                    }
+                    
+                    toggleForm('signup');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    
+                    // Better error handling for different types of errors
+                    if (error.message.includes('টাইমআউট') || error.message.includes('timeout')) {
+                        showError('otpError', 'রিকোয়েস্ট টাইমআউট হয়েছে। আবার চেষ্টা করুন।');
+                    } else if (error.message.includes('সংযোগ সমস্যা') || error.message.includes('network')) {
+                        showError('otpError', 'অবৈধ OTP');
+                    } else {
+                        // Default to invalid OTP for other errors during OTP verification
+                        showError('otpError', 'অবৈধ OTP');
+                    }
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+
+    // Registration Handler - Optimized
+    document.addEventListener('DOMContentLoaded', function() {
+        const signupForm = document.getElementById('signupForm');
+        if (signupForm) {
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Batch clear errors
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
+                });
+                
+                const formData = {
+                    name: document.getElementById('signupName') ? document.getElementById('signupName').value.trim() : '',
+                    password: document.getElementById('signupPassword') ? document.getElementById('signupPassword').value : '',
+                    confirmPassword: document.getElementById('signupConfirmPassword') ? document.getElementById('signupConfirmPassword').value : ''
+                };
+                
+                // Quick validation
+                const validationErrors = [];
+                if (!formData.name) validationErrors.push(['signupNameError', 'নাম আবশ্যক']);
+                if (!formData.password || formData.password.length < 6) {
+                    validationErrors.push(['signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে']);
+                }
+                if (formData.password !== formData.confirmPassword) {
+                    validationErrors.push(['signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না']);
+                }
+                
+                if (validationErrors.length > 0) {
+                    validationErrors.forEach(([id, message]) => showError(id, message));
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    
+                    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
+                    
+                    const response = await optimizedFetch(`${DB_API_URL}/register`, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            name: formData.name,
+                            email: currentEmail,
+                            password: formData.password
+                        })
+                    }, 8000, 2);
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে');
+                    }
+                    
+                    // Success handling
+                    openModal();
+                    signupForm.reset();
+                    
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    showNotification(error.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে।', 'error');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+    
+    // Login Handler - Fixed Version
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Quick error reset
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
+                });
+                
+                const credentials = {
+                    email: document.getElementById('loginEmail') ? document.getElementById('loginEmail').value.trim() : '',
+                    password: document.getElementById('loginPassword') ? document.getElementById('loginPassword').value : ''
+                };
+                
+                // Fast validation
+                const errors = [];
+                if (!credentials.email || !validateEmail(credentials.email)) {
+                    errors.push(['loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন']);
+                }
+                if (!credentials.password) {
+                    errors.push(['loginPasswordError', 'পাসওয়ার্ড আবশ্যক']);
+                }
+                
+                if (errors.length > 0) {
+                    errors.forEach(([id, message]) => showError(id, message));
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    
+                    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
+                    
+                    const response = await optimizedFetch(`${DB_API_URL}/login`, {
+                        method: 'POST',
+                        body: JSON.stringify(credentials)
+                    }, 6000, 2);
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
+                    }
+                    
+                    // Store authentication data
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    localStorage.setItem('loginTime', Date.now().toString());
+                    
+                    // Quick UI updates
+                    const elementsToHide = ['.login-popup', '.blur-overlay'];
+                    elementsToHide.forEach(selector => {
+                        const element = document.querySelector(selector);
+                        if (element) element.classList.remove('active');
+                    });
+                    
+                    document.body.style.overflow = '';
+                    
+                    // Defer heavy operations
+                    setTimeout(() => {
+                        checkLoginStatus();
+                    }, 0);
+                    
+                    showNotification(`সফলভাবে লগইন করা হয়েছে! স্বাগতম ${data.user.name}`, 'success');
+                    
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showNotification(error.message || 'ভুল ইমেইল বা পাসওয়ার্ড।', 'error');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+
+    // Login Status Check Function
+    async function checkLoginStatus() {
+        const token = localStorage.getItem('authToken');
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (!loginButton || !profileDropdown) return false;
+        
+        if (token && !isLoginExpired()) {
+            loginButton.style.display = 'none';
+            profileDropdown.style.display = 'block';
+            return true;
+        } else {
+            if (token && isLoginExpired()) {
+                // Quick cleanup for expired sessions
+                ['authToken', 'currentUser', 'loginTime'].forEach(key => {
+                    localStorage.removeItem(key);
+                });
+            }
+            loginButton.style.display = 'block';
+            profileDropdown.style.display = 'none';
+            return false;
+        }
+    }
+
+    // Login expiration check
+    function isLoginExpired() {
+        const loginTime = localStorage.getItem('loginTime');
+        if (!loginTime) return true;
+        
+        const timeDiff = Date.now() - parseInt(loginTime);
+        return timeDiff > (24 * 60 * 60 * 1000); // 24 hours
+    }
+
+    // Logout handler
+    async function handleLogout(e) {
+        if (e) e.preventDefault();
+        
+        try {
+            const token = localStorage.getItem('authToken');
+            
+            // Quick cleanup first
+            ['authToken', 'currentUser', 'loginTime'].forEach(key => {
+                localStorage.removeItem(key);
+            });
+            
+            checkLoginStatus();
+            showNotification('আপনি সফলভাবে লগআউট করেছেন।', 'success');
+            
+            // Background API call (non-blocking)
+            if (token) {
+                const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
                 optimizedFetch(`${DB_API_URL}/logout`, {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -12392,337 +13088,524 @@ function showDeviceInfo() {
 
     
     
-<style>
-    .containeraTA {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
 
-    .headeraTA {
-        text-align: center;
-        /* margin-bottom: 50px; */
-        /* padding: 40px 20px; */
-    }
 
-    .headeraTA h2 {
-        font-size: 2.5rem;
-        color: #2d3748;
-        /* font-weight: 700; */
-        margin-bottom: 15px;
-        text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        letter-spacing: -1px;
-    }
-
-    .headeraTA p {
-        font-size: 1.2rem;
-        color: rgba(255,255,255,0.9);
-        font-weight: 300;
-    }
-
-    .cards-gridaTA {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-        margin-bottom: 10px;
-    }
-
-    .cardaTA {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        padding: 30px 20px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    }
-
-    .cardaTA::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-        transition: left 0.6s;
-    }
-
-    .cardaTA:hover {
-        transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
-
-    .cardaTA:hover::before {
-        left: 100%;
-    }
-
-    .card-iconaTA {
-        width: 70px;
-        height: 70px;
-        margin: 0 auto 20px;
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.8rem;
-        font-weight: bold;
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        transition: all 0.3s ease;
-    }
-
-    .cardaTA:hover .card-iconaTA {
-        transform: rotateY(180deg);
-        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
-    }
-
-    .cardaTA h2 {
-        font-size: 1.4rem;
-        color: #2c3e50;
-        margin-bottom: 25px;
-        font-weight: 600;
-        line-height: 1.3;
-    }
-
-    .btnaTA {
-        background: linear-gradient(135deg, #667eea, #764ba2);
-        color: white;
-        border: none;
-        padding: 8px 20px;
-        border-radius: 25px;
-        font-size: 0.85rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        position: relative;
-        overflow: hidden;
-        min-width: 120px;
-    }
-
-    .btnaTA::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left 0.5s;
-    }
-
-    .btnaTA:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-    }
-
-    .btnaTA:hover::before {
-        left: 100%;
-    }
-
-    .btnaTA:active {
-        transform: translateY(0);
-    }
-
-    .footeraTA {
-        text-align: center;
-        padding: 30px;
-        color: rgba(255,255,255,0.8);
-        font-size: 0.9rem;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 1024px) {
-        .headeraTA h2 {
-            font-size: 1.5rem;
-        }
-        
-        .cards-gridaTA {
-            gap: 20px;
-        }
-        
-        .cardaTA {
-            padding: 25px 15px;
-        }
-        
-        .card-iconaTA {
-            width: 60px;
-            height: 60px;
-            font-size: 1.6rem;
-        }
-        
-        .cardaTA h2 {
-            font-size: 1.3rem;
-        }
-    }
-
-    @media (max-width: 768px) {
+    <style>
         .containeraTA {
-            padding: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
         }
 
-        .headeraTA h1 {
-            font-size: 2.2rem;
+        .headeraTA {
+            text-align: center;
+        }
+
+        .headeraTA h2 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
         }
 
         .headeraTA p {
-            font-size: 1rem;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
         }
 
         .cards-gridaTA {
-            gap: 15px;
+            display: grid;
             grid-template-columns: repeat(3, 1fr);
-        }
-
-        .cardaTA {
-            padding: 18px 10px;
-        }
-
-        .card-iconaTA {
-            width: 45px;
-            height: 45px;
-            font-size: 1.3rem;
+            gap: 25px;
             margin-bottom: 10px;
         }
 
-        .cardaTA h2 {
-            font-size: 0.95rem;
-            margin-bottom: 12px;
-            line-height: 1.2;
+        .cardaTA {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
-        .btnaTA {
-            padding: 5px 12px;
-            font-size: 0.7rem;
-            border-radius: 18px;
-            min-width: 80px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .containeraTA {
-            padding: 8px;
+        .cardaTA::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
         }
 
-        .headeraTA h1 {
+        .cardaTA:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .cardaTA:hover::before {
+            left: 100%;
+        }
+
+        .card-iconaTA {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-size: 1.8rem;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
         }
 
-        .cards-gridaTA {
-            gap: 8px;
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .cardaTA {
-            padding: 15px 8px;
-        }
-
-        .card-iconaTA {
-            width: 35px;
-            height: 35px;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
+        .cardaTA:hover .card-iconaTA {
+            transform: rotateY(180deg);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
         }
 
         .cardaTA h2 {
-            font-size: 0.8rem;
-            margin-bottom: 10px;
-            line-height: 1.1;
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.3;
         }
 
         .btnaTA {
-            padding: 4px 8px;
-            font-size: 0.65rem;
-            border-radius: 15px;
-            min-width: 65px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-width: 120px;
         }
-    }
 
-    /* Animation */
-    .cardaTA {
-        opacity: 0;
-        transform: translateY(30px);
-        animation: fadeInUp 0.6s ease forwards;
-    }
+        .btnaTA::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
 
-    .cardaTA:nth-child(1) { animation-delay: 0.1s; }
-    .cardaTA:nth-child(2) { animation-delay: 0.2s; }
-    .cardaTA:nth-child(3) { animation-delay: 0.3s; }
-    .cardaTA:nth-child(4) { animation-delay: 0.4s; }
-    .cardaTA:nth-child(5) { animation-delay: 0.5s; }
-    .cardaTA:nth-child(6) { animation-delay: 0.6s; }
+        .btnaTA:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
 
-    @keyframes fadeInUp {
-        to {
-            opacity: 1;
+        .btnaTA:hover::before {
+            left: 100%;
+        }
+
+        .btnaTA:active {
             transform: translateY(0);
         }
-    }
 
-    /* Glassmorphism effect */
-    .cardaTA {
-        background: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-    }
+        .footeraTA {
+            text-align: center;
+            padding: 30px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
 
-    /* Hover glow effect */
-    .cardaTA:hover {
-        box-shadow: 
-            0 20px 40px rgba(0,0,0,0.1),
-            0 0 0 1px rgba(255,255,255,0.5),
-            inset 0 1px 0 rgba(255,255,255,0.6);
-    }
-</style>
-<div class="containeraTA">
-    <div class="headeraTA">
-        <h2>আমাদের বিভাগ সমূহ</h1>
-        <!-- <p>ইসলামিক শিক্ষার বিভিন্ন ধারা</p> -->
+        /* Particle System Styles */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1000;
+            animation: floatUp linear infinite;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            will-change: transform;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            5% {
+                opacity: 1;
+                transform: translateY(-30px) scale(1);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(-200vh) scale(1);
+            }
+        }
+
+        /* Different particle types */
+        .particle.type1 {
+            background: rgba(102, 126, 234, 0.7);
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.5);
+        }
+
+        .particle.type2 {
+            background: rgba(118, 75, 162, 0.7);
+            box-shadow: 0 0 8px rgba(118, 75, 162, 0.5);
+        }
+
+        .particle.type3 {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+
+        .particle.type4 {
+            background: rgba(45, 55, 72, 0.6);
+            box-shadow: 0 0 6px rgba(45, 55, 72, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .headeraTA h2 {
+                font-size: 1.5rem;
+            }
+            
+            .cards-gridaTA {
+                gap: 20px;
+            }
+            
+            .cardaTA {
+                padding: 25px 15px;
+            }
+            
+            .card-iconaTA {
+                width: 60px;
+                height: 60px;
+                font-size: 1.6rem;
+            }
+            
+            .cardaTA h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .containeraTA {
+                padding: 15px;
+            }
+
+            .headeraTA h1 {
+                font-size: 2.2rem;
+            }
+
+            .headeraTA p {
+                font-size: 1rem;
+            }
+
+            .cards-gridaTA {
+                gap: 15px;
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .cardaTA {
+                padding: 18px 10px;
+            }
+
+            .card-iconaTA {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+                margin-bottom: 10px;
+            }
+
+            .cardaTA h2 {
+                font-size: 0.95rem;
+                margin-bottom: 12px;
+                line-height: 1.2;
+            }
+
+            .btnaTA {
+                padding: 5px 12px;
+                font-size: 0.7rem;
+                border-radius: 18px;
+                min-width: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .containeraTA {
+                padding: 8px;
+            }
+
+            .headeraTA h1 {
+                font-size: 1.8rem;
+            }
+
+            .cards-gridaTA {
+                gap: 8px;
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .cardaTA {
+                padding: 15px 8px;
+            }
+
+            .card-iconaTA {
+                width: 35px;
+                height: 35px;
+                font-size: 1.1rem;
+                margin-bottom: 8px;
+            }
+
+            .cardaTA h2 {
+                font-size: 0.8rem;
+                margin-bottom: 10px;
+                line-height: 1.1;
+            }
+
+            .btnaTA {
+                padding: 4px 8px;
+                font-size: 0.65rem;
+                border-radius: 15px;
+                min-width: 65px;
+            }
+        }
+
+        /* Animation */
+        .cardaTA {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .cardaTA:nth-child(1) { animation-delay: 0.1s; }
+        .cardaTA:nth-child(2) { animation-delay: 0.2s; }
+        .cardaTA:nth-child(3) { animation-delay: 0.3s; }
+        .cardaTA:nth-child(4) { animation-delay: 0.4s; }
+        .cardaTA:nth-child(5) { animation-delay: 0.5s; }
+        .cardaTA:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glassmorphism effect */
+        .cardaTA {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        /* Hover glow effect */
+        .cardaTA:hover {
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.1),
+                0 0 0 1px rgba(255,255,255,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+    </style>
+    <div class="containeraTA" id="container">
+        <div class="headeraTA">
+            <h2>আমাদের বিভাগ সমূহ</h2>
+        </div>
+
+        <div class="cards-gridaTA">
+            <div class="cardaTA">
+                <div class="card-iconaTA">ক</div>
+                <h2>কওমী মাদ্রাসা</h2>
+                <button class="btnaTA" onclick="window.location.href='QawmiMadrasa.html'">বিস্তারিত দেখুন</button>
+            </div>
+
+            <div class="cardaTA" onclick="window.location.href='#'">
+                <div class="card-iconaTA">আ</div>
+                <h2>আলিয়া মাদ্রাসা</h2>
+                <button class="btnaTA" onclick="showDetails('আলিয়া মাদ্রাসা')">বিস্তারিত দেখুন</button>
+            </div>
+
+            <div class="cardaTA">
+                <div class="card-iconaTA">ম</div>
+                <h2>মহিলা মাদ্রাসা</h2>
+                <button class="btnaTA" onclick="window.location.href='WomensMadrasa.html'">বিস্তারিত দেখুন</button>
+            </div>
+
+            <div class="cardaTA" onclick="window.location.href='#'">
+                <div class="card-iconaTA">স</div>
+                <h2>মক্তব আফটার স্কুল</h2>
+                <button class="btnaTA" onclick="showDetails('মক্তব আফটার স্কুল')">বিস্তারিত দেখুন</button>
+            </div>
+
+            <div class="cardaTA" onclick="window.location.href='#'">
+                <div class="card-iconaTA">ন</div>
+                <h2>নৈশ্য মাদ্রাসা</h2>
+                <button class="btnaTA" onclick="showDetails('নৈশ্য মাদ্রাসা')">বিস্তারিত দেখুন</button>
+            </div>
+
+            <div class="cardaTA">
+                <div class="card-iconaTA">দ</div>
+                <h2>মাদানী নেসাব</h2>
+                <button class="btnaTA" onclick="window.location.href='MadaniNisab.html'">বিস্তারিত দেখুন</button>
+            </div>
+        </div>
     </div>
 
-    <div class="cards-gridaTA">
-        <div class="cardaTA" onclick="window.location.href='QawmiMadrase.html'">
-            <div class="card-iconaTA">ক</div>
-            <h2>কওমী মাদ্রাসা</h2>
-            <button class="btnaTA" onclick="showDetails('কওমী মাদ্রাসা')">বিস্তারিত দেখুন</button>
-        </div>
+    <script>
+        // Particle System JavaScript
+        class ParticleSystem {
+            constructor() {
+                this.container = document.getElementById('container');
+                this.particles = [];
+                this.maxParticles = 30;
+                this.particleTypes = ['type1', 'type2', 'type3', 'type4'];
+                this.init();
+            }
 
-        <div class="cardaTA" onclick="window.location.href='#'">
-            <div class="card-iconaTA">আ</div>
-            <h2>আলিয়া মাদ্রাসা</h2>
-            <button class="btnaTA" onclick="showDetails('আলিয়া মাদ্রাসা')">বিস্তারিত দেখুন</button>
-        </div>
+            init() {
+                // Create particles continuously
+                setInterval(() => {
+                    this.createParticle();
+                }, 200); // Create a new particle every 200ms
 
-        <div class="cardaTA" onclick="window.location.href='WomensMadrasa.html'">
-            <div class="card-iconaTA">ম</div>
-            <h2>মহিলা মাদ্রাসা</h2>
-            <button class="btnaTA" onclick="showDetails('মহিলা মাদ্রাসা')">বিস্তারিত দেখুন</button>
-        </div>
+                // Clean up particles periodically
+                setInterval(() => {
+                    this.cleanupParticles();
+                }, 1000);
+            }
 
-        <div class="cardaTA" onclick="window.location.href='#'">
-            <div class="card-iconaTA">স</div>
-            <h2>মক্তব আফটার স্কুল</h2>
-            <button class="btnaTA" onclick="showDetails('মক্তব আফটার স্কুল')">বিস্তারিত দেখুন</button>
-        </div>
+            createParticle() {
+                if (this.particles.length >= this.maxParticles) {
+                    return;
+                }
 
-        <div class="cardaTA" onclick="window.location.href='#'">
-            <div class="card-iconaTA">ন</div>
-            <h2>নৈশ্য মাদ্রাসা</h2>
-            <button class="btnaTA" onclick="showDetails('নৈশ্য মাদ্রাসা')">বিস্তারিত দেখুন</button>
-        </div>
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random particle type
+                const randomType = this.particleTypes[Math.floor(Math.random() * this.particleTypes.length)];
+                particle.classList.add(randomType);
 
-        <div class="cardaTA" onclick="window.location.href='MadaniNisab.html'">
-            <div class="card-iconaTA">দ</div>
-            <h2>মাদানী নেসাব</h2>
-            <button class="btnaTA" onclick="showDetails('মাদানী নেসাব')">বিস্তারিত দেখুন</button>
-        </div>
-    </div>
-</div>
+                // Get container boundaries
+                const containerRect = this.container.getBoundingClientRect();
+                
+                // Random horizontal position within container
+                const randomX = Math.random() * (containerRect.width - 20) + 10;
+                
+                // Start from bottom of container
+                particle.style.left = randomX + 'px';
+                particle.style.bottom = '0px';
+                
+                // Random animation duration (8-15 seconds for longer visibility)
+                const duration = Math.random() * 7 + 8;
+                particle.style.animationDuration = duration + 's';
+                
+                // Random horizontal drift
+                const drift = (Math.random() - 0.5) * 100;
+                particle.style.setProperty('--drift', drift + 'px');
+                
+                // Random size variation
+                const size = Math.random() * 3 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+
+                // Position relative to container
+                particle.style.position = 'absolute';
+                
+                this.container.appendChild(particle);
+                this.particles.push({
+                    element: particle,
+                    createdAt: Date.now(),
+                    duration: duration * 1000
+                });
+
+                // Enhanced animation with CSS custom properties
+                particle.style.animation = `floatUp ${duration}s linear infinite`;
+            }
+
+            cleanupParticles() {
+                const now = Date.now();
+                this.particles = this.particles.filter(particle => {
+                    // Only remove particles that are way off screen
+                    if (now - particle.createdAt > particle.duration + 2000) {
+                        if (particle.element.parentNode) {
+                            particle.element.parentNode.removeChild(particle.element);
+                        }
+                        return false;
+                    }
+                    return true;
+                });
+            }
+
+            // Method to create burst effect on card hover
+            createBurst(x, y) {
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.className = 'particle';
+                        
+                        const randomType = this.particleTypes[Math.floor(Math.random() * this.particleTypes.length)];
+                        particle.classList.add(randomType);
+                        
+                        particle.style.left = (x + (Math.random() - 0.5) * 50) + 'px';
+                        particle.style.top = y + 'px';
+                        particle.style.position = 'absolute';
+                        particle.style.animationDuration = '2s';
+                        
+                        this.container.appendChild(particle);
+                        
+                        setTimeout(() => {
+                            if (particle.parentNode) {
+                                particle.parentNode.removeChild(particle);
+                            }
+                        }, 2000);
+                    }, i * 100);
+                }
+            }
+        }
+
+        // Initialize particle system when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const particleSystem = new ParticleSystem();
+            
+            // Add burst effect on card hover
+            const cards = document.querySelectorAll('.cardaTA');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const containerRect = document.getElementById('container').getBoundingClientRect();
+                    const x = rect.left - containerRect.left + rect.width / 2;
+                    const y = rect.top - containerRect.top + rect.height / 2;
+                    particleSystem.createBurst(x, y);
+                });
+            });
+        });
+
+        // Function for button clicks (placeholder)
+        function showDetails(subject) {
+            alert('বিস্তারিত তথ্য শীঘ্রই যোগ করা হবে: ' + subject);
+        }
+    </script>
+
+
 
 
   
@@ -18063,9 +18946,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-        <style>
+<style>
             @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
             .counter-sectionST {
+                max-width: 1200px;
+                margin: 0 auto;
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 padding: 80px 20px;
                 min-height: 400px;
@@ -18391,9 +19276,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     top: -8px;
                 }
             }
-        </style>
-        <!-- মূল কাউন্টার সেকশন -->
-        <section class="counter-sectionST">
+</style>
+<!-- মূল কাউন্টার সেকশন -->
+<section class="counter-sectionST">
             <div class="containerST">
                 <div class="stats-gridST" id="statsGridST">
                     <div class="stat-itemST">
@@ -18421,10 +19306,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
             </div>
-        </section>
+</section>
     
     
-        <script>
+<script>
             // ইনটারসেকশন অবজার্ভার সেটআপ
             const observerOptions = {
                 threshold: 0.5,
@@ -18503,7 +19388,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }, 300);
                 }
             });
-        </script>
+</script>
 
 
 
@@ -19092,7 +19977,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <!-- videos -->
-    <style>
+<style>
        .container11{
             width: 100%;
             max-width: 1200px;
@@ -19276,8 +20161,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 font-size: 11px;
             }
         }
-    </style>
-    <div class="container11">
+</style>
+<div class="container11">
         <div class="tutorial-grid">
             <!-- প্রথম ভিডিও কার্ড -->
             <div class="tutorial-card">
@@ -19328,9 +20213,9 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             
         </div>
-    </div>
+</div>
 
-    <script>
+<script>
         function playVideo(container, videoId) {
             const thumbnail = container.querySelector('.video-thumbnail');
             const playButton = container.querySelector('.play-button');
@@ -19347,7 +20232,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Remove click listener to prevent multiple triggers
             container.onclick = null;
         }
-    </script>
+</script>
 
 
 
@@ -19882,20 +20767,7 @@ document.addEventListener('DOMContentLoaded', function() {
      
 
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
-        }
-
+<style>
         /* প্রগ্রেস ইন্ডিকেটর */
         .progress-container {
             position: fixed;
@@ -19974,18 +20846,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 padding: 40px 20px;
             }
         }
-    </style>
+</style>
 
-    <!-- প্রগ্রেস ইন্ডিকেটর -->
-    <div class="progress-container">
+<!-- প্রগ্রেস ইন্ডিকেটর -->
+<div class="progress-container">
         <div class="progress-circle">
             <div class="progress-fill" id="progressFill"></div>
             <div class="arrow"><i class="fas fa-chevron-up"></i></div>
         </div>
-    </div>
+</div>
 
 
-    <script>
+<script>
         // স্ক্রল প্রগ্রেস ক্যালকুলেট করার ফাংশন
         function updateScrollProgress() {
             const progressFill = document.getElementById('progressFill');
@@ -20026,7 +20898,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 behavior: 'smooth'
             });
         });
-    </script>
+</script>
 
 
 
