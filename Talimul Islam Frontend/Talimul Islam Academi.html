@@ -4785,7 +4785,7 @@ throw error;
     
 </script> -->
 <!-- এটিকে সংশোধন করা হয়েছে -->
-<script>
+<!-- <script>
     // API URL - সার্ভার URL
     const API_URL = 'https://talimul-islam.onrender.com';
     const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';  // MongoDB backend URL
@@ -5359,7 +5359,7 @@ throw error;
             }
         });
     });
-</script>
+</script> -->
 
 
 
@@ -5909,7 +5909,7 @@ async function handleLogout(e) {
     });
 </script> -->
 <!-- এটিকে সংশোধন করা হয়েছে -->
-<script>
+<!-- <script>
     // Optimized fetch with retry mechanism
     const optimizedFetch = async (url, options, timeout = 5000, retries = 1) => {
         const controller = new AbortController();
@@ -6637,9 +6637,1134 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(checkLoginStatus, 50);
         }
     });
-</script>
+</script> -->
 
 <!-- otp পাঠাতে ব্যর্থ হয়েছে তার সমাধান  -->
+
+
+
+
+
+<!-- দুইএর সমন্বেয় -->
+<script>
+// ============================================================================
+// OPTIMIZED & UNIFIED AUTHENTICATION SYSTEM
+// সব সমস্যা সমাধানকৃত একক স্ক্রিপ্ট
+// ============================================================================
+
+(function() {
+    'use strict';
+    
+    // ============================================================================
+    // CONFIGURATION & GLOBAL VARIABLES
+    // ============================================================================
+    
+    const CONFIG = {
+        API_URL: 'https://talimul-islam.onrender.com',
+        DB_API_URL: 'https://t-i-a-storage-backend.onrender.com',
+        TIMEOUTS: {
+            default: 5000,
+            auth: 6000,
+            otp: 4000,
+            logout: 2000
+        },
+        OTP_TIMER_DURATION: 120, // 2 minutes
+        TOKEN_REFRESH_INTERVAL: 15 * 60 * 1000, // 15 minutes
+        USER_ACTIVITY_TIMEOUT: 45 * 60 * 1000, // 45 minutes
+        SESSION_DURATION: 24 * 60 * 60 * 1000 // 24 hours
+    };
+    
+    // Global state management
+    const AppState = {
+        currentEmail: '',
+        timers: {
+            otp: null,
+            tokenRefresh: null,
+            userActivity: null
+        },
+        isInitialized: false
+    };
+    
+    // ============================================================================
+    // UTILITY FUNCTIONS
+    // ============================================================================
+    
+    /**
+     * Optimized fetch with timeout and retry mechanism
+     */
+    async function apiCall(url, options = {}, timeout = CONFIG.TIMEOUTS.default, retries = 1) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
+        
+        const defaultOptions = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            signal: controller.signal
+        };
+        
+        const finalOptions = {
+            ...defaultOptions,
+            ...options,
+            headers: {
+                ...defaultOptions.headers,
+                ...options.headers
+            }
+        };
+        
+        for (let attempt = 0; attempt <= retries; attempt++) {
+            try {
+                const response = await fetch(url, finalOptions);
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                return response;
+            } catch (error) {
+                clearTimeout(timeoutId);
+                
+                if (attempt === retries) {
+                    if (error.name === 'AbortError') {
+                        throw new Error('রিকোয়েস্ট টাইমআউট হয়েছে। ইন্টারনেট সংযোগ চেক করুন।');
+                    }
+                    throw new Error(`সংযোগ সমস্যা: ${error.message}`);
+                }
+                
+                // Exponential backoff for retries
+                await new Promise(resolve => setTimeout(resolve, 500 * (attempt + 1)));
+            }
+        }
+    }
+    
+    /**
+     * Email validation
+     */
+    function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+    
+    /**
+     * Check if login session is expired
+     */
+    function isSessionExpired() {
+        const loginTime = localStorage.getItem('loginTime');
+        if (!loginTime) return true;
+        
+        const timeDiff = Date.now() - parseInt(loginTime);
+        return timeDiff > CONFIG.SESSION_DURATION;
+    }
+    
+    /**
+     * Clear specific timer
+     */
+    function clearAppTimer(timerName) {
+        if (AppState.timers[timerName]) {
+            clearInterval(AppState.timers[timerName]);
+            clearTimeout(AppState.timers[timerName]);
+            AppState.timers[timerName] = null;
+        }
+    }
+    
+    /**
+     * Clear all timers
+     */
+    function clearAllTimers() {
+        Object.keys(AppState.timers).forEach(clearAppTimer);
+    }
+    
+    // ============================================================================
+    // UI UTILITY FUNCTIONS
+    // ============================================================================
+    
+    /**
+     * Create and manage loading spinner
+     */
+    const LoadingManager = {
+        create() {
+            if (document.getElementById('pageLoader')) return;
+            
+            const loader = document.createElement('div');
+            loader.id = 'pageLoader';
+            loader.className = 'loader';
+            loader.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(255,255,255,0.8); display: none; justify-content: center;
+                align-items: center; z-index: 10000;
+            `;
+            
+            const spinner = document.createElement('div');
+            spinner.className = 'spinner';
+            spinner.style.cssText = `
+                width: 50px; height: 50px; border: 5px solid #f3f3f3;
+                border-top: 5px solid #3498db; border-radius: 50%;
+                animation: spin 1s linear infinite;
+            `;
+            
+            // Add keyframes if not exists
+            if (!document.getElementById('spinnerStyles')) {
+                const style = document.createElement('style');
+                style.id = 'spinnerStyles';
+                style.textContent = `
+                    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            loader.appendChild(spinner);
+            document.body.appendChild(loader);
+        },
+        
+        show() {
+            this.create();
+            const loader = document.getElementById('pageLoader');
+            if (loader) loader.style.display = 'flex';
+        },
+        
+        hide() {
+            const loader = document.getElementById('pageLoader');
+            if (loader) loader.style.display = 'none';
+        }
+    };
+    
+    /**
+     * Enhanced notification system
+     */
+    function showNotification(message, type = 'success') {
+        // Remove existing notification
+        const existing = document.getElementById('customNotification');
+        if (existing) existing.remove();
+        
+        const notification = document.createElement('div');
+        notification.id = 'customNotification';
+        notification.style.cssText = `
+            position: fixed; top: 20px; right: 20px; z-index: 9999;
+            background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+            color: white; padding: 15px 20px; border-radius: 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease; opacity: 0; transform: translateX(100%);
+            max-width: 350px; font-family: Arial, sans-serif;
+        `;
+        
+        notification.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>${message}</span>
+                <span style="margin-left: 15px; cursor: pointer; font-weight: bold; font-size: 18px;">&times;</span>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            notification.style.opacity = '1';
+            notification.style.transform = 'translateX(0)';
+        });
+        
+        // Close functionality
+        const closeBtn = notification.querySelector('span:last-child');
+        const closeNotification = () => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => notification.remove(), 300);
+        };
+        
+        closeBtn.addEventListener('click', closeNotification);
+        
+        // Auto close after 5 seconds
+        setTimeout(closeNotification, 5000);
+    }
+    
+    /**
+     * Error display manager
+     */
+    const ErrorManager = {
+        show(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.textContent = message;
+                element.classList.add('show-error');
+            }
+        },
+        
+        hide(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.classList.remove('show-error');
+            }
+        },
+        
+        clearAll() {
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.classList.remove('show-error');
+            });
+        }
+    };
+    
+    /**
+     * Form display manager
+     */
+    function toggleForm(formType) {
+        const sections = ['loginSection', 'emailCheckSection', 'otpVerificationSection', 'signupSection'];
+        const forms = ['loginForm', 'emailCheckForm', 'otpVerificationForm', 'signupForm'];
+        
+        // Hide all sections and forms
+        [...sections, ...forms].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.style.display = 'none';
+        });
+        
+        // Show target form
+        const targetSection = document.getElementById(formType + 'Section');
+        const targetForm = document.getElementById(formType + 'Form');
+        
+        if (targetSection) targetSection.style.display = 'block';
+        if (targetForm) targetForm.style.display = 'block';
+        
+        // Clear errors when switching forms
+        ErrorManager.clearAll();
+    }
+    
+    // ============================================================================
+    // AUTHENTICATION FUNCTIONS
+    // ============================================================================
+    
+    /**
+     * Check and update login status
+     */
+    async function checkLoginStatus() {
+        const token = localStorage.getItem('authToken');
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (!loginButton || !profileDropdown) return false;
+        
+        if (token && !isSessionExpired()) {
+            try {
+                const response = await apiCall(`${CONFIG.DB_API_URL}/validate-token`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }, CONFIG.TIMEOUTS.auth, 0);
+                
+                const data = await response.json();
+                
+                if (data.valid) {
+                    loginButton.style.display = 'none';
+                    profileDropdown.style.display = 'block';
+                    
+                    if (data.user) {
+                        localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    }
+                    
+                    setupTokenRefresh();
+                    return true;
+                } else {
+                    handleLogout(null, false);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Token validation error:', error);
+                handleLogout(null, false);
+                return false;
+            }
+        } else {
+            handleLogout(null, false);
+            return false;
+        }
+    }
+    
+    /**
+     * Token refresh mechanism
+     */
+    async function refreshToken() {
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) return false;
+            
+            const response = await apiCall(`${CONFIG.DB_API_URL}/refresh-token`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            }, CONFIG.TIMEOUTS.auth, 0);
+            
+            const data = await response.json();
+            
+            if (data.success && data.token) {
+                localStorage.setItem('authToken', data.token);
+                if (data.user) {
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                }
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error('Token refresh error:', error);
+            return false;
+        }
+    }
+    
+    /**
+     * Setup automatic token refresh
+     */
+    function setupTokenRefresh() {
+        clearAppTimer('tokenRefresh');
+        
+        AppState.timers.tokenRefresh = setInterval(async () => {
+            const isRefreshed = await refreshToken();
+            if (!isRefreshed) {
+                handleLogout(null, true);
+            }
+        }, CONFIG.TOKEN_REFRESH_INTERVAL);
+    }
+    
+    /**
+     * Handle logout process
+     */
+    async function handleLogout(event, showMessage = true) {
+        if (event) event.preventDefault();
+        
+        try {
+            const token = localStorage.getItem('authToken');
+            
+            // Clear all data immediately
+            ['authToken', 'currentUser', 'loginTime'].forEach(key => {
+                localStorage.removeItem(key);
+            });
+            
+            // Clear all timers
+            clearAllTimers();
+            
+            // Update UI immediately
+            const loginButton = document.getElementById('loginButton');
+            const profileDropdown = document.getElementById('profileDropdown');
+            
+            if (loginButton) loginButton.style.display = 'block';
+            if (profileDropdown) profileDropdown.style.display = 'none';
+            
+            // Close any open popups
+            const elementsToClose = ['.login-popup', '.blur-overlay'];
+            elementsToClose.forEach(selector => {
+                const element = document.querySelector(selector);
+                if (element) element.classList.remove('active');
+            });
+            document.body.style.overflow = '';
+            
+            if (showMessage) {
+                showNotification('আপনি সফলভাবে লগআউট করেছেন।', 'success');
+            }
+            
+            // Background API call for server-side logout
+            if (token) {
+                apiCall(`${CONFIG.DB_API_URL}/logout`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                }, CONFIG.TIMEOUTS.logout, 0).catch(() => {});
+            }
+            
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+    }
+    
+    // ============================================================================
+    // OTP MANAGEMENT
+    // ============================================================================
+    
+    /**
+     * Start OTP countdown timer
+     */
+    function startOTPTimer() {
+        let totalSeconds = CONFIG.OTP_TIMER_DURATION;
+        
+        const resendButton = document.getElementById('resendOtp');
+        const timerElement = document.getElementById('timer');
+        
+        if (resendButton) resendButton.disabled = true;
+        
+        clearAppTimer('otp');
+        
+        const updateTimer = () => {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            
+            if (timerElement) {
+                timerElement.textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        };
+        
+        updateTimer(); // Initial update
+        
+        AppState.timers.otp = setInterval(() => {
+            totalSeconds--;
+            updateTimer();
+            
+            if (totalSeconds <= 0) {
+                clearAppTimer('otp');
+                if (resendButton) resendButton.disabled = false;
+            }
+        }, 1000);
+    }
+    
+    // ============================================================================
+    // USER ACTIVITY TRACKING
+    // ============================================================================
+    
+    /**
+     * Setup user activity tracking
+     */
+    function setupUserActivityTracking() {
+        const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+        
+        const resetActivityTimer = () => {
+            clearAppTimer('userActivity');
+            
+            AppState.timers.userActivity = setTimeout(() => {
+                const token = localStorage.getItem('authToken');
+                if (token) {
+                    showNotification('আপনি দীর্ঘক্ষণ নিষ্ক্রিয় রয়েছেন। অ্যাক্টিভ থাকার জন্য পেজে ক্লিক করুন।', 'error');
+                }
+            }, CONFIG.USER_ACTIVITY_TIMEOUT);
+        };
+        
+        events.forEach(event => {
+            document.addEventListener(event, resetActivityTimer, { passive: true });
+        });
+        
+        resetActivityTimer(); // Initial setup
+    }
+    
+    // ============================================================================
+    // FORM HANDLERS
+    // ============================================================================
+    
+    /**
+     * Email check form handler
+     */
+    async function handleEmailCheck(event) {
+        event.preventDefault();
+        
+        ErrorManager.clearAll();
+        
+        const email = document.getElementById('checkEmail')?.value.trim();
+        
+        if (!email || !validateEmail(email)) {
+            ErrorManager.show('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+            return;
+        }
+        
+        try {
+            LoadingManager.show();
+            AppState.currentEmail = email;
+            
+            const userEmailElement = document.getElementById('userEmail');
+            if (userEmailElement) userEmailElement.textContent = email;
+            
+            // Check if email exists and send OTP in parallel
+            const [checkResponse, otpResponse] = await Promise.allSettled([
+                apiCall(`${CONFIG.DB_API_URL}/check-email`, {
+                    method: 'POST',
+                    body: JSON.stringify({ email })
+                }),
+                apiCall(`${CONFIG.API_URL}/api/send-otp`, {
+                    method: 'POST',
+                    body: JSON.stringify({ email })
+                }, CONFIG.TIMEOUTS.otp)
+            ]);
+            
+            // Handle email check
+            if (checkResponse.status === 'fulfilled') {
+                const checkData = await checkResponse.value.json();
+                if (checkData.exists) {
+                    ErrorManager.show('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
+                    return;
+                }
+            }
+            
+            // Handle OTP sending
+            if (otpResponse.status === 'fulfilled') {
+                const otpData = await otpResponse.value.json();
+                if (!otpData.success) {
+                    throw new Error(otpData.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                }
+                
+                // Clear OTP inputs and start timer
+                document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+                startOTPTimer();
+                toggleForm('otpVerification');
+            } else {
+                throw new Error('OTP পাঠাতে ত্রুটি হয়েছে');
+            }
+            
+        } catch (error) {
+            console.error('Email check error:', error);
+            showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+        } finally {
+            LoadingManager.hide();
+        }
+    }
+    
+    /**
+     * Resend OTP handler
+     */
+    async function handleResendOTP() {
+        if (!AppState.currentEmail) return;
+        
+        try {
+            LoadingManager.show();
+            
+            const response = await apiCall(`${CONFIG.API_URL}/api/send-otp`, {
+                method: 'POST',
+                body: JSON.stringify({ email: AppState.currentEmail })
+            }, CONFIG.TIMEOUTS.otp);
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+            }
+            
+            document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+            startOTPTimer();
+            showNotification('নতুন OTP পাঠানো হয়েছে।', 'success');
+            
+        } catch (error) {
+            console.error('Resend OTP error:', error);
+            showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে।', 'error');
+        } finally {
+            LoadingManager.hide();
+        }
+    }
+    
+    /**
+     * OTP verification handler
+     */
+    async function handleOTPVerification(event) {
+        event.preventDefault();
+        
+        ErrorManager.hide('otpError');
+        
+        const otpInputs = ['otp1', 'otp2', 'otp3', 'otp4'];
+        const enteredOTP = otpInputs.map(id => {
+            const element = document.getElementById(id);
+            return element ? element.value : '';
+        }).join('');
+        
+        if (enteredOTP.length !== 4) {
+            ErrorManager.show('otpError', 'অনুগ্রহ করে সম্পূর্ণ OTP দিন');
+            return;
+        }
+        
+        try {
+            LoadingManager.show();
+            
+            const response = await apiCall(`${CONFIG.API_URL}/api/verify-otp`, {
+                method: 'POST',
+                body: JSON.stringify({ 
+                    email: AppState.currentEmail,
+                    otp: enteredOTP
+                })
+            }, CONFIG.TIMEOUTS.otp);
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                ErrorManager.show('otpError', 'অবৈধ OTP');
+                return;
+            }
+            
+            toggleForm('signup');
+            
+        } catch (error) {
+            console.error('OTP verification error:', error);
+            ErrorManager.show('otpError', 'অবৈধ OTP');
+        } finally {
+            LoadingManager.hide();
+        }
+    }
+    
+    /**
+     * Registration form handler
+     */
+    async function handleRegistration(event) {
+        event.preventDefault();
+        
+        ErrorManager.clearAll();
+        
+        const formData = {
+            name: document.getElementById('signupName')?.value.trim() || '',
+            password: document.getElementById('signupPassword')?.value || '',
+            confirmPassword: document.getElementById('signupConfirmPassword')?.value || ''
+        };
+        
+        // Validation
+        const errors = [];
+        if (!formData.name) errors.push(['signupNameError', 'নাম আবশ্যক']);
+        if (!formData.password || formData.password.length < 6) {
+            errors.push(['signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে']);
+        }
+        if (formData.password !== formData.confirmPassword) {
+            errors.push(['signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না']);
+        }
+        
+        if (errors.length > 0) {
+            errors.forEach(([id, message]) => ErrorManager.show(id, message));
+            return;
+        }
+        
+        try {
+            LoadingManager.show();
+            
+            const response = await apiCall(`${CONFIG.DB_API_URL}/register`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: formData.name,
+                    email: AppState.currentEmail,
+                    password: formData.password
+                })
+            }, CONFIG.TIMEOUTS.auth);
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে');
+            }
+            
+            // Show success modal
+            const modal = document.getElementById('successModal');
+            if (modal) modal.style.display = 'flex';
+            
+            // Reset form
+            const form = document.getElementById('signupForm');
+            if (form) form.reset();
+            
+        } catch (error) {
+            console.error('Registration error:', error);
+            showNotification(error.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে।', 'error');
+        } finally {
+            LoadingManager.hide();
+        }
+    }
+    
+    /**
+     * Login form handler
+     */
+    async function handleLogin(event) {
+        event.preventDefault();
+        
+        ErrorManager.clearAll();
+        
+        const credentials = {
+            email: document.getElementById('loginEmail')?.value.trim() || '',
+            password: document.getElementById('loginPassword')?.value || ''
+        };
+        
+        // Validation
+        const errors = [];
+        if (!credentials.email || !validateEmail(credentials.email)) {
+            errors.push(['loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন']);
+        }
+        if (!credentials.password) {
+            errors.push(['loginPasswordError', 'পাসওয়ার্ড আবশ্যক']);
+        }
+        
+        if (errors.length > 0) {
+            errors.forEach(([id, message]) => ErrorManager.show(id, message));
+            return;
+        }
+        
+        try {
+            LoadingManager.show();
+            
+            const response = await apiCall(`${CONFIG.DB_API_URL}/login`, {
+                method: 'POST',
+                body: JSON.stringify(credentials)
+            }, CONFIG.TIMEOUTS.auth);
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
+            }
+            
+            // Store authentication data
+            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('currentUser', JSON.stringify(data.user));
+            localStorage.setItem('loginTime', Date.now().toString());
+            
+            // Close login popup
+            const elementsToClose = ['.login-popup', '.blur-overlay'];
+            elementsToClose.forEach(selector => {
+                const element = document.querySelector(selector);
+                if (element) element.classList.remove('active');
+            });
+            
+            document.body.style.overflow = '';
+            
+            // Update UI
+            checkLoginStatus();
+            
+            showNotification(`সফলভাবে লগইন করা হয়েছে! স্বাগতম ${data.user.name}`, 'success');
+            
+        } catch (error) {
+            console.error('Login error:', error);
+            showNotification(error.message || 'ভুল ইমেইল বা পাসওয়ার্ড।', 'error');
+        } finally {
+            LoadingManager.hide();
+        }
+    }
+    
+    // ============================================================================
+    // UI SETUP FUNCTIONS
+    // ============================================================================
+    
+    /**
+     * Setup OTP input fields
+     */
+    function setupOTPInputs() {
+        const otpInputs = document.querySelectorAll('.otp-digit');
+        
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', function(e) {
+                if (this.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value.length === 0 && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+    }
+    
+    /**
+     * Setup password visibility toggles
+     */
+    function setupPasswordToggles() {
+        const toggleButtons = document.querySelectorAll('.toggle-password');
+        
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+                
+                if (passwordInput) {
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        this.textContent = 'লুকান';
+                    } else {
+                        passwordInput.type = 'password';
+                        this.textContent = 'দেখুন';
+                    }
+                }
+            });
+        });
+    }
+    
+    /**
+     * Setup navigation buttons
+     */
+    function setupNavigationButtons() {
+        const navButtons = [
+            { id: 'goToEmailCheck', target: 'emailCheck' },
+            { id: 'goToLogin', target: 'login' }
+        ];
+        
+        navButtons.forEach(({ id, target }) => {
+            const button = document.getElementById(id);
+            if (button) {
+                button.addEventListener('click', () => toggleForm(target));
+            }
+        });
+    }
+    
+    /**
+     * Setup modal functionality
+     */
+    function setupModal() {
+        const closeModalBtn = document.getElementById('closeModal');
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', function() {
+                const modal = document.getElementById('successModal');
+                if (modal) modal.style.display = 'none';
+                toggleForm('login');
+            });
+        }
+    }
+    
+    /**
+     * Setup login popup
+     */
+    function setupLoginPopup() {
+        const loginButton = document.querySelector('.login-button');
+        const loginPopup = document.querySelector('.login-popup');
+        const blurOverlay = document.querySelector('.blur-overlay');
+        const closeLogin = document.querySelector('.close-login');
+        
+        if (loginButton && loginPopup && blurOverlay) {
+            loginButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginPopup.classList.add('active');
+                blurOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+        
+        if (closeLogin && loginPopup && blurOverlay) {
+            closeLogin.addEventListener('click', function() {
+                loginPopup.classList.remove('active');
+                blurOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+        
+        if (blurOverlay && loginPopup) {
+            blurOverlay.addEventListener('click', function() {
+                loginPopup.classList.remove('active');
+                blurOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+    }
+
+
+
+
+    /**
+     * Setup profile dropdown
+     */
+     function setupProfileDropdown() {
+        const logoutLink = document.getElementById('logoutLink');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', handleLogout);
+        }
+    }
+    
+    // ============================================================================
+    // EVENT LISTENERS SETUP
+    // ============================================================================
+    
+    /**
+     * Setup all event listeners
+     */
+    function setupEventListeners() {
+        // Form submissions
+        const formHandlers = [
+            { id: 'emailCheckForm', handler: handleEmailCheck },
+            { id: 'otpVerificationForm', handler: handleOTPVerification },
+            { id: 'signupForm', handler: handleRegistration },
+            { id: 'loginForm', handler: handleLogin }
+        ];
+        
+        formHandlers.forEach(({ id, handler }) => {
+            const form = document.getElementById(id);
+            if (form) {
+                form.addEventListener('submit', handler);
+            }
+        });
+        
+        // Resend OTP button
+        const resendOtpBtn = document.getElementById('resendOtp');
+        if (resendOtpBtn) {
+            resendOtpBtn.addEventListener('click', handleResendOTP);
+        }
+        
+        // Setup all UI components
+        setupOTPInputs();
+        setupPasswordToggles();
+        setupNavigationButtons();
+        setupModal();
+        setupLoginPopup();
+        setupProfileDropdown();
+    }
+    
+    // ============================================================================
+    // INITIALIZATION
+    // ============================================================================
+    
+    /**
+     * Initialize the authentication system
+     */
+    async function initializeAuth() {
+        if (AppState.isInitialized) return;
+        
+        try {
+            // Setup UI components
+            setupEventListeners();
+            
+            // Check login status
+            await checkLoginStatus();
+            
+            // Setup user activity tracking
+            setupUserActivityTracking();
+            
+            // Set default form
+            toggleForm('login');
+            
+            AppState.isInitialized = true;
+            console.log('Authentication system initialized successfully');
+            
+        } catch (error) {
+            console.error('Authentication initialization error:', error);
+            showNotification('সিস্টেম ইনিশিয়ালাইজেশনে সমস্যা হয়েছে।', 'error');
+        }
+    }
+    
+    /**
+     * Cleanup function for page unload
+     */
+    function cleanup() {
+        clearAllTimers();
+    }
+    
+    // ============================================================================
+    // GLOBAL EVENT HANDLERS
+    // ============================================================================
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeAuth);
+    } else {
+        initializeAuth();
+    }
+    
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', cleanup);
+    
+    // Handle page visibility changes
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            // Page is hidden, pause timers if needed
+        } else {
+            // Page is visible, resume if needed
+            if (localStorage.getItem('authToken')) {
+                checkLoginStatus();
+            }
+        }
+    });
+    
+    // Global error handler
+    window.addEventListener('error', function(e) {
+        console.error('Global error:', e.error);
+    });
+    
+    // Expose necessary functions globally for debugging (remove in production)
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+        window.AuthDebug = {
+            checkLoginStatus,
+            handleLogout,
+            AppState,
+            CONFIG
+        };
+    }
+    
+})();
+
+// ============================================================================
+// CSS STYLES (Add to your CSS file or in a <style> tag)
+// ============================================================================
+
+/*
+.error-message {
+    color: #f44336;
+    font-size: 14px;
+    margin-top: 5px;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.error-message.show-error {
+    display: block;
+    animation: fadeInError 0.3s ease;
+}
+
+@keyframes fadeInError {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.loader {
+    backdrop-filter: blur(5px);
+}
+
+.otp-digit {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-size: 24px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin: 0 5px;
+    transition: border-color 0.3s ease;
+}
+
+.otp-digit:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.btn-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.success-modal {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.login-popup {
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.login-popup.active {
+    transform: translateX(0);
+}
+
+.blur-overlay {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.blur-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (max-width: 768px) {
+    .otp-digit {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        margin: 0 3px;
+    }
+    
+    #customNotification {
+        right: 10px;
+        left: 10px;
+        top: 10px;
+    }
+}
+*/
+</script>
+
+
+
+
+
+
+
+
 
 
 
