@@ -5359,7 +5359,211 @@ throw error;
             }
         });
     });
-</script>
+
+
+
+
+
+    // সংশোধিত ইমেইল চেক এবং OTP হ্যান্ডলার
+// শুধুমাত্র প্রথম স্ক্রিপ্টের সাথে এই অংশটি যোগ করুন
+
+// উন্নত fetch ফাংশন - সিঙ্গেল রিকোয়েস্ট এর জন্য অপ্টিমাইজড
+const safeAPICall = async (url, options, timeout = 8000) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    
+    try {
+        const response = await fetch(url, {
+            ...options,
+            signal: controller.signal,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) {
+            // HTTP স্ট্যাটাস কোড চেক করুন
+            if (response.status === 500) {
+                throw new Error('সার্ভার সমস্যা হয়েছে। পরে আবার চেষ্টা করুন।');
+            } else if (response.status === 404) {
+                throw new Error('সার্ভিস পাওয়া যাচ্ছে না।');
+            } else {
+                throw new Error(`HTTP ${response.status}: সার্ভার এরর`);
+            }
+        }
+        
+        return response;
+    } catch (error) {
+        clearTimeout(timeoutId);
+        
+        if (error.name === 'AbortError') {
+            throw new Error('রিকোয়েস্ট টাইমআউট হয়েছে। ইন্টারনেট সংযোগ চেক করুন।');
+        }
+        
+        throw error;
+    }
+};
+
+// ইমেইল চেক এবং OTP পাঠানোর জন্য একক ফাংশন
+async function handleEmailCheckAndOTP(email) {
+    try {
+        showLoading();
+        
+        // প্রথমে শুধু OTP পাঠান - ইমেইল চেক API স্কিপ করুন
+        console.log('OTP পাঠানো হচ্ছে:', email);
+        
+        const response = await safeAPICall(`${API_URL}/api/send-otp`, {
+            method: 'POST',
+            body: JSON.stringify({ email: email })
+        }, 10000); // ১০ সেকেন্ড টাইমআউট
+        
+        const data = await response.json();
+        
+        if (!data.success) {
+            throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+        }
+        
+        return { success: true, message: data.message };
+        
+    } catch (error) {
+        console.error('Email/OTP Error:', error);
+        throw error;
+    }
+}
+
+// ইমেইল চেক ফর্ম হ্যান্ডলার - সংশোধিত
+document.addEventListener('DOMContentLoaded', function() {
+    const emailCheckForm = document.getElementById('emailCheckForm');
+    if (emailCheckForm) {
+        // পূর্বের ইভেন্ট লিস্টেনার সরান
+        emailCheckForm.replaceWith(emailCheckForm.cloneNode(true));
+        
+        // নতুন ইভেন্ট লিস্টেনার যোগ করুন
+        const newEmailCheckForm = document.getElementById('emailCheckForm');
+        newEmailCheckForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // এরর রিসেট করুন
+            hideError('checkEmailError');
+            
+            const email = document.getElementById('checkEmail').value.trim();
+            
+            // ভ্যালিডেশন
+            if (!email || !validateEmail(email)) {
+                showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+                return;
+            }
+            
+            try {
+                currentEmail = email;
+                
+                // ইউজার ইমেইল দেখান
+                const userEmailElement = document.getElementById('userEmail');
+                if (userEmailElement) {
+                    userEmailElement.textContent = email;
+                }
+                
+                // শুধুমাত্র OTP পাঠান
+                const result = await handleEmailCheckAndOTP(email);
+                
+                if (result.success) {
+                    // OTP ইনপুট ক্লিয়ার করুন
+                    document.querySelectorAll('.otp-digit').forEach(input => {
+                        input.value = '';
+                    });
+                    
+                    // টাইমার শুরু করুন
+                    startOTPTimer();
+                    
+                    // OTP ভেরিফিকেশন ফর্মে যান
+                    toggleForm('otpVerification');
+                    
+                    showNotification('OTP আপনার ইমেইলে পাঠানো হয়েছে।', 'success');
+                }
+                
+            } catch (error) {
+                console.error('Form submission error:', error);
+                
+                // স্পেসিফিক এরর মেসেজ
+                if (error.message.includes('সার্ভার সমস্যা')) {
+                    showError('checkEmailError', 'সার্ভার সমস্যা হয়েছে। ৫ মিনিট পর আবার চেষ্টা করুন।');
+                } else if (error.message.includes('টাইমআউট')) {
+                    showError('checkEmailError', 'ইন্টারনেট সংযোগ ধীর। আবার চেষ্টা করুন।');
+                } else {
+                    showError('checkEmailError', error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।');
+                }
+            } finally {
+                hideLoading();
+            }
+        });
+    }
+});
+
+// রিসেন্ড OTP হ্যান্ডলার - সংশোধিত
+document.addEventListener('DOMContentLoaded', function() {
+    const resendOtpButton = document.getElementById('resendOtp');
+    if (resendOtpButton) {
+        // পূর্বের ইভেন্ট লিস্টেনার সরান
+        resendOtpButton.replaceWith(resendOtpButton.cloneNode(true));
+        
+        const newResendButton = document.getElementById('resendOtp');
+        newResendButton.addEventListener('click', async function() {
+            if (this.disabled || !currentEmail) return;
+            
+            try {
+                showLoading();
+                this.disabled = true;
+                
+                const result = await handleEmailCheckAndOTP(currentEmail);
+                
+                if (result.success) {
+                    // OTP ইনপুট ক্লিয়ার করুন
+                    document.querySelectorAll('.otp-digit').forEach(input => {
+                        input.value = '';
+                    });
+                    
+                    // টাইমার পুনরায় শুরু করুন
+                    startOTPTimer();
+                    
+                    showNotification('নতুন OTP পাঠানো হয়েছে।', 'success');
+                }
+                
+            } catch (error) {
+                console.error('Resend OTP error:', error);
+                showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে।', 'error');
+                this.disabled = false;
+            } finally {
+                hideLoading();
+            }
+        });
+    }
+});
+
+// অতিরিক্ত সমাধান: API রেট লিমিটিং এড়ানোর জন্য
+let lastAPICall = 0;
+const API_CALL_DELAY = 3000; // ৩ সেকেন্ড
+
+function canMakeAPICall() {
+    const now = Date.now();
+    if (now - lastAPICall < API_CALL_DELAY) {
+        return false;
+    }
+    lastAPICall = now;
+    return true;
+}
+
+// API কল করার আগে চেক করুন
+async function safeEmailAPICall(email) {
+    if (!canMakeAPICall()) {
+        throw new Error('অনুগ্রহ করে কিছুক্ষণ অপেক্ষা করুন।');
+    }
+    
+    return await handleEmailCheckAndOTP(email);
+}
+</script> 
 
 
 
