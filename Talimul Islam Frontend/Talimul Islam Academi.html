@@ -11878,14 +11878,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <style>
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Hind Siliguri', 'Bangla', Arial, sans-serif;
-}
-
-
 .container12 {
     width: 100%;
     max-width: 1200px;
@@ -11894,7 +11886,7 @@ document.addEventListener('DOMContentLoaded', function() {
     background-color: white;
     /* border-radius: 8px; */
     /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); */
-    margin-top: 60px;
+    /* margin-top: 60px; */
 }
 
 @media (min-width: 768px) {
@@ -11945,7 +11937,7 @@ document.addEventListener('DOMContentLoaded', function() {
     /* background-color: white; */
     border-radius: 8px;
     /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); */
-    margin-top: 100px;
+    margin-top: 60px;
 }
 }
 
@@ -12399,12 +12391,428 @@ function showDeviceInfo() {
 
     
     
+<style>
+    .containeraTA {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .headeraTA {
+        text-align: center;
+        /* margin-bottom: 50px; */
+        /* padding: 40px 20px; */
+    }
+
+    .headeraTA h2 {
+        font-size: 2.5rem;
+        color: #2d3748;
+        /* font-weight: 700; */
+        margin-bottom: 15px;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        letter-spacing: -1px;
+    }
+
+    .headeraTA p {
+        font-size: 1.2rem;
+        color: rgba(255,255,255,0.9);
+        font-weight: 300;
+    }
+
+    .cards-gridaTA {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .cardaTA {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px 20px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    .cardaTA::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: left 0.6s;
+    }
+
+    .cardaTA:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .cardaTA:hover::before {
+        left: 100%;
+    }
+
+    .card-iconaTA {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.8rem;
+        font-weight: bold;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .cardaTA:hover .card-iconaTA {
+        transform: rotateY(180deg);
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+    }
+
+    .cardaTA h2 {
+        font-size: 1.4rem;
+        color: #2c3e50;
+        margin-bottom: 25px;
+        font-weight: 600;
+        line-height: 1.3;
+    }
+
+    .btnaTA {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 25px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        position: relative;
+        overflow: hidden;
+        min-width: 120px;
+    }
+
+    .btnaTA::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .btnaTA:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btnaTA:hover::before {
+        left: 100%;
+    }
+
+    .btnaTA:active {
+        transform: translateY(0);
+    }
+
+    .footeraTA {
+        text-align: center;
+        padding: 30px;
+        color: rgba(255,255,255,0.8);
+        font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .headeraTA h2 {
+            font-size: 1.5rem;
+        }
+        
+        .cards-gridaTA {
+            gap: 20px;
+        }
+        
+        .cardaTA {
+            padding: 25px 15px;
+        }
+        
+        .card-iconaTA {
+            width: 60px;
+            height: 60px;
+            font-size: 1.6rem;
+        }
+        
+        .cardaTA h2 {
+            font-size: 1.3rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .containeraTA {
+            padding: 15px;
+        }
+
+        .headeraTA h1 {
+            font-size: 2.2rem;
+        }
+
+        .headeraTA p {
+            font-size: 1rem;
+        }
+
+        .cards-gridaTA {
+            gap: 15px;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .cardaTA {
+            padding: 18px 10px;
+        }
+
+        .card-iconaTA {
+            width: 45px;
+            height: 45px;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .cardaTA h2 {
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .btnaTA {
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            border-radius: 18px;
+            min-width: 80px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .containeraTA {
+            padding: 8px;
+        }
+
+        .headeraTA h1 {
+            font-size: 1.8rem;
+        }
+
+        .cards-gridaTA {
+            gap: 8px;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .cardaTA {
+            padding: 15px 8px;
+        }
+
+        .card-iconaTA {
+            width: 35px;
+            height: 35px;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .cardaTA h2 {
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+
+        .btnaTA {
+            padding: 4px 8px;
+            font-size: 0.65rem;
+            border-radius: 15px;
+            min-width: 65px;
+        }
+    }
+
+    /* Animation */
+    .cardaTA {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .cardaTA:nth-child(1) { animation-delay: 0.1s; }
+    .cardaTA:nth-child(2) { animation-delay: 0.2s; }
+    .cardaTA:nth-child(3) { animation-delay: 0.3s; }
+    .cardaTA:nth-child(4) { animation-delay: 0.4s; }
+    .cardaTA:nth-child(5) { animation-delay: 0.5s; }
+    .cardaTA:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Glassmorphism effect */
+    .cardaTA {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    /* Hover glow effect */
+    .cardaTA:hover {
+        box-shadow: 
+            0 20px 40px rgba(0,0,0,0.1),
+            0 0 0 1px rgba(255,255,255,0.5),
+            inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+</style>
+<div class="containeraTA">
+    <div class="headeraTA">
+        <h2>আমাদের বিভাগ সমূহ</h1>
+        <!-- <p>ইসলামিক শিক্ষার বিভিন্ন ধারা</p> -->
+    </div>
+
+    <div class="cards-gridaTA">
+        <div class="cardaTA" onclick="window.location.href='QawmiMadrase.html'">
+            <div class="card-iconaTA">ক</div>
+            <h2>কওমী মাদ্রাসা</h2>
+            <button class="btnaTA" onclick="showDetails('কওমী মাদ্রাসা')">বিস্তারিত দেখুন</button>
+        </div>
+
+        <div class="cardaTA" onclick="window.location.href='#'">
+            <div class="card-iconaTA">আ</div>
+            <h2>আলিয়া মাদ্রাসা</h2>
+            <button class="btnaTA" onclick="showDetails('আলিয়া মাদ্রাসা')">বিস্তারিত দেখুন</button>
+        </div>
+
+        <div class="cardaTA" onclick="window.location.href='WomensMadrasa.html'">
+            <div class="card-iconaTA">ম</div>
+            <h2>মহিলা মাদ্রাসা</h2>
+            <button class="btnaTA" onclick="showDetails('মহিলা মাদ্রাসা')">বিস্তারিত দেখুন</button>
+        </div>
+
+        <div class="cardaTA" onclick="window.location.href='#'">
+            <div class="card-iconaTA">স</div>
+            <h2>মক্তব আফটার স্কুল</h2>
+            <button class="btnaTA" onclick="showDetails('মক্তব আফটার স্কুল')">বিস্তারিত দেখুন</button>
+        </div>
+
+        <div class="cardaTA" onclick="window.location.href='#'">
+            <div class="card-iconaTA">ন</div>
+            <h2>নৈশ্য মাদ্রাসা</h2>
+            <button class="btnaTA" onclick="showDetails('নৈশ্য মাদ্রাসা')">বিস্তারিত দেখুন</button>
+        </div>
+
+        <div class="cardaTA" onclick="window.location.href='MadaniNisab.html'">
+            <div class="card-iconaTA">দ</div>
+            <h2>মাদানী নেসাব</h2>
+            <button class="btnaTA" onclick="showDetails('মাদানী নেসাব')">বিস্তারিত দেখুন</button>
+        </div>
+    </div>
+</div>
 
 
+  
 
+    <!-- <script>
+        function showDetails(type) {
+            const details = {
+                'কওমী মাদ্রাসা': `
+কওমী মাদ্রাসার বিস্তারিত তথ্য:
+
+• স্বাধীন ও বেসরকারি প্রতিষ্ঠান
+• দান-সাদকায় পরিচালিত
+• ঐতিহ্যবাহী ইসলামিক শিক্ষা পদ্ধতি
+• হিফজুল কুরআন, তাজবিদ, হাদিস, ফিকহ শিক্ষা
+• আরবি ভাষা ও সাহিত্যের গভীর অধ্যয়ন
+• উলামা তৈরির মূল কেন্দ্র`,
+
+                'আলিয়া মাদ্রাসা': `
+আলিয়া মাদ্রাসার বিস্তারিত তথ্য:
+
+• সরকারি তত্ত্বাবধানে পরিচালিত
+• ধর্মীয় ও আধুনিক শিক্ষার সমন্বয়
+• সরকারি স্বীকৃতিপ্রাপ্ত সার্টিফিকেট
+• দাখিল, আলিম, ফাজিল, কামিল স্তর
+• চাকরির ক্ষেত্রে স্বীকৃতি
+• উচ্চশিক্ষার সুযোগ`,
+
+                'মহিলা মাদ্রাসা': `
+মহিলা মাদ্রাসার বিস্তারিত তথ্য:
+
+• মহিলাদের জন্য বিশেষায়িত
+• নিরাপদ ও উপযুক্ত শিক্ষা পরিবেশ
+• ইসলামিক শিষ্টাচার ও মূল্যবোধ
+• গৃহকর্ম ও সংসার পরিচালনা শিক্ষা
+• মাতৃত্ব ও শিশু লালন-পালন
+• মহিলা শিক্ষক প্রশিক্ষণ`,
+
+                'মক্তব আফটার স্কুল': `
+মক্তব আফটার স্কুলের বিস্তারিত তথ্য:
+
+• স্কুলের পর সন্ধ্যাকালীন ক্লাস
+• নিয়মিত শিক্ষার পাশাপাশি ধর্মীয় শিক্ষা
+• কুরআন তিলাওয়াত ও হিফজ
+• দোয়া-দুরুদ ও ইসলামিক শিষ্টাচার
+• নামাজ-রোজার নিয়মকানুন
+• চরিত্র গঠন ও নৈতিক শিক্ষা`,
+
+                'নৈশ্য মাদ্রাসা': `
+নৈশ্য মাদ্রাসার বিস্তারিত তথ্য:
+
+• রাতের বেলা পরিচালিত ক্লাস
+• কর্মজীবী মানুষের জন্য উপযুক্ত
+• নমনীয় সময়সূচি
+• বয়স্কদের ইসলামিক শিক্ষার সুযোগ
+• কুরআন পড়া ও মৌলিক ইসলামি জ্ঞান
+• সামাজিক দায়বদ্ধতা বৃদ্ধি`,
+
+                'মাদানী নেসাব': `
+মাদানী নেসাবের বিস্তারিত তথ্য:
+
+• আধুনিক ইসলামিক শিক্ষা পদ্ধতি
+• ঐতিহ্য ও আধুনিকতার সমন্বয়
+• প্রযুক্তি ভিত্তিক শিক্ষা
+• ব্যবহারিক ইসলামিক জ্ঞান
+• সমসাময়িক বিষয়ে ইসলামিক দৃষ্টিভঙ্গি
+• দাওয়াত ও তাবলিগের কার্যকর পদ্ধতি`
+            };
+
+            alert(details[type] || 'তথ্য পাওয়া যায়নি।');
+        }
+
+        // Add smooth page load animation
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Add parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.headera');
+            header.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+    </script> -->
 
 <!-- আমাদের বিভাগ সমূহ -->
-<style>
+<!-- <style>
     @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
     
     * {
@@ -12632,7 +13040,7 @@ function showDeviceInfo() {
             this.style.setProperty('--mouse-y', y + 'px');
         });
     });
-</script>
+</script> -->
 
 
 
@@ -12641,7 +13049,7 @@ function showDeviceInfo() {
 
 
 <!-- জনপ্রিয় কোর্স -->
-<style>
+<!-- <style>
     @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
     /* নতুন সেকশনের জন্য স্টাইল */
     .additional-sectionsD {
@@ -12908,9 +13316,9 @@ function showDeviceInfo() {
     }
 </style>
 <div class="additional-sectionsD">
-    <!-- পাশাপাশি সেকশনের জন্য কন্টেইনার -->
+
     <div class="course-sections-containerD">
-        <!-- জনপ্রিয় কোর্স -->
+   
         <div class="sectionD">
             <h2 class="section-headerD">জনপ্রিয় কোর্স</h2>
             <div class="course-listD">
@@ -12933,7 +13341,7 @@ function showDeviceInfo() {
             </div>
         </div>
 
-        <!-- বিশেষ কোর্স -->
+       
         <div class="sectionDE">
             <h2 class="section-headerD">বিশেষ কোর্স</h2>
             <div class="course-listD">
@@ -12956,7 +13364,310 @@ function showDeviceInfo() {
             </div>
         </div>
     </div>   
-</div>
+</div> -->
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        .additional-sectionsD {
+            max-width: 1200px;
+            margin: 0 auto;
+            /* padding: 0 20px; */
+            position: relative;
+        }
+
+        .course-sections-containerD {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* gap: 40px; */
+            margin-bottom: 20px;
+        }
+
+        .sectionD, .sectionDE {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            /* border-radius: 20px; */
+            padding: 30px;
+            /* box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        
+
+        .section-headerD {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .course-listD {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .course-itemD {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .course-itemD::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            transition: left 0.4s ease;
+            z-index: 1;
+            opacity: 0.95;
+        }
+
+        .course-itemD:hover::before {
+            left: 0;
+        }
+
+        .course-itemD:hover {
+            transform: translateY(-3px);
+            border-color: #48bb78;
+            box-shadow: 0 15px 35px rgba(72, 187, 120, 0.2);
+        }
+
+        .course-itemD:hover .course-item-titleD,
+        .course-itemD:hover .course-item-descD {
+            color: white;
+        }
+
+        .course-item-titleD {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .course-item-descD {
+            font-size: 0.9rem;
+            color: #718096;
+            line-height: 1.5;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .course-itemD::after {
+            content: '→';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.2rem;
+            color: #48bb78;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .course-itemD:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+            color: white;
+        }
+
+        /* অ্যানিমেশন */
+        .course-itemD {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .course-itemD:nth-child(1) { animation-delay: 0.1s; }
+        .course-itemD:nth-child(2) { animation-delay: 0.2s; }
+        .course-itemD:nth-child(3) { animation-delay: 0.3s; }
+        .course-itemD:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ট্যাবলেট স্টাইল */
+        @media (max-width: 1024px) {
+            .additional-sectionsD {
+                padding: 0 15px;
+            }
+            
+            .course-sections-containerD {
+                gap: 30px;
+            }
+            
+            .sectionD, .sectionDE {
+                padding: 25px;
+            }
+            
+            .section-headerD {
+                font-size: 1.6rem;
+            }
+            
+            .course-listD {
+                gap: 15px;
+            }
+        }
+
+        /* মোবাইল স্টাইল */
+        @media (max-width: 768px) {
+    
+            .additional-sectionsD {
+                padding: 0 10px;
+            }
+
+            .course-sections-containerD {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .sectionD, .sectionDE {
+                padding: 20px;
+            }
+
+            .section-headerD {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+
+            .course-listD {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .course-itemD {
+                padding: 18px;
+                min-height: 100px;
+            }
+
+            .course-item-titleD {
+                font-size: 1rem;
+                margin-bottom: 6px;
+            }
+
+            .course-item-descD {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ছোট মোবাইল */
+        @media (max-width: 480px) {
+            .additional-sectionsD {
+                padding: 0 5px;
+            }
+
+            .sectionD, .sectionDE {
+                padding: 15px;
+            }
+
+            .section-headerD {
+                font-size: 1.3rem;
+            }
+
+            .course-itemD {
+                padding: 15px;
+                min-height: 90px;
+            }
+
+            .course-item-titleD {
+                font-size: 0.95rem;
+            }
+
+            .course-item-descD {
+                font-size: 0.8rem;
+            }
+        }
+
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <div class="additional-sectionsD">
+        <div class="course-sections-containerD">
+            <div class="sectionD">
+                <h2 class="section-headerD">জনপ্রিয় কোর্স</h2>
+                <div class="course-listD">
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">কুরআন তিলাওয়াত</h3>
+                        <p class="course-item-descD">সহীহ উচ্চারণে কুরআন পড়া শিখুন</p>
+                    </div>
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">হাদিস অধ্যয়ন</h3>
+                        <p class="course-item-descD">রাসূলের সুন্নাহ জানুন ও বুঝুন</p>
+                    </div>
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">ইসলামিক ইতিহাস</h3>
+                        <p class="course-item-descD">ইসলামের গৌরবময় ইতিহাস জানুন</p>
+                    </div>
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">আরবি ভাষা</h3>
+                        <p class="course-item-descD">কুরআনের ভাষা শিখুন সহজে</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sectionDE">
+                <h2 class="section-headerD">বিশেষ কোর্স</h2>
+                <div class="course-listD">
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">তাজভীদ শিক্ষা</h3>
+                        <p class="course-item-descD">কুরআন তিলাওয়াতের নিয়মকানুন</p>
+                    </div>
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">ফিকহ শাস্ত্র</h3>
+                        <p class="course-item-descD">ইসলামি জীবনবিধান শিখুন</p>
+                    </div>
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">আকীদা বিশ্বাস</h3>
+                        <p class="course-item-descD">সঠিক ইসলামি বিশ্বাস জানুন</p>
+                    </div>
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">দাওয়াত ও তাবলীগ</h3>
+                        <p class="course-item-descD">ইসলাম প্রচারের পদ্ধতি শিখুন</p>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </div>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -12965,7 +13676,7 @@ function showDeviceInfo() {
 
 
 <!-- স্কিল ডেবলপমেন্ট কোর্স -->
-<style>
+<!-- <style>
     @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
     * {
         margin: 0;
@@ -12977,7 +13688,7 @@ function showDeviceInfo() {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         font-family: 'Hind Siliguri', sans-serif;
         background-color: #f8f9fa;
-        padding: 20px;
+        /* padding: 20px; */
     }
     
     .containerE {
@@ -13177,7 +13888,6 @@ function showDeviceInfo() {
     }
 </style>
 <div class="containerE">
-    <!-- Top Selling Section -->
     <div class="sectionE">
         <h2 class="section-titleE">স্কিল ডেবলপমেন্ট কোর্স</h2>
         <div class="product-listE">
@@ -13243,7 +13953,6 @@ function showDeviceInfo() {
         </div>
     </div>
     
-    <!-- Trending Products Section -->
     <div class="sectionE">
         <h2 class="section-titleE">বান্ডেল কোর্স</h2>
         <div class="product-listE">
@@ -13308,7 +14017,7 @@ function showDeviceInfo() {
             </a>
         </div>
     </div>
-</div>
+</div> -->
 
 
 
@@ -13325,7 +14034,7 @@ function showDeviceInfo() {
 
 
 <!-- আপনি কি শিখতে চান? -->
-<style>
+<!-- <style>
     * { 
     margin: 0; 
     padding: 0; 
@@ -13347,13 +14056,13 @@ body {
     padding-top: 20px;     
     text-align: center; 
     padding: 0px 10px;    
-    /* background: rgba(255, 255, 255, 0.95); */
-    /* backdrop-filter: blur(20px); */
-    /* border-radius: 25px;      */
-    /* box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);      */
-    /* margin-top: 15px; */
-    /* margin-bottom: 15px; */
-    /* border: 1px solid rgba(255, 255, 255, 0.3); */
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;     
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);     
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -13365,8 +14074,8 @@ body {
     left: 0;
     right: 0;
     height: 4px;
-    /* background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c); */
-    /* background-size: 300% 100%; */
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+    background-size: 300% 100%;
     animation: gradientShift 3s ease-in-out infinite;
 }
 
@@ -13378,12 +14087,12 @@ body {
 .headerB h2 { 
     font-size: 1.5rem; 
     /* margin-bottom: 0px;  */
-    /* padding-top: 20px; */
+    padding-top: 20px;
     /* max-width: 100%; */
     height: auto;
-    background: #dcdcdc;
+    /* background: #dcdcdc; */
     color: #2d3748;
-    /* margin-bottom: 10px;     */
+    margin-bottom: 10px;    
 }
 
 .headerB p { 
@@ -13928,7 +14637,331 @@ body {
                 <p>৪৭ কোর্স</p>
             </div>
         </div>
-</div>
+</div>  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- আপনি কি শিখতে চান? -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap'); 
+        .containerAB {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 1rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .headerAB {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .headerAB h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .headerAB p {
+            color: #7f8c8d;
+            font-size: 1rem;
+        }
+        
+        .courses-gridAB {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .course-cardAB {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        
+        .course-cardAB:hover {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            border-color: #4a69bd;
+        }
+        
+        /* Content positioning */
+        .course-contentAB {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .course-titleAB {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            transition: color 0.4s ease;
+        }
+        
+        .course-cardAB:hover .course-titleAB {
+            color: #1565C0;
+        }
+        
+        .course-countAB {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4CAF50;
+            margin-bottom: 0.25rem;
+            transition: all 0.4s ease;
+        }
+        
+        .course-cardAB:hover .course-countAB {
+            color: #2E7D32;
+            transform: scale(1.1);
+        }
+        
+        .course-labelAB {
+            font-size: 0.85rem;
+            color: #95a5a6;
+            transition: color 0.4s ease;
+        }
+        
+        .course-cardAB:hover .course-labelAB {
+            color: #5D4037;
+        }
+        
+        /* Pulse animation for special cards */
+        .course-cardAB:nth-child(3n+1):hover {
+            animation: colorPulse 2s infinite;
+        }
+        
+        @keyframes colorPulse {
+            0%, 100% { 
+                background: #fff; 
+            }
+            25% { 
+                background: linear-gradient(135deg, rgba(76, 175, 80, 0.05), rgba(255, 255, 255, 0.95)); 
+            }
+            50% { 
+                background: linear-gradient(135deg, rgba(33, 150, 243, 0.05), rgba(255, 255, 255, 0.95)); 
+            }
+            75% { 
+                background: linear-gradient(135deg, rgba(255, 152, 0, 0.05), rgba(255, 255, 255, 0.95)); 
+            }
+        }
+        
+        /* Shimmer effect for alternate cards */
+        .course-cardAB:nth-child(even):hover::before {
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                transparent 100%);
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .total-sectionAB {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .total-sectionAB::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                transparent 100%);
+            transition: left 0.8s ease;
+        }
+        
+        .total-sectionAB:hover::before {
+            left: 100%;
+        }
+        
+        .total-countAB {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .total-labelAB {
+            font-size: 1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        
+        @media (max-width: 600px) {            
+            .courses-gridAB {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .course-cardAB {
+                padding: 1rem;
+            }
+            
+            .course-titleAB {
+                font-size: 1rem;
+            }
+            
+            .course-countAB {
+                font-size: 1.5rem;
+            }
+            
+            .headerAB h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <div class="containerAB">
+        <div class="headerAB">
+            <h1>আপনি কি শিখতে চান?</h1>
+            <p>আপনার পছন্দের বিষয় বেছে নিন</p>
+        </div>
+        
+        <div class="courses-gridAB">
+            <div class="course-cardAB">
+                <div class="course-contentAB">
+                    <div class="course-titleAB">কুরআন</div>
+                    <div class="course-countAB">১২০</div>
+                    <div class="course-labelAB">কোর্স</div>
+                </div>
+            </div>
+            
+            <div class="course-cardAB">
+                <div class="course-contentAB">
+                    <div class="course-titleAB">হাদিস</div>
+                    <div class="course-countAB">৮৫</div>
+                    <div class="course-labelAB">কোর্স</div>
+                </div>
+            </div>
+            
+            <div class="course-cardAB">
+                <div class="course-contentAB">
+                    <div class="course-titleAB">ফিকহ</div>
+                    <div class="course-countAB">৬৫</div>
+                    <div class="course-labelAB">কোর্স</div>
+                </div>
+            </div>
+            
+            <div class="course-cardAB">
+                <div class="course-contentAB">
+                    <div class="course-titleAB">আরবি</div>
+                    <div class="course-countAB">৪২</div>
+                    <div class="course-labelAB">কোর্স</div>
+                </div>
+            </div>
+            
+            <div class="course-cardAB">
+                <div class="course-contentAB">
+                    <div class="course-titleAB">তাফসির</div>
+                    <div class="course-countAB">৫৩</div>
+                    <div class="course-labelAB">কোর্স</div>
+                </div>
+            </div>
+            
+            <div class="course-cardAB">
+                <div class="course-contentAB">
+                    <div class="course-titleAB">ইসলামিক স্টাডিজ</div>
+                    <div class="course-countAB">৭৮</div>
+                    <div class="course-labelAB">কোর্স</div>
+                </div>
+            </div>
+            
+            <div class="course-cardAB">
+                <div class="course-contentAB">
+                    <div class="course-titleAB">সিরাত</div>
+                    <div class="course-countAB">৩৬</div>
+                    <div class="course-labelAB">কোর্স</div>
+                </div>
+            </div>
+            
+            <div class="course-cardAB">
+                <div class="course-contentAB">
+                    <div class="course-titleAB">ইতিহাস</div>
+                    <div class="course-countAB">২৯</div>
+                    <div class="course-labelAB">কোর্স</div>
+                </div>
+            </div>
+            
+            <div class="course-cardAB">
+                <div class="course-contentAB">
+                    <div class="course-titleAB">মাসাইল ও গবেষণা</div>
+                    <div class="course-countAB">৪৭</div>
+                    <div class="course-labelAB">কোর্স</div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container019">
+            <section class="features">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h2>কুরআন ও তাজবিদ</h2>
+                        <span>বিশ্বস্ত ক্বারিদের তত্ত্বাবধানে শুদ্ধ তাজবিদসহ কুরআন শিখুন সহজে ও সঠিকভাবে।</span>
+                    </div>
+                    <div class="feature-card">
+                        <h2>দাওয়াহমুখী প্ল্যাটফর্ম</h2>
+                        <span>দ্বীনের দাওয়াহ ও জ্ঞানের সমন্বয়ে গড়ে উঠুক আপনার সচেতন ঈমানি পরিচয়।</span>
+                    </div>
+                    <div class="feature-card">
+                        <h2>তালিমুল ইসলাম একাডেমী</h2>
+                        <span>বিশুদ্ধ দ্বীনি শিক্ষায় জীবন আলোকিত করতে তালিমুল ইসলাম একাডেমীর কোর্সে ভর্তি হন।</span>
+                    </div>
+                </div>
+            </section>
+            </div>
+            
+    </div>  
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -13939,7 +14972,7 @@ body {
         max-width: 1200px;     
             margin: 0 auto;     
             /* margin-top: 20px;   */
-            padding: 24px;   
+            /* padding: 24px;    */
             text-align: center;     
             /* background: rgba(255, 255, 255, 0.95); */
     }
@@ -14088,7 +15121,7 @@ body {
     50% { background-position: 100% 50%; }
 }
 </style>
-<div class="container019">
+<!-- <div class="container019">
 <section class="features">
     <div class="features-grid">
         <div class="feature-card">
@@ -14105,7 +15138,7 @@ body {
         </div>
     </div>
 </section>
-</div>
+</div> -->
 
 
 
@@ -14123,10 +15156,10 @@ body {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 10px;
-      /* background-color: white; */
-    /* border-radius: 10px; */
-    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
-    /* margin-top: 15px; */
+      background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
     padding-bottom: 2px;
     }
 
@@ -14138,14 +15171,14 @@ body {
     }
     
     .section-header h2 {
-        width: 100%;
-        height: auto;
-        background: #dcdcdc;
+        /* width: 100%; */
+        /* height: auto; */
+        /* background: #dcdcdc; */
         font-size: 1.5rem;
         /* font-weight: 700; */
         color: #2d3748;
-        /* margin-bottom: 10px; */
-        /* padding-top: 20px; */
+        margin-bottom: 10px;
+        padding-top: 20px;
         position: relative;
         display: inline-block;
     }
@@ -15023,12 +16056,6 @@ function hideExtraCourses() {
 
 </script> -->
 
-
-
-
-
-
-
 <style>
         /* বাটনের স্টাইল */
         .toggle-button {
@@ -15078,7 +16105,6 @@ function hideExtraCourses() {
             transform: translateY(0);
         }
 </style>
-
 
 <script>
 let isCoursesVisible = false;
@@ -15144,7 +16170,745 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+<style>
+    .containerTA {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+    }
 
+    .headerTA {
+        margin-bottom: 25px;
+    }
+
+    .headerTA h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #1a202c;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .headerTA h1::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: #667eea;
+        border-radius: 2px;
+    }
+
+    .categoriesTA {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+
+    .category-btnTA {
+        padding: 8px 16px;
+        border: none;
+        background: transparent;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #718096;
+        transition: all 0.2s;
+        font-weight: 500;
+    }
+
+    .category-btnTA:hover,
+    .category-btnTA.activeTA {
+        background: #edf2f7;
+        color: #2d3748;
+    }
+
+    .courses-gridTA {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .course-cardTA {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .course-cardTA:hover {
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+
+    .course-imageTA {
+        position: relative;
+        height: 180px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
+
+    .course-imageTA.seoTA {
+        background-image: url('img/কওমী\ মাদ্রাসার\ বুনিয়াদী\ ইসলামি\ শিক্ষা.jpg');
+    }
+
+    .course-imageTA.mobileTA {
+        background-image: url('img/আলিয়া\ মাদ্রাসা\ ভিত্তিক\ পূর্ণাঙ্গ\ ইসলামি\ কোর্স.jpg');
+    }
+
+    .course-imageTA.financeTA {
+        background-image: url('img/নারীদের\ জন্য\ সহজ\ কওমী\ মাদ্রাসা\ কোর্স.jpg');
+    }
+
+    .course-imageTA.webTA {
+        background-image: url('img/আফটার\ স্কুল\ মক্তব\ ইসলামি\ নৈতিকতা\ শেখা।.jpg');
+    }
+
+    .course-imageTA.designTA {
+        background-image: url('img/দিনের\ ব্যস্ততা\ শেষে\ ইসলামী\ জ্ঞান\ নৈশ্য\ মাদ্রাসা.jpg');
+    }
+
+    .course-imageTA.marketingTA {
+        background-image: url('img/মাদানী\ নেসাব\ পূর্ণাঙ্গ\ কওমী\ শিক্ষা\ প্যাকেজ.jpg');
+    }
+
+    /* Hover Shutter Effect */
+    .course-imageTA::before {
+        content: '';
+        position: absolute;
+        top: -100%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        transition: top 0.4s ease;
+        z-index: 1;
+    }
+
+    .course-cardTA:hover .course-imageTA::before {
+        top: 0;
+    }
+
+    .course-tagTA {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: 600;
+        color: white;
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        z-index: 2;
+    }
+
+    .video-iconTA {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 254, 254, 0.7);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        z-index: 2;
+    }
+
+    .video-iconTA::after {
+        /* content: '▶'; */
+        color: white;
+        font-size: 14px;
+        margin-left: 2px;
+    }
+
+    .heart-iconTA {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        z-index: 2;
+    }
+
+    .heart-iconTA::after {
+        content: '♡';
+        color: white;
+        font-size: 16px;
+    }
+
+    .heart-iconTA:hover::after,
+    .heart-iconTA.likedTA::after {
+        content: '♥';
+        color: #e53e3e;
+    }
+
+    .heart-iconTA.likedTA {
+        background: rgba(255,255,255,0.9);
+    }
+
+    .course-contentTA {
+        padding: 20px;
+    }
+
+    .course-ratingTA {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .starsTA {
+        display: flex;
+        gap: 2px;
+    }
+
+    .starTA {
+        color: #fbbf24;
+        font-size: 14px;
+    }
+
+    .starTA.emptyTA {
+        color: #e5e7eb;
+    }
+
+    .rating-numberTA {
+        font-weight: 600;
+        color: #374151;
+        font-size: 14px;
+    }
+
+    .course-titleTA {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a202c;
+        /* margin-bottom: 12px; */
+        line-height: 1.4;
+        /* height: 50px; */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .course-metaTA {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 16px;
+        color: #718096;
+        font-size: 14px;
+    }
+
+    .meta-itemTA {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .meta-iconTA {
+        width: 16px;
+        height: 16px;
+        opacity: 0.8;
+    }
+
+    .course-footerTA {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* padding-top: 16px; */
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .price-sectionTA {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .price-labelTA {
+        font-size: 12px;
+        color: #a0aec0;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+
+    .price-rowTA {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .current-priceTA {
+        font-size: 20px;
+        font-weight: 700;
+        color: #2d3748;
+    }
+
+    .original-priceTA {
+        font-size: 16px;
+        color: #a0aec0;
+        text-decoration: line-through;
+    }
+
+    .free-priceTA {
+        font-size: 20px;
+        font-weight: 700;
+        color: #38a169;
+    }
+
+    .instructorTA {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .instructor-avatarTA {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 12px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Updated styles for image handling */
+    .instructor-avatarTA.has-imageTA {
+        background-color: transparent;
+    }
+
+    .instructor-avatarTA.no-imageTA {
+        background-color: #e53e3e;
+    }
+
+    .instructor-avatarTA img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .instructor-nameTA {
+        font-size: 13px;
+        color: #718096;
+        font-weight: 500;
+    }
+
+    .people-iconTA {
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23718096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>') no-repeat center;
+    }
+
+    .clock-iconTA {
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23718096" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12,6 12,12 16,14"></polyline></svg>') no-repeat center;
+    }
+
+    /* Show all courses by default */
+    .course-cardTA {
+        display: block;
+    }
+
+    .course-cardTA.showTA {
+        display: block;
+    }
+
+    @media (max-width: 1024px) {
+        .courses-gridTA {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .courses-gridTA {
+            grid-template-columns: 1fr;
+        }
+        
+        .categoriesTA {
+            justify-content: flex-start;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        .category-btnTA {
+            white-space: nowrap;
+        }
+    }
+</style>
+<div class="containerTA">
+    <div class="headerTA">
+        <h1>আমাদের কোর্সসমূহ</h1>
+        <div class="categoriesTA">
+            <button class="category-btnTA activeTA" data-category="all">সকল কোর্স</button>
+            <button class="category-btnTA" data-category="3d">কওমী মাদ্রাসা</button>
+            <button class="category-btnTA" data-category="design">আলিয়া মাদ্রাসা</button>
+            <button class="category-btnTA" data-category="data">মহিলা মাদ্রাসা</button>
+            <button class="category-btnTA" data-category="finance">মক্তব আফটার স্কুল</button>
+            <button class="category-btnTA" data-category="health">নৈশ্য মাদ্রাসা</button>
+            <button class="category-btnTA" data-category="marketing">মাদানী নেসাব</button>
+            <button class="category-btnTA" data-category="mobile">জনপ্রিয় কোর্স</button>
+            <button class="category-btnTA" data-category="seo">বিশেষ কোর্স</button>
+            <button class="category-btnTA" data-category="web">স্কিল ডেবলপমেন্ট কোর্স</button>
+            <button class="category-btnTA" data-category="seo">বান্ডেল কোর্স</button>
+            <button class="category-btnTA" data-category="seo">ফ্রি কোর্স</button>
+        </div>
+    </div>
+
+    <div class="courses-gridTA">
+        <!-- Course 1: SEO -->
+        <div class="course-cardTA showTA" data-category="seo">
+            <div class="course-imageTA seoTA">
+                <div class="course-tagTA">3D Animation</div>
+                <div class="video-iconTA"><i class="fa-solid fa-video"></i></div>
+                <div class="heart-iconTA"></div>
+            </div>
+            <div class="course-contentTA">
+                <div class="course-ratingTA">
+                    <div class="starsTA">
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                    </div>
+                    <span class="rating-numberTA">4.7</span>
+                </div>
+                <h3 class="course-titleTA">কওমী মাদ্রাসার বুনিয়াদী ইসলামি শিক্ষা</h3>
+                <div class="course-metaTA">
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA people-iconTA"></div>
+                        <span>15 Lessons</span>
+                    </div>
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA clock-iconTA"></div>
+                        <span>17:20 Hours</span>
+                    </div>
+                </div>
+                <div class="course-footerTA">
+                    <div class="price-sectionTA">
+                        <div class="price-labelTA">Student</div>
+                        <div class="price-rowTA">
+                            <div class="current-priceTA">৳২,৮০০</div>
+                            <div class="original-priceTA">৳৩,০০০</div>
+                        </div>
+                    </div>
+                    <div class="instructorTA">
+                        <div class="instructor-avatarTA has-imageTA">
+                            <img src="img/al-quran-7737560_1280.jpg" alt="Masum Billah">
+                        </div>
+                        <span class="instructor-nameTA">Masum Billah</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 2: Mobile App -->
+        <div class="course-cardTA showTA" data-category="mobile">
+            <div class="course-imageTA mobileTA">
+                <div class="course-tagTA">Mobile Application</div>
+                <div class="video-iconTA"><i class="fa-solid fa-video"></i></div>
+                <div class="heart-iconTA"></div>
+            </div>
+            <div class="course-contentTA">
+                <div class="course-ratingTA">
+                    <div class="starsTA">
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA emptyTA">★</span>
+                    </div>
+                    <span class="rating-numberTA">4.2</span>
+                </div>
+                <h3 class="course-titleTA">আলিয়া মাদ্রাসা ভিত্তিক পূর্ণাঙ্গ ইসলামি কোর্স</h3>
+                <div class="course-metaTA">
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA people-iconTA"></div>
+                        <span>6 Lessons</span>
+                    </div>
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA clock-iconTA"></div>
+                        <span>04:00 Hours</span>
+                    </div>
+                </div>
+                <div class="course-footerTA">
+                    <div class="price-sectionTA">
+                        <div class="price-labelTA">Student</div>
+                        <div class="price-rowTA">
+                            <div class="current-priceTA">৳১,৮০০</div>
+                            <div class="original-priceTA">৳২,২০০</div>
+                        </div>
+                    </div>
+                    <div class="instructorTA">
+                        <div class="instructor-avatarTA has-imageTA">
+                            <img src="img/al-quran-7737560_1280.jpg" alt="Masum Billah">
+                        </div>
+                        <span class="instructor-nameTA">Masum Billah</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 3: Finance -->
+        <div class="course-cardTA showTA" data-category="finance">
+            <div class="course-imageTA financeTA">
+                <div class="course-tagTA">Finance Account</div>
+                <div class="video-iconTA"><i class="fa-solid fa-video"></i></div>
+                <div class="heart-iconTA"></div>
+            </div>
+            <div class="course-contentTA">
+                <div class="course-ratingTA">
+                    <div class="starsTA">
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA emptyTA">★</span>
+                    </div>
+                    <span class="rating-numberTA">4.1</span>
+                </div>
+                <h3 class="course-titleTA">নারীদের জন্য সহজ কওমী মাদ্রাসা কোর্স</h3>
+                <div class="course-metaTA">
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA people-iconTA"></div>
+                        <span>16 Lessons</span>
+                    </div>
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA clock-iconTA"></div>
+                        <span>06:00 Hours</span>
+                    </div>
+                </div>
+                <div class="course-footerTA">
+                    <div class="price-sectionTA">
+                        <div class="price-labelTA">Student</div>
+                        <div class="price-rowTA">
+                            <div class="current-priceTA">৳১,২০০</div>
+                            <div class="original-priceTA">৳১,৫০০</div>
+                        </div>
+                    </div>
+                    <div class="instructorTA">
+                        <div class="instructor-avatarTA has-imageTA">
+                            <img src="img/al-quran-7737560_1280.jpg" alt="Masum Billah">
+                        </div>
+                        <span class="instructor-nameTA">Masum Billah</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 4: Web Development -->
+        <div class="course-cardTA showTA" data-category="web">
+            <div class="course-imageTA webTA">
+                <div class="course-tagTA">Web Development</div>
+                <div class="video-iconTA"><i class="fa-solid fa-video"></i></div>
+                <div class="heart-iconTA"></div>
+            </div>
+            <div class="course-contentTA">
+                <div class="course-ratingTA">
+                    <div class="starsTA">
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                    </div>
+                    <span class="rating-numberTA">4.5</span>
+                </div>
+                <h3 class="course-titleTA">আফটার স্কুল মক্তব: ইসলামি নৈতিকতা শেখা।</h3>
+                <div class="course-metaTA">
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA people-iconTA"></div>
+                        <span>14 Lessons</span>
+                    </div>
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA clock-iconTA"></div>
+                        <span>03:30 Hours</span>
+                    </div>
+                </div>
+                <div class="course-footerTA">
+                    <div class="price-sectionTA">
+                        <div class="price-labelTA">Student</div>
+                        <div class="price-rowTA">
+                            <div class="current-priceTA">৳৬০০</div>
+                            <div class="original-priceTA">৳৮০০</div>
+                        </div>
+                    </div>
+                    <div class="instructorTA">
+                        <div class="instructor-avatarTA has-imageTA">
+                            <img src="img/al-quran-7737560_1280.jpg" alt="Masum Billah">
+                        </div>
+                        <span class="instructor-nameTA">Masum Billah</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 5: Design -->
+        <div class="course-cardTA showTA" data-category="design">
+            <div class="course-imageTA designTA">
+                <div class="course-tagTA">Art & Design</div>
+                <div class="video-iconTA"><i class="fa-solid fa-video"></i></div>
+                <div class="heart-iconTA"></div>
+            </div>
+            <div class="course-contentTA">
+                <div class="course-ratingTA">
+                    <div class="starsTA">
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA emptyTA">★</span>
+                    </div>
+                    <span class="rating-numberTA">4.3</span>
+                </div>
+                <h3 class="course-titleTA">দিনের ব্যস্ততা শেষে ইসলামী জ্ঞান: নৈশ্য মাদ্রাসা</h3>
+                <div class="course-metaTA">
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA people-iconTA"></div>
+                        <span>14 Lessons</span>
+                    </div>
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA clock-iconTA"></div>
+                        <span>02:30 Hours</span>
+                    </div>
+                </div>
+                <div class="course-footerTA">
+                    <div class="price-sectionTA">
+                        <div class="price-labelTA">Student</div>
+                        <div class="price-rowTA">
+                            <div class="current-priceTA">৳৯০০</div>
+                            <div class="original-priceTA">৳১,১০০</div>
+                        </div>
+                    </div>
+                    <div class="instructorTA">
+                        <div class="instructor-avatarTA has-imageTA">
+                            <img src="img/al-quran-7737560_1280.jpg" alt="Masum Billah">
+                        </div>
+                        <span class="instructor-nameTA">Masum Billah</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course 6: Marketing -->
+        <div class="course-cardTA showTA" data-category="marketing">
+            <div class="course-imageTA marketingTA">
+                <div class="course-tagTA">Marketing</div>
+                <div class="video-iconTA"><i class="fa-solid fa-video"></i></div>
+                <div class="heart-iconTA"></div>
+            </div>
+            <div class="course-contentTA">
+                <div class="course-ratingTA">
+                    <div class="starsTA">
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                        <span class="starTA">★</span>
+                    </div>
+                    <span class="rating-numberTA">4.8</span>
+                </div>
+                <h3 class="course-titleTA">মাদানী নেসাব: পূর্ণাঙ্গ কওমী শিক্ষা প্যাকেজ</h3>
+                <div class="course-metaTA">
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA people-iconTA"></div>
+                        <span>14 Lessons</span>
+                    </div>
+                    <div class="meta-itemTA">
+                        <div class="meta-iconTA clock-iconTA"></div>
+                        <span>18:30 Hours</span>
+                    </div>
+                </div>
+                <div class="course-footerTA">
+                    <div class="price-sectionTA">
+                        <div class="price-labelTA">Student</div>
+                        <div class="free-priceTA">Free</div>
+                    </div>
+                    <div class="instructorTA">
+                        <div class="instructor-avatarTA has-imageTA">
+                            <img src="img/al-quran-7737560_1280.jpg" alt="Masum Billah">
+                        </div>
+                        <span class="instructor-nameTA">Masum Billah</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        // Category filtering functionality
+        document.querySelectorAll('.category-btnTA').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.category-btnTA').forEach(b => b.classList.remove('activeTA'));
+                e.target.classList.add('activeTA');
+                
+                const category = e.target.getAttribute('data-category');
+                const allCards = document.querySelectorAll('.course-cardTA');
+                
+                allCards.forEach(card => {
+                    if (category === 'all') {
+                        card.classList.add('showTA');
+                        card.style.display = 'block';
+                    } else {
+                        if (card.getAttribute('data-category') === category) {
+                            card.classList.add('showTA');
+                            card.style.display = 'block';
+                        } else {
+                            card.classList.remove('showTA');
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+
+        // Heart icon click functionality (Love)
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('heart-iconTA')) {
+                e.stopPropagation();
+                e.target.classList.toggle('likedTA');
+            }
+        });
+
+        // Video icon click functionality
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('video-iconTA')) {
+                e.stopPropagation();
+                console.log('Play video');
+            }
+        });
+    </script>
 
 
 
@@ -15159,27 +16923,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- কেন মাদ্রাসা অনলাইন বেছে নিবেন -->
    <style>
-    * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Hind Siliguri', Arial, sans-serif;
-}
-
-body {
-    font-family: 'Hind Siliguri', Arial, sans-serif;
-    line-height: 1.6;
-    color: #333;
-}
-
 .container6 {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 10px;
-    /* background-color: white; */
-    /* border-radius: 10px; */
-    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
-    /* margin-top: 15px; */
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 15px;
     padding-bottom: 2px;
 }
 
@@ -15193,10 +16944,10 @@ body {
 
 .header2 h2 {
     /* width: 100%; */
-    height: auto;
-    background-color: #dcdcdc;
+    /* height: auto; */
+    /* background-color: #dcdcdc; */
     color: #2d3748;
-    /* margin-bottom: 1rem; */
+    margin-bottom: 1rem;
     font-size: 1.5rem;
     margin-top: 10px;
              
@@ -15454,40 +17205,26 @@ body {
 
 <!-- আমাদের শিক্ষার্থীরা কী বলেন? -->
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
-            
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            
-            body {
-                font-family: 'Hind Siliguri', Arial, sans-serif;
-                line-height: 1.6;
-                color: #333;
-                /* background-color: #f5f5f5; */
-            }
-            
+            @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');            
             .testimonials {
 
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 0px;
-            /* background-color: white; */
-            /* border-radius: 10px; */
-            /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
-            /* margin-top: 15px; */
-            /* padding-top: 20px; */
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 15px;
+            padding-top: 20px;
             padding-bottom: 10px;
             }
             
             .testimonials h2 {
-                width: 100%;
-                height: auto;
-                background: #dcdcdc;
+                /* width: 100%; */
+                /* height: auto; */
+                /* background: #dcdcdc; */
                 color: #2d3748;
-                /* margin-bottom: 1rem; */
+                margin-bottom: 1rem;
                 padding: 0;
                 margin-top: 10px;
                 font-size: 1.5rem;
@@ -15865,6 +17602,451 @@ body {
 
 
 
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+            .counter-sectionST {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 80px 20px;
+                min-height: 400px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 0;
+            }
+    
+            .containerST {
+                max-width: 1200px;
+                width: 100%;
+                margin: 0 auto;
+            }
+    
+            .stats-gridST {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 40px;
+                opacity: 0;
+                transform: translateY(50px);
+                transition: all 0.8s ease;
+            }
+    
+            .stats-gridST.animateST {
+                opacity: 1;
+                transform: translateY(0);
+            }
+    
+            .stat-itemST {
+                text-align: center;
+                color: white;
+                padding: 30px 20px;
+                border-radius: 15px;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+    
+            .stat-itemST:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            }
+    
+            .stat-iconST {
+                width: 80px;
+                height: 80px;
+                margin: 0 auto 20px;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+            }
+    
+            .stat-numberST {
+                font-size: 3rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #fff;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            }
+    
+            .stat-labelST {
+                font-size: 1.2rem;
+                color: rgba(255, 255, 255, 0.9);
+                font-weight: 500;
+            }
+    
+            /* টেস্টিমোনিয়াল সেকশন */
+            .testimonialsST {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 15px;
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                margin-top: 20px;
+                padding-top: 20px;
+                padding-bottom: 10px;
+            }
+            
+            .testimonialsST h2 {
+                color: black;
+                padding: 0;
+                margin: 0;
+                font-size: 2rem;
+                font-weight: 600;
+                position: relative;
+                display: inline-block;
+                text-align: center;
+                width: 100%;
+            }
+            
+            .testimonialsST p {
+                color: #555;
+                max-width: 800px;
+                margin: 0 auto 2.5rem;
+                font-size: 1rem;
+                text-align: center;
+            }
+            
+            .testimonial-containerST {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+                max-width: 1150px;
+                margin: 0 auto;
+            }
+            
+            .testimonialST {
+                flex: 1 1 240px;
+                background-color: #fff;
+                border-radius: 8px;
+                padding: 1.5rem;
+                margin-bottom: 0.8rem;
+                text-align: left;
+                max-width: 320px;
+                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                border-left: 3px solid #f1c40f;
+            }
+            
+            .testimonialST:hover {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            }
+            
+            .testimonial-headerST {
+                display: flex;
+                align-items: center;
+                margin-bottom: 1.2rem;
+            }
+            
+            .avatarST {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                background-color: #f1c40f;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 1rem;
+                font-weight: bold;
+                color: #fff;
+                font-size: 1.2rem;
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            }
+            
+            .student-infoST {
+                flex-grow: 1;
+            }
+            
+            .student-infoST h4 {
+                margin: 0;
+                color: black;
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+            
+            .student-infoST p {
+                margin: 0;
+                font-size: 0.85rem;
+                color: #777;
+                margin-top: 3px;
+            }
+            
+            .testimonial-textST {
+                font-style: normal;
+                color: #444;
+                font-size: 1rem;
+                line-height: 1.7;
+                position: relative;
+            }
+            
+            .testimonial-textST::before {
+                content: '"';
+                font-size: 2.5rem;
+                color: #f1c40f;
+                opacity: 0.2;
+                position: absolute;
+                left: -15px;
+                top: -15px;
+            }
+    
+            /* মোবাইল রেসপন্সিভ */
+            @media (max-width: 768px) {
+                .stats-gridST {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 20px;
+                }
+                
+                .counter-sectionST {
+                    padding: 60px 15px;
+                }
+                
+                .stat-itemST {
+                    padding: 25px 15px;
+                }
+                
+                .stat-iconST {
+                    width: 60px;
+                    height: 60px;
+                    font-size: 1.5rem;
+                    margin-bottom: 15px;
+                }
+                
+                .stat-numberST {
+                    font-size: 2.2rem;
+                    margin-bottom: 8px;
+                }
+                
+                .stat-labelST {
+                    font-size: 1rem;
+                }
+    
+                .testimonialsST {
+                    padding: 2rem 0.8rem;
+                }
+                
+                .testimonialsST h2 {
+                    font-size: 1.4rem;
+                }
+                
+                .testimonialsST p {
+                    font-size: 0.9rem;
+                    margin-bottom: 1.5rem;
+                    padding: 0 0.8rem;
+                }
+                
+                .testimonial-containerST {
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                }
+                
+                .testimonialST {
+                    max-width: 100%;
+                    width: 100%;
+                    padding: 1rem;
+                }
+                
+                .avatarST {
+                    width: 35px;
+                    height: 35px;
+                    font-size: 0.9rem;
+                }
+                
+                .student-infoST h4 {
+                    font-size: 0.95rem;
+                }
+                
+                .testimonial-textST {
+                    font-size: 0.85rem;
+                }
+            }
+    
+            @media (max-width: 576px) {
+                .stat-numberST {
+                    font-size: 1.8rem;
+                }
+                
+                .stat-labelST {
+                    font-size: 0.9rem;
+                }
+                
+                .stat-iconST {
+                    width: 50px;
+                    height: 50px;
+                    font-size: 1.2rem;
+                }
+    
+                .testimonialsST {
+                    padding: 1.5rem 0.5rem;
+                }
+                
+                .testimonialsST h2 {
+                    font-size: 1.2rem;
+                }
+                
+                .testimonialsST p {
+                    font-size: 0.8rem;
+                    margin-bottom: 1.2rem;
+                }
+                
+                .testimonialST {
+                    padding: 0.8rem;
+                    border-radius: 6px;
+                    max-width: 100%;
+                    margin-bottom: 0.6rem;
+                }
+                
+                .testimonial-headerST {
+                    margin-bottom: 0.6rem;
+                }
+                
+                .avatarST {
+                    width: 32px;
+                    height: 32px;
+                    font-size: 0.8rem;
+                    margin-right: 0.6rem;
+                }
+                
+                .student-infoST h4 {
+                    font-size: 0.85rem;
+                }
+                
+                .student-infoST p {
+                    font-size: 0.7rem;
+                }
+                
+                .testimonial-textST {
+                    font-size: 0.8rem;
+                    line-height: 1.5;
+                }
+                
+                .testimonial-textST::before {
+                    font-size: 1.6rem;
+                    left: -8px;
+                    top: -8px;
+                }
+            }
+        </style>
+        <!-- মূল কাউন্টার সেকশন -->
+        <section class="counter-sectionST">
+            <div class="containerST">
+                <div class="stats-gridST" id="statsGridST">
+                    <div class="stat-itemST">
+                        <div class="stat-iconST">🎓</div>
+                        <div class="stat-numberST" data-target="10000">0</div>
+                        <div class="stat-labelST">শিক্ষার্থী</div>
+                    </div>
+                    
+                    <div class="stat-itemST">
+                        <div class="stat-iconST">⭐</div>
+                        <div class="stat-numberST" data-target="23">0</div>
+                        <div class="stat-labelST">শিক্ষক</div>
+                    </div>
+                    
+                    <div class="stat-itemST">
+                        <div class="stat-iconST">📚</div>
+                        <div class="stat-numberST" data-target="14">0</div>
+                        <div class="stat-labelST">ফ্রি কোর্স</div>
+                    </div>
+                    
+                    <div class="stat-itemST">
+                        <div class="stat-iconST">📖</div>
+                        <div class="stat-numberST" data-target="10">0</div>
+                        <div class="stat-labelST">পেইড কোর্স</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+    
+        <script>
+            // ইনটারসেকশন অবজার্ভার সেটআপ
+            const observerOptions = {
+                threshold: 0.5,
+                rootMargin: '0px 0px -100px 0px'
+            };
+    
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const statsGrid = entry.target;
+                        statsGrid.classList.add('animateST');
+                        
+                        // কাউন্টার অ্যানিমেশন শুরু
+                        setTimeout(() => {
+                            animateCounters();
+                        }, 300);
+                        
+                        // একবার অ্যানিমেট হলে অবজার্ভার বন্ধ
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+    
+            // স্ট্যাটস গ্রিড অবজার্ভ করা
+            const statsGrid = document.getElementById('statsGridST');
+            observer.observe(statsGrid);
+    
+            // কাউন্টার অ্যানিমেশন ফাংশন
+            function animateCounters() {
+                const counters = document.querySelectorAll('.stat-numberST');
+                
+                counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    const duration = 2000; // 2 সেকেন্ড
+                    const increment = target / (duration / 16); // 60fps এর জন্য
+                    let current = 0;
+                    
+                    const updateCounter = () => {
+                        if (current < target) {
+                            current += increment;
+                            if (current > target) current = target;
+                            
+                            // ১০,০০০+ এর জন্য বিশেষ ফরম্যাটিং
+                            if (target >= 10000) {
+                                counter.textContent = Math.floor(current).toLocaleString('bn-BD') + '+';
+                            } else {
+                                counter.textContent = Math.floor(current).toLocaleString('bn-BD');
+                            }
+                            
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            // ফাইনাল ভ্যালু সেট করা
+                            if (target >= 10000) {
+                                counter.textContent = target.toLocaleString('bn-BD') + '+';
+                            } else {
+                                counter.textContent = target.toLocaleString('bn-BD');
+                            }
+                        }
+                    };
+                    
+                    updateCounter();
+                });
+            }
+    
+            // স্মুথ স্ক্রল ইফেক্ট (সরানো হলো)
+                
+            // লোড হওয়ার সময় চেক করা যে এলিমেন্ট ভিউতে আছে কিনা
+            window.addEventListener('load', () => {
+                const rect = statsGrid.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                
+                if (isVisible) {
+                    statsGrid.classList.add('animateST');
+                    setTimeout(() => {
+                        animateCounters();
+                    }, 300);
+                }
+            });
+        </script>
+
+
+
+
 
 <!-- <style>
             @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
@@ -16166,7 +18348,7 @@ body {
                     }
                 });
 </script> -->
-    <style>
+    <!-- <style>
         * {
             margin: 0;
             padding: 0;
@@ -16432,7 +18614,7 @@ body {
             const statsContainer = document.querySelector('.stats-container');
             observer.observe(statsContainer);
         });
-    </script>
+    </script> -->
 
 
 
