@@ -12070,6 +12070,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
         * {
@@ -12119,6 +12151,11 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             letter-spacing: 0.5px;
         }
+        @media (max-width: 1024px){
+            header{
+                margin-top: 40px;
+            }
+        }
         
         .tab-container {
             display: flex;
@@ -12154,6 +12191,10 @@
         .course-details {
             display: flex;
             gap: 35px;
+        }
+        
+        .main-content {
+            flex: 2;
         }
         
         .sidebar {
@@ -12236,6 +12277,7 @@
         .price {
             display: flex;
             align-items: center;
+            justify-content: center;
             margin-bottom: 20px;
         }
         
@@ -12266,6 +12308,8 @@
             box-shadow: 0 4px 10px rgba(94, 53, 177, 0.3);
             letter-spacing: 0.5px;
             text-decoration: none;
+            display: block;
+            text-align: center;
         }
         
         .buy-btn:hover {
@@ -12409,6 +12453,16 @@
             transform: translateX(5px);
         }
         
+        .video-item.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .video-item.locked:hover {
+            transform: none;
+            background-color: transparent;
+        }
+        
         .video-icon {
             margin-right: 15px;
             color: var(--primary-color);
@@ -12481,6 +12535,16 @@
         .note-item:hover {
             background-color: rgba(94, 53, 177, 0.05);
             transform: translateX(5px);
+        }
+        
+        .note-item.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .note-item.locked:hover {
+            transform: none;
+            background-color: transparent;
         }
         
         .note-icon {
@@ -12615,6 +12679,10 @@
             overflow: hidden;
         }
         
+        .review-form.hidden {
+            display: none;
+        }
+        
         .review-form::before {
             content: '';
             position: absolute;
@@ -12633,6 +12701,14 @@
         
         .rating-select {
             margin-bottom: 20px;
+        }
+        
+        .rating-select select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(94, 53, 177, 0.2);
+            border-radius: 8px;
+            font-family: inherit;
         }
         
         .review-textarea {
@@ -12678,63 +12754,6 @@
             background: rgba(0, 0, 0, 0.03);
             padding: 8px;
             border-radius: 4px;
-        }
-        
-        /* PDF and Video Player */
-        .pdf-container {
-            width: 100%;
-            height: 500px;
-            border: 1px solid rgba(94, 53, 177, 0.2);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            margin-bottom: 25px;
-            box-shadow: var(--card-shadow);
-        }
-        
-        .video-player {
-            width: 100%;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            margin-bottom: 25px;
-            box-shadow: var(--card-shadow);
-        }
-        
-        .video-player video {
-            width: 100%;
-        }
-        
-        .pdf-viewer {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .media-controls {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .media-btn {
-            background: var(--gradient-bg);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 15px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(94, 53, 177, 0.2);
-        }
-        
-        .media-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(94, 53, 177, 0.3);
-        }
-        
-        .media-btn.active {
-            background: var(--secondary-color);
-            box-shadow: 0 4px 10px rgba(67, 160, 71, 0.3);
         }
         
         .modal {
@@ -12802,6 +12821,16 @@
             border-radius: 8px;
         }
         
+        .locked-message {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
         @media (max-width: 768px) {
             .course-details {
                 flex-direction: column-reverse;
@@ -12843,38 +12872,6 @@
                 font-size: 14px;
             }
             
-            .mobile-buy-section {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                background: white;
-                padding: 15px;
-                box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
-                z-index: 100;
-                display: none;
-                border-top: 3px solid var(--primary-color);
-            }
-            
-            .mobile-price {
-                display: flex;
-                align-items: center;
-                margin-bottom: 10px;
-            }
-            
-            .mobile-current-price {
-                font-size: 22px;
-                font-weight: bold;
-                color: var(--primary-color);
-            }
-            
-            .mobile-original-price {
-                font-size: 16px;
-                text-decoration: line-through;
-                color: #999;
-                margin-left: 12px;
-            }
-            
             .modal-content {
                 width: 95%;
                 margin: 10% auto;
@@ -12896,9 +12893,9 @@
                 font-size: 28px;
             }
         }
-    </style> 
+    </style>
+
     <div class="container">
-        
         <header>
             <h1>প্রাকটিকাল ইবারত শিক্ষা</h1>
         </header>
@@ -12915,7 +12912,7 @@
                 <div id="details" class="tab-content active">
                     <div class="content-box">
                         <div class="course-instructor">
-                            <img src="img/al-quran-7737590_1280.jpg" alt="placeholder" class="instructor-image">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="মাওলানা মুনতাহা আহমদ" class="instructor-image">
                             <div class="instructor-details">
                                 <h3>মাওলানা মুনতাহা আহমদ</h3>
                                 <p>ইবারত বিশেষজ্ঞ, আল-আজহার বিশ্ববিদ্যালয়</p>
@@ -12924,10 +12921,10 @@
                         </div>
                         <h2 class="content-title">কোর্স সম্পর্কে জানুন</h2>
                         <p class="content-text">
-                            শিক্ষকরা আরবি ইবারত পড়তে পারা হয়ে শিক্ষক হতেছেন কিন্তু পড়াতে পারেন না। শিক্ষক দিয়ে পড়া বই, ইচ্ছে হলে বুঝ দিয়ে বুঝ না - এমন অবস্থা ইবারত শিক্ষার জন্য ঠিক না। দীর্ঘ বছর ধরে সাদারাসাতুল পতুয়া শেখ পতুয়া কেন এই আসেবব? আপনারও কি আরবি জানা?
+                            অনেক শিক্ষক আরবি ইবারত পড়তে পারেন কিন্তু শিক্ষার্থীদের কাছে সহজভাবে বুঝিয়ে বলতে পারেন না। আবার অনেকে বই থেকে পড়ে শোনান কিন্তু ব্যাখ্যা-বিশ্লেষণ করতে পারেন না। এই সমস্যার সমাধানের জন্যই আমাদের এই কোর্স।
                         </p>
                         <p class="content-text hidden-content" id="more-content">
-                            সারা জীবন এটি ভিডিও দেখিয়ে আপনার আজতো গ্রহান পরিচত করি। লাতে খায় করে আপনি বুঝি শিক্ষা। সে জন্য আমরা দেশী বিদেশি সকলের জন্য। শুধু কিছু গ্রাসা সেশিয়ে সিলেট আমানতি যে কোন ইবারতে বুঝতে দিতে পারবেন। সেই সাথে এস না বুঝার কপসরটলিও শাবান গরিবে দিন ইনশাআল্লাহ।
+                            এই কোর্সের মাধ্যমে আপনি শিখবেন কীভাবে যেকোনো আরবি ইবারত সহজে পড়তে ও বুঝতে হয়। শুধু তাই নয়, অন্যদেরও শেখাতে পারবেন। নাহু-সরফের মৌলিক নিয়মকানুন থেকে শুরু করে উন্নত পর্যায়ের ইবারত বিশ্লেষণ পর্যন্ত সবকিছুই রয়েছে এই কোর্সে। ইনশাআল্লাহ এই কোর্স শেষে আপনি একজন দক্ষ ইবারত শিক্ষক হতে পারবেন।
                         </p>
                         <span class="read-more" onclick="toggleContent()">আরো পড়ুন</span>
                     </div>
@@ -12943,59 +12940,58 @@
                                 <div class="video-duration">৪৫ মিনিট</div>
                                 <div class="video-free">ফ্রি</div>
                             </div>
-                            <div class="video-item">
+                            <div class="video-item locked" onclick="showLockedMessage()">
                                 <div class="video-icon">▶️</div>
                                 <div class="video-title">২. আরবি বর্ণমালা ও উচ্চারণ</div>
                                 <div class="video-duration">৫৫ মিনিট</div>
                                 <div class="video-lock">🔒</div>
                             </div>
-                            
-                            <div class="video-item">
+                            <div class="video-item locked" onclick="showLockedMessage()">
                                 <div class="video-icon">▶️</div>
                                 <div class="video-title">৩. নাহু (ব্যাকরণ) এর মৌলিক ধারণা</div>
                                 <div class="video-duration">১ ঘন্টা</div>
                                 <div class="video-lock">🔒</div>
                             </div>
-                            <div class="video-item">
+                            <div class="video-item locked" onclick="showLockedMessage()">
                                 <div class="video-icon">▶️</div>
                                 <div class="video-title">৪. সরফ (শব্দতত্ত্ব) এর মৌলিক ধারণা</div>
                                 <div class="video-duration">১ ঘন্টা ১৫ মিনিট</div>
                                 <div class="video-lock">🔒</div>
                             </div>
-                            <div class="video-item">
+                            <div class="video-item locked" onclick="showLockedMessage()">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৫. বাক্য বিশ্লেষণ - ১</div>
+                                <div class="video-title">৫. বাক্য গঠন ও বিশ্লেষণ</div>
+                                <div class="video-duration">৫০ মিনিট</div>
+                                <div class="video-lock">🔒</div>
+                            </div>
+                            <div class="video-item locked" onclick="showLockedMessage()">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">৬. ইবারত পড়ার কৌশল</div>
                                 <div class="video-duration">৪০ মিনিট</div>
                                 <div class="video-lock">🔒</div>
                             </div>
-                            <div class="video-item">
+                            <div class="video-item locked" onclick="showLockedMessage()">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৬. বাক্য বিশ্লেষণ - ২</div>
-                                <div class="video-duration">৫০ মিনিট</div>
+                                <div class="video-title">৭. ইবারত অনুবাদের নিয়মকানুন</div>
+                                <div class="video-duration">১ ঘন্টা ১০ মিনিট</div>
                                 <div class="video-lock">🔒</div>
                             </div>
-                            <div class="video-item">
+                            <div class="video-item locked" onclick="showLockedMessage()">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৭. বাক্য বিশ্লেষণ - ৩</div>
-                                <div class="video-duration">৫০ মিনিট</div>
+                                <div class="video-title">৮. কুরআনের ইবারত বিশ্লেষণ</div>
+                                <div class="video-duration">১ ঘন্টা ২০ মিনিট</div>
                                 <div class="video-lock">🔒</div>
                             </div>
-                            <div class="video-item">
+                            <div class="video-item locked" onclick="showLockedMessage()">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৮. প্রাথমিক ইবারত অনুশীলন</div>
+                                <div class="video-title">৯. হাদিসের ইবারত বিশ্লেষণ</div>
                                 <div class="video-duration">১ ঘন্টা ৩০ মিনিট</div>
                                 <div class="video-lock">🔒</div>
                             </div>
-                            <div class="video-item">
+                            <div class="video-item locked" onclick="showLockedMessage()">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৯. মধ্যম পর্যায়ের ইবারত অনুশীলন</div>
-                                <div class="video-duration">২ ঘন্টা</div>
-                                <div class="video-lock">🔒</div>
-                            </div>
-                            <div class="video-item">
-                                <div class="video-icon">▶️</div>
-                                <div class="video-title">১০. উচ্চ পর্যায়ের ইবারত অনুশীলন</div>
-                                <div class="video-duration">২ ঘন্টা ৩০ মিনিট</div>
+                                <div class="video-title">১০. ইবারত শিক্ষার প্রায়োগিক কৌশল</div>
+                                <div class="video-duration">৫৫ মিনিট</div>
                                 <div class="video-lock">🔒</div>
                             </div>
                         </div>
@@ -13006,54 +13002,44 @@
                     <div class="content-box">
                         <h2 class="content-title">কোর্সের নোট সমূহ</h2>
                         <div class="notes-container">
-                            <div class="note-item" onclick="openPdfModal('note-1')">
-                                <div class="note-icon">📝</div>
-                                <div class="note-title">ইবারত শিক্ষার মৌলিক বিষয়সমূহ</div>
+                            <div class="note-item" onclick="openNoteModal('note-1')">
+                                <div class="note-icon">📄</div>
+                                <div class="note-title">১. ইবারত শিক্ষার মৌলিক ধারণা</div>
                                 <div class="note-free">ফ্রি</div>
                             </div>
-                            <div class="note-item">
-                                <div class="note-icon">📝</div>
-                                <div class="note-title">আরবি বর্ণমালা চার্ট</div>
+                            <div class="note-item locked" onclick="showLockedMessage()">
+                                <div class="note-icon">📄</div>
+                                <div class="note-title">২. আরবি ব্যাকরণের মূল নিয়মাবলী</div>
                                 <div class="note-lock">🔒</div>
                             </div>
-                            <div class="note-item">
-                                <div class="note-icon">📝</div>
-                                <div class="note-title">নাহু এর মৌলিক নিয়ম</div>
+                            <div class="note-item locked" onclick="showLockedMessage()">
+                                <div class="note-icon">📄</div>
+                                <div class="note-title">৩. নাহু শিক্ষার ধাপসমূহ</div>
                                 <div class="note-lock">🔒</div>
                             </div>
-                            <div class="note-item">
-                                <div class="note-icon">📝</div>
-                                <div class="note-title">সরফ এর মৌলিক নিয়ম</div>
+                            <div class="note-item locked" onclick="showLockedMessage()">
+                                <div class="note-icon">📄</div>
+                                <div class="note-title">৪. সরফ শিক্ষার ধাপসমূহ</div>
                                 <div class="note-lock">🔒</div>
                             </div>
-                            <div class="note-item">
-                                <div class="note-icon">📝</div>
-                                <div class="note-title">বাক্য বিশ্লেষণের পদ্ধতি</div>
+                            <div class="note-item locked" onclick="showLockedMessage()">
+                                <div class="note-icon">📄</div>
+                                <div class="note-title">৫. ইবারত বিশ্লেষণের কৌশল</div>
                                 <div class="note-lock">🔒</div>
                             </div>
-                            <div class="note-item">
-                                <div class="note-icon">📝</div>
-                                <div class="note-title">ইবারত অনুশীলন বই</div>
+                            <div class="note-item locked" onclick="showLockedMessage()">
+                                <div class="note-icon">📄</div>
+                                <div class="note-title">৬. অনুবাদের নীতিমালা</div>
                                 <div class="note-lock">🔒</div>
                             </div>
-                            <div class="note-item">
-                                <div class="note-icon">📝</div>
-                                <div class="note-title">অতিরিক্ত অনুশীলনী</div>
+                            <div class="note-item locked" onclick="showLockedMessage()">
+                                <div class="note-icon">📄</div>
+                                <div class="note-title">৭. কুরআনি ইবারতের বৈশিষ্ট্য</div>
                                 <div class="note-lock">🔒</div>
                             </div>
-                            <div class="note-item">
-                                <div class="note-icon">📝</div>
-                                <div class="note-title">শিক্ষকদের জন্য গাইডলাইন</div>
-                                <div class="note-lock">🔒</div>
-                            </div>
-                            <div class="note-item">
-                                <div class="note-icon">📝</div>
-                                <div class="note-title">সাধারণ ভুল ও সমাধান</div>
-                                <div class="note-lock">🔒</div>
-                            </div>
-                            <div class="note-item">
-                                <div class="note-icon">📝</div>
-                                <div class="note-title">পরীক্ষার প্রস্তুতি</div>
+                            <div class="note-item locked" onclick="showLockedMessage()">
+                                <div class="note-icon">📄</div>
+                                <div class="note-title">৮. হাদিসি ইবারতের বৈশিষ্ট্য</div>
                                 <div class="note-lock">🔒</div>
                             </div>
                         </div>
@@ -13061,435 +13047,458 @@
                 </div>
                 
                 <div id="reviews" class="tab-content">
-                    <div class="content-box">
-                        <h2 class="content-title">শিক্ষার্থীদের মতামত</h2>
-                        <div class="reviews-container">
-                            <div class="review">
-                                <div class="review-header">
-                                    <div class="reviewer-avatar">ক</div>
-                                    <div class="reviewer-name">কামাল হোসেন</div>
-                                    <div class="review-date">১৫ মার্চ, ২০২৫</div>
+                    <div class="reviews-container">
+                        <div class="review">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">আ</div>
+                                <div>
+                                    <div class="reviewer-name">আবু বকর সিদ্দিক</div>
+                                    <div class="star-rating">⭐⭐⭐⭐⭐</div>
                                 </div>
-                                <div class="star-rating">★★★★★</div>
-                                <p class="review-text">
-                                    অসাধারণ কোর্স! মাওলানা মুনতাহা সাহেবের ব্যাখ্যা খুবই সহজবোধ্য। আমি আগে কখনো ইবারত পড়তে পারতাম না, কিন্তু এই কোর্স করার পর এখন সহজেই পড়তে ও বুঝতে পারি।</p>
-                                </div>
-                                <div class="review">
-                                    <div class="review-header">
-                                        <div class="reviewer-avatar">র</div>
-                                        <div class="reviewer-name">রাফিয়া আক্তার</div>
-                                        <div class="review-date">২০ ফেব্রুয়ারি, ২০২৫</div>
-                                    </div>
-                                    <div class="star-rating">★★★★★</div>
-                                    <p class="review-text">
-                                        এই কোর্সটি আমার জন্য অনেক উপকারী হয়েছে। আমি একজন মাদরাসার শিক্ষিকা এবং এই কোর্সের মাধ্যমে শিক্ষার্থীদেরকে আরো ভালোভাবে পড়াতে পারছি। বিশেষ করে অনুশীলনের অংশগুলো অসাধারণ।
-                                    </p>
-                                </div>
-                                <div class="review">
-                                    <div class="review-header">
-                                        <div class="reviewer-avatar">জ</div>
-                                        <div class="reviewer-name">জাকির হোসেন</div>
-                                        <div class="review-date">৫ জানুয়ারি, ২০২৫</div>
-                                    </div>
-                                    <div class="star-rating">★★★★☆</div>
-                                    <p class="review-text">
-                                        কোর্সটি খুবই ভালো, তবে আরো বেশি অনুশীলনী থাকলে ভালো হতো। সরফ এর অংশটি একটু জটিল মনে হয়েছে, কিন্তু ওস্তাদ সাহেব অত্যন্ত ধৈর্য সহকারে বুঝিয়েছেন।
-                                    </p>
-                                </div>
-                                <div class="review">
-                                    <div class="review-header">
-                                        <div class="reviewer-avatar">ফ</div>
-                                        <div class="reviewer-name">ফারহানা ইসলাম</div>
-                                        <div class="review-date">১২ ডিসেম্বর, ২০২৪</div>
-                                    </div>
-                                    <div class="star-rating">★★★★★</div>
-                                    <p class="review-text">
-                                        মাশা আল্লাহ! এর আগে অনেক কোর্স করেছি কিন্তু এই কোর্সটি সবচেয়ে কার্যকর। মাত্র তিন মাসে আমি নিজে ইবারত পড়তে ও বুঝতে পারছি। নোটগুলো খুবই সুন্দর ও সহজবোধ্য।
-                                    </p>
-                                </div>
+                                <div class="review-date">২০ দিন আগে</div>
                             </div>
-                            
-                            <div class="review-form">
-                                <h3>আপনার মতামত জানান</h3>
-                                <div class="rating-select">
-                                    <select name="rating" id="rating">
-                                        <option value="5">★★★★★ (৫/৫)</option>
-                                        <option value="4">★★★★☆ (৪/৫)</option>
-                                        <option value="3">★★★☆☆ (৩/৫)</option>
-                                        <option value="2">★★☆☆☆ (২/৫)</option>
-                                        <option value="1">★☆☆☆☆ (১/৫)</option>
-                                    </select>
+                            <div class="review-text">
+                                অসাধারণ কোর্স! মাওলানা মুনতাহা আহমদ সাহেবের শিক্ষা পদ্ধতি অত্যন্ত কার্যকর। আমি এখন আরবি ইবারত সহজেই পড়তে ও বুঝতে পারি। আল্লাহ তাঁর উত্তম প্রতিদান দিন।
+                            </div>
+                        </div>
+                        
+                        <div class="review">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">ম</div>
+                                <div>
+                                    <div class="reviewer-name">মুহাম্মদ কাসেম</div>
+                                    <div class="star-rating">⭐⭐⭐⭐⭐</div>
                                 </div>
-                                <textarea class="review-textarea" placeholder="আপনার অভিজ্ঞতা শেয়ার করুন..."></textarea>
-                                <button class="submit-review">রিভিউ জমা দিন</button>
-                                <p class="purchase-note">* শুধুমাত্র কোর্স কেনার পর রিভিউ করা যাবে</p>
+                                <div class="review-date">১৫ দিন আগে</div>
+                            </div>
+                            <div class="review-text">
+                                দীর্ঘদিন ধরে আরবি ইবারত নিয়ে সমস্যায় ছিলাম। এই কোর্সটি আমার সমস্যার সমাধান করে দিয়েছে। প্রতিটি লেসন অত্যন্ত সুন্দরভাবে সাজানো।
+                            </div>
+                        </div>
+                        
+                        <div class="review">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">ফ</div>
+                                <div>
+                                    <div class="reviewer-name">ফাতিমা খাতুন</div>
+                                    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <div class="review-date">১০ দিন আগে</div>
+                            </div>
+                            <div class="review-text">
+                                মা হিসেবে আমি আমার সন্তানদের আরবি শেখাতে চাইছিলাম। এই কোর্সটি আমাকে সেই যোগ্যতা দিয়েছে। খুবই উপকারী কোর্স।
+                            </div>
+                        </div>
+                        
+                        <div class="review">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">আ</div>
+                                <div>
+                                    <div class="reviewer-name">আব্দুল্লাহ আল মামুন</div>
+                                    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                                </div>
+                                <div class="review-date">৫ দিন আগে</div>
+                            </div>
+                            <div class="review-text">
+                                মাদরাসার শিক্ষক হিসেবে এই কোর্সটি আমার শিক্ষকতার মান অনেক বৃদ্ধি করেছে। ছাত্রদের কাছে এখন আরো সহজভাবে বিষয়টি উপস্থাপন করতে পারি।
                             </div>
                         </div>
                     </div>
                     
-                </div>
-                <div class="sidebar">
-                    <img src="img/al-quran-7737560_1280.jpg" alt="placeholder" class="course-image">
-                    
-                    
-                    
-                    <div class="course-pricing">
-                        <div class="price">
-                            <span class="current-price">৳৫,৯৯৯</span>
-                            <span class="original-price">৳৭,৯৯৯</span>
+                    <div class="review-form hidden" id="reviewForm">
+                        <h3>আপনার রিভিউ লিখুন</h3>
+                        <div class="rating-select">
+                            <select id="rating">
+                                <option value="">রেটিং নির্বাচন করুন</option>
+                                <option value="5">⭐⭐⭐⭐⭐ (৫ স্টার)</option>
+                                <option value="4">⭐⭐⭐⭐ (৪ স্টার)</option>
+                                <option value="3">⭐⭐⭐ (৩ স্টার)</option>
+                                <option value="2">⭐⭐ (২ স্টার)</option>
+                                <option value="1">⭐ (১ স্টার)</option>
+                            </select>
                         </div>
-                        <a href="#" class="buy-btn">এখনই কিনুন</a>
-                        <div class="course-stats">
-                            <div class="stat-item">
-                                <span class="stat-icon">⏱️</span>
-                                <span>মোট ১২ ঘন্টার ভিডিও</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-icon">📚</span>
-                                <span>১০টি ইবারত নোট</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-icon">📝</span>
-                                <span>৫০টি অনুশীলনী</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-icon">🔄</span>
-                                <span>আজীবন এক্সেস</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-icon">👨‍👩‍👧‍👦</span>
-                                <span>১৫০০+ শিক্ষার্থী</span>
-                            </div>
+                        <textarea class="review-textarea" id="reviewText" placeholder="আপনার অভিজ্ঞতা লিখুন..."></textarea>
+                        <button class="submit-review" onclick="submitReview()">রিভিউ জমা দিন</button>
+                        <div class="purchase-note">
+                            * কোর্স ক্রয়ের পর রিভিউ লেখার সুবিধা পাবেন
                         </div>
                     </div>
                 </div>
             </div>
             
-        </div> 
-        
-        <!-- PDF Modal -->
-        <div id="pdf-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-modal" onclick="closeModal()">&times;</span>
-                <h2 class="modal-title" id="pdf-modal-title">PDF ডকুমেন্ট</h2>
-                <iframe class="modal-pdf" id="modal-pdf-viewer" src=""></iframe>
+            <div class="sidebar">
+                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=250&fit=crop" alt="কোর্স ইমেজ" class="course-image">
+                
+                <div class="course-pricing">
+                    <div class="price">
+                        <span class="current-price">৳ ১,৫০০</span>
+                        <span class="original-price">৳ ৩,০০০</span>
+                    </div>
+                    <a href="#" class="buy-btn" onclick="purchaseCourse()">এখনই কিনুন</a>
+                    <div class="course-stats">
+                        <div class="stat-item">
+                            <span class="stat-icon">👥</span>
+                            <span>১২,৫০০+ শিক্ষার্থী</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">📺</span>
+                            <span>১০টি ভিডিও লেসন</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">⏱️</span>
+                            <span>মোট ৮ ঘন্টা</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">📄</span>
+                            <span>৮টি পিডিএফ নোট</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">🏆</span>
+                            <span>সার্টিফিকেট</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">♾️</span>
+                            <span>আজীবন এক্সেস</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-box">
+                    <h2 class="content-title">কোর্সে যা শিখবেন</h2>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--secondary-color);">✓</span>
+                            আরবি ইবারত সঠিকভাবে পড়ার কৌশল
+                        </li>
+                        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--secondary-color);">✓</span>
+                            ইবারত বিশ্লেষণ ও অনুবাদের নিয়মাবলী
+                        </li>
+                        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--secondary-color);">✓</span>
+                            নাহু-সরফের প্রয়োগিক ব্যবহার
+                        </li>
+                        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--secondary-color);">✓</span>
+                            কুরআন-হাদিসের ইবারত বুঝার কৌশল
+                        </li>
+                        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--secondary-color);">✓</span>
+                            শিক্ষকতার দক্ষতা বৃদ্ধি
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        
-        <!-- Video Modal -->
-        <div id="video-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-modal" onclick="closeModal()">&times;</span>
-                <h2 class="modal-title" id="video-modal-title">ভিডিও</h2>
-                <video class="modal-video" id="modal-video-player" controls>
-                    <source src="videos/video.mp4" type="video/mp4">
+    </div>
+    
+    <!-- Modal for Videos -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
+            <h2 class="modal-title" id="videoTitle">ভিডিও লেসন</h2>
+            <div id="videoContent">
+                <video class="modal-video" controls>
+                    <source src="" type="video/mp4">
                     আপনার ব্রাউজার ভিডিও সাপোর্ট করে না।
                 </video>
             </div>
         </div>
-        
-        <script>
-            // Tab Functionality
-            function openTab(tabName) {
-                const tabContents = document.getElementsByClassName("tab-content");
-                for (let i = 0; i < tabContents.length; i++) {
-                    tabContents[i].classList.remove("active");
-                }
-                
-                const tabs = document.getElementsByClassName("tab");
-                for (let i = 0; i < tabs.length; i++) {
-                    tabs[i].classList.remove("active");
-                }
-                
-                document.getElementById(tabName).classList.add("active");
-                event.currentTarget.classList.add("active");
-            }
-            
-            // Show/Hide More Content
-            function toggleContent() {
-                const moreContent = document.getElementById("more-content");
-                const readMoreBtn = document.querySelector(".read-more");
-                
-                if (moreContent.style.display === "block") {
-                    moreContent.style.display = "none";
-                    readMoreBtn.textContent = "আরো পড়ুন";
-                } else {
-                    moreContent.style.display = "block";
-                    readMoreBtn.textContent = "কম দেখুন";
-                }
-            }
-            
-            // PDF Preview
-            function showPdfPreview(pdfId) {
-                const pdfViewer = document.getElementById("pdf-viewer");
-                const buttons = document.querySelectorAll(".media-controls .media-btn");
-                
-                // Reset active state
-                buttons.forEach(btn => btn.classList.remove("active"));
-                event.currentTarget.classList.add("active");
-                
-                // Set PDF source (placeholder)
-                pdfViewer.src = `/videos/video.mp4`;
-            }
-            
-            // Change Video
-            function changeVideo(videoId) {
-                const videoPlayer = document.getElementById("preview-video");
-                const buttons = document.querySelectorAll(".media-controls .media-btn:not(:last-child)");
-                
-                // Reset active state
-                buttons.forEach(btn => btn.classList.remove("active"));
-                event.currentTarget.classList.add("active");
-                
-                // Set video source (placeholder)
-                videoPlayer.poster = "videos/video.mp4";
-                videoPlayer.src = "videos/video.mp4";
-                videoPlayer.load();
-            }
-            
-            // Modal Functions
-            function openPdfModal(pdfId) {
-                const modal = document.getElementById("pdf-modal");
-                const modalTitle = document.getElementById("pdf-modal-title");
-                const modalPdfViewer = document.getElementById("modal-pdf-viewer");
-                
-                modal.style.display = "block";
-                
-                // Set title based on PDF ID
-                if (pdfId === "sample-note") {
-                    modalTitle.textContent = "সাম্পল নোট";
-                } else if (pdfId === "syllabus") {
-                    modalTitle.textContent = "কোর্স সিলেবাস";
-                } else if (pdfId === "first-lesson") {
-                    modalTitle.textContent = "প্রথম পাঠ";
-                } else if (pdfId === "note-1") {
-                    modalTitle.textContent = "ইবারত শিক্ষার মৌলিক বিষয়সমূহ";
-                }
-                
-                // Set PDF source (placeholder)
-                modalPdfViewer.src = `pdf/Invoice-1229656.pdf`;
-            }
-            
-            function openVideoModal(videoId) {
-                const modal = document.getElementById("video-modal");
-                const modalTitle = document.getElementById("video-modal-title");
-                const modalVideoPlayer = document.getElementById("modal-video-player");
-                
-                modal.style.display = "block";
-                
-                // Set title based on video ID
-                if (videoId === "full-intro") {
-                    modalTitle.textContent = "কোর্সের পূর্ণাঙ্গ ভূমিকা";
-                } else if (videoId === "lesson-1") {
-                    modalTitle.textContent = "১. ইবারত শিক্ষার গুরুত্ব ও প্রয়োজনীয়তা";
-                }
-                
-                
-                // Set video source (placeholder)
-                modalVideoPlayer.poster = "img/man-7757211_1280.png";
-                modalVideoPlayer.src = "videos/video.mp4";
-                modalVideoPlayer.load();
-            }
-
-
-
-
-
-
-
-
-//             function openVideoModal(videoId) {
-//     const modal = document.getElementById("video-modal");
-//     const modalTitle = document.getElementById("video-modal-title");
-//     const modalVideoPlayer = document.getElementById("modal-video-player");
-
-//     modal.style.display = "block";
-
-//     if (videoId === "full-intro") {
-//         modalTitle.textContent = "কোর্সের পূর্ণাঙ্গ ভূমিকা";
-//         modalVideoPlayer.poster = "/Talimul Islam Frontend/img/intro-poster.png";
-//         modalVideoPlayer.src = "/Talimul Islam Frontend/videos/intro.mp4";
-//     } else if (videoId === "lesson-1") {
-//         modalTitle.textContent = "১. ইবারত শিক্ষার গুরুত্ব ও প্রয়োজনীয়তা";
-//         modalVideoPlayer.poster = "/Talimul Islam Frontend/img/lesson1-poster.png";
-//         modalVideoPlayer.src = "/Talimul Islam Frontend/videos/video.mp4";
-//     } else if (videoId === "lesson-2") {
-//         modalTitle.textContent = "২. আরবি বর্ণমালা ও উচ্চারণ";
-//         modalVideoPlayer.poster = "/Talimul Islam Frontend/img/lesson2-poster.png";
-//         modalVideoPlayer.src = "/Talimul Islam Frontend/videos/video1.mp4";
-//     }
-
-//     modalVideoPlayer.load();
-// }
-
-
-
-
-
-
-            
-            function closeModal() {
-                document.getElementById("pdf-modal").style.display = "none";
-                document.getElementById("video-modal").style.display = "none";
-                
-                // Stop video if playing
-                const videoPlayer = document.getElementById("modal-video-player");
-                videoPlayer.pause();
-            }
-            
-            // Mobile Features
-            function showMobileBuySection() {
-                if (window.innerWidth <= 768) {
-                    const mobileBuySection = document.querySelector(".mobile-buy-section");
-                    
-                    // Show when scrolled past sidebar
-                    window.addEventListener('scroll', () => {
-                        const sidebar = document.querySelector(".sidebar");
-                        const sidebarBottom = sidebar.getBoundingClientRect().bottom;
-                        
-                        if (sidebarBottom < 0) {
-                            mobileBuySection.style.display = "block";
-                        } else {
-                            mobileBuySection.style.display = "none";
-                        }
-                    });
-                }
-            }
-            
-            // Initialize
-            document.addEventListener('DOMContentLoaded', () => {
-                showMobileBuySection();
-            });
-            
-            // Close modal when clicking outside
-            window.onclick = function(event) {
-                const pdfModal = document.getElementById("pdf-modal");
-                const videoModal = document.getElementById("video-modal");
-                
-                if (event.target == pdfModal) {
-                    pdfModal.style.display = "none";
-                }
-                
-                if (event.target == videoModal) {
-                    videoModal.style.display = "none";
-                    const videoPlayer = document.getElementById("modal-video-player");
-                    videoPlayer.pause();
-                }
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-            // রিভিউ ফর্মের কার্যকারিতা
-document.addEventListener('DOMContentLoaded', () => {
-    const reviewForm = document.querySelector('.review-form');
-    const ratingSelect = document.getElementById('rating');
-    const reviewTextarea = document.querySelector('.review-textarea');
-    const submitButton = document.querySelector('.submit-review');
-    const reviewsContainer = document.querySelector('.reviews-container');
-    const purchaseNote = document.querySelector('.purchase-note');
+    </div>
     
-    // রিভিউ জমা দেওয়ার জন্য ইভেন্ট লিসেনার যোগ করি
-    submitButton.addEventListener('click', submitReview);
-    
-    function submitReview() {
-        // ইনপুট ভ্যালিডেশন
-        if (reviewTextarea.value.trim() === '') {
-            alert('দয়া করে আপনার মতামত লিখুন!');
-            return;
-        }
-        
-        // টেস্ট পারপাস - রিয়েল ওয়ার্ল্ডে এখানে কোর্স কেনা কিনা চেক করা হবে
-        const hasPurchased = false; // এটি সার্ভারে চেক করতে হবে
-        
-        if (!hasPurchased) {
-            // শোকেস মোডে আমরা সরাসরি যোগ করছি, বাস্তবে এটি শুধু কোর্স কেনার পর হবে
-            addNewReview();
-            
-            // অপশনালি একটি মেসেজ দেখাতে পারেন
-            purchaseNote.innerHTML = '<span style="color: green;">* আপনার রিভিউ যোগ করা হয়েছে! (ডেমো মোড)</span>';
-            setTimeout(() => {
-                purchaseNote.innerHTML = '* শুধুমাত্র কোর্স কেনার পর রিভিউ করা যাবে';
-            }, 3000);
-        } else {
-            addNewReview();
-            // রিভিউ সাবমিট হওয়ার কনফার্মেশন
-            purchaseNote.innerHTML = '<span style="color: green;">* আপনার রিভিউ সফলভাবে যোগ করা হয়েছে!</span>';
-            setTimeout(() => {
-                purchaseNote.innerHTML = '* শুধুমাত্র কোর্স কেনার পর রিভিউ করা যাবে';
-            }, 3000);
-        }
-
-        // ফর্ম রিসেট করি
-        reviewTextarea.value = '';
-        ratingSelect.selectedIndex = 0;
-    }
-    
-    function addNewReview() {
-        // নতুন রিভিউ এলিমেন্ট তৈরি করি
-        const newReview = document.createElement('div');
-        newReview.className = 'review';
-        
-        // বর্তমান তারিখ নিই
-        const currentDate = new Date();
-        const dateString = currentDate.getDate() + ' ' + 
-                          getMonthName(currentDate.getMonth()) + ', ' + 
-                          currentDate.getFullYear();
-        
-        // ইউজারের প্রথম অক্ষর (নাম না থাকায় "ব" ব্যবহার করছি)
-        const userInitial = 'ব';
-        
-        // রেটিং এর জন্য তারা তৈরি করি
-        const rating = ratingSelect.value;
-        let stars = '';
-        for (let i = 1; i <= 5; i++) {
-            stars += i <= rating ? '★' : '☆';
-        }
-        
-        // HTML স্ট্রাকচার
-        newReview.innerHTML = `
-            <div class="review-header">
-                <div class="reviewer-avatar">${userInitial}</div>
-                <div class="reviewer-name">ব্যবহারকারী</div>
-                <div class="review-date">${dateString}</div>
+    <!-- Modal for Notes -->
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('noteModal')">&times;</span>
+            <h2 class="modal-title" id="noteTitle">নোট</h2>
+            <div id="noteContent">
+                <iframe class="modal-pdf" src=""></iframe>
             </div>
-            <div class="star-rating">${stars}</div>
-            <p class="review-text">${reviewTextarea.value}</p>
-        `;
-        
-        // রিভিউ কন্টেইনারে নতুন রিভিউ যোগ করি (সবার আগে)
-        const reviewsList = reviewsContainer.querySelector('.review-form');
-        reviewsContainer.insertBefore(newReview, reviewsList);
-        
-        // স্মুথ স্ক্রল করে নতুন রিভিউ দেখাই
-        newReview.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // হাইলাইট করি সাময়িকভাবে
-        newReview.style.backgroundColor = '#f0fff0';
-        setTimeout(() => {
-            newReview.style.backgroundColor = 'white';
-            newReview.style.transition = 'background-color 1s ease';
-        }, 100);
-    }
+        </div>
+    </div>
     
-    // বাংলায় মাসের নাম
-    function getMonthName(monthIndex) {
-        const months = [
-            'জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন',
-            'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
-        ];
-        return months[monthIndex];
+    <!-- Modal for Locked Content -->
+    <div id="lockedModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('lockedModal')">&times;</span>
+            <h2 class="modal-title">সীমিত কন্টেন্ট</h2>
+            <div class="locked-message">
+                <p>এই কন্টেন্টটি দেখতে হলে আপনাকে কোর্সটি ক্রয় করতে হবে।</p>
+                <br>
+                <button class="buy-btn" onclick="purchaseCourse()" style="display: inline-block; padding: 12px 25px; margin-top: 15px;">এখনই কিনুন</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        function openTab(tabName) {
+            var i, tabcontent, tabs;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            tabs = document.getElementsByClassName("tab");
+            for (i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+            event.target.classList.add("active");
+        }
+
+        // Toggle content functionality
+        function toggleContent() {
+            var content = document.getElementById('more-content');
+            var button = document.querySelector('.read-more');
+            
+            if (content.classList.contains('hidden-content')) {
+                content.classList.remove('hidden-content');
+                content.style.display = 'block';
+                button.textContent = 'কম পড়ুন';
+            } else {
+                content.classList.add('hidden-content');
+                content.style.display = 'none';
+                button.textContent = 'আরো পড়ুন';
+            }
+        }
+
+        // Video modal functionality
+        function openVideoModal(videoId) {
+            if (videoId === 'lesson-1') {
+                document.getElementById('videoTitle').textContent = 'ইবারত শিক্ষার গুরুত্ব ও প্রয়োজনীয়তা';
+                document.getElementById('videoContent').innerHTML = `
+                    <video class="modal-video" controls autoplay>
+                        <source src="/Talimul Islam Frontend/videos/video.mp4" type="video/mp4">
+                        আপনার ব্রাউজার ভিডিও সাপোর্ট করে না।
+                    </video>
+                `;
+                document.getElementById('videoModal').style.display = 'block';
+            }
+        }
+// Note modal functionality         
+function openNoteModal(noteId) {             
+    if (noteId === 'note-1') {                 
+        document.getElementById('noteTitle').textContent = 'ইবারত শিক্ষার মৌলিক ধারণা';                 
+        document.getElementById('noteContent').innerHTML = `                     
+            <div style="padding: 20px; background: white; border-radius: 8px;">                         
+                <h3 style="color: var(--primary-color); margin-bottom: 15px;">ইবারত শিক্ষার মৌলিক ধারণা</h3>                         
+                <p style="line-height: 1.8; margin-bottom: 15px;">                             
+                    আরবি ভাষায় 'ইবারত' শব্দের অর্থ হলো বাক্য বা বক্তব্য। ইসলামী শিক্ষায় ইবারত বলতে বোঝায়                              
+                    কুরআন, হাদিস বা অন্যান্য আরবি গ্রন্থের বাক্যাংশ যা বিশ্লেষণ ও ব্যাখ্যার মাধ্যমে বুঝতে হয়।                         
+                </p>                         
+                <h4 style="color: var(--primary-color); margin: 20px 0 10px 0;">ইবারত শিক্ষার গুরুত্ব:</h4>                         
+                <ul style="margin-left: 20px; line-height: 1.8;">                             
+                    <li>কুরআন-হাদিস বুঝার জন্য অপরিহার্য</li>                             
+                    <li>ইসলামী জ্ঞান অর্জনের মূল চাবিকাঠি</li>                             
+                    <li>আরবি ভাষার গভীর জ্ঞান লাভ</li>                             
+                    <li>ধর্মীয় শিক্ষকতার জন্য প্রয়োজনীয়</li>                         
+                </ul>
+                
+                <!-- PDF লিংক সেকশন -->
+                <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid var(--primary-color);">
+                    <h4 style="color: var(--primary-color); margin: 0 0 15px 0; display: flex; align-items: center;">
+                        <svg width="20" height="20" style="margin-right: 8px;" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        সংশ্লিষ্ট PDF ফাইল
+                    </h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <a href="path/to/ibarot-basics.pdf" 
+                           target="_blank" 
+                           download="ইবারত-শিক্ষার-মৌলিক-ধারণা.pdf"
+                           style="display: inline-flex; align-items: center; padding: 10px 15px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 5px; font-size: 14px; transition: background-color 0.3s;">
+                            <svg width="16" height="16" style="margin-right: 6px;" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
+                            </svg>
+                            ডাউনলোড করুন
+                        </a>
+                        
+                        <a href="path/to/ibarot-basics.pdf" 
+                           target="_blank"
+                           style="display: inline-flex; align-items: center; padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; font-size: 14px; transition: background-color 0.3s;">
+                            <svg width="16" height="16" style="margin-right: 6px;" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M14,3V7H18L12,13L6,7H10V3H14M6,19H18V21H6V19Z"/>
+                            </svg>
+                            অনলাইনে দেখুন
+                        </a>
+                    </div>
+                    <p style="margin: 10px 0 0 0; font-size: 12px; color: #666;">
+                        ফাইল সাইজ: ২.৫ MB | পৃষ্ঠা: ২৮ | ভাষা: বাংলা ও আরবি
+                    </p>
+                </div>
+            </div>                 
+        `;                 
+        document.getElementById('noteModal').style.display = 'block';             
+    }         
+}
+
+// অতিরিক্ত নোটের জন্য উদাহরণ
+function openNoteModal(noteId) {
+    const noteData = {
+        'note-1': {
+            title: 'ইবারত শিক্ষার মৌলিক ধারণা',
+            content: `
+                <!-- উপরের কন্টেন্ট -->
+            `,
+            pdfLinks: [
+                {
+                    url: '/Talimul Islam Frontend/pdf/Invoice-1229656.pdf',
+                    filename: 'ইবারত-শিক্ষার-মৌলিক-ধারণা.pdf',
+                    size: '২.৫ MB',
+                    pages: '২৮'
+                }
+            ]
+        },
+        'note-2': {
+            title: 'আরবি ব্যাকরণ মূলনীতি',
+            content: `<!-- অন্য কন্টেন্ট -->`,
+            pdfLinks: [
+                {
+                    url: 'path/to/arabic-grammar.pdf',
+                    filename: 'আরবি-ব্যাকরণ-মূলনীতি.pdf',
+                    size: '৩.২ MB',
+                    pages: '৪৫'
+                },
+                {
+                    url: 'path/to/grammar-exercises.pdf',
+                    filename: 'ব্যাকরণ-অনুশীলনী.pdf',
+                    size: '১.৮ MB',
+                    pages: '২০'
+                }
+            ]
+        }
+    };
+
+    if (noteData[noteId]) {
+        const note = noteData[noteId];
+        document.getElementById('noteTitle').textContent = note.title;
+        
+        // PDF লিংক HTML তৈরি করা
+        let pdfLinksHtml = '';
+        if (note.pdfLinks && note.pdfLinks.length > 0) {
+            pdfLinksHtml = `
+                <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid var(--primary-color);">
+                    <h4 style="color: var(--primary-color); margin: 0 0 15px 0; display: flex; align-items: center;">
+                        <svg width="20" height="20" style="margin-right: 8px;" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        সংশ্লিষ্ট PDF ফাইল${note.pdfLinks.length > 1 ? 'সমূহ' : ''}
+                    </h4>
+                    ${note.pdfLinks.map(pdf => `
+                        <div style="margin-bottom: 15px; padding: 12px; background: white; border-radius: 5px; border: 1px solid #e0e0e0;">
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
+                                <a href="${pdf.url}" 
+                                   target="_blank" 
+                                   download="${pdf.filename}"
+                                   style="display: inline-flex; align-items: center; padding: 8px 12px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 4px; font-size: 13px;">
+                                    <svg width="14" height="14" style="margin-right: 5px;" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
+                                    </svg>
+                                    ডাউনলোড
+                                </a>
+                                
+                                <a href="${pdf.url}" 
+                                   target="_blank"
+                                   style="display: inline-flex; align-items: center; padding: 8px 12px; background: #28a745; color: white; text-decoration: none; border-radius: 4px; font-size: 13px;">
+                                    <svg width="14" height="14" style="margin-right: 5px;" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"/>
+                                    </svg>
+                                    দেখুন
+                                </a>
+                            </div>
+                            <p style="margin: 0; font-size: 11px; color: #666;">
+                                ফাইল সাইজ: ${pdf.size} | পৃষ্ঠা: ${pdf.pages} | ভাষা: বাংলা ও আরবি
+                            </p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        document.getElementById('noteContent').innerHTML = note.content + pdfLinksHtml;
+        document.getElementById('noteModal').style.display = 'block';
     }
-});
-        </script>
+}
+        // Show locked message
+        function showLockedMessage() {
+            document.getElementById('lockedModal').style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            var modals = document.getElementsByClassName('modal');
+            for (var i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = 'none';
+                }
+            }
+        }
+
+        // Purchase course
+        function purchaseCourse() {
+            alert('কোর্স ক্রয়ের জন্য যোগাযোগ করুন: +8801XXXXXXXXX বা email@example.com');
+        }
+
+        // Submit review
+        function submitReview() {
+            var rating = document.getElementById('rating').value;
+            var reviewText = document.getElementById('reviewText').value;
+            
+            if (!rating || !reviewText.trim()) {
+                alert('অনুগ্রহ করে রেটিং এবং রিভিউ টেক্সট পূরণ করুন।');
+                return;
+            }
+            
+            alert('আপনার রিভিউটি সফলভাবে জমা দেওয়া হয়েছে। ধন্যবাদ!');
+            document.getElementById('rating').value = '';
+            document.getElementById('reviewText').value = '';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add some interactive effects
+            const cards = document.querySelectorAll('.content-box, .course-pricing');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
