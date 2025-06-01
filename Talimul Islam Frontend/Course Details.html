@@ -3118,265 +3118,6 @@
         
         <!-- স্টাইল অংশে যোগ করুন (বডি ট্যাগের আগে) -->
         <style>
-            /* ব্লার ওভারলে */
-            .blur-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.4);
-                backdrop-filter: blur(5px);
-                -webkit-backdrop-filter: blur(5px);
-                z-index: 98;
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-            }
-            
-            .blur-overlay.active {
-                opacity: 1;
-                visibility: visible;
-            }
-            
-            /* লগইন পপআপ */
-            .login-popup {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) scale(0.9);
-                width: 90%;
-                max-width: 400px;
-                background-color: white;
-                border-radius: 10px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-                z-index: 99;
-                /* padding: 25px; */
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-            }
-            
-            .login-popup.active {
-                opacity: 1;
-                visibility: visible;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            
-            /* লগইন টাইটেল */
-            .login-title {
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 22px;
-                font-weight: 600;
-                color: #333;
-            }
-            
-            /* ফর্ম গ্রুপ */
-            .form-group {
-                margin-bottom: 15px;
-            }
-            
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-                font-size: 14px;
-                color: #555;
-            }
-            
-            .form-group input {
-                width: 100%;
-                padding: 10px 15px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                font-size: 14px;
-                transition: all 0.3s ease;
-            }
-            
-            .form-group input:focus {
-                border-color: #6A35F2;
-                box-shadow: 0 0 0 2px rgba(106, 53, 242, 0.1);
-                outline: none;
-            }
-            
-            /* লগইন বাটন */
-            .login-submit {
-                width: 100%;
-                padding: 12px;
-                background-color: #6A35F2;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                margin-top: 10px;
-            }
-            
-            .login-submit:hover {
-                background-color: #5628d8;
-            }
-            
-            /* পাসওয়ার্ড ভুলে গেছেন লিংক */
-            .forgot-password {
-                text-align: right;
-                margin: 10px 0;
-            }
-            
-            .forgot-password a {
-                color: #6A35F2;
-                font-size: 13px;
-                text-decoration: none;
-            }
-            
-            .forgot-password a:hover {
-                text-decoration: underline;
-            }
-            
-            /* মেম্বার না হলে */
-            .register-link {
-                text-align: center;
-                margin-top: 20px;
-                font-size: 14px;
-                color: #555;
-            }
-            
-            .register-link a {
-                color: #6A35F2;
-                font-weight: 500;
-                text-decoration: none;
-            }
-            
-            .register-link a:hover {
-                text-decoration: underline;
-            }
-            
-            /* ক্লোজ বাটন */
-            .close-login {
-                position: absolute;
-                top: 15px;
-                right: 15px;
-                background: transparent;
-                border: none;
-                font-size: 20px;
-                color: #888;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-            
-            .close-login:hover {
-                color: #6A35F2;
-                transform: rotate(90deg);
-            }
-            
-            /* সোশ্যাল লগইন বাটন */
-            .social-login {
-                margin-top: 20px;
-                text-align: center;
-            }
-            
-            .social-login-title {
-                position: relative;
-                margin-bottom: 15px;
-                font-size: 13px;
-                color: #777;
-            }
-            
-            .social-login-title:before,
-            .social-login-title:after {
-                content: "";
-                position: absolute;
-                top: 50%;
-                width: calc(50% - 70px);
-                height: 1px;
-                background-color: #ddd;
-            }
-            
-            .social-login-title:before {
-                left: 0;
-            }
-            
-            .social-login-title:after {
-                right: 0;
-            }
-            
-            .social-buttons {
-                display: flex;
-                justify-content: center;
-                gap: 10px;
-            }
-            
-            .social-button {
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border: 1px solid #ddd;
-                color: #555;
-                font-size: 18px;
-                transition: all 0.3s ease;
-            }
-            
-            .social-button:hover {
-                background-color: #f5f5f5;
-                transform: translateY(-3px);
-            }
-            
-            .facebook {
-                color: #3b5998;
-            }
-            
-            .google {
-                color: #dd4b39;
-            }
-            
-            /* ডার্ক থিম সাপোর্ট */
-            body.dark-theme .login-popup {
-                background-color: #1f1f1f;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            }
-            
-            body.dark-theme .login-title {
-                color: #e0e0e0;
-            }
-            
-            body.dark-theme .form-group label {
-                color: #aaa;
-            }
-            
-            body.dark-theme .form-group input {
-                background-color: #2d2d2d;
-                border-color: #3d3d3d;
-                color: #e0e0e0;
-            }
-            
-            body.dark-theme .register-link,
-            body.dark-theme .social-login-title {
-                color: #aaa;
-            }
-            
-            body.dark-theme .social-button {
-                border-color: #3d3d3d;
-                color: #aaa;
-            }
-            
-            body.dark-theme .social-button:hover {
-                background-color: #2d2d2d;
-            }
-            
-            body.dark-theme .close-login {
-                color: #aaa;
-            }
-            
-            body.dark-theme .social-login-title:before,
-            body.dark-theme .social-login-title:after {
-                background-color: #3d3d3d;
-            }
-        </style>
-        <style>
             .container {
                 background-color: white;
                 border-radius: 10px;
@@ -3646,6 +3387,266 @@
         100% { transform: rotate(360deg); }
         }
         </style> 
+        <style>
+            /* ব্লার ওভারলে */
+            .blur-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                z-index: 98;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .blur-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            /* লগইন পপআপ */
+            .login-popup {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0.9);
+                width: 90%;
+                max-width: 400px;
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+                z-index: 99;
+                /* padding: 25px; */
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .login-popup.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            
+            /* লগইন টাইটেল */
+            .login-title {
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 22px;
+                font-weight: 600;
+                color: #333;
+            }
+            
+            /* ফর্ম গ্রুপ */
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-size: 14px;
+                color: #555;
+            }
+            
+            .form-group input {
+                width: 100%;
+                padding: 10px 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 14px;
+                transition: all 0.3s ease;
+            }
+            
+            .form-group input:focus {
+                border-color: #6A35F2;
+                box-shadow: 0 0 0 2px rgba(106, 53, 242, 0.1);
+                outline: none;
+            }
+            
+            /* লগইন বাটন */
+            .login-submit {
+                width: 100%;
+                padding: 12px;
+                background-color: #6A35F2;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-top: 10px;
+            }
+            
+            .login-submit:hover {
+                background-color: #5628d8;
+            }
+            
+            /* পাসওয়ার্ড ভুলে গেছেন লিংক */
+            .forgot-password {
+                text-align: right;
+                margin: 10px 0;
+            }
+            
+            .forgot-password a {
+                color: #6A35F2;
+                font-size: 13px;
+                text-decoration: none;
+            }
+            
+            .forgot-password a:hover {
+                text-decoration: underline;
+            }
+            
+            /* মেম্বার না হলে */
+            .register-link {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 14px;
+                color: #555;
+            }
+            
+            .register-link a {
+                color: #6A35F2;
+                font-weight: 500;
+                text-decoration: none;
+            }
+            
+            .register-link a:hover {
+                text-decoration: underline;
+            }
+            
+            /* ক্লোজ বাটন */
+            .close-login {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                background: transparent;
+                border: none;
+                font-size: 20px;
+                color: #888;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .close-login:hover {
+                color: #6A35F2;
+                transform: rotate(90deg);
+            }
+            
+            /* সোশ্যাল লগইন বাটন */
+            .social-login {
+                margin-top: 20px;
+                text-align: center;
+            }
+            
+            .social-login-title {
+                position: relative;
+                margin-bottom: 15px;
+                font-size: 13px;
+                color: #777;
+            }
+            
+            .social-login-title:before,
+            .social-login-title:after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                width: calc(50% - 70px);
+                height: 1px;
+                background-color: #ddd;
+            }
+            
+            .social-login-title:before {
+                left: 0;
+            }
+            
+            .social-login-title:after {
+                right: 0;
+            }
+            
+            .social-buttons {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .social-button {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid #ddd;
+                color: #555;
+                font-size: 18px;
+                transition: all 0.3s ease;
+            }
+            
+            .social-button:hover {
+                background-color: #f5f5f5;
+                transform: translateY(-3px);
+            }
+            
+            .facebook {
+                color: #3b5998;
+            }
+            
+            .google {
+                color: #dd4b39;
+            }
+            
+            /* ডার্ক থিম সাপোর্ট */
+            body.dark-theme .login-popup {
+                background-color: #1f1f1f;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            body.dark-theme .login-title {
+                color: #e0e0e0;
+            }
+            
+            body.dark-theme .form-group label {
+                color: #aaa;
+            }
+            
+            body.dark-theme .form-group input {
+                background-color: #2d2d2d;
+                border-color: #3d3d3d;
+                color: #e0e0e0;
+            }
+            
+            body.dark-theme .register-link,
+            body.dark-theme .social-login-title {
+                color: #aaa;
+            }
+            
+            body.dark-theme .social-button {
+                border-color: #3d3d3d;
+                color: #aaa;
+            }
+            
+            body.dark-theme .social-button:hover {
+                background-color: #2d2d2d;
+            }
+            
+            body.dark-theme .close-login {
+                color: #aaa;
+            }
+            
+            body.dark-theme .social-login-title:before,
+            body.dark-theme .social-login-title:after {
+                background-color: #3d3d3d;
+            }
+        </style>
+        
         <!-- শেষ স্ক্রিপ্ট এর আগে -->
         <!-- ব্লার ওভারলে -->
         <div class="blur-overlay"></div>
@@ -13492,8 +13493,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
+
 <script>
-    // Buy button functionality with login check
+    // Buy button functionality with existing login popup integration
 document.addEventListener('DOMContentLoaded', function() {
     // Buy button এর জন্য event listener
     const buyBtn = document.querySelector('.buy-btn');
@@ -13502,76 +13506,234 @@ document.addEventListener('DOMContentLoaded', function() {
         buyBtn.addEventListener('click', function(e) {
             e.preventDefault(); // Default link behavior বন্ধ করা
             
-            // Navigation bar এ login button আছে কিনা চেক করা
-            const loginBtn = document.querySelector('.login-btn'); // আপনার login button এর class
-            const logoutBtn = document.querySelector('.logout-btn'); // আপনার logout button এর class
-            const userProfile = document.querySelector('.user-profile'); // অথবা logged in user এর indicator
-            
-            // বিভিন্ন উপায়ে login status চেক করা যায়:
-            
-            // Method 1: Login button আছে কিনা দেখা (login button থাকলে user login করেনি)
-            if (loginBtn && loginBtn.style.display !== 'none') {
-                alert('প্রথমে লগইন করুন');
-                return;
-            }
-            
-            // Method 2: Logout button বা user profile আছে কিনা দেখা
-            if (logoutBtn || userProfile) {
-                // User logged in - নতুন পেইজে নিয়ে যাওয়া
-                window.location.href = 'purchase.html'; // আপনার target page
-                return;
-            }
-            
-            // Method 3: localStorage বা sessionStorage দিয়ে login status চেক
-            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-            // অথবা: const isLoggedIn = sessionStorage.getItem('userToken');
-            
-            if (!isLoggedIn) {
-                alert('প্রথমে লগইন করুন');
+            // Login status check করা
+            if (!isUserLoggedIn()) {
+                // আপনার existing login popup খোলা
+                openExistingLoginPopup();
             } else {
-                // নতুন পেইজে redirect
-                window.location.href = 'purchase.html';
+                // User logged in - Live course.html এ নিয়ে যাওয়া
+                window.location.href = 'Live course.html';
             }
         });
     }
 });
 
-// Alternative approach - আরো flexible
-function checkLoginAndRedirect() {
-    // আপনার specific login check logic এখানে লিখুন
+// User login status check করার function
+function isUserLoggedIn() {
+    // Method 1: Navigation bar এ login/logout button দেখে চেক করা
+    const loginBtn = document.querySelector('.login-btn'); // আপনার login button এর class
+    const logoutBtn = document.querySelector('.logout-btn'); // আপনার logout button এর class
+    const userProfile = document.querySelector('.user-profile'); // logged in user এর indicator
     
-    // Option 1: DOM element দিয়ে চেক
-    const navLoginBtn = document.getElementById('login-button'); // আপনার login button এর ID
+    // Login button hidden থাকলে user logged in
+    if (loginBtn && loginBtn.style.display === 'none') {
+        return true;
+    }
     
-    if (navLoginBtn && !navLoginBtn.classList.contains('hidden')) {
-        // Login button visible মানে user login করেনি
-        showLoginAlert();
-    } else {
-        // User logged in
-        redirectToPurchasePage();
+    // Logout button visible থাকলে user logged in
+    if (logoutBtn && logoutBtn.style.display !== 'none') {
+        return true;
+    }
+    
+    // User profile visible থাকলে user logged in
+    if (userProfile && userProfile.style.display !== 'none') {
+        return true;
+    }
+    
+    // Method 2: localStorage/sessionStorage দিয়ে check
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const userToken = localStorage.getItem('userToken');
+    const userData = localStorage.getItem('userData');
+    
+    if (isLoggedIn || userToken || userData) {
+        return true;
+    }
+    
+    // Method 3: Cookie দিয়ে check (যদি ব্যবহার করেন)
+    if (document.cookie.includes('user_logged_in=true') || 
+        document.cookie.includes('auth_token=')) {
+        return true;
+    }
+    
+    return false; // User logged in নয়
+}
+
+// আপনার existing login popup খোলার function
+function openExistingLoginPopup() {
+    const blurOverlay = document.querySelector('.blur-overlay');
+    const loginPopup = document.querySelector('.login-popup');
+    
+    if (blurOverlay && loginPopup) {
+        // Popup খোলা
+        blurOverlay.classList.add('active');
+        loginPopup.classList.add('active');
+        
+        // Body scroll disable করা
+        document.body.style.overflow = 'hidden';
+        
+        // Login section দেখানো (default login form)
+        showLoginSection();
+        
+        // Login popup এর event listeners setup করা
+        setupLoginPopupCloseEvents();
     }
 }
 
-function showLoginAlert() {
-    alert('প্রথমে লগইন করুন');
-    // অথবা custom modal দেখানো যায়:
-    // showCustomModal('প্রথমে লগইন করুন');
-}
-
-function redirectToPurchasePage() {
-    // নতুন পেইজে redirect
-    window.location.href = 'purchase.html'; // আপনার target page URL
+// Login section দেখানোর function
+function showLoginSection() {
+    // সব section hide করা
+    const sections = ['loginSection', 'emailCheckSection', 'otpVerificationSection', 'signupSection'];
+    sections.forEach(sectionId => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.style.display = 'none';
+        }
+    });
     
-    // অথবা new tab এ খুলতে চাইলে:
-    // window.open('purchase.html', '_blank');
+    // Login section দেখানো
+    const loginSection = document.getElementById('loginSection');
+    if (loginSection) {
+        loginSection.style.display = 'block';
+    }
 }
 
-// Direct HTML onclick attribute দিয়ে ব্যবহার করতে চাইলে:
+// Login popup বন্ধ করার event listeners setup
+function setupLoginPopupCloseEvents() {
+    // Close button
+    const closeBtn = document.querySelector('.close-login');
+    if (closeBtn) {
+        closeBtn.removeEventListener('click', closeExistingLoginPopup); // Duplicate listener avoid
+        closeBtn.addEventListener('click', closeExistingLoginPopup);
+    }
+    
+    // Blur overlay এ click করলে বন্ধ করা
+    const blurOverlay = document.querySelector('.blur-overlay');
+    if (blurOverlay) {
+        blurOverlay.removeEventListener('click', closeExistingLoginPopup); // Duplicate listener avoid
+        blurOverlay.addEventListener('click', closeExistingLoginPopup);
+    }
+    
+    // ESC key দিয়ে বন্ধ করা
+    document.removeEventListener('keydown', handleEscapeKey); // Duplicate listener avoid
+    document.addEventListener('keydown', handleEscapeKey);
+}
+
+// ESC key handler
+function handleEscapeKey(e) {
+    if (e.key === 'Escape') {
+        const loginPopup = document.querySelector('.login-popup');
+        if (loginPopup && loginPopup.classList.contains('active')) {
+            closeExistingLoginPopup();
+        }
+    }
+}
+
+// Login popup বন্ধ করার function
+function closeExistingLoginPopup() {
+    const blurOverlay = document.querySelector('.blur-overlay');
+    const loginPopup = document.querySelector('.login-popup');
+    
+    if (blurOverlay && loginPopup) {
+        // Popup বন্ধ করা
+        blurOverlay.classList.remove('active');
+        loginPopup.classList.remove('active');
+        
+        // Body scroll enable করা
+        document.body.style.overflow = '';
+        
+        // Form reset করা
+        resetAllLoginForms();
+    }
+}
+
+// সব login form reset করার function
+function resetAllLoginForms() {
+    const forms = ['loginForm', 'emailCheckForm', 'otpVerificationForm', 'signupForm'];
+    forms.forEach(formId => {
+        const form = document.getElementById(formId);
+        if (form) {
+            form.reset();
+        }
+    });
+    
+    // Error messages hide করা
+    const errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach(error => {
+        error.style.display = 'none';
+    });
+    
+    // Success messages hide করা
+    const successMessages = document.querySelectorAll('.success-message');
+    successMessages.forEach(success => {
+        success.style.display = 'none';
+    });
+}
+
+// Successful login এর পর redirect করার function
+// আপনার existing login success handler এ এই function call করুন
+function onSuccessfulLogin(userData = null) {
+    // User data set করা
+    localStorage.setItem('isLoggedIn', 'true');
+    if (userData) {
+        localStorage.setItem('userData', JSON.stringify(userData));
+    }
+    
+    // Navigation update করা
+    updateNavigationForLoggedInUser();
+    
+    // Login popup বন্ধ করা
+    closeExistingLoginPopup();
+    
+    // User কে Live course.html এ নিয়ে যাওয়া
+    setTimeout(() => {
+        window.location.href = 'Live course.html';
+    }, 500); // একটু delay দিয়ে smooth transition
+}
+
+// Navigation update করার function
+function updateNavigationForLoggedInUser() {
+    const loginBtn = document.querySelector('.login-btn');
+    const logoutBtn = document.querySelector('.logout-btn');
+    const userProfile = document.querySelector('.user-profile');
+    
+    if (loginBtn) {
+        loginBtn.style.display = 'none';
+    }
+    
+    if (logoutBtn) {
+        logoutBtn.style.display = 'block';
+    }
+    
+    if (userProfile) {
+        userProfile.style.display = 'block';
+    }
+}
+
+// Direct HTML onclick attribute দিয়ে ব্যবহার করতে চাইলে
 function handleBuyClick() {
-    checkLoginAndRedirect();
+    if (!isUserLoggedIn()) {
+        openExistingLoginPopup();
+    } else {
+        window.location.href = 'Live course.html';
+    }
 }
-</script>
 
+// আপনার existing login form এর success handler এ এই code যোগ করুন:
+/*
+// Login form submit success এর পর
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // আপনার login logic এখানে...
+    
+    // Login successful হলে:
+    onSuccessfulLogin(userData); // userData optional
+});
+
+// অথবা AJAX success callback এ:
+// onSuccessfulLogin(response.user);
+*/
+</script>
 
 
 
