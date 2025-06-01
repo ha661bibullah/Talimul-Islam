@@ -259,46 +259,14 @@
     gap: 10px; /* এই gap শুধুমাত্র ভিতরের আইটেমদের মাঝে */
     margin-right: 0; /* যদি আগে থেকে থাকে */
     padding-right: 0; /* যদি প্যাডিং থাকে */
-}
-        
-
-        
-
-        
-        /* ভাষা টগল স্টাইল */
-        .language-toggle {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            color: #5f6368;
-            font-size: 14px;
-            padding: 5px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.3s ease;
-        }
-        
-
-        
-        .language-toggle:hover {
-            background-color: rgba(106, 53, 242, 0.1);
-            color: #6A35F2;
-        }
-        
+}        
         /* কার্ট আইকন স্টাইল */
         .cart-icon {
             position: relative;
-            color: #5f6368;
+            color: #6A35F2;
             padding: 5px;
             border-radius: 50%;
             transition: all 0.3s ease;
-        }
-        
-        .cart-icon:hover {
-            color: #6A35F2;
-            background-color: rgba(106, 53, 242, 0.1);
         }
         
         .cart-badge {
@@ -671,226 +639,219 @@ nav {
 
 
 
-
 <style>
-    /* =============================================
-       মোবাইল টপ বার স্টাইল
-    ============================================= */
+        /* =============================================
+           মোবাইল টপ বার স্টাইল
+        ============================================= */
 
-    .mobile-top-bar {
-        display: flex; /* ডেমোর জন্য দেখানো হচ্ছে */
-        width: 100%;
-        height: 45px;
-        background: linear-gradient(135deg, #6A35F2 0%, #8B5CF6 100%);
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 15px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-
-    @media screen and (min-width: 1024px){
-        .mobile-top-bar{
-            display: none;
-        }
-        
-    }
-    @media screen and (max-width: 1024px) {
-        .language-toggle i{
-            display: none;
-        }
-        .language-toggle {
-display: none;
-align-items: center;
-gap: 5px;
-padding: 6px 12px;
-background-color: transparent;
-border: 1px solid #e0e0e0;
-border-radius: 5px;
-cursor: pointer;
-font-size: 14px;
-transition: all 0.3s ease;
-}
-    }
-    
-
-    /* টপ বারের বাম দিক - ফোন নাম্বার */
-    .top-bar-left {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .phone-info {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        color: white;
-        font-size: 13px;
-        font-weight: 500;
-    }
-
-    .phone-icon {
-        background-color: rgba(255, 255, 255, 0.2);
-        padding: 6px;
-        border-radius: 5%;
-        width: 28px;
-        height: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .phone-number {
-        font-weight: 600;
-    }
-
-    .phone-time {
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.8);
-        margin-left: 4px;
-    }
-
-    /* টপ বারের ডান দিক - ভাষা সিলেক্টর */
-    .top-bar-right {
-        display: flex;
-        align-items: center;
-    }
-
-    .language-selector {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        background-color: rgba(255, 255, 255, 0.15);
-        padding: 6px 10px;
-        border-radius: 5px;
-        color: white;
-        font-size: 12px;
-        font-weight: 500;
-        border: none;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .language-selector:hover {
-        background-color: rgba(255, 255, 255, 0.25);
-    }
-
-    .flag-icon {
-        width: 16px;
-        height: 12px;
-        border-radius: 2px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    /* ইউএস ফ্ল্যাগ স্টাইল */
-    .us-flag {
-        background: 
-            linear-gradient(to right, 
-                #B22234 0%, #B22234 50%, 
-                #FFFFFF 50%, #FFFFFF 100%
-            ),
-            linear-gradient(to bottom,
-                #B22234 7.7%, #FFFFFF 7.7%, #FFFFFF 15.4%,
-                #B22234 15.4%, #B22234 23.1%, #FFFFFF 23.1%,
-                #FFFFFF 30.8%, #B22234 30.8%, #B22234 38.5%,
-                #FFFFFF 38.5%, #FFFFFF 46.2%, #B22234 46.2%,
-                #B22234 53.9%, #FFFFFF 53.9%, #FFFFFF 61.6%,
-                #B22234 61.6%, #B22234 69.3%, #FFFFFF 69.3%,
-                #FFFFFF 77%, #B22234 77%, #B22234 84.7%,
-                #FFFFFF 84.7%, #FFFFFF 92.4%, #B22234 92.4%
-            );
-    }
-
-    .us-flag::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 40%;
-        height: 53.8%;
-        background-color: #3C3B6E;
-    }
-
-    /* বাংলাদেশ ফ্ল্যাগ স্টাইল */
-    .bd-flag {
-        background-color: #006A4E; /* সবুজ পটভূমি */
-    }
-
-    .bd-flag::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 45%;
-        transform: translate(-50%, -50%);
-        width: 6px;
-        height: 6px;
-        background-color: #F42A41; /* লাল বৃত্ত */
-        border-radius: 50%;
-    }
-
-    /* মোবাইল রেসপনসিভ স্টাইল - টপ বার সংক্রান্ত অংশ */
-    @media screen and (max-width: 1024px) {
-        /* মোবাইল টপ বার দেখাও */
         .mobile-top-bar {
+            display: flex; /* ডেমোর জন্য দেখানো হচ্ছে */
+            width: 100%;
+            height: 45px;
+            background: linear-gradient(135deg, #6A35F2 0%, #8B5CF6 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media screen and (min-width: 1024px){
+            .mobile-top-bar{
+                display: none;
+            }
+        }
+        
+        @media screen and (max-width: 1024px) {
+            .language-toggle i{
+                display: none;
+            }
+            .language-toggle {
+                display: none;
+                align-items: center;
+                gap: 5px;
+                padding: 6px 12px;
+                background-color: transparent;
+                border: 1px solid #e0e0e0;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 14px;
+                transition: all 0.3s ease;
+            }
+        }
+
+        /* টপ বারের বাম দিক - ফোন নাম্বার */
+        .top-bar-left {
             display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* নেভবার পজিশন অ্যাডজাস্ট */
-        nav {
-            top: 45px; /* টপ বার এর নিচে */
-        }
-        
-        body {
-            padding-top: 105px; /* টপ বার + নেভবার */
-        }
-        
-        /* সাইডবার এর বিকল্প স্টাইল */
-        .menu-items {
-            top: 105px; /* টপ বার + নেভবার এর নিচে */
-            height: calc(100vh - 105px);
-        }
-    }
-
-    /* আরও ছোট মোবাইল ডিভাইসের জন্য অতিরিক্ত অ্যাডজাস্টমেন্ট */
-    @media screen and (max-width: 360px) {
-        /* মোবাইল টপ বার এর জন্য অ্যাডজাস্টমেন্ট */
         .phone-info {
-            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .phone-icon {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 6px;
+            border-radius: 5%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .phone-number {
+            font-weight: 600;
         }
 
         .phone-time {
-            font-size: 10px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-left: 4px;
+        }
+
+        /* টপ বারের ডান দিক - ভাষা সিলেক্টর */
+        .top-bar-right {
+            display: flex;
+            align-items: center;
         }
 
         .language-selector {
-            font-size: 11px;
-            padding: 5px 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-    }
 
-    /* ডেমো কনটেন্ট */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding-top: 45px;
-        background-color: #f5f5f5;
-    }
+        .language-selector:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-1px);
+        }
 
-    .demo-content {
-        padding: 20px;
-        text-align: center;
-        margin-top: 20px;
-    }
-    
-</style> 
-    <!-- মোবাইল টপ বার -->
-    <div class="mobile-top-bar">
+        .language-selector:active {
+            transform: translateY(0);
+        }
+
+        /* PNG পতাকার জন্য আপডেটেড স্টাইল */
+        .flag-icon {
+            width: 20px;
+            height: 15px;
+            border-radius: 2px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .flag-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* মোবাইল রেসপনসিভ স্টাইল - টপ বার সংক্রান্ত অংশ */
+        @media screen and (max-width: 1024px) {
+            /* মোবাইল টপ বার দেখাও */
+            .mobile-top-bar {
+                display: flex;
+            }
+
+            /* নেভবার পজিশন অ্যাডজাস্ট */
+            nav {
+                top: 45px; /* টপ বার এর নিচে */
+            }
+            
+            body {
+                padding-top: 105px; /* টপ বার + নেভবার */
+            }
+            
+            /* সাইডবার এর বিকল্প স্টাইল */
+            .menu-items {
+                top: 105px; /* টপ বার + নেভবার এর নিচে */
+                height: calc(100vh - 105px);
+            }
+        }
+
+        /* আরও ছোট মোবাইল ডিভাইসের জন্য অতিরিক্ত অ্যাডজাস্টমেন্ট */
+        @media screen and (max-width: 360px) {
+            /* মোবাইল টপ বার এর জন্য অ্যাডজাস্টমেন্ট */
+            .phone-info {
+                font-size: 12px;
+            }
+
+            .phone-time {
+                font-size: 10px;
+            }
+
+            .language-selector {
+                font-size: 11px;
+                padding: 5px 8px;
+                gap: 6px;
+            }
+
+            .flag-icon {
+                width: 18px;
+                height: 13px;
+            }
+        }
+
+        /* ডেমো কনটেন্ট */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 45px;
+            background-color: #f5f5f5;
+        }
+
+        .demo-content {
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* লোডিং অ্যানিমেশন */
+        .flag-icon.loading {
+            opacity: 0.7;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        /* ফ্ল্যাগ ইমেজ এরর হ্যান্ডলিং */
+        .flag-icon[alt]:after {
+            content: attr(alt);
+            font-size: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 2px;
+            border-radius: 2px;
+        }
+</style>
+<!-- মোবাইল টপ বার -->
+<div class="mobile-top-bar">
         <div class="top-bar-left">
             <div class="phone-info">
                 <div class="phone-icon">
@@ -902,32 +863,108 @@ transition: all 0.3s ease;
         </div>
         <div class="top-bar-right">
             <button class="language-selector" onclick="toggleLanguage()">
-                <div class="flag-icon us-flag" id="flagIcon"></div>
+                <img 
+                    src="https://flagcdn.com/w40/us.png" 
+                    alt="US Flag" 
+                    class="flag-icon" 
+                    id="flagIcon"
+                    onerror="handleFlagError(this)"
+                >
                 <span id="languageText">English</span>
             </button>
         </div>
-    </div>
-
-    <script>
+</div>
+<script>
         let isEnglish = true;
+        
+        // পতাকার URL গুলো
+        const flagUrls = {
+            us: {
+                url: 'https://flagcdn.com/w40/us.png',
+                alt: 'US Flag',
+                fallback: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/US.svg'
+            },
+            bd: {
+                url: 'https://flagcdn.com/w40/bd.png',
+                alt: 'BD Flag',
+                fallback: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/BD.svg'
+            }
+        };
 
         function toggleLanguage() {
             const flagIcon = document.getElementById('flagIcon');
             const languageText = document.getElementById('languageText');
             
+            // লোডিং ইফেক্ট
+            flagIcon.classList.add('loading');
+            
             if (isEnglish) {
                 // বাংলায় পরিবর্তন
-                flagIcon.className = 'flag-icon bd-flag';
+                flagIcon.src = flagUrls.bd.url;
+                flagIcon.alt = flagUrls.bd.alt;
                 languageText.textContent = 'বাংলা';
                 isEnglish = false;
             } else {
                 // ইংরেজিতে পরিবর্তন
-                flagIcon.className = 'flag-icon us-flag';
+                flagIcon.src = flagUrls.us.url;
+                flagIcon.alt = flagUrls.us.alt;
                 languageText.textContent = 'English';
                 isEnglish = true;
             }
+            
+            // লোডিং ইফেক্ট রিমুভ
+            setTimeout(() => {
+                flagIcon.classList.remove('loading');
+            }, 300);
         }
-    </script>
+
+        // পতাকা ইমেজ লোড এরর হ্যান্ডলিং
+        function handleFlagError(img) {
+            console.warn('Flag image failed to load:', img.src);
+            
+            // ফলব্যাক URL ব্যবহার করুন
+            const currentFlag = isEnglish ? 'us' : 'bd';
+            if (img.src !== flagUrls[currentFlag].fallback) {
+                img.src = flagUrls[currentFlag].fallback;
+            } else {
+                // যদি ফলব্যাক ও ব্যর্থ হয়, তাহলে টেক্সট দেখান
+                img.style.display = 'none';
+                img.parentElement.innerHTML += `<span style="font-size: 10px;">${img.alt}</span>`;
+            }
+        }
+
+        // প্রি-লোড করুন পতাকার ইমেজ গুলো
+        function preloadFlags() {
+            Object.values(flagUrls).forEach(flag => {
+                const img = new Image();
+                img.src = flag.url;
+                // ফলব্যাক ও প্রি-লোড করুন
+                const fallbackImg = new Image();
+                fallbackImg.src = flag.fallback;
+            });
+        }
+
+        // পেজ লোড হলে পতাকা প্রি-লোড করুন
+        document.addEventListener('DOMContentLoaded', preloadFlags);
+
+        // অ্যাডভান্সড ফিচার: ভাষা পছন্দ সেভ করুন
+        function saveLanguagePreference() {
+            localStorage.setItem('preferredLanguage', isEnglish ? 'en' : 'bn');
+        }
+
+        function loadLanguagePreference() {
+            const saved = localStorage.getItem('preferredLanguage');
+            if (saved === 'bn' && isEnglish) {
+                toggleLanguage();
+            }
+        }
+
+        // পেজ লোড হলে সেভ করা ভাষা লোড করুন
+        document.addEventListener('DOMContentLoaded', loadLanguagePreference);
+
+        // ভাষা পরিবর্তনের সময় সেভ করুন
+        document.getElementById('flagIcon').addEventListener('load', saveLanguagePreference);
+</script>
 
 
 
@@ -1023,10 +1060,14 @@ transition: all 0.3s ease;
 
 
           <!-- ভাষা পরিবর্তন -->
-          <button class="language-toggle">
-            <i class="fas fa-globe"></i>
-            <span>বাংলা</span>
-        </button>
+<button class="language-toggleA" onclick="toggleLanguageA()">
+    <img id="flagIconA" 
+         class="flag-iconA" 
+         src="https://flagcdn.com/w40/us.png" 
+         alt="US Flag"
+         onerror="handleFlagErrorA(this)">
+    <span id="languageTextA" class="language-textA">English</span>
+</button>
 
 
           <div class="user-menu-container">
@@ -1049,7 +1090,191 @@ transition: all 0.3s ease;
             </div>
         </div>
     </div>
-    </nav>  
+    </nav> 
+    <style>
+       /* ভাষা পরিবর্তন বাটনের স্টাইল */
+.language-toggleA {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding:6px 10px;
+    
+    background-color: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    color: #333;
+}
+
+.language-toggleA:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: #6A35F2;
+}
+
+/* পতাকা ইমেজের স্টাইল */
+.flag-iconA {
+    width: 22px;
+    height: 16px;
+    border-radius: 2.5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    object-fit: cover;
+}
+
+.language-toggleA:hover .flag-iconA {
+    /* transform: scale(1.1); */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* ভাষার টেক্সট */
+.language-textA {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+/* ভাষা পরিবর্তনের অ্যানিমেশন */
+.language-toggleA.animatingA {
+    animation: languageChangeA 0.5s ease;
+}
+
+/* @keyframes languageChangeA {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); opacity: 0.7; }
+    100% { transform: scale(1); }
+} */
+
+/* রেসপনসিভ স্টাইল - মোবাইল */
+@media (max-width: 1016px) {
+    .language-textA {
+        display: none; /* মোবাইলে শুধু পতাকা দেখানো */
+    }
+    .flag-iconA{
+        display: none;
+    }
+    
+    .language-toggleA {
+        padding: 0;
+        gap: 0;
+    }
+    .flag-iconA {
+        width: 20px;
+        height: 15px;
+    }
+}
+    </style>
+<script>
+        let isEnglishA = true;
+        // পতাকার URL গুলো
+        const flagUrlsA = {
+            us: {
+                url: 'https://flagcdn.com/w40/us.png',
+                alt: 'US Flag',
+                fallback: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/US.svg'
+            },
+            bd: {
+                url: 'https://flagcdn.com/w40/bd.png',
+                alt: 'BD Flag',
+                fallback: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/BD.svg'
+            }
+        };
+
+        function toggleLanguageA() {
+            const flagIconA = document.getElementById('flagIconA');
+            const languageTextA = document.getElementById('languageTextA');
+            const languageToggleA = document.querySelector('.language-toggleA');
+            
+            // অ্যানিমেশন যোগ করা
+            languageToggleA.classList.add('animatingA');
+            flagIconA.classList.add('loadingA');
+            
+            setTimeout(() => {
+                if (isEnglishA) {
+                    // বাংলায় পরিবর্তন
+                    flagIconA.src = flagUrlsA.bd.url;
+                    flagIconA.alt = flagUrlsA.bd.alt;
+                    languageTextA.textContent = 'বাংলা';
+                    isEnglishA = false;
+                } else {
+                    // ইংরেজিতে পরিবর্তন
+                    flagIconA.src = flagUrlsA.us.url;
+                    flagIconA.alt = flagUrlsA.us.alt;
+                    languageTextA.textContent = 'English';
+                    isEnglishA = true;
+                }
+                
+                // ভাষা পছন্দ সেভ করুন
+                saveLanguagePreferenceA();
+                
+                // লোডিং ইফেক্ট রিমুভ
+                setTimeout(() => {
+                    flagIconA.classList.remove('loadingA');
+                    languageToggleA.classList.remove('animatingA');
+                }, 300);
+            }, 250);
+        }
+
+        // পতাকা ইমেজ লোড এরর হ্যান্ডলিং
+        function handleFlagErrorA(img) {
+            console.warn('Flag image failed to load:', img.src);
+            
+            // ফলব্যাক URL ব্যবহার করুন
+            const currentFlagA = isEnglishA ? 'us' : 'bd';
+            if (img.src !== flagUrlsA[currentFlagA].fallback) {
+                img.src = flagUrlsA[currentFlagA].fallback;
+            } else {
+                // যদি ফলব্যাক ও ব্যর্থ হয়, তাহলে টেক্সট দেখান
+                img.style.display = 'none';
+                img.parentElement.innerHTML += `<span style="font-size: 10px;">${img.alt}</span>`;
+            }
+        }
+
+        // প্রি-লোড করুন পতাকার ইমেজ গুলো
+        function preloadFlagsA() {
+            Object.values(flagUrlsA).forEach(flag => {
+                const img = new Image();
+                img.src = flag.url;
+                // ফলব্যাক ও প্রি-লোড করুন
+                const fallbackImg = new Image();
+                fallbackImg.src = flag.fallback;
+            });
+        }
+
+        // অ্যাডভান্সড ফিচার: ভাষা পছন্দ সেভ করুন
+        function saveLanguagePreferenceA() {
+            // Note: localStorage is not available in Claude artifacts
+            // This would work in a regular web environment
+            try {
+                localStorage.setItem('preferredLanguageA', isEnglishA ? 'en' : 'bn');
+            } catch(e) {
+                console.log('LocalStorage not available in this environment');
+            }
+        }
+
+        function loadLanguagePreferenceA() {
+            try {
+                const savedA = localStorage.getItem('preferredLanguageA');
+                if (savedA === 'bn' && isEnglishA) {
+                    toggleLanguageA();
+                }
+            } catch(e) {
+                console.log('LocalStorage not available in this environment');
+            }
+        }
+
+        // পেজ লোড হলে সেটআপ
+        document.addEventListener('DOMContentLoaded', function() {
+            preloadFlagsA();
+            loadLanguagePreferenceA();
+            
+            // পতাকা লোড সফল হলে
+            const flagIconElementA = document.getElementById('flagIconA');
+            if (flagIconElementA) {
+                flagIconElementA.addEventListener('load', saveLanguagePreferenceA);
+            }
+        });
+    </script>
 
     <script>
         // চেক করুন যদি Font Awesome আগেই লোড আছে
@@ -1894,21 +2119,6 @@ transition: all 0.3s ease;
             });
         });
         
-
-        
-        // ভাষা পরিবর্তন
-        const languageToggle = document.querySelector('language-toggle');
-        let currentLanguage = 'বাংলা';
-        
-        languageToggle.addEventListener('click', function() {
-            if (currentLanguage === 'বাংলা') {
-                currentLanguage = 'English';
-                this.querySelector('span').textContent = 'English';
-            } else {
-                currentLanguage = 'বাংলা';
-                this.querySelector('span').textContent = 'বাংলা';
-            }
-        });
         
         // মোবাইল সার্চ টগল
         const mobileSearchIcon = document.querySelector('.mobile-search-icon');
@@ -3471,7 +3681,7 @@ animation: spin 1s linear infinite;
 100% { transform: rotate(360deg); }
 }
 </style> 
-<!-- এই HTML কোড বডি ট্যাগের শেষে যোগ করুন, শেষ স্ক্রিপ্ট এর আগে -->
+<!-- শেষ স্ক্রিপ্ট এর আগে -->
 <!-- ব্লার ওভারলে -->
 <div class="blur-overlay"></div>
 <!-- লগইন পপআপ -->
@@ -10872,69 +11082,9 @@ async function handleLogout(e) {
 
 
 <!-- ভাষা পরিবর্তন -->
-<style>
-    /* ভাষা পরিবর্তন বাটনের স্টাইল */
-.language-toggle {
-    /* display: flex; */
-    align-items: center;
-    gap: 5px;
-    padding: 6px 12px;
-    background-color: transparent;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
 
-.language-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-/* ডার্ক মোডের জন্য */
-.dark-mode .language-toggle {
-    border-color: #444;
-    color: #f5f5f5;
-}
-
-.dark-mode .language-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-/* গ্লোব আইকন স্টাইল */
-.language-toggle .fas.fa-globe {
-    color:  #6A35F2;
-    margin-right: 5px;
-}
-
-/* ভাষা পরিবর্তনের অ্যানিমেশন */
-.language-toggle.animating span {
-    animation: fadeInOut 0.5s ease;
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-/* রেসপনসিভ স্টাইল - মোবাইল */
-@media (max-width: 768px) {
-    .language-toggle span {
-        display: none; /* মোবাইলে শুধু আইকন দেখানো */
-    }
-    
-    .language-toggle {
-        padding: 6px;
-    }
-    
-    .language-toggle .fas.fa-globe {
-        margin-right: 0;
-    }
-}
-</style>
 <!--* ভাষা পরিবর্তন -->
-<script>
+<!-- <script>
     // ভাষা পরিবর্তন ফাংশনালিটি
 document.addEventListener('DOMContentLoaded', function() {
     // ভাষা বাটন সিলেক্ট করা
@@ -11911,7 +12061,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCourseCards();
     }
 });
-</script> 
+</script>  -->
 <!-- *full navigation bar end point -->
 <!-- *full navigation bar end point -->
 
@@ -15374,7 +15524,7 @@ body {
 
 
 <!-- আপনি কি শিখতে চান? -->
-    <style>
+<style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap'); 
         .containerAB {
             background: rgba(255, 255, 255, 0.95);
@@ -15572,8 +15722,8 @@ body {
                 font-size: 1.5rem;
             }
         }
-    </style>
-    <div class="containerAB">
+</style>
+<div class="containerAB">
         <div class="headerAB">
             <h1>আপনি কি শিখতে চান?</h1>
             <p>আপনার পছন্দের বিষয় বেছে নিন</p>
@@ -15674,7 +15824,7 @@ body {
             </section>
             </div>
             
-    </div>  
+</div>  
 
 
 
