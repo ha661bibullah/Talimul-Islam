@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="তালিমুল ইসলাম একাডেমি একটি ইসলামিক শিক্ষা ভিত্তিক ওয়েবসাইট, যেখানে কুরআন, হাদিস, আরবি ও ইসলামিক কোর্স শেখানো হয়।">
+    <meta name="description" content="তালিমুল ইসলাম একাডেমি একটি ইসলামিক শিক্ষা ভিত্তিক ওয়েবসাইট, যেখানে কুরআন, হাদিস, আরবি ও ইসলামিক ফ্রি, কোর্স জনপ্রিয় কোর্স শেখানো হয়।">
     <meta name="keywords" content="ইসলামিক শিক্ষা, কুরআন শিক্ষা, তালিমুল ইসলাম একাডেমি, অনলাইন ইসলামিক কোর্স">
     <meta name="google-site-verification" content="mEIlxIInNpeRDyE-PMUqNjK2hTFb8LUB8jiewuZb-Pg" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -3680,7 +3680,7 @@ animation: spin 1s linear infinite;
 0% { transform: rotate(0deg); }
 100% { transform: rotate(360deg); }
 }
-</style> 
+</style>  
 <!-- শেষ স্ক্রিপ্ট এর আগে -->
 <!-- ব্লার ওভারলে -->
 <div class="blur-overlay"></div>
@@ -12110,7 +12110,6 @@ document.addEventListener('DOMContentLoaded', function() {
     background-color: white;
     /* border-radius: 8px; */
     /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); */
-    /* margin-top: 60px; */
 }
 
 @media (min-width: 768px) {
@@ -12144,6 +12143,9 @@ document.addEventListener('DOMContentLoaded', function() {
     margin-bottom: 20px;
     text-align: center;
 }
+.hero-content h2{
+    font-size: 3rem;
+}
 
 @media (min-width: 768px) {
     .hero-content {
@@ -12163,6 +12165,11 @@ document.addEventListener('DOMContentLoaded', function() {
     border-radius: 8px;
     /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); */
     margin-top: 60px;
+}
+}
+@media (max-width: 1024px){
+    .hero-content h2{
+    font-size: 1.5rem;
 }
 }
 
@@ -12277,13 +12284,9 @@ p {
         margin-bottom: 30px;
     }
 }
-
-.buttons {
-    display: flex;
-    flex-direction: row; /* Mobile: side by side */
-    gap: 15px;
+.buttons a{
+    padding: 12px 50px;
 }
-
 @media (min-width: 768px) {
     .buttons {
         flex-direction: column; /* Desktop: stacked vertically */
@@ -12341,7 +12344,9 @@ p {
 .btn-secondary:hover {
     background-color: #f5f5f5;
 }
-</style>
+
+
+</style> 
 <div class="container12">
         <section class="hero-section">
             <div class="hero-content">
@@ -12349,7 +12354,7 @@ p {
                 <p>তালিমুল ইসলাম একাডেমি — সব ধরনের মাদ্রাসার জন্য একটি সমৃদ্ধ অনলাইন প্ল্যাটফর্ম, যেখানে প্রতিটি জামাতের রেকর্ডেড ও লাইভ ক্লাস পাওয়া যায়।</p>
                 <!-- <p>তালিমুল ইসলাম একাডেমি সব ধরনের মাদ্রাসার সবচেয়ে সমৃদ্ধ প্লাটফর্ম এখানে সব জামাতের রেকর্ডেড ও লাইভ ক্লাস পাবেন।</p> -->
                 <div class="buttons">
-                    <a href="#" class="btn btn-secondary">ফ্রি কোর্স</a>
+                    <a href="0FreeCourse.html" class="btn btn-secondary">ফ্রি কোর্স</a>
                     <a href="#" class="btn btn-primary">পেইড কোর্স <i class="fa-solid fa-arrow-down"></i></a>
                 </div>
             </div>
@@ -12508,7 +12513,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (isMobile) {
                     // মোবাইল সেটিংস
                     customOffset = 900;
-                    extraScroll = 3500;
+                    extraScroll = 800;
                 } else if (isTablet) {
                     // ট্যাবলেট সেটিংস
                     customOffset = 600;
@@ -12516,7 +12521,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (isDesktop) {
                     // ডেস্কটপ সেটিংস - এই ভ্যালুগুলো আপনার প্রয়োজন অনুযায়ী পরিবর্তন করুন
                     customOffset = 400;
-                    extraScroll = 2350;
+                    extraScroll = 360;
                 }
                 
                 // এলিমেন্টের বর্তমান পজিশন বের করি
@@ -12624,6 +12629,9 @@ function showDeviceInfo() {
             margin: 0 auto;
             padding: 20px;
             position: relative;
+            background: white;
+            margin-bottom: 15px;
+            margin-top: 15px;
         }
 
         .headeraTA {
@@ -16048,7 +16056,7 @@ body {
         /* width: 100%; */
         /* height: auto; */
         /* background: #dcdcdc; */
-        font-size: 1.5rem;
+        font-size: 2rem;
         /* font-weight: 700; */
         color: #2d3748;
         margin-bottom: 10px;
@@ -16511,7 +16519,7 @@ body {
           </div>
           <div class="action-buttons">
             <button class="add-to-cart-btn" onclick="addToCart(1)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="Course Details.html" class="buy-now-btn">কিনুন</a>
+            <a href="Course Details.html" class="buy-now-btn">দেখুন</a>
           </div>
         </div>
       </div>
@@ -17044,7 +17052,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-<style>
+
+
+
+<!-- আমাদের মাদ্রাসা কোর্সসমূহ -->
+<!-- <style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
     .containerTA {
         max-width: 1200px;
         margin: 0 auto;
@@ -17458,7 +17471,6 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <div class="courses-gridTA">
-        <!-- Course 1: SEO -->
         <div class="course-cardTA showTA" data-category="seo">
             <div class="course-imageTA seoTA">
                 <div class="course-tagTA">3D Animation</div>
@@ -17505,7 +17517,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
 
-        <!-- Course 2: Mobile App -->
         <div class="course-cardTA showTA" data-category="mobile">
             <div class="course-imageTA mobileTA">
                 <div class="course-tagTA">Mobile Application</div>
@@ -17552,7 +17563,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
 
-        <!-- Course 3: Finance -->
         <div class="course-cardTA showTA" data-category="finance">
             <div class="course-imageTA financeTA">
                 <div class="course-tagTA">Finance Account</div>
@@ -17599,7 +17609,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
 
-        <!-- Course 4: Web Development -->
         <div class="course-cardTA showTA" data-category="web">
             <div class="course-imageTA webTA">
                 <div class="course-tagTA">Web Development</div>
@@ -17646,7 +17655,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
 
-        <!-- Course 5: Design -->
         <div class="course-cardTA showTA" data-category="design">
             <div class="course-imageTA designTA">
                 <div class="course-tagTA">Art & Design</div>
@@ -17693,7 +17701,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
 
-        <!-- Course 6: Marketing -->
         <div class="course-cardTA showTA" data-category="marketing">
             <div class="course-imageTA marketingTA">
                 <div class="course-tagTA">Marketing</div>
@@ -17731,7 +17738,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="instructor-avatarTA has-imageTA">
                             <img src="img/al-quran-7737560_1280.jpg" alt="Masum Billah">
                         </div>
-                        <span class="instructor-nameTA">Masum Billah</span>
+                        <span class="instructor-nameTA">মুফতি ইউসুফ কাসেমী</span>
                     </div>
                 </div>
             </div>
@@ -17782,11 +17789,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Play video');
             }
         });
-    </script>
 
-
-
-
+    </script>  -->
 
 
 

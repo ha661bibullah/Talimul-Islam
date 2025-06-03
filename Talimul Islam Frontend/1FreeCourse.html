@@ -3,20 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>প্রাকটিকাল ইবারত শিক্ষা</title>
+
 </head>
 <body>
 
 
 
 
-
-
-
-
-    <head class="navHandler">
+<head class="navHandler">
 
         <!-- *full navigation bar start point -->
         <!-- *full navigation bar start point -->
@@ -3118,6 +3113,265 @@
         
         <!-- স্টাইল অংশে যোগ করুন (বডি ট্যাগের আগে) -->
         <style>
+            /* ব্লার ওভারলে */
+            .blur-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                z-index: 98;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .blur-overlay.active {
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            /* লগইন পপআপ */
+            .login-popup {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0.9);
+                width: 90%;
+                max-width: 400px;
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+                z-index: 99;
+                /* padding: 25px; */
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            .login-popup.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            
+            /* লগইন টাইটেল */
+            .login-title {
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 22px;
+                font-weight: 600;
+                color: #333;
+            }
+            
+            /* ফর্ম গ্রুপ */
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-size: 14px;
+                color: #555;
+            }
+            
+            .form-group input {
+                width: 100%;
+                padding: 10px 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                font-size: 14px;
+                transition: all 0.3s ease;
+            }
+            
+            .form-group input:focus {
+                border-color: #6A35F2;
+                box-shadow: 0 0 0 2px rgba(106, 53, 242, 0.1);
+                outline: none;
+            }
+            
+            /* লগইন বাটন */
+            .login-submit {
+                width: 100%;
+                padding: 12px;
+                background-color: #6A35F2;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-top: 10px;
+            }
+            
+            .login-submit:hover {
+                background-color: #5628d8;
+            }
+            
+            /* পাসওয়ার্ড ভুলে গেছেন লিংক */
+            .forgot-password {
+                text-align: right;
+                margin: 10px 0;
+            }
+            
+            .forgot-password a {
+                color: #6A35F2;
+                font-size: 13px;
+                text-decoration: none;
+            }
+            
+            .forgot-password a:hover {
+                text-decoration: underline;
+            }
+            
+            /* মেম্বার না হলে */
+            .register-link {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 14px;
+                color: #555;
+            }
+            
+            .register-link a {
+                color: #6A35F2;
+                font-weight: 500;
+                text-decoration: none;
+            }
+            
+            .register-link a:hover {
+                text-decoration: underline;
+            }
+            
+            /* ক্লোজ বাটন */
+            .close-login {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                background: transparent;
+                border: none;
+                font-size: 20px;
+                color: #888;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .close-login:hover {
+                color: #6A35F2;
+                transform: rotate(90deg);
+            }
+            
+            /* সোশ্যাল লগইন বাটন */
+            .social-login {
+                margin-top: 20px;
+                text-align: center;
+            }
+            
+            .social-login-title {
+                position: relative;
+                margin-bottom: 15px;
+                font-size: 13px;
+                color: #777;
+            }
+            
+            .social-login-title:before,
+            .social-login-title:after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                width: calc(50% - 70px);
+                height: 1px;
+                background-color: #ddd;
+            }
+            
+            .social-login-title:before {
+                left: 0;
+            }
+            
+            .social-login-title:after {
+                right: 0;
+            }
+            
+            .social-buttons {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .social-button {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid #ddd;
+                color: #555;
+                font-size: 18px;
+                transition: all 0.3s ease;
+            }
+            
+            .social-button:hover {
+                background-color: #f5f5f5;
+                transform: translateY(-3px);
+            }
+            
+            .facebook {
+                color: #3b5998;
+            }
+            
+            .google {
+                color: #dd4b39;
+            }
+            
+            /* ডার্ক থিম সাপোর্ট */
+            body.dark-theme .login-popup {
+                background-color: #1f1f1f;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            body.dark-theme .login-title {
+                color: #e0e0e0;
+            }
+            
+            body.dark-theme .form-group label {
+                color: #aaa;
+            }
+            
+            body.dark-theme .form-group input {
+                background-color: #2d2d2d;
+                border-color: #3d3d3d;
+                color: #e0e0e0;
+            }
+            
+            body.dark-theme .register-link,
+            body.dark-theme .social-login-title {
+                color: #aaa;
+            }
+            
+            body.dark-theme .social-button {
+                border-color: #3d3d3d;
+                color: #aaa;
+            }
+            
+            body.dark-theme .social-button:hover {
+                background-color: #2d2d2d;
+            }
+            
+            body.dark-theme .close-login {
+                color: #aaa;
+            }
+            
+            body.dark-theme .social-login-title:before,
+            body.dark-theme .social-login-title:after {
+                background-color: #3d3d3d;
+            }
+        </style>
+        <style>
             .container {
                 background-color: white;
                 border-radius: 10px;
@@ -3387,266 +3641,6 @@
         100% { transform: rotate(360deg); }
         }
         </style> 
-        <style>
-            /* ব্লার ওভারলে */
-            .blur-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.4);
-                backdrop-filter: blur(5px);
-                -webkit-backdrop-filter: blur(5px);
-                z-index: 98;
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-            }
-            
-            .blur-overlay.active {
-                opacity: 1;
-                visibility: visible;
-            }
-            
-            /* লগইন পপআপ */
-            .login-popup {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) scale(0.9);
-                width: 90%;
-                max-width: 400px;
-                background-color: white;
-                border-radius: 10px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-                z-index: 99;
-                /* padding: 25px; */
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-            }
-            
-            .login-popup.active {
-                opacity: 1;
-                visibility: visible;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            
-            /* লগইন টাইটেল */
-            .login-title {
-                text-align: center;
-                margin-bottom: 20px;
-                font-size: 22px;
-                font-weight: 600;
-                color: #333;
-            }
-            
-            /* ফর্ম গ্রুপ */
-            .form-group {
-                margin-bottom: 15px;
-            }
-            
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-                font-size: 14px;
-                color: #555;
-            }
-            
-            .form-group input {
-                width: 100%;
-                padding: 10px 15px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                font-size: 14px;
-                transition: all 0.3s ease;
-            }
-            
-            .form-group input:focus {
-                border-color: #6A35F2;
-                box-shadow: 0 0 0 2px rgba(106, 53, 242, 0.1);
-                outline: none;
-            }
-            
-            /* লগইন বাটন */
-            .login-submit {
-                width: 100%;
-                padding: 12px;
-                background-color: #6A35F2;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                margin-top: 10px;
-            }
-            
-            .login-submit:hover {
-                background-color: #5628d8;
-            }
-            
-            /* পাসওয়ার্ড ভুলে গেছেন লিংক */
-            .forgot-password {
-                text-align: right;
-                margin: 10px 0;
-            }
-            
-            .forgot-password a {
-                color: #6A35F2;
-                font-size: 13px;
-                text-decoration: none;
-            }
-            
-            .forgot-password a:hover {
-                text-decoration: underline;
-            }
-            
-            /* মেম্বার না হলে */
-            .register-link {
-                text-align: center;
-                margin-top: 20px;
-                font-size: 14px;
-                color: #555;
-            }
-            
-            .register-link a {
-                color: #6A35F2;
-                font-weight: 500;
-                text-decoration: none;
-            }
-            
-            .register-link a:hover {
-                text-decoration: underline;
-            }
-            
-            /* ক্লোজ বাটন */
-            .close-login {
-                position: absolute;
-                top: 15px;
-                right: 15px;
-                background: transparent;
-                border: none;
-                font-size: 20px;
-                color: #888;
-                cursor: pointer;
-                transition: all 0.3s ease;
-            }
-            
-            .close-login:hover {
-                color: #6A35F2;
-                transform: rotate(90deg);
-            }
-            
-            /* সোশ্যাল লগইন বাটন */
-            .social-login {
-                margin-top: 20px;
-                text-align: center;
-            }
-            
-            .social-login-title {
-                position: relative;
-                margin-bottom: 15px;
-                font-size: 13px;
-                color: #777;
-            }
-            
-            .social-login-title:before,
-            .social-login-title:after {
-                content: "";
-                position: absolute;
-                top: 50%;
-                width: calc(50% - 70px);
-                height: 1px;
-                background-color: #ddd;
-            }
-            
-            .social-login-title:before {
-                left: 0;
-            }
-            
-            .social-login-title:after {
-                right: 0;
-            }
-            
-            .social-buttons {
-                display: flex;
-                justify-content: center;
-                gap: 10px;
-            }
-            
-            .social-button {
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border: 1px solid #ddd;
-                color: #555;
-                font-size: 18px;
-                transition: all 0.3s ease;
-            }
-            
-            .social-button:hover {
-                background-color: #f5f5f5;
-                transform: translateY(-3px);
-            }
-            
-            .facebook {
-                color: #3b5998;
-            }
-            
-            .google {
-                color: #dd4b39;
-            }
-            
-            /* ডার্ক থিম সাপোর্ট */
-            body.dark-theme .login-popup {
-                background-color: #1f1f1f;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            }
-            
-            body.dark-theme .login-title {
-                color: #e0e0e0;
-            }
-            
-            body.dark-theme .form-group label {
-                color: #aaa;
-            }
-            
-            body.dark-theme .form-group input {
-                background-color: #2d2d2d;
-                border-color: #3d3d3d;
-                color: #e0e0e0;
-            }
-            
-            body.dark-theme .register-link,
-            body.dark-theme .social-login-title {
-                color: #aaa;
-            }
-            
-            body.dark-theme .social-button {
-                border-color: #3d3d3d;
-                color: #aaa;
-            }
-            
-            body.dark-theme .social-button:hover {
-                background-color: #2d2d2d;
-            }
-            
-            body.dark-theme .close-login {
-                color: #aaa;
-            }
-            
-            body.dark-theme .social-login-title:before,
-            body.dark-theme .social-login-title:after {
-                background-color: #3d3d3d;
-            }
-        </style>
-        
         <!-- শেষ স্ক্রিপ্ট এর আগে -->
         <!-- ব্লার ওভারলে -->
         <div class="blur-overlay"></div>
@@ -12033,60 +12027,7 @@
         
         
         
-        </head>
-        
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</head>
 
 
 
@@ -12129,7 +12070,7 @@
             font-size: 16px;
         }
         
-        .container {
+        .container18 {
             max-width: 1200px;
             margin: 0 auto;
             padding: 25px;
@@ -12446,21 +12387,15 @@
             cursor: pointer;
             transition: all 0.3s;
             border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
         }
         
         .video-item:hover {
             background-color: rgba(94, 53, 177, 0.05);
             transform: translateX(5px);
-        }
-        
-        .video-item.locked {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .video-item.locked:hover {
-            transform: none;
-            background-color: transparent;
+            text-decoration: none;
+            color: inherit;
         }
         
         .video-icon {
@@ -12480,11 +12415,6 @@
             background: rgba(94, 53, 177, 0.1);
             padding: 3px 8px;
             border-radius: 4px;
-        }
-        
-        .video-lock {
-            color: #999;
-            margin-left: 12px;
         }
         
         .video-free {
@@ -12530,21 +12460,15 @@
             cursor: pointer;
             transition: all 0.3s;
             border-radius: 8px;
+            text-decoration: none;
+            color: inherit;
         }
         
         .note-item:hover {
             background-color: rgba(94, 53, 177, 0.05);
             transform: translateX(5px);
-        }
-        
-        .note-item.locked {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .note-item.locked:hover {
-            transform: none;
-            background-color: transparent;
+            text-decoration: none;
+            color: inherit;
         }
         
         .note-icon {
@@ -12556,11 +12480,6 @@
         .note-title {
             flex: 1;
             font-weight: 500;
-        }
-        
-        .note-lock {
-            color: #999;
-            margin-left: 12px;
         }
         
         .note-free {
@@ -12669,21 +12588,23 @@
             font-size: 15px;
         }
         
-        .review-form {
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .course-pricing {
             background: white;
             border-radius: var(--border-radius);
             padding: 25px;
-            margin-top: 25px;
+            margin-bottom: 25px;
             box-shadow: var(--card-shadow);
             position: relative;
             overflow: hidden;
+            text-align: center;    
         }
         
-        .review-form.hidden {
-            display: none;
-        }
-        
-        .review-form::before {
+        .course-pricing::before {
             content: '';
             position: absolute;
             top: 0;
@@ -12693,142 +12614,69 @@
             background: var(--gradient-bg);
         }
         
-        .review-form h3 {
+        .price {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 20px;
+        }
+        
+        .current-price {
+            font-size: 32px;
+            font-weight: bold;
             color: var(--primary-color);
-            font-size: 22px;
         }
         
-        .rating-select {
-            margin-bottom: 20px;
+        .original-price {
+            font-size: 20px;
+            text-decoration: line-through;
+            color: #999;
+            margin-left: 12px;
         }
         
-        .rating-select select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid rgba(94, 53, 177, 0.2);
-            border-radius: 8px;
-            font-family: inherit;
-        }
-        
-        .review-textarea {
-            width: 100%;
-            height: 120px;
-            padding: 15px;
-            border: 1px solid rgba(94, 53, 177, 0.2);
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-family: inherit;
-            resize: vertical;
-            transition: all 0.3s;
-        }
-        
-        .review-textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.1);
-        }
-        
-        .submit-review {
+        .buy-btn {
             background: var(--gradient-bg);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
+            padding: 14px;
+            width: 100%;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: 500;
             transition: all 0.3s;
             box-shadow: 0 4px 10px rgba(94, 53, 177, 0.3);
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: block;
+            text-align: center;
         }
         
-        .submit-review:hover {
+        .buy-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(94, 53, 177, 0.5);
         }
         
-        .purchase-note {
-            font-size: 13px;
-            color: #666;
-            margin-top: 15px;
-            font-style: italic;
-            background: rgba(0, 0, 0, 0.03);
-            padding: 8px;
-            border-radius: 4px;
+        .course-stats {
+            margin-top: 20px;
         }
         
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-        }
-        
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 25px;
-            border-radius: var(--border-radius);
-            width: 80%;
-            max-width: 800px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
-        
-        .close-modal {
-            color: var(--primary-color);
-            float: right;
-            font-size: 32px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: 40px;
-            height: 40px;
+        .stat-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            border-radius: 50%;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(94, 53, 177, 0.2);
         }
         
-        .close-modal:hover {
-            background: rgba(94, 53, 177, 0.1);
-            transform: rotate(90deg);
+        .stat-item:last-child {
+            border-bottom: none;
         }
         
-        .modal-title {
-            margin-bottom: 25px;
+        .stat-icon {
             color: var(--primary-color);
-            font-size: 26px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(94, 53, 177, 0.2);
-        }
-        
-        .modal-pdf {
-            width: 100%;
-            height: 70vh;
-            border: none;
-            border-radius: 8px;
-        }
-        
-        .modal-video {
-            width: 100%;
-            max-height: 70vh;
-            border-radius: 8px;
-        }
-        
-        .locked-message {
-            text-align: center;
-            color: #666;
-            font-style: italic;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
-            margin: 20px 0;
+            margin-right: 12px;
+            font-size: 18px;
         }
         
         @media (max-width: 768px) {
@@ -12872,17 +12720,8 @@
                 font-size: 14px;
             }
             
-            .modal-content {
-                width: 95%;
-                margin: 10% auto;
-            }
-            
-            .modal-pdf, .modal-video {
-                height: 60vh;
-            }
-            
             header h1 {
-                font-size: 28px;
+                font-size: 18px;
             }
             
             .content-title {
@@ -12892,19 +12731,142 @@
             .current-price {
                 font-size: 28px;
             }
-        }
-    </style>
 
-    <div class="container">
+            .container18 {
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 20px;
+            padding: 10px;
+        }
+        }
+
+
+
+        .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content1 {
+    position: relative;
+    margin: 5% auto;
+    width: 90%;
+    max-width: 800px;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-header {
+    background: var(--gradient-bg);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 0;
+}
+
+.video-player {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+}
+
+.video-info {
+    padding: 20px;
+    background: white;
+}
+
+.video-description {
+    color: #666;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .modal-content1 {
+        margin: 10% auto;
+        width: 95%;
+    }
+    
+    .modal-header {
+        padding: 15px;
+    }
+    
+    .modal-title1 {
+        font-size: 18px;
+    }
+    
+    .video-info {
+        padding: 15px;
+    }
+
+    .instructor-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 4px 10px rgba(94, 53, 177, 0.3);
+        }
+}
+    </style> 
+    <div class="container18">
         <header>
-            <h1>প্রাকটিকাল ইবারত শিক্ষা</h1>
+            <h1>প্রাথমিক থেকে পূর্ণাঙ্গ কুরআন শিক্ষা কোর্স</h1>
         </header>
         
         <div class="tab-container">
-            <div class="tab active" onclick="openTab('details')">বিস্তারিত পড়ুন</div>
-            <div class="tab" onclick="openTab('video')">ভিডিও</div>
-            <div class="tab" onclick="openTab('notes')">নোট</div>
-            <div class="tab" onclick="openTab('reviews')">কোর্স রিভিউ</div>
+            <div class="tab active" data-tab="details">বিস্তারিত পড়ুন</div>
+            <div class="tab" data-tab="video">ভিডিও</div>
+            <div class="tab" data-tab="notes">নোট</div>
+            <div class="tab" data-tab="reviews">কোর্স রিভিউ</div>
         </div>
         
         <div class="course-details">
@@ -12914,85 +12876,201 @@
                         <div class="course-instructor">
                             <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="মাওলানা মুনতাহা আহমদ" class="instructor-image">
                             <div class="instructor-details">
-                                <h3>মাওলানা মুনতাহা আহমদ</h3>
-                                <p>ইবারত বিশেষজ্ঞ, আল-আজহার বিশ্ববিদ্যালয়</p>
+                                <h3>মুফতি ইউসুফ কাসেমী</h3>
+                                <p>প্রাথমিক থেকে পূর্ণাঙ্গ কুরআন শিক্ষা কোর্স</p>
                                 <p class="experience">১৫+ বছরের শিক্ষকতা অভিজ্ঞতা</p>
                             </div>
                         </div>
                         <h2 class="content-title">কোর্স সম্পর্কে জানুন</h2>
                         <p class="content-text">
-                            অনেক শিক্ষক আরবি ইবারত পড়তে পারেন কিন্তু শিক্ষার্থীদের কাছে সহজভাবে বুঝিয়ে বলতে পারেন না। আবার অনেকে বই থেকে পড়ে শোনান কিন্তু ব্যাখ্যা-বিশ্লেষণ করতে পারেন না। এই সমস্যার সমাধানের জন্যই আমাদের এই কোর্স।
+                            আমাদের প্রাথমিক থেকে পূর্ণাঙ্গ কুরআন শিক্ষা কোর্স এমনভাবে তৈরি করা হয়েছে, যাতে একজন শিক্ষার্থী ধাপে ধাপে কুরআন শিক্ষা শুরু করে সহজভাবে শেষ করতে পারে। এটি বিশেষভাবে প্রস্তুতকৃত একটি প্রোগ্রাম, যা শুরু থেকে শেষ পর্যন্ত কুরআনের শিক্ষার সকল দিক আচ্ছাদিত করে।
                         </p>
                         <p class="content-text hidden-content" id="more-content">
-                            এই কোর্সের মাধ্যমে আপনি শিখবেন কীভাবে যেকোনো আরবি ইবারত সহজে পড়তে ও বুঝতে হয়। শুধু তাই নয়, অন্যদেরও শেখাতে পারবেন। নাহু-সরফের মৌলিক নিয়মকানুন থেকে শুরু করে উন্নত পর্যায়ের ইবারত বিশ্লেষণ পর্যন্ত সবকিছুই রয়েছে এই কোর্সে। ইনশাআল্লাহ এই কোর্স শেষে আপনি একজন দক্ষ ইবারত শিক্ষক হতে পারবেন।
+                            🟢 কোর্সের প্রধান বৈশিষ্ট্যসমূহ: <br>
+                            ✅ প্রাথমিক পর্যায়:<br>
+                            আরবি হরফ শিখানো<br>
+                            সহিহ উচ্চারণ (তাজবিদ)<br>
+                            হরকত ও বুনিয়াদি কায়দা<br>
+                            ✅ মধ্যম পর্যায়:<br>
+                            সহজ সূরা মুখস্থ করা<br>
+                            অর্থ বুঝে পড়া<br>
+                            নাজেরা কুরআন পাঠ (সহজে শুদ্ধভাবে)<br>
+                            ✅ পূর্ণাঙ্গ/উচ্চতর পর্যায়:<br>
+                            পুরো কুরআন শুদ্ধভাবে পাঠ<br>
+                            তাজবিদের গভীরতা<br>
+                            মৌলিক ফিকহি বিধান ও ইসলামিক মূল্যবোধ<br>
+                            কুরআনের ব্যাখ্যা ও তাৎপর্য (তাফসিরের প্রাথমিক ধারণা)<br>
+                            🟢 কোর্সের বিশেষ সুবিধা:<br>
+                            🌿 সরাসরি অভিজ্ঞ শিক্ষকের তত্ত্বাবধান<br>
+                            🌿 ভিডিও লেকচার/ক্লাস<br>
+                            🌿 সরাসরি প্রশ্নোত্তর সেশন<br>
+                            🌿 প্রতিটি ধাপের পরপর ছোট ছোট অ্যাসাইনমেন্ট<br>
+                            🌿 সময় উপযোগী ফ্লেক্সিবল শিডিউল<br>
+                            🌿 প্রশ্নের উত্তর/ব্যক্তিগত সহায়তা<br>
+                            🟢 কারা উপকৃত হবেন?<br>
+                            🎯 নতুন শিক্ষার্থী (যারা কুরআন শেখা শুরু করছেন)<br>
+                            🎯 বাচ্চা, কিশোর ও প্রাপ্তবয়স্ক<br>
+                            🎯 যারা পুরো কুরআন পড়তে চান শুদ্ধভাবে<br>
+                            🎯 যারা ইসলামী জীবনমুখী শিক্ষা চাচ্ছেন<br>
+                            🟢 আমাদের লক্ষ্য:<br>
+                            👉 সহজ ও সাবলীল কুরআন শিক্ষা<br>
+                            👉 প্রতিটি শিক্ষার্থী যেন নিজের গতি অনুযায়ী শিখতে পারে<br>
+                            👉 ইসলামিক মূল্যবোধ এবং আধ্যাত্মিক উন্নয়ন নিশ্চিত করা<br>
                         </p>
-                        <span class="read-more" onclick="toggleContent()">আরো পড়ুন</span>
+                        <span class="read-more" id="read-more-btn">আরো পড়ুন</span>
                     </div>
                 </div>
                 
                 <div id="video" class="tab-content">
                     <div class="content-box">
-                        <h2 class="content-title">কোর্সের ভিডিও সমূহ</h2>
+                        <h2 class="content-title">কোর্সের ভিডিও</h2>
                         <div class="video-container">
-                            <div class="video-item" onclick="openVideoModal('lesson-1')">
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/jZu9uEF20Hc?si=ak0cg9vn2CHwsOH3', 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">১. ইবারত শিক্ষার গুরুত্ব ও প্রয়োজনীয়তা</div>
-                                <div class="video-duration">৪৫ মিনিট</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১</div>
+                                <div class="video-duration">৩৩ মিনিট</div>
                                 <div class="video-free">ফ্রি</div>
                             </div>
-                            <div class="video-item locked" onclick="showLockedMessage()">
+
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/1g2eEMHcvjI?si=9yU2uZJxh1fbmZtm', 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">২. আরবি বর্ণমালা ও উচ্চারণ</div>
-                                <div class="video-duration">৫৫ মিনিট</div>
-                                <div class="video-lock">🔒</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-২</div>
+                                <div class="video-duration">১৫ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
                             </div>
-                            <div class="video-item locked" onclick="showLockedMessage()">
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/Kdr1ZxpuYSI?si=E7QXWYZG5JfGbhZG', 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৩. নাহু (ব্যাকরণ) এর মৌলিক ধারণা</div>
-                                <div class="video-duration">১ ঘন্টা</div>
-                                <div class="video-lock">🔒</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-৩</div>
+                                <div class="video-duration">১৮ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
                             </div>
-                            <div class="video-item locked" onclick="showLockedMessage()">
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/7OSN6KnpbKs?si=NM5wpY0IIWbIftaX' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৪. সরফ (শব্দতত্ত্ব) এর মৌলিক ধারণা</div>
-                                <div class="video-duration">১ ঘন্টা ১৫ মিনিট</div>
-                                <div class="video-lock">🔒</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-৪</div>
+                                <div class="video-duration">১৮ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
                             </div>
-                            <div class="video-item locked" onclick="showLockedMessage()">
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/RVCw2n2_OuM?si=5yygTMEvIloCHbgy' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৫. বাক্য গঠন ও বিশ্লেষণ</div>
-                                <div class="video-duration">৫০ মিনিট</div>
-                                <div class="video-lock">🔒</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-৫</div>
+                                <div class="video-duration">১৫ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
                             </div>
-                            <div class="video-item locked" onclick="showLockedMessage()">
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/fy6qPH-LJM8?si=6rvb29ZSlhOsBzVO' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৬. ইবারত পড়ার কৌশল</div>
-                                <div class="video-duration">৪০ মিনিট</div>
-                                <div class="video-lock">🔒</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-৬</div>
+                                <div class="video-duration">১৬ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
                             </div>
-                            <div class="video-item locked" onclick="showLockedMessage()">
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/Or-ytZGzAD4?si=X-zl3FBQENta4DJX' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৭. ইবারত অনুবাদের নিয়মকানুন</div>
-                                <div class="video-duration">১ ঘন্টা ১০ মিনিট</div>
-                                <div class="video-lock">🔒</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-৭</div>
+                                <div class="video-duration">১১ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
                             </div>
-                            <div class="video-item locked" onclick="showLockedMessage()">
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/zBati2-acHc?si=H4vWgSz1dIi42JR1' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৮. কুরআনের ইবারত বিশ্লেষণ</div>
-                                <div class="video-duration">১ ঘন্টা ২০ মিনিট</div>
-                                <div class="video-lock">🔒</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-৮</div>
+                                <div class="video-duration">১৬ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
                             </div>
-                            <div class="video-item locked" onclick="showLockedMessage()">
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/dXET3sNqtNo?si=_A2gJb3RQpBmzpNx' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">৯. হাদিসের ইবারত বিশ্লেষণ</div>
-                                <div class="video-duration">১ ঘন্টা ৩০ মিনিট</div>
-                                <div class="video-lock">🔒</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-৯</div>
+                                <div class="video-duration">১৬ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
                             </div>
-                            <div class="video-item locked" onclick="showLockedMessage()">
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/lG3Flyg5NKE?si=fKwFdicWVXSS_yRl' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
                                 <div class="video-icon">▶️</div>
-                                <div class="video-title">১০. ইবারত শিক্ষার প্রায়োগিক কৌশল</div>
-                                <div class="video-duration">৫৫ মিনিট</div>
-                                <div class="video-lock">🔒</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১০</div>
+                                <div class="video-duration">১৪ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/-ZkHcLbBFTE?si=WI0zOVjAzzVECEsC' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১১</div>
+                                <div class="video-duration">১৮ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/1BZy98phW2g?si=bfpwSdEjsr7R5fc7' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১২</div>
+                                <div class="video-duration">১৩ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/AqsRX0mnbA4?si=xMORjapt0rGoJvKL' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১৩</div>
+                                <div class="video-duration">১৯ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/L_712kcGQwY?si=zs0riWuPoM8zEOtC' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১৪</div>
+                                <div class="video-duration">১৯ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/VeCXFjVhxFE?si=Um14PKrGP9RE3Vi3' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১৫</div>
+                                <div class="video-duration">১৩ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/MPGfeKrz30A?si=Ch5q03MJjVVjsjcr' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১৬</div>
+                                <div class="video-duration">১৪ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/WCLdotQK1cA?si=n8F7_45dS-aJ5U6w' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১৭</div>
+                                <div class="video-duration">২১ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/xLNb7QdLIj0?si=a20ZfRfm8fzM4tky' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১৮</div>
+                                <div class="video-duration">১৭ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/oXMX9BdaC_c?si=ozDfoGj1aH9VLVS9' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-১৯</div>
+                                <div class="video-duration">১৬ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/vQGUSBsh5rw?si=_trCS4pdJkHkOHlf' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-২০</div>
+                                <div class="video-duration">১৬ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
+                            </div>
+
+                            <div class="video-item" onclick="openVideoModal('https://youtu.be/gnpLaxCu6NE?si=xMADmc0m8xhvvmrq' , 'সহজ কুরআন শিখুন।', 'এই ভিডিওতে সহজ কুরআন শিক্ষা সম্পর্কে বিস্তারিত আলোচনা করা হয়েছে।')">
+                                <div class="video-icon">▶️</div>
+                                <div class="video-title">কোরআন শিক্ষা পার্ট-২১</div>
+                                <div class="video-duration">১৩ মিনিট</div>
+                                <div class="video-free">ফ্রি</div>
                             </div>
                         </div>
                     </div>
@@ -13000,48 +13078,18 @@
                 
                 <div id="notes" class="tab-content">
                     <div class="content-box">
-                        <h2 class="content-title">কোর্সের নোট সমূহ</h2>
+                        <h2 class="content-title">কোর্সের নোট</h2>
                         <div class="notes-container">
-                            <div class="note-item" onclick="openNoteModal('note-1')">
+                            <a href="pdf/Invoice-1229656.pdf" target="_blank" class="note-item">
                                 <div class="note-icon">📄</div>
-                                <div class="note-title">১. ইবারত শিক্ষার মৌলিক ধারণা</div>
+                                <div class="note-title">ইবারত শিক্ষার মৌলিক ধারণা</div>
                                 <div class="note-free">ফ্রি</div>
-                            </div>
-                            <div class="note-item locked" onclick="showLockedMessage()">
+                            </a>
+                            <a href="https://drive.google.com/file/d/1abcdefghijk/view" target="_blank" class="note-item">
                                 <div class="note-icon">📄</div>
-                                <div class="note-title">২. আরবি ব্যাকরণের মূল নিয়মাবলী</div>
-                                <div class="note-lock">🔒</div>
-                            </div>
-                            <div class="note-item locked" onclick="showLockedMessage()">
-                                <div class="note-icon">📄</div>
-                                <div class="note-title">৩. নাহু শিক্ষার ধাপসমূহ</div>
-                                <div class="note-lock">🔒</div>
-                            </div>
-                            <div class="note-item locked" onclick="showLockedMessage()">
-                                <div class="note-icon">📄</div>
-                                <div class="note-title">৪. সরফ শিক্ষার ধাপসমূহ</div>
-                                <div class="note-lock">🔒</div>
-                            </div>
-                            <div class="note-item locked" onclick="showLockedMessage()">
-                                <div class="note-icon">📄</div>
-                                <div class="note-title">৫. ইবারত বিশ্লেষণের কৌশল</div>
-                                <div class="note-lock">🔒</div>
-                            </div>
-                            <div class="note-item locked" onclick="showLockedMessage()">
-                                <div class="note-icon">📄</div>
-                                <div class="note-title">৬. অনুবাদের নীতিমালা</div>
-                                <div class="note-lock">🔒</div>
-                            </div>
-                            <div class="note-item locked" onclick="showLockedMessage()">
-                                <div class="note-icon">📄</div>
-                                <div class="note-title">৭. কুরআনি ইবারতের বৈশিষ্ট্য</div>
-                                <div class="note-lock">🔒</div>
-                            </div>
-                            <div class="note-item locked" onclick="showLockedMessage()">
-                                <div class="note-icon">📄</div>
-                                <div class="note-title">৮. হাদিসি ইবারতের বৈশিষ্ট্য</div>
-                                <div class="note-lock">🔒</div>
-                            </div>
+                                <div class="note-title">নাহু-সরফের মূলনীতি</div>
+                                <div class="note-free">ফ্রি</div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -13058,7 +13106,7 @@
                                 <div class="review-date">২০ দিন আগে</div>
                             </div>
                             <div class="review-text">
-                                অসাধারণ কোর্স! মাওলানা মুনতাহা আহমদ সাহেবের শিক্ষা পদ্ধতি অত্যন্ত কার্যকর। আমি এখন আরবি ইবারত সহজেই পড়তে ও বুঝতে পারি। আল্লাহ তাঁর উত্তম প্রতিদান দিন।
+                                অসাধারণ কোর্স! মুফতি ইউসুফ কাসেমী সাহেবের শিক্ষা পদ্ধতি অত্যন্ত কার্যকর। আমি এখন সহজেই কুরআন তেলওয়াত করতে পারি। আল্লাহ তাঁর উত্তম প্রতিদান দিন।
                             </div>
                         </div>
                         
@@ -13066,13 +13114,13 @@
                             <div class="review-header">
                                 <div class="reviewer-avatar">ম</div>
                                 <div>
-                                    <div class="reviewer-name">মুহাম্মদ কাসেম</div>
+                                    <div class="reviewer-name">মুহাম্মাদ আলী</div>
                                     <div class="star-rating">⭐⭐⭐⭐⭐</div>
                                 </div>
                                 <div class="review-date">১৫ দিন আগে</div>
                             </div>
                             <div class="review-text">
-                                দীর্ঘদিন ধরে আরবি ইবারত নিয়ে সমস্যায় ছিলাম। এই কোর্সটি আমার সমস্যার সমাধান করে দিয়েছে। প্রতিটি লেসন অত্যন্ত সুন্দরভাবে সাজানো।
+                                খুবই উপকারী কোর্স। বিশেষ করে নাহু-সরফের প্র্যাকটিকাল শিক্ষার জন্য এটি অনন্য। আমি একজন মাদরাসা শিক্ষক হিসেবে এই কোর্স থেকে অনেক কিছু শিখেছি।
                             </div>
                         </div>
                         
@@ -13080,847 +13128,185 @@
                             <div class="review-header">
                                 <div class="reviewer-avatar">ফ</div>
                                 <div>
-                                    <div class="reviewer-name">ফাতিমা খাতুন</div>
+                                    <div class="reviewer-name">ফাতেমা খাতুন</div>
                                     <div class="star-rating">⭐⭐⭐⭐⭐</div>
                                 </div>
                                 <div class="review-date">১০ দিন আগে</div>
                             </div>
                             <div class="review-text">
-                                মা হিসেবে আমি আমার সন্তানদের আরবি শেখাতে চাইছিলাম। এই কোর্সটি আমাকে সেই যোগ্যতা দিয়েছে। খুবই উপকারী কোর্স।
+                                এই কোর্সের মাধ্যমে আরবি ভাষার প্রতি আমার ভয় দূর হয়েছে। এখন আমি নিজেই কুরআন-হাদিসের ইবারত বুঝতে পারি। জাযাকাল্লাহু খাইরান।
                             </div>
-                        </div>
-                        
-                        <div class="review">
-                            <div class="review-header">
-                                <div class="reviewer-avatar">আ</div>
-                                <div>
-                                    <div class="reviewer-name">আব্দুল্লাহ আল মামুন</div>
-                                    <div class="star-rating">⭐⭐⭐⭐⭐</div>
-                                </div>
-                                <div class="review-date">৫ দিন আগে</div>
-                            </div>
-                            <div class="review-text">
-                                মাদরাসার শিক্ষক হিসেবে এই কোর্সটি আমার শিক্ষকতার মান অনেক বৃদ্ধি করেছে। ছাত্রদের কাছে এখন আরো সহজভাবে বিষয়টি উপস্থাপন করতে পারি।
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="review-form hidden" id="reviewForm">
-                        <h3>আপনার রিভিউ লিখুন</h3>
-                        <div class="rating-select">
-                            <select id="rating">
-                                <option value="">রেটিং নির্বাচন করুন</option>
-                                <option value="5">⭐⭐⭐⭐⭐ (৫ স্টার)</option>
-                                <option value="4">⭐⭐⭐⭐ (৪ স্টার)</option>
-                                <option value="3">⭐⭐⭐ (৩ স্টার)</option>
-                                <option value="2">⭐⭐ (২ স্টার)</option>
-                                <option value="1">⭐ (১ স্টার)</option>
-                            </select>
-                        </div>
-                        <textarea class="review-textarea" id="reviewText" placeholder="আপনার অভিজ্ঞতা লিখুন..."></textarea>
-                        <button class="submit-review" onclick="submitReview()">রিভিউ জমা দিন</button>
-                        <div class="purchase-note">
-                            * কোর্স ক্রয়ের পর রিভিউ লেখার সুবিধা পাবেন
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="sidebar">
-                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=250&fit=crop" alt="কোর্স ইমেজ" class="course-image">
-                
-                <div class="course-pricing">
-                    <div class="price">
-                        <span class="current-price">৳ ১,৫০০</span>
-                        <span class="original-price">৳ ৩,০০০</span>
-                    </div>
-                    <a href="#" class="buy-btn" onclick="purchaseCourse()">এখনই কিনুন</a>
-                    <div class="course-stats">
-                        <div class="stat-item">
-                            <span class="stat-icon">👥</span>
-                            <span>১২,৫০০+ শিক্ষার্থী</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-icon">📺</span>
-                            <span>১০টি ভিডিও লেসন</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-icon">⏱️</span>
-                            <span>মোট ৮ ঘন্টা</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-icon">📄</span>
-                            <span>৮টি পিডিএফ নোট</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-icon">🏆</span>
-                            <span>সার্টিফিকেট</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-icon">♾️</span>
-                            <span>আজীবন এক্সেস</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="content-box">
-                    <h2 class="content-title">কোর্সে যা শিখবেন</h2>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
-                            <span style="position: absolute; left: 0; color: var(--secondary-color);">✓</span>
-                            আরবি ইবারত সঠিকভাবে পড়ার কৌশল
-                        </li>
-                        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
-                            <span style="position: absolute; left: 0; color: var(--secondary-color);">✓</span>
-                            ইবারত বিশ্লেষণ ও অনুবাদের নিয়মাবলী
-                        </li>
-                        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
-                            <span style="position: absolute; left: 0; color: var(--secondary-color);">✓</span>
-                            নাহু-সরফের প্রয়োগিক ব্যবহার
-                        </li>
-                        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
-                            <span style="position: absolute; left: 0; color: var(--secondary-color);">✓</span>
-                            কুরআন-হাদিসের ইবারত বুঝার কৌশল
-                        </li>
-                        <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
-                            <span style="position: absolute; left: 0; color: var(--secondary-color);">✓</span>
-                            শিক্ষকতার দক্ষতা বৃদ্ধি
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal for Videos -->
-    <div id="videoModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
-            <h2 class="modal-title" id="videoTitle">ভিডিও লেসন</h2>
-            <div id="videoContent">
-                <video class="modal-video" controls>
-                    <source src="" type="video/mp4">
-                    আপনার ব্রাউজার ভিডিও সাপোর্ট করে না।
-                </video>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal for Notes -->
-    <div id="noteModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('noteModal')">&times;</span>
-            <h2 class="modal-title" id="noteTitle">নোট</h2>
-            <div id="noteContent">
-                <iframe class="modal-pdf" src=""></iframe>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal for Locked Content -->
-    <div id="lockedModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('lockedModal')">&times;</span>
-            <h2 class="modal-title">সীমিত কন্টেন্ট</h2>
-            <div class="locked-message">
-                <p>এই কন্টেন্টটি দেখতে হলে আপনাকে কোর্সটি ক্রয় করতে হবে।</p>
-                <br>
-                <button class="buy-btn" onclick="purchaseCourse()" style="display: inline-block; padding: 12px 25px; margin-top: 15px;">এখনই কিনুন</button>
-            </div>
-        </div>
-    </div>
+          
 
-    <script>
-        // Tab functionality
-        function openTab(tabName) {
-            var i, tabcontent, tabs;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
-            }
-            tabs = document.getElementsByClassName("tab");
-            for (i = 0; i < tabs.length; i++) {
-                tabs[i].classList.remove("active");
-            }
-            document.getElementById(tabName).classList.add("active");
-            event.target.classList.add("active");
-        }
-
-        // Toggle content functionality
-        function toggleContent() {
-            var content = document.getElementById('more-content');
-            var button = document.querySelector('.read-more');
-            
-            if (content.classList.contains('hidden-content')) {
-                content.classList.remove('hidden-content');
-                content.style.display = 'block';
-                button.textContent = 'কম পড়ুন';
-            } else {
-                content.classList.add('hidden-content');
-                content.style.display = 'none';
-                button.textContent = 'আরো পড়ুন';
-            }
-        }
-
-        // Video modal functionality
-        function openVideoModal(videoId) {
-            if (videoId === 'lesson-1') {
-                document.getElementById('videoTitle').textContent = 'ইবারত শিক্ষার গুরুত্ব ও প্রয়োজনীয়তা';
-                document.getElementById('videoContent').innerHTML = `
-                    <video class="modal-video" controls autoplay>
-                        <source src="videos/video.mp4" type="video/mp4">
-                        আপনার ব্রাউজার ভিডিও সাপোর্ট করে না।
-                    </video>
-                `;
-                document.getElementById('videoModal').style.display = 'block';
-            }
-        }
-// Note modal functionality         
-function openNoteModal(noteId) {             
-    if (noteId === 'note-1') {                 
-        document.getElementById('noteTitle').textContent = 'ইবারত শিক্ষার মৌলিক ধারণা';                 
-        document.getElementById('noteContent').innerHTML = `                     
-            <div style="padding: 20px; background: white; border-radius: 8px;">                         
-                <h3 style="color: var(--primary-color); margin-bottom: 15px;">ইবারত শিক্ষার মৌলিক ধারণা</h3>                         
-                <p style="line-height: 1.8; margin-bottom: 15px;">                             
-                    আরবি ভাষায় 'ইবারত' শব্দের অর্থ হলো বাক্য বা বক্তব্য। ইসলামী শিক্ষায় ইবারত বলতে বোঝায়                              
-                    কুরআন, হাদিস বা অন্যান্য আরবি গ্রন্থের বাক্যাংশ যা বিশ্লেষণ ও ব্যাখ্যার মাধ্যমে বুঝতে হয়।                         
-                </p>                         
-                <h4 style="color: var(--primary-color); margin: 20px 0 10px 0;">ইবারত শিক্ষার গুরুত্ব:</h4>                         
-                <ul style="margin-left: 20px; line-height: 1.8;">                             
-                    <li>কুরআন-হাদিস বুঝার জন্য অপরিহার্য</li>                             
-                    <li>ইসলামী জ্ঞান অর্জনের মূল চাবিকাঠি</li>                             
-                    <li>আরবি ভাষার গভীর জ্ঞান লাভ</li>                             
-                    <li>ধর্মীয় শিক্ষকতার জন্য প্রয়োজনীয়</li>                         
-                </ul>
-                
-                <!-- PDF লিংক সেকশন -->
-                <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid var(--primary-color);">
-                    <h4 style="color: var(--primary-color); margin: 0 0 15px 0; display: flex; align-items: center;">
-                        <svg width="20" height="20" style="margin-right: 8px;" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                        </svg>
-                        সংশ্লিষ্ট PDF ফাইল
-                    </h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-                        <a href="path/to/ibarot-basics.pdf" 
-                           target="_blank" 
-                           download="ইবারত-শিক্ষার-মৌলিক-ধারণা.pdf"
-                           style="display: inline-flex; align-items: center; padding: 10px 15px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 5px; font-size: 14px; transition: background-color 0.3s;">
-                            <svg width="16" height="16" style="margin-right: 6px;" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
-                            </svg>
-                            ডাউনলোড করুন
-                        </a>
-                        
-                        <a href="path/to/ibarot-basics.pdf" 
-                           target="_blank"
-                           style="display: inline-flex; align-items: center; padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; font-size: 14px; transition: background-color 0.3s;">
-                            <svg width="16" height="16" style="margin-right: 6px;" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M14,3V7H18L12,13L6,7H10V3H14M6,19H18V21H6V19Z"/>
-                            </svg>
-                            অনলাইনে দেখুন
-                        </a>
-                    </div>
-                    <p style="margin: 10px 0 0 0; font-size: 12px; color: #666;">
-                        ফাইল সাইজ: ২.৫ MB | পৃষ্ঠা: ২৮ | ভাষা: বাংলা ও আরবি
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content1">
+            <div class="modal-header">
+                <h3 class="modal-title1" id="modalTitle">ভিডিও প্লেয়ার</h3>
+                <button class="close-btn" onclick="closeVideoModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe class="video-player" id="videoPlayer" src="" frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+                <div class="video-info">
+                    <p class="video-description" id="videoDescription">
+                        এই ভিডিওতে কুরআন শেখার বিষয়ে আলোচনা করা হয়েছে।
                     </p>
                 </div>
-            </div>                 
-        `;                 
-        document.getElementById('noteModal').style.display = 'block';             
-    }         
-}
-
-// অতিরিক্ত নোটের জন্য উদাহরণ
-function openNoteModal(noteId) {
-    const noteData = {
-        'note-1': {
-            title: 'ইবারত শিক্ষার মৌলিক ধারণা',
-            content: `
-                <!-- উপরের কন্টেন্ট -->
-            `,
-            pdfLinks: [
-                {
-                    url: '/Talimul Islam Frontend/pdf/Invoice-1229656.pdf',
-                    filename: 'ইবারত-শিক্ষার-মৌলিক-ধারণা.pdf',
-                    size: '২.৫ MB',
-                    pages: '২৮'
-                }
-            ]
-        },
-        'note-2': {
-            title: 'আরবি ব্যাকরণ মূলনীতি',
-            content: `<!-- অন্য কন্টেন্ট -->`,
-            pdfLinks: [
-                {
-                    url: 'path/to/arabic-grammar.pdf',
-                    filename: 'আরবি-ব্যাকরণ-মূলনীতি.pdf',
-                    size: '৩.২ MB',
-                    pages: '৪৫'
-                },
-                {
-                    url: 'path/to/grammar-exercises.pdf',
-                    filename: 'ব্যাকরণ-অনুশীলনী.pdf',
-                    size: '১.৮ MB',
-                    pages: '২০'
-                }
-            ]
-        }
-    };
-
-    if (noteData[noteId]) {
-        const note = noteData[noteId];
-        document.getElementById('noteTitle').textContent = note.title;
-        
-        // PDF লিংক HTML তৈরি করা
-        let pdfLinksHtml = '';
-        if (note.pdfLinks && note.pdfLinks.length > 0) {
-            pdfLinksHtml = `
-                <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 6px; border-left: 4px solid var(--primary-color);">
-                    <h4 style="color: var(--primary-color); margin: 0 0 15px 0; display: flex; align-items: center;">
-                        <svg width="20" height="20" style="margin-right: 8px;" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-                        </svg>
-                        সংশ্লিষ্ট PDF ফাইল${note.pdfLinks.length > 1 ? 'সমূহ' : ''}
-                    </h4>
-                    ${note.pdfLinks.map(pdf => `
-                        <div style="margin-bottom: 15px; padding: 12px; background: white; border-radius: 5px; border: 1px solid #e0e0e0;">
-                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
-                                <a href="${pdf.url}" 
-                                   target="_blank" 
-                                   download="${pdf.filename}"
-                                   style="display: inline-flex; align-items: center; padding: 8px 12px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 4px; font-size: 13px;">
-                                    <svg width="14" height="14" style="margin-right: 5px;" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
-                                    </svg>
-                                    ডাউনলোড
-                                </a>
-                                
-                                <a href="${pdf.url}" 
-                                   target="_blank"
-                                   style="display: inline-flex; align-items: center; padding: 8px 12px; background: #28a745; color: white; text-decoration: none; border-radius: 4px; font-size: 13px;">
-                                    <svg width="14" height="14" style="margin-right: 5px;" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"/>
-                                    </svg>
-                                    দেখুন
-                                </a>
-                            </div>
-                            <p style="margin: 0; font-size: 11px; color: #666;">
-                                ফাইল সাইজ: ${pdf.size} | পৃষ্ঠা: ${pdf.pages} | ভাষা: বাংলা ও আরবি
-                            </p>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-        
-        document.getElementById('noteContent').innerHTML = note.content + pdfLinksHtml;
-        document.getElementById('noteModal').style.display = 'block';
-    }
-}
-        // Show locked message
-        function showLockedMessage() {
-            document.getElementById('lockedModal').style.display = 'block';
-        }
-
-        // Close modal
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            var modals = document.getElementsByClassName('modal');
-            for (var i = 0; i < modals.length; i++) {
-                if (event.target == modals[i]) {
-                    modals[i].style.display = 'none';
-                }
-            }
-        }
-
-        // Purchase course
-        function purchaseCourse() {
-            alert('কোর্স ক্রয়ের জন্য যোগাযোগ করুন: +8801XXXXXXXXX বা email@example.com');
-        }
-
-        // Submit review
-        function submitReview() {
-            var rating = document.getElementById('rating').value;
-            var reviewText = document.getElementById('reviewText').value;
-            
-            if (!rating || !reviewText.trim()) {
-                alert('অনুগ্রহ করে রেটিং এবং রিভিউ টেক্সট পূরণ করুন।');
-                return;
-            }
-            
-            alert('আপনার রিভিউটি সফলভাবে জমা দেওয়া হয়েছে। ধন্যবাদ!');
-            document.getElementById('rating').value = '';
-            document.getElementById('reviewText').value = '';
-        }
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add some interactive effects
-            const cards = document.querySelectorAll('.content-box, .course-pricing');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px)';
-                });
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
-    </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ফুটার সেকশন -->
-<footer class="footer">
-    <div class="footer-gradient"></div>
-    <div class="container5">
-        <div class="footer-content">
-            <!-- লোগো এবং সংক্ষিপ্ত বিবরণ -->
-            <div class="footer-about">
-                <h2 class="footer-logo"><img src="img/talimul islam academy logo.png" alt="img" max-width="100px" width="150px" ></h2>
-                <p class="footer-about-text">আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা এবং আরবি ভাষা শেখার জন্য আমাদের কোর্সগুলোতে আপনাকে স্বাগতম।</p>
-                <div class="social-icons">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>                    
-                </div>
-            </div>
-            
-            <!-- দ্রুত লিংক -->
-            <div class="footer-section">
-                <div class="footer-dropdown">
-                    <h3 class="footer-title">দ্রুত লিংক <span class="toggle-icon">+</span></h3>
-                    <ul class="footer-list">
-                        <li><a href="Talimul Islam Academi.html">হোম</a></li>
-                        <li><a href="About us.html">আমাদের সম্পর্কে</a></li>
-                        <li><a href="#">সকল কোর্স</a></li>
-                        <li><a href="#">শিক্ষকমণ্ডলী</a></li>
-                        <li><a href="#">ক্লাস সময়সূচি</a></li>
-                        <li><a href="Contact.html">যোগাযোগ</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- জনপ্রিয় বিভাগ -->
-            <div class="footer-section">
-                <div class="footer-dropdown">
-                    <h3 class="footer-title">জনপ্রিয় কোর্স <span class="toggle-icon">+</span></h3>
-                    <ul class="footer-list">
-                        <li><a href="#">কোরআন তেলাওয়াত</a></li>
-                        <li><a href="#">হাদিস শিক্ষা</a></li>
-                        <li><a href="#">আরবি ভাষা</a></li>
-                        <li><a href="#">ফিকাহ শিক্ষা</a></li>
-                        <li><a href="#">তাজবিদ</a></li>
-                        <li><a href="#">ইসলামিক ইতিহাস</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- নিউজলেটার -->
-            <div class="footer-section">
-                <div class="footer-dropdown">
-                    <h3 class="footer-title">নিউজলেটার <span class="toggle-icon">+</span></h3>
-                    <div class="footer-list">
-                        <p>নিউজলেটার সাবস্ক্রাইব করুন</p>
-                        <form class="footer-subscribe-form">
-                            <input class="forLanguage" type="email" placeholder="আপনার ইমেইল" required>
-                            <button type="submit">সাবস্ক্রাইব</button>
-                        </form>
-                        <div class="contact-info">
-                            <p>ঠিকানা: আজিমপুর, ঢাকা-১২০৫</p>
-                            <p>ফোন: +৮৮০১৯১১-৫৬৭৮৯০</p>
-                            <p>ইমেইল: billaharif661@gmail.com</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- কপিরাইট সেকশন -->
-        <div class="footer-bottom">
-            <p class="copyright">© ২০২৫ মাদ্রাসা শিক্ষা। সমস্ত অধিকার সংরক্ষিত।</p>
-            <div class="footer-bottom-links">
-                <a href="PrivacyPolicy.html">প্রাইভেসি পলিসি</a>
-                <a href="TermsConditions.html">টার্মস অফ সার্ভিস</a>
-                <a href="RefundReturn.html">কোর্স নীতিমালা</a>
             </div>
         </div>
     </div>
-</footer>
-
-<style>
-    /* ফুটার স্টাইল */
-    .footer {
-        background-color: #222;
-        color: #fff;
-        position: relative;
-        margin-top: 50px;
-        padding-top: 60px;
-    }
-    
-    /* কন্টেইনার স্টাইল */
-    .container5 {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding-left: 15px;
-        padding-right: 15px;
-        box-sizing: border-box;
-    }
-    
-    .footer-gradient {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 5px;
-        background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-    }
-    
-    .footer-content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        /* margin-bottom: 40px; */
-    }
-    
-    .footer-about {
-        flex-basis: 30%;
-        margin-bottom: 20px;
-    }
-    
-    .footer-logo {
-        font-size: 28px;
-        margin-bottom: 15px;
-        font-weight: 700;
-        color: #fff;
-    }
-    
-    .footer-logo span {
-        color: #2575fc;
-    }
-    
-    .footer-about p {
-        color: #bbb;
-        margin-bottom: 20px;
-        line-height: 1.6;
-    }
-    
-    .social-icons {
-        display: flex;
-    }
-    
-    .social-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background-color: #333;
-        color: #fff;
-        margin-right: 10px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-    
-    .social-icon:hover {
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        transform: translateY(-3px);
-    }
-    
-    .footer-section {
-        flex-basis: 15%;
-        margin-bottom: 20px;
-    }
-    
-    .footer-title {
-        font-size: 18px;
-        margin-bottom: 20px;
-        position: relative;
-        padding-bottom: 10px;
-        cursor: pointer;
-    }
-    
-    .footer-title::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 50px;
-        height: 2px;
-        background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-    }
-    
-    .toggle-icon {
-        float: right;
-        transition: transform 0.3s ease;
-    }
-    
-    .footer-list {
-        list-style: none;
-        max-height: 1000px;
-        overflow: hidden;
-        transition: max-height 0.5s ease;
-        padding: 0;
-        margin: 0;
-    }
-    
-    .footer-list li {
-        margin-bottom: 10px;
-    }
-    
-    .footer-list a {
-        color: #bbb;
-        text-decoration: none;
-        transition: color 0.3s ease, transform 0.3s ease;
-        display: block;
-        position: relative;
-        padding-left: 15px;
-    }
-    
-    .footer-list a::before {
-        content: '›';
-        position: absolute;
-        left: 0;
-        color: #2575fc;
-    }
-    
-    .footer-list a:hover {
-        color: #2575fc;
-        transform: translateX(5px);
-    }
-
-
-    .footer-subscribe-form {
-        display: flex;
-        margin-bottom: 20px;
-    }
-    
-    .footer-subscribe-form input {
-        flex-grow: 1;
-        padding: 10px 15px;
-        border: none;
-        background-color: #333;
-        color: #fff;
-        border-radius: 4px 0 0 4px;
-        font-size: 13px;
-    }
-    
-    .footer-subscribe-form button {
-        padding: 5px 8px;
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        color: #fff;
-        border: none;
-        border-radius: 0 4px 4px 0;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    
-    .footer-subscribe-form button:hover {
-        opacity: 0.9;
-    }
-    
-    
-
-
-    
-    .contact-info {
-        color: #bbb;
-        /* margin-top: 20px; */
-    }
-    
-    .contact-info p {
-        margin-bottom: 8px;
-        font-size: 13px;
-    }
-    
-    .footer-bottom {
-        border-top: 1px solid #333;
-        /* padding: 20px 0; */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-    
-    .copyright {
-        color: #999;
-        font-size: 14px;
-        margin: 0;
-    }
-    
-    .footer-bottom-links a {
-        color: #999;
-        text-decoration: none;
-        margin-left: 20px;
-        font-size: 14px;
-        transition: color 0.3s ease;
-    }
-    
-    .footer-bottom-links a:hover {
-        color: #2575fc;
-    }
-    
-    @media (max-width: 768px) {
-        .container5 {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-        
-        .footer {
-            padding-top: 40px;
-        }
-        
-        .footer-content {
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
-        
-        .footer-about, .footer-section {
-            flex-basis: 100%;
-            margin-bottom: 15px;
-        }
-        
-        .footer-logo {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        
-        .footer-about-text {
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        
-        .footer-title {
-            font-size: 16px;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-        }
-        
-        .footer-dropdown.active .toggle-icon {
-            transform: rotate(45deg);
-        }
-        
-        .footer-dropdown .footer-list {
-            max-height: 0;
-            overflow: hidden;
-        }
-        
-        .footer-dropdown.active .footer-list {
-            max-height: 1000px;
-        }
-        
-        .footer-list li {
-            margin-bottom: 8px;
-        }
-        
-        .footer-list a {
-            font-size: 14px;
-        }
-        
-
-        
-        .contact-info {
-            font-size: 14px;
-        }
-        
-        .contact-info p {
-            margin-bottom: 5px;
-        }
-        
-        .footer-bottom {
-            flex-direction: column;
-            text-align: center;
-            padding: 15px 0;
-        }
-        
-        .copyright {
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-        
-        .footer-bottom-links {
-            margin-top: 10px;
-        }
-        
-        .footer-bottom-links a {
-            margin: 0 8px;
-            font-size: 12px;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const footerTitles = document.querySelectorAll('.footer-title');
-        
-        footerTitles.forEach(title => {
-            title.addEventListener('click', function() {
-                // মোবাইল মোডে শুধু ড্রপডাউন কাজ করবে
-                if (window.innerWidth <= 768) {
-                    const parent = this.parentElement;
-                    parent.classList.toggle('active');
-                }
+</div>
+    </div>  
+    <script>
+        // Tab switching functionality
+        function openTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
             });
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        // Read more functionality
+        function toggleContent() {
+            const moreContent = document.getElementById('more-content');
+            const readMoreBtn = document.getElementById('read-more-btn');
+            
+            if (moreContent.style.display === 'none' || moreContent.style.display === '') {
+                moreContent.style.display = 'block';
+                readMoreBtn.textContent = 'কম পড়ুন';
+            } else {
+                moreContent.style.display = 'none';
+                readMoreBtn.textContent = 'আরো পড়ুন';
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event listeners to tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    openTab(tabName);
+                });
+            });
+
+            // Add click event listener to read more button
+            const readMoreBtn = document.getElementById('read-more-btn');
+            if (readMoreBtn) {
+                readMoreBtn.addEventListener('click', toggleContent);
+            }
+
+            // Set initial state for hidden content
+            const moreContent = document.getElementById('more-content');
+            if (moreContent) {
+                moreContent.style.display = 'none';
+            }
         });
-    });
-</script>
+
+        // Function to handle tab switching (alternative method)
+        function openTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+            
+            // Add active class to the tab that has the matching data-tab attribute
+            const activeTab = document.querySelector(`[data-tab="${tabName}"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+        }
 
 
 
 
+        // Video Modal Functions
+function openVideoModal(videoUrl, title, description) {
+    const modal = document.getElementById('videoModal');
+    const player = document.getElementById('videoPlayer');
+    const modalTitle = document.getElementById('modalTitle');
+    const videoDesc = document.getElementById('videoDescription');
+    
+    // Convert YouTube URL to embed format
+    const embedUrl = convertToEmbedUrl(videoUrl);
+    
+    player.src = embedUrl;
+    modalTitle.textContent = title;
+    videoDesc.textContent = description;
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
 
-    </body>
-    </html>
+function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    const player = document.getElementById('videoPlayer');
+    
+    player.src = '';
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+function convertToEmbedUrl(url) {
+    // Extract video ID from YouTube URL
+    const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
+    const match = url.match(regex);
+    
+    if (match && match[1]) {
+        return `https://www.youtube.com/embed/${match[1]}?autoplay=1&rel=0`;
+    }
+    return url;
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('videoModal');
+    if (event.target === modal) {
+        closeVideoModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeVideoModal();
+    }
+});
+    </script> 
+
+
+
+</body>
+</html>
