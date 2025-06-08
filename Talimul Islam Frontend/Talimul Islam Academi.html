@@ -6344,117 +6344,117 @@ async function handleLogout(e) {
     }
 
     // Email Check Form Handler - Optimized
-    document.addEventListener('DOMContentLoaded', function() {
-        const emailCheckForm = document.getElementById('emailCheckForm');
-        if (emailCheckForm) {
-            emailCheckForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const emailCheckForm = document.getElementById('emailCheckForm');
+    //     if (emailCheckForm) {
+    //         emailCheckForm.addEventListener('submit', async function(e) {
+    //             e.preventDefault();
                 
-                // Reset errors efficiently
-                document.querySelectorAll('.error-message').forEach(el => {
-                    el.classList.remove('show-error');
-                });
+    //             // Reset errors efficiently
+    //             document.querySelectorAll('.error-message').forEach(el => {
+    //                 el.classList.remove('show-error');
+    //             });
                 
-                const email = document.getElementById('checkEmail').value.trim();
+    //             const email = document.getElementById('checkEmail').value.trim();
                 
-                // Quick validation
-                if (!email || !validateEmail(email)) {
-                    showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
-                    return;
-                }
+    //             // Quick validation
+    //             if (!email || !validateEmail(email)) {
+    //                 showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+    //                 return;
+    //             }
                 
-                try {
-                    showLoading();
-                    currentEmail = email;
+    //             try {
+    //                 showLoading();
+    //                 currentEmail = email;
                     
-                    const userEmailElement = document.getElementById('userEmail');
-                    if (userEmailElement) {
-                        userEmailElement.textContent = email;
-                    }
+    //                 const userEmailElement = document.getElementById('userEmail');
+    //                 if (userEmailElement) {
+    //                     userEmailElement.textContent = email;
+    //                 }
                     
-                    // Parallel API calls for faster processing
-                    const [checkResponse, otpResponse] = await Promise.allSettled([
-                        optimizedFetch(`${DB_API_URL}/check-email`, {
-                            method: 'POST',
-                            body: JSON.stringify({ email })
-                        }),
-                        optimizedFetch(`${API_URL}/api/send-otp`, {
-                            method: 'POST',
-                            body: JSON.stringify({ email })
-                        })
-                    ]);
+    //                 // Parallel API calls for faster processing
+    //                 const [checkResponse, otpResponse] = await Promise.allSettled([
+    //                     optimizedFetch(`${DB_API_URL}/check-email`, {
+    //                         method: 'POST',
+    //                         body: JSON.stringify({ email })
+    //                     }),
+    //                     optimizedFetch(`${API_URL}/api/send-otp`, {
+    //                         method: 'POST',
+    //                         body: JSON.stringify({ email })
+    //                     })
+    //                 ]);
                     
-                    // Handle email check result
-                    if (checkResponse.status === 'fulfilled') {
-                        const checkData = await checkResponse.value.json();
-                        if (checkData.exists) {
-                            showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
-                            return;
-                        }
-                    }
+    //                 // Handle email check result
+    //                 if (checkResponse.status === 'fulfilled') {
+    //                     const checkData = await checkResponse.value.json();
+    //                     if (checkData.exists) {
+    //                         showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
+    //                         return;
+    //                     }
+    //                 }
                     
-                    // Handle OTP sending result
-                    if (otpResponse.status === 'fulfilled') {
-                        const otpData = await otpResponse.value.json();
-                        if (!otpData.success) {
-                            throw new Error(otpData.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
-                        }
+    //                 // Handle OTP sending result
+    //                 if (otpResponse.status === 'fulfilled') {
+    //                     const otpData = await otpResponse.value.json();
+    //                     if (!otpData.success) {
+    //                         throw new Error(otpData.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+    //                     }
                         
-                        // Clear OTP inputs and start timer
-                        document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
-                        startOTPTimer();
-                        toggleForm('otpVerification');
-                    } else {
-                        throw new Error('OTP পাঠাতে ত্রুটি হয়েছে');
-                    }
+    //                     // Clear OTP inputs and start timer
+    //                     document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+    //                     startOTPTimer();
+    //                     toggleForm('otpVerification');
+    //                 } else {
+    //                     throw new Error('OTP পাঠাতে ত্রুটি হয়েছে');
+    //                 }
                     
-                } catch (error) {
-                    console.error('Error:', error);
-                    showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
-                } finally {
-                    hideLoading();
-                }
-            });
-        }
-    });
+    //             } catch (error) {
+    //                 console.error('Error:', error);
+    //                 showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+    //             } finally {
+    //                 hideLoading();
+    //             }
+    //         });
+    //     }
+    // });
     
     // Resend OTP Handler - Optimized
-    document.addEventListener('DOMContentLoaded', function() {
-        const resendOtpButton = document.getElementById('resendOtp');
-        if (resendOtpButton) {
-            resendOtpButton.addEventListener('click', async function() {
-                if (this.disabled || !currentEmail) return;
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const resendOtpButton = document.getElementById('resendOtp');
+    //     if (resendOtpButton) {
+    //         resendOtpButton.addEventListener('click', async function() {
+    //             if (this.disabled || !currentEmail) return;
                 
-                try {
-                    showLoading();
-                    this.disabled = true;
+    //             try {
+    //                 showLoading();
+    //                 this.disabled = true;
                     
-                    const response = await optimizedFetch(`${API_URL}/api/send-otp`, {
-                        method: 'POST',
-                        body: JSON.stringify({ email: currentEmail })
-                    }, 4000, 1);
+    //                 const response = await optimizedFetch(`${API_URL}/api/send-otp`, {
+    //                     method: 'POST',
+    //                     body: JSON.stringify({ email: currentEmail })
+    //                 }, 4000, 1);
                     
-                    const data = await response.json();
+    //                 const data = await response.json();
                     
-                    if (!data.success) {
-                        throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
-                    }
+    //                 if (!data.success) {
+    //                     throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+    //                 }
                     
-                    // Clear inputs and restart timer
-                    document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
-                    startOTPTimer();
-                    showNotification('নতুন OTP পাঠানো হয়েছে।', 'success');
+    //                 // Clear inputs and restart timer
+    //                 document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+    //                 startOTPTimer();
+    //                 showNotification('নতুন OTP পাঠানো হয়েছে।', 'success');
                     
-                } catch (error) {
-                    console.error('Error:', error);
-                    showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে।', 'error');
-                    this.disabled = false;
-                } finally {
-                    hideLoading();
-                }
-            });
-        }
-    });
+    //             } catch (error) {
+    //                 console.error('Error:', error);
+    //                 showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে।', 'error');
+    //                 this.disabled = false;
+    //             } finally {
+    //                 hideLoading();
+    //             }
+    //         });
+    //     }
+    // });
     
     // // OTP Verification Handler - Optimized
     // document.addEventListener('DOMContentLoaded', function() {
