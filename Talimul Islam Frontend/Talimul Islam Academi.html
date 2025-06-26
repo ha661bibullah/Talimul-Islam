@@ -5880,7 +5880,9 @@ throw error;
                         document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
                         startOTPTimer();
                         toggleForm('otpVerification');
-                    } 
+                    } else {
+                        throw new Error('OTP পাঠাতে ত্রুটি হয়েছে');
+                    }
                     
                 } catch (error) {
                     console.error('Error:', error);
