@@ -5497,12 +5497,12 @@ throw error;
 <!-- এটিকে সংশোধন করা হয়েছে -->
 <script>
     // API URL - সার্ভার URL
-    // const API_URL = 'https://talimul-islam.onrender.com';
-    // const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
+    const API_URL = 'https://talimul-islam.onrender.com';
+    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
                         
-    // let currentEmail = '';
-    // let otpTimer;
-    // let tokenRefreshInterval;
+    let currentEmail = '';
+    let otpTimer;
+    let tokenRefreshInterval;
 
     // অপ্টিমাইজড Timeout - ৫ সেকেন্ড করা হয়েছে ১০ সেকেন্ডের পরিবর্তে
     const fetchWithTimeout = async (url, options, timeout = 5000) => {
