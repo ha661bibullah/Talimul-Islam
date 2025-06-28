@@ -150,8 +150,9 @@
         }
         
         .menu-link:hover {
-            color: #6A35F2;
-        }
+            background-color: #6A35F2;
+            color: white;
+        } 
         
         /* মেনু আইটেম হোভার আন্ডারলাইন */
         .menu-link::after {
@@ -441,12 +442,16 @@
                 height: 100vh;
                 background-color: white;
                 flex-direction: column;
-                padding: 80px 20px 30px;
+                padding: 80px 0px 30px;
                 gap: 5px;
                 box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
                 transition: all 0.3s ease-in-out;
                 z-index: 95;
                 overflow-y: auto;
+            }
+            .menu-items a{
+                padding-left: 20px;
+                padding-right: 20px;
             }
             
             .menu-items.active {
@@ -888,7 +893,7 @@ nav {
             </button>
         </div>
 </div>
-<script>
+<!-- <script>
         let isEnglish = true;
         
         // পতাকার URL গুলো
@@ -978,8 +983,605 @@ nav {
 
         // ভাষা পরিবর্তনের সময় সেভ করুন
         document.getElementById('flagIcon').addEventListener('load', saveLanguagePreference);
-</script>
+</script> -->
+<script>
+    // ভাষা পরিবর্তনের জন্য সম্পূর্ণ JavaScript কোড (উন্নত সংস্করণ)
 
+let isEnglish = false; // ডিফল্ট বাংলা
+let currentLanguage = 'bn';
+
+// ভাষার ডেটা অবজেক্ট - বাংলা কী এবং ইংরেজি ভ্যালু
+const languageData = {
+    // নেভবার মেনু আইটেম
+    'হোম': 'Home',
+    'ব্লগ': 'Blog',
+    'আমাদের সম্পর্কে': 'About Us',
+    'কোর্স': 'Courses',
+    'সকল কোর্স': 'All Courses',
+    'লাইভ কোর্স': 'Live Courses',
+    'বই': 'Books',
+    'শিক্ষক': 'Teachers',
+    'উপদেষ্টা': 'Advisors',
+    'যোগাযোগ': 'Contact',
+    
+    // সার্চ এবং প্লেসহোল্ডার
+    'কোর্স সার্চ করুন...': 'Search courses...',
+    
+    // বাটন এবং লিংক
+    'লগইন': 'Login',
+    'লগআউট': 'Logout',
+    'প্রোফাইল': 'Profile',
+    'আমার কোর্স': 'My Courses',
+    'ফ্রি কোর্স': 'Free Courses',
+    'পেইড কোর্স': 'Paid Courses',
+
+    'লগইন করুন': 'Login',
+    'আপনার একাউন্ট সফলভাবে তৈরি হয়েছে। এখন লগইন করুন।': 'Your account has been created successfully. Please login now.',
+    'ইমেইল': 'Email',
+    'আপনার ইমেইল লিখুন': 'Enter your email',
+    'অনুগ্রহ করে একটি সঠিক ইমেইল প্রদান করুন': 'Please provide a valid email',
+    'পাসওয়ার্ড': 'Password',
+    'আপনার পাসওয়ার্ড লিখুন': 'Enter your password',
+    'দেখুন': 'Show',
+    'পাসওয়ার্ড প্রয়োজন': 'Password required',
+    'একাউন্ট নেই?': 'No account?',
+    'নতুন একাউন্ট খুলুন': 'Create New Account',
+    'এগিয়ে যান': 'Continue',
+    'ইতিমধ্যে একাউন্ট আছে?': 'Already have an account?',
+    'অটিপি যাচাইকরণ': 'OTP Verification',
+    'আপনার ইমেইলে': 'A 4-digit OTP has been sent to your email',
+    '৪ সংখ্যার অটিপি পাঠানো হয়েছে': '',
+    'অটিপি দিন': 'Enter OTP',
+    'অনুগ্রহ করে সঠিক অটিপি দিন': 'Please enter correct OTP',
+    'বাকি সময়:': 'Time remaining:',
+    'পুনরায় অটিপি পাঠান': 'Resend OTP',
+    'যাচাই করুন': 'Verify',
+    'ফিরে যান': 'Go Back',
+    'রেজিস্ট্রেশন সম্পন্ন করুন': 'Complete Registration',
+    'পূর্ণ নাম': 'Full Name',
+    'আপনার পূর্ণ নাম লিখুন': 'Enter your full name',
+    'নাম প্রয়োজন': 'Name required',
+    'একটি শক্তিশালী পাসওয়ার্ড লিখুন': 'Enter a strong password',
+    'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে': 'Password must be at least 6 characters',
+    'পাসওয়ার্ড নিশ্চিত করুন': 'Confirm Password',
+    'পাসওয়ার্ড আবার লিখুন': 'Re-enter password',
+    'পাসওয়ার্ড মিলছে না': 'Passwords do not match',
+    'অভিনন্দন!': 'Congratulations!',
+    'আপনার রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে। এখন আপনি লগইন করতে পারেন।': 'Your registration has been completed successfully. You can now login.',
+    'বুঝেছি': 'Got it',
+    
+    // হিরো সেকশন কনটেন্ট
+    'সর্বাধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষা গ্রহন করুন অনলাইনে': 'Learn Madrasa Education Online with Modern Methods',
+    'তালিমুল ইসলাম একাডেমি — সব ধরনের মাদ্রাসার জন্য একটি সমৃদ্ধ অনলাইন প্ল্যাটফর্ম, যেখানে প্রতিটি জামাতের রেকর্ডেড ও লাইভ ক্লাস পাওয়া যায়।': 'Talimul Islam Academy — A comprehensive online platform for all types of madrasas, where recorded and live classes for every grade are available.',
+    
+    // স্লাইডার কনটেন্ট
+    'কুরআন বুঝলে জীবনের মানে বদলে যায়': 'Understanding the Quran Changes the Meaning of Life',
+    'আপনি হয়তো কুরআন পড়েন, কিন্তু বুঝেন না। আজ থেকে প্রতিটি আয়াত বোঝার চেষ্টা করুন। কারণ, কুরআন শুধু তিলাওয়াতের জন্য নয়, বাঁচার পথ শেখার জন্য।': 'You may read the Quran but don\'t understand it. From today, try to understand every verse. Because the Quran is not just for recitation, but for learning the way to live.',
+    
+    'কুরআন না শিখে বেঁচে থাকা মানে, অন্ধকারে হাঁটা': 'Living Without Learning the Quran Means Walking in Darkness',
+    'যেমন একজন পথিক মানচিত্র ছাড়া পথ হারায়, তেমনই কুরআন ছাড়া মানুষ জীবনের মূল উদ্দেশ্য হারিয়ে ফেলে। কুরআন জানলে আপনি জানবেন—কেন আপনি এই পৃথিবীতে?': 'Just as a traveler loses his way without a map, without the Quran, humans lose the main purpose of life. If you know the Quran, you will know—why are you in this world?',
+    
+    'ইন্টারনেটের মাধ্যমে হোক দীনের আলো ঘরে ঘরে': 'Let the Light of Religion Reach Every Home Through the Internet',
+    'যেখানে আপনি আছেন, সেখান থেকেই শুরু হোক কুরআন শেখার যাত্রা—ঘরে বসেই অনলাইন মাদ্রাসায়।': 'From wherever you are, let the journey of learning the Quran begin—from home in an online madrasa.',
+    
+    'সেজদার এই মুহূর্তেই আল্লাহর নিকট সবচেয়ে কাছাকাছি': 'In This Moment of Prostration, Closest to Allah',
+    'যে মাথা আল্লাহর সামনে ঝুকে যায়, সেই হৃদয় কখনো ভেঙে যায় না।': 'The head that bows before Allah, that heart never breaks.',
+    
+
+
+     // Header Section
+     'আমাদের বিভাগ সমূহ': 'Our Departments',
+    
+    // Card Titles
+    'কওমী মাদ্রাসা': 'Qawmi Madrasa',
+    'আলিয়া মাদ্রাসা': 'Aliya Madrasa', 
+    'মহিলা মাদ্রাসা': 'Women\'s Madrasa',
+    'মক্তব আফটার স্কুল': 'Maktab After School',
+    'নৈশ্য মাদ্রাসা': 'Night Madrasa',
+    'মাদানী নেসাব': 'Madani Curriculum',
+    
+    // Button Text
+    'বিস্তারিত দেখুন': 'View Details',
+    
+    // Card Icons (keeping Bengali initials for design consistency)
+    'ক': 'Q', // for Qawmi
+    'আ': 'A', // for Aliya  
+    'ম': 'W', // for Women's
+    'স': 'M', // for Maktab
+    'ন': 'N', // for Night
+    'দ': 'M',  // for Madani
+
+
+     // Header Section
+     'আপনি কি শিখতে চান?': 'What would you like to learn?',
+    'আপনার পছন্দের বিষয় বেছে নিন': 'Choose your preferred subject',
+    
+    // Course Titles
+    'কুরআন': 'Quran',
+    'হাদিস': 'Hadith', 
+    'ফিকহ': 'Fiqh',
+    'আরবি': 'Arabic',
+    'তাফসির': 'Tafsir',
+    'ইসলামিক স্টাডিজ': 'Islamic Studies',
+    'সিরাত': 'Seerah',
+    'ইতিহাস': 'History',
+    'মাসাইল ও গবেষণা': 'Masail & Research',
+    '১২০':'120',
+    '৮৫': '85',
+    '৬৫': '65',
+    '৪২': '42',
+    '৫৩': '53',
+    '৭৮': '78',
+    '৩৬': '36',
+    '২৯': '29',
+    '৪৭': '47',
+    // Course Label
+    'কোর্স': 'Courses',
+    
+    // Features Section
+    'কুরআন ও তাজবিদ': 'Quran & Tajweed',
+    'বিশ্বস্ত ক্বারিদের তত্ত্বাবধানে শুদ্ধ তাজবিদসহ কুরআন শিখুন সহজে ও সঠিকভাবে।': 'Learn Quran with proper Tajweed easily and correctly under the supervision of trusted Qaris.',
+    
+    'দাওয়াহমুখী প্ল্যাটফর্ম': 'Dawah-Oriented Platform',
+    'দ্বীনের দাওয়াহ ও জ্ঞানের সমন্বয়ে গড়ে উঠুক আপনার সচেতন ঈমানি পরিচয়।': 'Build your conscious Islamic identity through the combination of religious dawah and knowledge.',
+    
+    'তালিমুল ইসলাম একাডেমী': 'Talimul Islam Academy',
+    'বিশুদ্ধ দ্বীনি শিক্ষায় জীবন আলোকিত করতে তালিমুল ইসলাম একাডেমীর কোর্সে ভর্তি হন।': 'Enroll in Talimul Islam Academy courses to illuminate your life with pure religious education.',
+    
+    // Popular Courses Section
+    'জনপ্রিয় কোর্স': 'Popular Courses',
+    
+    'কুরআন তিলাওয়াত': 'Quran Recitation',
+    'সহীহ উচ্চারণে কুরআন পড়া শিখুন': 'Learn to recite Quran with correct pronunciation',
+    
+    'হাদিস অধ্যয়ন': 'Hadith Studies',
+    'রাসূলের সুন্নাহ জানুন ও বুঝুন': 'Know and understand the Sunnah of the Prophet',
+    
+    'ইসলামিক ইতিহাস': 'Islamic History',
+    'ইসলামের গৌরবময় ইতিহাস জানুন': 'Learn the glorious history of Islam',
+    
+    'আরবি ভাষা': 'Arabic Language',
+    'কুরআনের ভাষা শিখুন সহজে': 'Learn the language of Quran easily',
+    
+    // Special Courses Section
+    'বিশেষ কোর্স': 'Special Courses',
+    
+    'তাজভীদ শিক্ষা': 'Tajweed Education',
+    'কুরআন তিলাওয়াতের নিয়মকানুন': 'Rules and regulations of Quran recitation',
+    
+    'ফিকহ শাস্ত্র': 'Fiqh Studies',
+    'ইসলামি জীবনবিধান শিখুন': 'Learn Islamic way of life',
+    
+    'আকীদা বিশ্বাস': 'Aqeedah & Beliefs',
+    'সঠিক ইসলামি বিশ্বাস জানুন': 'Learn correct Islamic beliefs',
+    
+    'দাওয়াত ও তাবলীগ': 'Dawah & Tabligh',
+    'ইসলাম প্রচারের পদ্ধতি শিখুন': 'Learn methods of Islamic propagation',
+    // Header Section
+    'আমাদের কোর্সসমূহ': 'Our Courses',
+    'সর্বাধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষা গ্রহণ করুন অনলাইনে': 'Receive modern madrasa education online with the latest methods',
+    // Level Badges
+    'বেসিক': 'Basic',
+    'মধ্যবর্তী': 'Intermediate',
+    'অ্যাডভান্সড': 'Advanced',
+
+    // Instructor Names
+    'মাওলানা আব্দুল্লাহ': 'Maulana Abdullah',
+    'মাওলানা ইব্রাহিম': 'Maulana Ibrahim',
+    'মাওলানা জাকির': 'Maulana Zakir',
+    'মাওলানা রফিক': 'Maulana Rafiq',
+    'মাওলানা সালেহ': 'Maulana Saleh',
+    'মাওলানা আতিকুল্লাহ': 'Maulana Atiqullah',
+    'মাওলানা হাসান': 'Maulana Hasan',
+
+
+    // Course Titles/Descriptions
+    'বিশুদ্ধ তাজবিদসহ কুরআন শিক্ষার মাধ্যমে আধ্যাত্মিক উন্নতি অর্জন করুন।': 'Achieve spiritual development through learning the Quran with proper Tajweed.',
+    'হাদিসের সঠিক ব্যাখ্যা ও বিশ্লেষণ শিখুন, নবীর (সাঃ) জীবন থেকে শিক্ষা নিন।': 'Learn the correct interpretation and analysis of Hadith, take lessons from the life of the Prophet (SAW).',
+    'ইসলামী আইন ও জীবন বিধান শিখে আপনার দৈনন্দিন জীবনে সঠিক সিদ্ধান্ত নিন।': 'Learn Islamic law and life guidance to make correct decisions in your daily life.',
+    'আরবি ভাষার গভীরে প্রবেশ করুন, কুরআন ও হাদিস বুঝতে পারদর্শী হন।': 'Dive deep into the Arabic language, become proficient in understanding the Quran and Hadith.',
+    'কুরআনের তাফসির শিখে আল্লাহর কালামকে গভীরভাবে বুঝুন এবং জীবনে প্রয়োগ করুন।': 'Learn the interpretation of the Quran to deeply understand the word of Allah and apply it to your life.',
+    'ইসলামী ইতিহাস, সংস্কৃতি ও শাস্ত্রের সঠিক জ্ঞান অর্জন করুন একটি বৈজ্ঞানিক দৃষ্টিভঙ্গি থেকে।': 'Acquire proper knowledge of Islamic history, culture and scriptures from a scientific perspective.',
+    'সঠিক বিশ্বাস ও তাওহিদের মৌলিক শিক্ষা গ্রহণ করে ঈমানকে দৃঢ় করুন।': 'Strengthen your faith by receiving fundamental education on correct belief and Tawheed.',
+    'প্রিয় নবী মুহাম্মাদ (সা.)-এর জীবনচরিত শিখে আদর্শ মুসলিম হিসেবে গড়ে উঠুন।': 'Learn the biography of beloved Prophet Muhammad (SAW) and develop as an ideal Muslim.',
+    'নৈতিকতা ও চরিত্র গঠনের ইসলামী শিক্ষায় নিজের ব্যক্তিত্ব উন্নত করুন।': 'Improve your personality through Islamic education on morality and character building.',
+    'ইসলামের শান্তির বার্তা ছড়িয়ে দিতে দাওয়াহর সঠিক পদ্ধতি ও জ্ঞান অর্জন করুন।': 'Acquire the correct methods and knowledge of dawah to spread the message of peace of Islam.',
+
+    // Course Metadata
+    'অধ্যায়': 'Chapters',
+    'শিক্ষার্থী': 'Students',
+
+    // Action Buttons
+    'কার্টে যোগ করুন': 'Add to Cart',
+    'দেখুন': 'View',
+    'কিনুন': 'Buy',
+    'আরো দেখুন': 'Show More',
+
+    // Other Elements
+    'শিক্ষক': 'Teacher',
+    'হিফজুল কুরআন কোর্স বিস্তারিত': 'Hifzul Quran Course Details',
+    'তাজবীদ কোর্স বিস্তারিত': 'Tajweed Course Details',
+    'আরবি ভাষা কোর্স বিস্তারিত': 'Arabic Language Course Details',
+    'ফিকাহ কোর্স বিস্তারিত': 'Fiqh Course Details',
+    'হাদিস কোর্স বিস্তারিত': 'Hadith Course Details',
+    'সীরাত কোর্স বিস্তারিত': 'Sirat Course Details',
+    'ইসলামিক আখলাক ও আদব কোর্স বিস্তারিত': 'Islamic Ethics and Etiquette Course Details',
+
+    'কেন মাদ্রাসা অনলাইন বেছে নিবেন': 'Why Choose Madrasa Online',
+    'বাংলাদেশ থেকে শুরু, লক্ষ্য বিশ্বজুড়ে ইসলামী শিক্ষা ছড়িয়ে দেওয়া।': 'Starting from Bangladesh, aiming to spread Islamic education worldwide.',
+    'সম্পূর্ণ পাঠ্যক্রম': 'Complete Curriculum',
+    '১ম শ্রেণী থেকে দাওরায়ে হাদীস পর্যন্ত সম্পূর্ণ মাদ্রাসা পাঠ্যক্রমে প্রবেশাধিকার পান।': 'Get access to the complete madrasa curriculum from 1st grade to Dawra-e-Hadith.',
+    'যোগ্য শিক্ষকগণ': 'Qualified Teachers',
+    'অভিজ্ঞ এবং প্রত্যয়িত শিক্ষকদের কাছ থেকে শিখুন যাদের শিক্ষাদান অভিজ্ঞতা বছরের পর বছর।': 'Learn from experienced and certified teachers who have years of teaching experience.',
+    'নমনীয় শিক্ষা': 'Flexible Learning',
+    'আপনার নিজের গতিতে নিজের সময়ে অধ্যয়ন করুন। ক্রয়কৃত কোর্সগুলিতে আজীবন অ্যাক্সেস।': 'Study at your own pace and in your own time. Lifetime access to purchased courses.',
+    'সহায়ক সম্প্রদায়': 'Supportive Community',
+    'আপনার শিক্ষা সম্প্রদায়ে অন্যান্য শিক্ষার্থী এবং শিক্ষকদের সাথে সংযোগ করুন।': 'Connect with other students and teachers in your learning community.',
+    'আমাদের শিক্ষার্থীরা কী বলেন?': 'What Do Our Students Say?',
+    'আহমেদ র.': 'Ahmed R.',
+    'হিফজ কোর্স শিক্ষার্থী': 'Hifz Course Student',
+    'পাঠ্যক্রমটি ব্যাপক এবং সুসংহত। আমি পূর্ণ সময়ের কাজ করার সময় আমার কোরআন শিক্ষা চালিয়ে যেতে পারি। শিক্ষকরা অত্যন্ত জ্ঞানী এবং সহায়ক।': 'The curriculum is comprehensive and well-structured. I can continue my Quran education while working full-time. The teachers are extremely knowledgeable and helpful.',
+    'ফাতিমা হ.': 'Fatima H.',
+    'আরবি ভাষা শিক্ষার্থী': 'Arabic Language Student',
+    'নিয়মিত স্কুলের একজন শিক্ষার্থী হিসাবে, আমি এখন আমার একাডেমিক পড়াশুনার পাশাপাশি দ্বীনও শিখতে পারি। প্লাটফর্মটি ব্যবহার করা খুব সহজ!': 'As a regular school student, I can now learn religion alongside my academic studies. The platform is very easy to use!',
+    'মোহাম্মদ র.': 'Mohammad R.',
+    'দাওরায়ে হাদীস শিক্ষার্থী': 'Dawra-e-Hadith Student',
+    'দাওরা শ্রেণীর পাঠ্যক্রম অসাধারণ। জ্ঞানের গভীরতা এবং শিক্ষার গুণমান এমন যে আমি ভৌত ক্লাসরুমে যে উপকার পেতাম তা আমি এখানে পাচ্ছি।': 'The Dawra class curriculum is excellent. The depth of knowledge and quality of education is such that I am getting the same benefits here that I would get in a physical classroom.',
+    'রাফিয়া আ.': 'Rafia A.',
+    'ফিকাহ কোর্স শিক্ষার্থী': 'Fiqh Course Student',
+    'অনলাইন কোর্সগুলি আমার দ্বীনি শিক্ষার যাত্রায় অপরিহার্য হয়ে উঠেছে। ঘরে বসে এরকম গুণমান সম্পন্ন শিক্ষা পাওয়া অসাধারণ।': 'Online courses have become essential in my religious education journey. Getting such quality education from home is amazing.',
+    'শিক্ষার্থী': 'Students',
+    'শিক্ষক': 'Teachers',
+    'ফ্রি কোর্স': 'Free Courses',
+    'পেইড কোর্স': 'Paid Courses',
+
+
+    'কোর্স কিভাবে কিনবেন?': 'How to Purchase a Course?',
+    'পছন্দের কোর্সে ক্লিক করে "কিনুন" বাটনে চাপ দিন এবং নির্দিষ্ট পেমেন্ট পদ্ধতিতে টাকা পাঠিয়ে রেজিস্ট্রেশন সম্পন্ন করুন। ✅': 'Click on your preferred course and press the "Buy" button, then send money through the specified payment method to complete registration. ✅',
+    'আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা এবং আরবি ভাষা শেখার জন্য আমাদের কোর্সগুলোতে আপনাকে স্বাগতম।': 'Welcome to our courses for learning Islamic education and Arabic language through modern methods.',
+    'দ্রুত লিংক': 'Quick Links',
+    'হোম': 'Home',
+    'আমাদের সম্পর্কে': 'About Us',
+    'সকল কোর্স': 'All Courses',
+    'শিক্ষকমণ্ডলী': 'Faculty',
+    'ক্লাস সময়সূচি': 'Class Schedule',
+    'যোগাযোগ': 'Contact',
+    'জনপ্রিয় কোর্স': 'Popular Courses',
+    'কোরআন তেলাওয়াত': 'Quran Recitation',
+    'হাদিস শিক্ষা': 'Hadith Education',
+    'আরবি ভাষা': 'Arabic Language',
+    'ফিকাহ শিক্ষা': 'Fiqh Education',
+    'তাজবিদ': 'Tajweed',
+    'ইসলামিক ইতিহাস': 'Islamic History',
+    'নিউজলেটার': 'Newsletter',
+    'নিউজলেটার সাবস্ক্রাইব করুন': 'Subscribe to Newsletter',
+    'আপনার ইমেইল': 'Your Email',
+    'সাবস্ক্রাইব': 'Subscribe',
+    'ঠিকানা: আজিমপুর, ঢাকা-১২০৫': 'Address: Azimpur, Dhaka-1205',
+    'ফোন: +৮৮০১৯১১-৫৬৭৮৯০': 'Phone: +8801911-567890',
+    'ইমেইল: billaharif661@gmail.com': 'Email: billaharif661@gmail.com',
+    '© ২০২৫ মাদ্রাসা শিক্ষা। সমস্ত অধিকার সংরক্ষিত।': '© 2025 Madrasa Education. All rights reserved.',
+    'প্রাইভেসি পলিসি': 'Privacy Policy',
+    'টার্মস অফ সার্ভিস': 'Terms of Service',
+    'কোর্স নীতিমালা': 'Course Policy'
+    // ভাষা টগল
+    // 'বাংলা': 'Bengali',
+    // 'English': 'ইংরেজি'
+};
+
+// রিভার্স ডেটা তৈরি করুন (ইংরেজি থেকে বাংলা)
+const reverseLanguageData = {};
+Object.keys(languageData).forEach(bengali => {
+    const english = languageData[bengali];
+    reverseLanguageData[english] = bengali;
+});
+
+// পতাকার URL গুলো
+const flagUrls = {
+    us: {
+        url: 'https://flagcdn.com/w40/us.png',
+        alt: 'US Flag',
+        fallback: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/US.svg'
+    },
+    bd: {
+        url: 'https://flagcdn.com/w40/bd.png',
+        alt: 'BD Flag',
+        fallback: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/BD.svg'
+    }
+};
+
+// স্টোরেজ থেকে ভাষা লোড করুন
+function loadSavedLanguage() {
+    const savedLang = localStorage.getItem('preferredLanguage');
+    const savedIsEnglish = localStorage.getItem('isEnglish');
+    
+    if (savedLang && savedIsEnglish !== null) {
+        currentLanguage = savedLang;
+        isEnglish = savedIsEnglish === 'true';
+        console.log('Loaded language:', currentLanguage, 'isEnglish:', isEnglish);
+    }
+}
+
+// ভাষা পছন্দ সেভ করুন
+function saveLanguagePreference() {
+    localStorage.setItem('preferredLanguage', currentLanguage);
+    localStorage.setItem('isEnglish', isEnglish.toString());
+    console.log('Saved language:', currentLanguage, 'isEnglish:', isEnglish);
+}
+
+// মোবাইল টপ বার ভাষা টগল ফাংশন
+function toggleLanguage() {
+    console.log('toggleLanguage called, current state:', isEnglish);
+    
+    const flagIcon = document.getElementById('flagIcon');
+    const languageText = document.getElementById('languageText');
+    
+    if (!flagIcon || !languageText) {
+        console.warn('Mobile language toggle elements not found');
+        return;
+    }
+    
+    // লোডিং ইফেক্ট
+    flagIcon.classList.add('loading');
+    
+    // ভাষা টগল করুন
+    isEnglish = !isEnglish;
+    currentLanguage = isEnglish ? 'en' : 'bn';
+    
+    // UI আপডেট করুন
+    if (isEnglish) {
+        flagIcon.src = flagUrls.us.url;
+        flagIcon.alt = flagUrls.us.alt;
+        languageText.textContent = 'English';
+    } else {
+        flagIcon.src = flagUrls.bd.url;
+        flagIcon.alt = flagUrls.bd.alt;
+        languageText.textContent = 'বাংলা';
+    }
+    
+    // কনটেন্ট পরিবর্তন করুন
+    changeLanguageContent();
+    
+    // নেভবার টগলও আপডেট করুন
+    updateNavbarLanguageToggle();
+    
+    // সেভ করুন
+    saveLanguagePreference();
+    
+    // লোডিং ইফেক্ট রিমুভ
+    setTimeout(() => {
+        flagIcon.classList.remove('loading');
+    }, 300);
+    
+    console.log('Language toggled to:', currentLanguage);
+}
+
+// নেভবার ভাষা টগল ফাংশন
+function toggleLanguageA() {
+    console.log('toggleLanguageA called, current state:', isEnglish);
+    
+    const flagIcon = document.getElementById('flagIconA');
+    const languageText = document.getElementById('languageTextA');
+    
+    if (!flagIcon || !languageText) {
+        console.warn('Navbar language toggle elements not found');
+        return;
+    }
+    
+    // লোডিং ইফেক্ট
+    flagIcon.classList.add('loading');
+    
+    // ভাষা টগল করুন
+    isEnglish = !isEnglish;
+    currentLanguage = isEnglish ? 'en' : 'bn';
+    
+    // UI আপডেট করুন
+    if (isEnglish) {
+        flagIcon.src = flagUrls.us.url;
+        flagIcon.alt = flagUrls.us.alt;
+        languageText.textContent = 'English';
+    } else {
+        flagIcon.src = flagUrls.bd.url;
+        flagIcon.alt = flagUrls.bd.alt;
+        languageText.textContent = 'বাংলা';
+    }
+    
+    // কনটেন্ট পরিবর্তন করুন
+    changeLanguageContent();
+    
+    // মোবাইল টপ বার টগলও আপডেট করুন
+    updateMobileLanguageToggle();
+    
+    // সেভ করুন
+    saveLanguagePreference();
+    
+    // লোডিং ইফেক্ট রিমুভ
+    setTimeout(() => {
+        flagIcon.classList.remove('loading');
+    }, 300);
+    
+    console.log('Language toggled to:', currentLanguage);
+}
+
+// দুই টগল সিংক করার ফাংশন
+function updateNavbarLanguageToggle() {
+    const flagIcon = document.getElementById('flagIconA');
+    const languageText = document.getElementById('languageTextA');
+    
+    if (flagIcon && languageText) {
+        if (isEnglish) {
+            flagIcon.src = flagUrls.us.url;
+            flagIcon.alt = flagUrls.us.alt;
+            languageText.textContent = 'English';
+        } else {
+            flagIcon.src = flagUrls.bd.url;
+            flagIcon.alt = flagUrls.bd.alt;
+            languageText.textContent = 'বাংলা';
+        }
+    }
+}
+
+function updateMobileLanguageToggle() {
+    const flagIcon = document.getElementById('flagIcon');
+    const languageText = document.getElementById('languageText');
+    
+    if (flagIcon && languageText) {
+        if (isEnglish) {
+            flagIcon.src = flagUrls.us.url;
+            flagIcon.alt = flagUrls.us.alt;
+            languageText.textContent = 'English';
+        } else {
+            flagIcon.src = flagUrls.bd.url;
+            flagIcon.alt = flagUrls.bd.alt;
+            languageText.textContent = 'বাংলা';
+        }
+    }
+}
+
+// মূল ভাষা পরিবর্তন ফাংশন
+function changeLanguageContent() {
+    console.log('Changing content to:', currentLanguage);
+    
+    // সমস্ত এলিমেন্ট খুঁজুন
+    const walker = document.createTreeWalker(
+        document.body,
+        NodeFilter.SHOW_TEXT,
+        null,
+        false
+    );
+    
+    const textNodes = [];
+    let node;
+    while (node = walker.nextNode()) {
+        if (node.textContent.trim()) {
+            textNodes.push(node);
+        }
+    }
+    
+    // টেক্সট নোড আপডেট করুন
+    textNodes.forEach(textNode => {
+        const text = textNode.textContent.trim();
+        if (text) {
+            if (isEnglish) {
+                // বাংলা থেকে ইংরেজি
+                if (languageData[text]) {
+                    textNode.textContent = textNode.textContent.replace(text, languageData[text]);
+                }
+            } else {
+                // ইংরেজি থেকে বাংলা
+                if (reverseLanguageData[text]) {
+                    textNode.textContent = textNode.textContent.replace(text, reverseLanguageData[text]);
+                }
+            }
+        }
+    });
+    
+    // ইনপুট ফিল্ড এবং অ্যাট্রিবিউট আপডেট করুন
+    const inputs = document.querySelectorAll('input[placeholder], textarea[placeholder]');
+    inputs.forEach(input => {
+        if (input.placeholder) {
+            if (isEnglish && languageData[input.placeholder]) {
+                input.placeholder = languageData[input.placeholder];
+            } else if (!isEnglish && reverseLanguageData[input.placeholder]) {
+                input.placeholder = reverseLanguageData[input.placeholder];
+            }
+        }
+    });
+    
+    // টাইটেল এট্রিবিউট আপডেট করুন
+    const elementsWithTitle = document.querySelectorAll('[title]');
+    elementsWithTitle.forEach(element => {
+        if (element.title) {
+            if (isEnglish && languageData[element.title]) {
+                element.title = languageData[element.title];
+            } else if (!isEnglish && reverseLanguageData[element.title]) {
+                element.title = reverseLanguageData[element.title];
+            }
+        }
+    });
+    
+    console.log('Content changed successfully');
+}
+
+// প্রাথমিক UI সেটআপ
+function initializeLanguageUI() {
+    console.log('Initializing UI with language:', currentLanguage);
+    
+    // মোবাইল টপ বার আপডেট
+    updateMobileLanguageToggle();
+    
+    // নেভবার আপডেট
+    updateNavbarLanguageToggle();
+    
+    // যদি ইংরেজি সেট থাকে তাহলে কনটেন্ট পরিবর্তন করুন
+    if (isEnglish) {
+        changeLanguageContent();
+    }
+}
+
+// পতাকা ইমেজ এরর হ্যান্ডলিং
+function handleFlagError(img) {
+    console.warn('Flag image failed to load:', img.src);
+    const currentFlag = isEnglish ? 'us' : 'bd';
+    if (img.src !== flagUrls[currentFlag].fallback) {
+        img.src = flagUrls[currentFlag].fallback;
+    } else {
+        img.style.display = 'none';
+        img.parentElement.innerHTML += `<span style="font-size: 10px;">${img.alt}</span>`;
+    }
+}
+
+function handleFlagErrorA(img) {
+    console.warn('Flag image failed to load:', img.src);
+    const currentFlag = isEnglish ? 'us' : 'bd';
+    if (img.src !== flagUrls[currentFlag].fallback) {
+        img.src = flagUrls[currentFlag].fallback;
+    } else {
+        img.style.display = 'none';
+        img.parentElement.innerHTML += `<span style="font-size: 10px;">${img.alt}</span>`;
+    }
+}
+
+// প্রি-লোড করুন পতাকার ইমেজ গুলো
+function preloadFlags() {
+    Object.values(flagUrls).forEach(flag => {
+        const img = new Image();
+        img.src = flag.url;
+        const fallbackImg = new Image();
+        fallbackImg.src = flag.fallback;
+    });
+}
+
+// পেজ লোড হওয়ার পর ইনিশিয়ালাইজ করুন
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing language system');
+    
+    // সেভ করা ভাষা লোড করুন
+    loadSavedLanguage();
+    
+    // প্রি-লোড ফ্ল্যাগ
+    preloadFlags();
+    
+    // UI ইনিশিয়ালাইজ করুন
+    setTimeout(() => {
+        initializeLanguageUI();
+    }, 100);
+    
+    // কিবোর্ড শর্টকাট (Ctrl+L দিয়ে ভাষা পরিবর্তন)
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'l') {
+            e.preventDefault();
+            toggleLanguage();
+        }
+    });
+});
+
+// এক্সপোর্ট ফাংশন (গ্লোবাল স্কোপে)
+window.toggleLanguage = toggleLanguage;
+window.toggleLanguageA = toggleLanguageA;
+window.handleFlagError = handleFlagError;
+window.handleFlagErrorA = handleFlagErrorA;
+</script>
 
 
 
@@ -1178,126 +1780,7 @@ nav {
     }
 }
     </style>
-<script>
-        let isEnglishA = true;
-        // পতাকার URL গুলো
-        const flagUrlsA = {
-            us: {
-                url: 'https://flagcdn.com/w40/us.png',
-                alt: 'US Flag',
-                fallback: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/US.svg'
-            },
-            bd: {
-                url: 'https://flagcdn.com/w40/bd.png',
-                alt: 'BD Flag',
-                fallback: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/BD.svg'
-            }
-        };
 
-        function toggleLanguageA() {
-            const flagIconA = document.getElementById('flagIconA');
-            const languageTextA = document.getElementById('languageTextA');
-            const languageToggleA = document.querySelector('.language-toggleA');
-            
-            // অ্যানিমেশন যোগ করা
-            languageToggleA.classList.add('animatingA');
-            flagIconA.classList.add('loadingA');
-            
-            setTimeout(() => {
-                if (isEnglishA) {
-                    // বাংলায় পরিবর্তন
-                    flagIconA.src = flagUrlsA.bd.url;
-                    flagIconA.alt = flagUrlsA.bd.alt;
-                    languageTextA.textContent = 'বাংলা';
-                    isEnglishA = false;
-                } else {
-                    // ইংরেজিতে পরিবর্তন
-                    flagIconA.src = flagUrlsA.us.url;
-                    flagIconA.alt = flagUrlsA.us.alt;
-                    languageTextA.textContent = 'English';
-                    isEnglishA = true;
-                }
-                
-                // ভাষা পছন্দ সেভ করুন
-                saveLanguagePreferenceA();
-                
-                // লোডিং ইফেক্ট রিমুভ
-                setTimeout(() => {
-                    flagIconA.classList.remove('loadingA');
-                    languageToggleA.classList.remove('animatingA');
-                }, 300);
-            }, 250);
-        }
-
-        // পতাকা ইমেজ লোড এরর হ্যান্ডলিং
-        function handleFlagErrorA(img) {
-            console.warn('Flag image failed to load:', img.src);
-            
-            // ফলব্যাক URL ব্যবহার করুন
-            const currentFlagA = isEnglishA ? 'us' : 'bd';
-            if (img.src !== flagUrlsA[currentFlagA].fallback) {
-                img.src = flagUrlsA[currentFlagA].fallback;
-            } else {
-                // যদি ফলব্যাক ও ব্যর্থ হয়, তাহলে টেক্সট দেখান
-                img.style.display = 'none';
-                img.parentElement.innerHTML += `<span style="font-size: 10px;">${img.alt}</span>`;
-            }
-        }
-
-        // প্রি-লোড করুন পতাকার ইমেজ গুলো
-        function preloadFlagsA() {
-            Object.values(flagUrlsA).forEach(flag => {
-                const img = new Image();
-                img.src = flag.url;
-                // ফলব্যাক ও প্রি-লোড করুন
-                const fallbackImg = new Image();
-                fallbackImg.src = flag.fallback;
-            });
-        }
-
-        // অ্যাডভান্সড ফিচার: ভাষা পছন্দ সেভ করুন
-        function saveLanguagePreferenceA() {
-            // Note: localStorage is not available in Claude artifacts
-            // This would work in a regular web environment
-            try {
-                localStorage.setItem('preferredLanguageA', isEnglishA ? 'en' : 'bn');
-            } catch(e) {
-                console.log('LocalStorage not available in this environment');
-            }
-        }
-
-        function loadLanguagePreferenceA() {
-            try {
-                const savedA = localStorage.getItem('preferredLanguageA');
-                if (savedA === 'bn' && isEnglishA) {
-                    toggleLanguageA();
-                }
-            } catch(e) {
-                console.log('LocalStorage not available in this environment');
-            }
-        }
-
-        // পেজ লোড হলে সেটআপ
-        document.addEventListener('DOMContentLoaded', function() {
-            preloadFlagsA();
-            loadLanguagePreferenceA();
-            
-            // পতাকা লোড সফল হলে
-            const flagIconElementA = document.getElementById('flagIconA');
-            if (flagIconElementA) {
-                flagIconElementA.addEventListener('load', saveLanguagePreferenceA);
-            }
-        });
-
-                // চেক করুন যদি Font Awesome আগেই লোড আছে
-                if (!document.querySelector('link[href*="font-awesome"]')) {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
-            document.head.appendChild(link);
-            console.log('Font Awesome added to document head');
-        }
-</script> 
 
 
 
@@ -5014,12 +5497,12 @@ throw error;
 <!-- এটিকে সংশোধন করা হয়েছে -->
 <script>
     // API URL - সার্ভার URL
-    const API_URL = 'https://talimul-islam.onrender.com';
-    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
+    // const API_URL = 'https://talimul-islam.onrender.com';
+    // const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
                         
-    let currentEmail = '';
-    let otpTimer;
-    let tokenRefreshInterval;
+    // let currentEmail = '';
+    // let otpTimer;
+    // let tokenRefreshInterval;
 
     // অপ্টিমাইজড Timeout - ৫ সেকেন্ড করা হয়েছে ১০ সেকেন্ডের পরিবর্তে
     const fetchWithTimeout = async (url, options, timeout = 5000) => {
@@ -10178,6 +10661,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+
+
+
+
+
+
 <style>
 .container12 {
     width: 100%;
@@ -10359,7 +10848,7 @@ p {
     }
 }
 .buttons a{
-    padding: 12px 50px;
+    padding: 12px 30px;
 
 }
 
@@ -12172,6 +12661,7 @@ function showDeviceInfo() {
                 grid-template-columns: 1fr 1fr;
                 gap: 40px;
                 margin-bottom: 20px;
+                margin-top: 20px;
             }
     
             .sectionD, .sectionDE {
