@@ -8,7 +8,6 @@
     <meta name="google-site-verification" content="mEIlxIInNpeRDyE-PMUqNjK2hTFb8LUB8jiewuZb-Pg" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <!-- How many people visited? -->
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TJNPXFQ953"></script>
@@ -16,12 +15,8 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-TJNPXFQ953');
 </script>
-
-
-
     <title>তালিমুল ইসলাম একাডেমি - অনলাইন ইসলামিক শিক্ষা প্ল্যাটফর্ম</title>
     <link rel="icon" href="img/favicon-v2.png" type="image/png">
 </head>
@@ -1095,6 +1090,8 @@ const languageData = {
      // Header Section
      'আপনি কি শিখতে চান?': 'What would you like to learn?',
     'আপনার পছন্দের বিষয় বেছে নিন': 'Choose your preferred subject',
+
+    'আরও দেখুন': 'See more',
     
     // Course Titles
     'কুরআন': 'Quran',
@@ -1780,6 +1777,9 @@ window.handleFlagErrorA = handleFlagErrorA;
     }
 }
     </style>
+
+
+
 
 
 
@@ -2687,6 +2687,30 @@ window.handleFlagErrorA = handleFlagErrorA;
 <!-- * - ডার্ক/লাইট মোডের জন্য মুন/সান আইকন টগল -->
 <!-- * - ব্যবহারকারীর থিম পছন্দ লোকালস্টোরেজে সংরক্ষণ করে -->
 <!-- * - পেজ লোডের সময় পূর্বের পছন্দ অনুযায়ী থিম প্রয়োগ হয় -->
+<style>
+    /* Theme Toggle Styles */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color:#6A35F2;
+    transition: color 0.3s ease;
+}
+
+.theme-toggle:hover {
+    color: #6A35F2
+}
+
+/* Icon transition */
+.theme-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle i:hover {
+    transform: rotate(360deg);
+}
+</style>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.querySelector('.theme-toggle');
@@ -2771,32 +2795,32 @@ window.handleFlagErrorA = handleFlagErrorA;
         }
     }
 
-    // Add CSS for dark mode
-    const styleTag = document.createElement('style');
-    styleTag.textContent = `
-        body.dark-mode {
-            background-color: #121212;
-            color: #ffffff;
-        }
+    // // Add CSS for dark mode
+    // const styleTag = document.createElement('style');
+    // styleTag.textContent = `
+    //     body.dark-mode {
+    //         background-color: #121212;
+    //         color: #ffffff;
+    //     }
         
-        .dark-mode-text {
-            color: white !important;
-        }
+    //     .dark-mode-text {
+    //         color: white !important;
+    //     }
         
-        /* Additional dark mode styles */
-        body.dark-mode a {
-            color: #4299e1; /* Soft blue for links */
-        }
+    //     /* Additional dark mode styles */
+    //     body.dark-mode a {
+    //         color: #4299e1; /* Soft blue for links */
+    //     }
         
-        body.dark-mode input, 
-        body.dark-mode textarea, 
-        body.dark-mode select {
-            background-color: #2d2d2d;
-            color: #ffffff;
-            border-color: #444;
-        }
-    `;
-    document.head.appendChild(styleTag);
+    //     body.dark-mode input, 
+    //     body.dark-mode textarea, 
+    //     body.dark-mode select {
+    //         background-color: #2d2d2d;
+    //         color: #ffffff;
+    //         border-color: #444;
+    //     }
+    // `;
+    // document.head.appendChild(styleTag);
 
     // Initial theme setup
     if (savedTheme) {
@@ -2815,7 +2839,7 @@ window.handleFlagErrorA = handleFlagErrorA;
     });
 });
 </script>
-<style>
+<!-- <style>
 /* Dark Mode Styles */
 body.dark-mode {
 background-color: #121212;
@@ -3195,7 +3219,7 @@ body.dark-mode footer .footer-bottom-links a{
 
 
 
-</style>
+</style> -->
 
  <!-- * ১. ডেস্কটপ ও মোবাইল সার্চ ইনপুট পরিচালনা করে (Enter প্রেসে রিডাইরেক্ট করে) -->
  <!-- * ২. মোবাইল ডিভাইসে ফুলস্ক্রিন সার্চ UI চালু ও বন্ধ করা যায় -->
@@ -10645,6 +10669,167 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+<style>
+    /* CSS - আপনার স্টাইল শিটে এই কোডগুলো যোগ করুন */
+
+/* ডার্ক মোড ভেরিয়েবল */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --nav-bg: #2c5f2d;
+  --hero-bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --shadow: rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #ffffff;
+  --nav-bg: linear-gradient(135deg, #1a3a1c 0%, #2d4a2e 100%);
+  --hero-bg: #2a2a2a;
+  --card-bg: #333333;
+  --shadow: rgba(0,0,0,0.3);
+}
+
+/* বডি স্টাইল */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+/* নেভবার ডার্ক মোড */
+nav {
+  background: var(--bg-color);
+  transition: all 0.3s ease;
+}
+
+/* হিরো সেকশন ডার্ক মোড */
+.container12 {
+  background-color: var(--hero-bg);
+  transition: all 0.3s ease;
+}
+
+.hero-section {
+  background-color: var(--hero-bg);
+  transition: all 0.3s ease;
+}
+
+.hero-content h2 {
+  color: var(--text-color);
+}
+
+.hero-content p {
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
+/* স্লাইড কন্টেন্ট ডার্ক মোড */
+.slide-content {
+  background: var(--card-bg);
+  box-shadow: 0 4px 15px var(--shadow);
+  transition: all 0.3s ease;
+}
+
+.slide-content h3,
+.slide-content p {
+  color: var(--text-color);
+}
+
+/* বাটন স্টাইল ডার্ক মোডে */
+[data-theme="dark"] .btn {
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+[data-theme="dark"] .btn-primary {
+  background: linear-gradient(135deg, #4a7c59 0%, #6b8e6b 100%);
+}
+
+[data-theme="dark"] .btn-secondary {
+  background: rgba(255,255,255,0.1);
+  color: #ffffff;
+};
+[data-theme="dark"] .hamburger .line1{
+  background: #ffffff;
+};
+[data-theme="dark"] .hamburger .line2{
+  background: #ffffff;
+};
+[data-theme="dark"] .hamburger .line3{
+  background: #ffffff;
+};
+
+/* থিম টগল বাটন স্টাইল */
+.theme-toggle {
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* স্মুথ ট্রানজিশন সব এলিমেন্টের জন্য */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+</style>
+<script>
+    // JavaScript - আপনার স্ক্রিপ্ট ফাইলে বা <script> ট্যাগে এই কোড যোগ করুন
+
+// ডার্ক মোড টগল ফাংশন
+function toggleDarkMode() {
+    const body = document.body;
+    const themeToggle = document.querySelector('.theme-toggle i');
+    
+    // বর্তমান থিম চেক করুন
+    const currentTheme = body.getAttribute('data-theme');
+    
+    if (currentTheme === 'dark') {
+        // লাইট মোডে পরিবর্তন
+        body.setAttribute('data-theme', 'light');
+        themeToggle.className = 'fas fa-moon';
+        localStorage.setItem('theme', 'light');
+    } else {
+        // ডার্ক মোডে পরিবর্তন
+        body.setAttribute('data-theme', 'dark');
+        themeToggle.className = 'fas fa-sun';
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// পেজ লোড হওয়ার সময় সংরক্ষিত থিম প্রয়োগ করুন
+function loadSavedTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const body = document.body;
+    const themeToggle = document.querySelector('.theme-toggle i');
+    
+    if (savedTheme === 'dark') {
+        body.setAttribute('data-theme', 'dark');
+        themeToggle.className = 'fas fa-sun';
+    } else {
+        body.setAttribute('data-theme', 'light');
+        themeToggle.className = 'fas fa-moon';
+    }
+}
+
+// DOM লোড হওয়ার পর ইভেন্ট লিসেনার যোগ করুন
+document.addEventListener('DOMContentLoaded', function() {
+    // সংরক্ষিত থিম লোড করুন
+    loadSavedTheme();
+    
+    // থিম টগল বাটনে ইভেন্ট লিসেনার যোগ করুন
+    const themeToggleBtn = document.querySelector('.theme-toggle');
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', toggleDarkMode);
+    }
+});
+
+// ব্রাউজার রিফ্রেশের পর থিম বজায় রাখার জন্য
+window.addEventListener('load', function() {
+    loadSavedTheme();
+});
+</script>
+
 
 
 
@@ -11191,7 +11376,7 @@ function showDeviceInfo() {
     
     
 
-
+<!-- আমাদের বিভাগ সমূহ -->
     <style>
         .containeraTA {
             max-width: 1200px;
@@ -11237,6 +11422,7 @@ function showDeviceInfo() {
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            cursor: pointer;
         }
 
         .cardaTA::before {
@@ -15814,6 +16000,58 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 </style>
+
+<style>
+    .show-more-container {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 20px;
+    }
+    
+    .show-more-btn {
+        background: linear-gradient(135deg, #4CAF50, #6A35F2);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 auto;
+    }
+    
+    .show-more-btn:hover {
+        background: linear-gradient(135deg, #45a049, #4CAF50);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+    
+    .show-more-btn:active {
+        transform: translateY(0);
+    }
+    
+    .btn-icon {
+        transition: transform 0.3s ease;
+        font-size: 12px;
+    }
+    
+    .show-more-btn.expanded .btn-icon {
+        transform: rotate(180deg);
+    }
+    
+    .show-more-btn.expanded .btn-text::after {
+        content: " কম";
+    }
+    
+    .show-more-btn:not(.expanded) .btn-text::after {
+        content: "";
+    }
+</style>
 <!-- কুরআন ও তাজবিদ -->
 <style>
     /* Features section styles */
@@ -16049,6 +16287,14 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
     </div>
+<!-- বাটনের HTML কোড -->
+<div class="show-more-container">
+    <button id="showMoreBtn" class="show-more-btn">
+        <span class="btn-text">আরও দেখুন</span>
+        <span class="btn-icon">▼</span>
+    </button>
+</div>
+
 
 
 
@@ -16073,7 +16319,74 @@ document.addEventListener('DOMContentLoaded', function() {
         
 </div>  
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const showMoreBtn = document.getElementById('showMoreBtn');
+    const courseCards = document.querySelectorAll('.course-cardAB');
+    let isExpanded = false;
 
+    // প্রথমে শুধু প্রথম ৩টি কোর্স (কুরআন, হাদিস, ফিকহ) দেখাবো
+    function initializeCourses() {
+        courseCards.forEach((card, index) => {
+            if (index >= 3) {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    // বাটন ক্লিক ইভেন্ট
+    showMoreBtn.addEventListener('click', function() {
+        if (!isExpanded) {
+            // সব কোর্স দেখাও
+            courseCards.forEach((card, index) => {
+                if (index >= 3) {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeIn 0.5s ease-in-out';
+                }
+            });
+            
+            // বাটন টেক্সট এবং আইকন পরিবর্তন
+            showMoreBtn.querySelector('.btn-text').textContent = 'কম দেখুন';
+            showMoreBtn.classList.add('expanded');
+            isExpanded = true;
+            
+        } else {
+            // প্রথম ৩টি ছাড়া বাকি সব লুকাও
+            courseCards.forEach((card, index) => {
+                if (index >= 3) {
+                    card.style.animation = 'fadeOut 0.3s ease-in-out';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+            
+            // বাটন টেক্সট এবং আইকন পরিবর্তন
+            showMoreBtn.querySelector('.btn-text').textContent = 'আরও দেখুন';
+            showMoreBtn.classList.remove('expanded');
+            isExpanded = false;
+        }
+    });
+
+    // প্রাথমিক সেটআপ
+    initializeCourses();
+});
+
+// CSS Animation যোগ করার জন্য (যদি আপনার স্টাইলশিটে না থাকে)
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-20px); }
+    }
+`;
+document.head.appendChild(style);
+</script>
 
 
 
