@@ -6104,7 +6104,7 @@ throw error;
 
 
 <!-- এটির স্পিট ভালো তবে কয়েকটি এরর আছে -->
-    <script>
+    <!-- <script>
         // Optimized fetch with retry mechanism (reusing from first script)
         const optimizedFetch = async (url, options, timeout = 5000, retries = 1) => {
             const controller = new AbortController();
@@ -6641,10 +6641,10 @@ throw error;
                 setTimeout(checkLoginStatus, 50);
             }
         });
-    </script>
+    </script> -->
     
 <!-- এটিকে সংশোধন করা হয়েছে -->
-<!-- <script>
+    <script>
     // Optimized fetch with retry mechanism
     const optimizedFetch = async (url, options, timeout = 5000, retries = 1) => {
         const controller = new AbortController();
@@ -7372,13 +7372,13 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(checkLoginStatus, 50);
         }
     });
-</script> -->
+</script>
 
 <!-- otp পাঠাতে ব্যর্থ হয়েছে তার সমাধান  -->
 
 
 <!-- ”অবৈধ OTP  -->
-<script>
+<!-- <script>
 // OTP Error Message Auto-Hide Script
 // "পুনরায় OTP পাঠান" বাটন সক্রিয় থাকাকালীন "অবৈধ OTP" এরর মেসেজ লুকানোর জন্য
 
@@ -7440,7 +7440,7 @@ function hideOtpErrorIfResendActive() {
 
 // startOTPTimer ফাংশনে এই লাইনটি যোগ করুন (যদি প্রয়োজন হয়)
 // hideOtpErrorIfResendActive();
-</script>
+</script> -->
 
 
 
@@ -11276,6 +11276,9 @@ nav {
 }
 
 /* বাটন স্টাইল ডার্ক মোডে */
+[data-theme="dark"] .container12{
+  background: rgba(255,255,255,0.1);
+}
 [data-theme="dark"] .btn {
   border: 1px solid rgba(255,255,255,0.2);
 }
@@ -11287,16 +11290,16 @@ nav {
 [data-theme="dark"] .btn-secondary {
   background: rgba(255,255,255,0.1);
   color: #ffffff;
-};
+}
 [data-theme="dark"] .hamburger .line1{
   background: #ffffff;
-};
+}
 [data-theme="dark"] .hamburger .line2{
   background: #ffffff;
-};
+}
 [data-theme="dark"] .hamburger .line3{
   background: #ffffff;
-};
+}
 
 /* থিম টগল বাটন স্টাইল */
 .theme-toggle {
