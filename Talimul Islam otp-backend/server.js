@@ -1,3 +1,8 @@
+app.use(cors({
+    origin: '*', // প্রোডাকশনে আপনার ফ্রন্টএন্ড URL দিন
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 // server.js - সার্ভার সেটআপ
 const express = require('express');
 const cors = require('cors');
