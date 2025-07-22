@@ -6283,6 +6283,12 @@ console.log('Profile dropdown script initialized');
 
 <!-- form DeepSeek -->
 <script>
+    fetch(`${DB_API_URL}/send-otp`, {
+  method: "POST",
+  mode: "cors", // ← এখানে
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ email })
+});
     async function sendOTP(email) {
     showLoading();
     try {
