@@ -309,7 +309,10 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
-
+// কিছু বেসিক এরর হ্যান্ডলিং যোগ করুন
+app.use((req, res, next) => {
+    res.status(404).json({ success: false, message: 'এই URL টি খুঁজে পাওয়া যায়নি!' });
+});
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
