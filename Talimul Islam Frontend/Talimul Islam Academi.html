@@ -6283,22 +6283,6 @@ console.log('Profile dropdown script initialized');
 
 <!-- form DeepSeek -->
 <script>
-
-
-    fetch(`${DB_API_URL}/send-otp`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email: "test@example.com" })
-})
-.then(response => {
-  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-  return response.json();
-})
-.then(data => console.log(data))
-.catch(error => console.error("ফেচ এরর:", error)); // ← এরর ডিটেইলস পাবেন
-
-
-
     async function sendOTP(email) {
     showLoading();
     try {
@@ -6310,13 +6294,18 @@ console.log('Profile dropdown script initialized');
             body: JSON.stringify({ email })
         });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         hideLoading();
 
         if (data.success) {
+            showNotification('OTP সফলভাবে পাঠানো হয়েছে!', 'success');
             return true;
         } else {
-            showNotification(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে', 'error');
+            showNotification(data.message || 'OTP পাঠাতে সমস্যা হয়েছে', 'error');
             return false;
         }
     } catch (error) {
