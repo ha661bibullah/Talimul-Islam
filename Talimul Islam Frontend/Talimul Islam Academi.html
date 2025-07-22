@@ -3916,13 +3916,17 @@ animation: spin 1s linear infinite;
         </div>
 </div>
 </div>
-<!-- * ১. "লগইন" বাটনে ক্লিক করলে পপআপ চালু হয় এবং ব্যাকগ্রাউন্ড ব্লার হয়। -->
 
+
+
+
+
+<!-- * ১. "লগইন" বাটনে ক্লিক করলে পপআপ চালু হয় এবং ব্যাকগ্রাউন্ড ব্লার হয়। -->
 <script>
     // API URL - সার্ভার URL
     const API_URL = 'https://talimul-islam.onrender.com';
     const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
-                        
+         
     let currentEmail = '';
     let otpTimer;
     let tokenRefreshInterval;
@@ -4493,8 +4497,6 @@ animation: spin 1s linear infinite;
         });
     });
 </script>
-
-
 
 <!-- এটিকে সংশোধন করা হয়েছে -->
 <script>
@@ -5229,9 +5231,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- ”অবৈধ OTP  -->
   <script>
-// OTP Error Message Auto-Hide Script
 // "পুনরায় OTP পাঠান" বাটন সক্রিয় থাকাকালীন "অবৈধ OTP" এরর মেসেজ লুকানোর জন্য
-
 document.addEventListener('DOMContentLoaded', function() {
     const resendOtpButton = document.getElementById('resendOtp');
     const otpErrorElement = document.getElementById('otpError');
@@ -5287,14 +5287,7 @@ function hideOtpErrorIfResendActive() {
         otpErrorElement.classList.remove('show-error');
     }
 }
-
-// startOTPTimer ফাংশনে এই লাইনটি যোগ করুন (যদি প্রয়োজন হয়)
-// hideOtpErrorIfResendActive();
 </script>
-
-
-
-
 
 <!-- লগআউট অটোভাবে বন্ধ করার কোড  -->
 <script>
@@ -5592,615 +5585,6 @@ console.log(`
 =====================================
 `);
  </script>
-<!-- সংশোধন লডিং কমানোর জন্য -->
-<!-- <script>
-    // API URL - সার্ভার URL
-    const API_URL = 'https://talimul-islam.onrender.com';
-    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com';
-    
-    let currentEmail = '';
-    let otpTimer;
-    let tokenRefreshInterval;
-    
-    // Optimized fetch with timeout and retry mechanism
-    const fetchWithTimeout = async (url, options, timeout = 8000, retries = 2) => {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeout);
-        
-        for (let i = 0; i <= retries; i++) {
-            try {
-                const response = await fetch(url, {
-                    ...options,
-                    signal: controller.signal,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...options.headers
-                    }
-                });
-                clearTimeout(timeoutId);
-                
-                // Check if response is ok
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                return response;
-            } catch (error) {
-                clearTimeout(timeoutId);
-                
-                if (i === retries) {
-                    if (error.name === 'AbortError') {
-                        throw new Error('রিকোয়েস্ট টাইমআউট হয়েছে। ইন্টারনেট সংযোগ চেক করুন।');
-                    }
-                    throw new Error(`সংযোগ সমস্যা: ${error.message}`);
-                }
-                
-                // Wait before retry
-                await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
-            }
-        }
-    };
-    
-    // Optimized form toggle function
-    function toggleForm(formType) {
-        const sections = ['loginSection', 'emailCheckSection', 'otpVerificationSection', 'signupSection'];
-        const forms = ['loginForm', 'emailCheckForm', 'otpVerificationForm', 'signupForm'];
-        
-        // Hide all sections and forms using batch update
-        const elementsToHide = [...sections, ...forms];
-        elementsToHide.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) element.style.display = 'none';
-        });
-        
-        // Show selected form
-        const targetSection = `${formType}Section`;
-        const targetForm = `${formType}Form`;
-        
-        const sectionEl = document.getElementById(targetSection);
-        const formEl = document.getElementById(targetForm);
-        
-        if (sectionEl) sectionEl.style.display = 'block';
-        if (formEl) formEl.style.display = 'block';
-    }
-    
-    // Optimized password visibility toggle
-    function togglePasswordVisibility(inputId, toggleId) {
-        const passwordInput = document.getElementById(inputId);
-        const toggleButton = document.getElementById(toggleId);
-        
-        if (!passwordInput || !toggleButton) return;
-        
-        const isPassword = passwordInput.type === 'password';
-        passwordInput.type = isPassword ? 'text' : 'password';
-        toggleButton.textContent = isPassword ? 'লুকান' : 'দেখুন';
-    }
-    
-    // Optimized OTP timer
-    function startOTPTimer() {
-        let totalSeconds = 120;
-        
-        clearInterval(otpTimer);
-        const resendBtn = document.getElementById('resendOtp');
-        const timerEl = document.getElementById('timer');
-        
-        if (resendBtn) resendBtn.disabled = true;
-        
-        const updateTimer = () => {
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            if (timerEl) timerEl.textContent = timeString;
-        };
-        
-        updateTimer(); // Update immediately
-        
-        otpTimer = setInterval(() => {
-            totalSeconds--;
-            updateTimer();
-            
-            if (totalSeconds <= 0) {
-                clearInterval(otpTimer);
-                if (resendBtn) resendBtn.disabled = false;
-            }
-        }, 1000);
-    }
-    
-    // Optimized loader functions
-    let loaderElement = null;
-    
-    function createLoader() {
-        if (loaderElement) return loaderElement;
-        
-        loaderElement = document.createElement('div');
-        loaderElement.className = 'loader';
-        loaderElement.id = 'pageLoader';
-        loaderElement.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        `;
-        
-        const spinner = document.createElement('div');
-        spinner.className = 'spinner';
-        spinner.style.cssText = `
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        `;
-        
-        loaderElement.appendChild(spinner);
-        document.body.appendChild(loaderElement);
-        
-        return loaderElement;
-    }
-    
-    function showLoading() {
-        const loader = loaderElement || createLoader();
-        loader.style.display = 'flex';
-    }
-    
-    function hideLoading() {
-        if (loaderElement) {
-            loaderElement.style.display = 'none';
-        }
-    }
-    
-    // Optimized error handling
-    function showError(elementId, message) {
-        const errorElement = document.getElementById(elementId);
-        if (errorElement) {
-            errorElement.textContent = message;
-            errorElement.classList.add('show-error');
-        }
-    }
-    
-    function hideError(elementId) {
-        const errorElement = document.getElementById(elementId);
-        if (errorElement) {
-            errorElement.classList.remove('show-error');
-        }
-    }
-    
-    // Cached email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    function validateEmail(email) {
-        return emailRegex.test(email);
-    }
-    
-    // Optimized notification system
-    let currentNotification = null;
-    
-    function showNotification(message, type = 'success') {
-        // Remove existing notification
-        if (currentNotification) {
-            currentNotification.remove();
-            currentNotification = null;
-        }
-        
-        const notification = document.createElement('div');
-        notification.className = `custom-notification ${type}`;
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: ${type === 'success' ? '#4CAF50' : '#f44336'};
-            color: white;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            max-width: 300px;
-            word-wrap: break-word;
-        `;
-        
-        notification.innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <span>${message}</span>
-                <span style="margin-left: 15px; cursor: pointer; font-weight: bold;">&times;</span>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        currentNotification = notification;
-        
-        // Fade in
-        requestAnimationFrame(() => {
-            notification.style.opacity = '1';
-        });
-        
-        // Close button
-        const closeBtn = notification.querySelector('span:last-child');
-        closeBtn.addEventListener('click', () => {
-            notification.style.opacity = '0';
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
-                }
-                if (currentNotification === notification) {
-                    currentNotification = null;
-                }
-            }, 300);
-        });
-        
-        // Auto close
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.style.opacity = '0';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.remove();
-                    }
-                    if (currentNotification === notification) {
-                        currentNotification = null;
-                    }
-                }, 300);
-            }
-        }, 5000);
-    }
-    
-    // Modal functions
-    function openModal() {
-        const modal = document.getElementById('successModal');
-        if (modal) modal.style.display = 'flex';
-    }
-    
-    function closeModal() {
-        const modal = document.getElementById('successModal');
-        if (modal) modal.style.display = 'none';
-        toggleForm('login');
-    }
-    
-    // Optimized token refresh with better error handling
-    async function refreshToken() {
-        try {
-            const token = localStorage.getItem('authToken');
-            if (!token) return false;
-            
-            const response = await fetchWithTimeout(`${DB_API_URL}/refresh-token`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }, 5000, 1); // Lower timeout and retries for refresh
-            
-            const data = await response.json();
-            
-            if (data.success && data.token) {
-                localStorage.setItem('authToken', data.token);
-                if (data.user) {
-                    localStorage.setItem('currentUser', JSON.stringify(data.user));
-                }
-                return true;
-            }
-            return false;
-        } catch (error) {
-            console.error('Token refresh error:', error);
-            return false;
-        }
-    }
-    
-    // Optimized token refresh setup
-    function setupTokenRefresh() {
-        // Clear existing interval
-        if (tokenRefreshInterval) {
-            clearInterval(tokenRefreshInterval);
-        }
-        
-        // Refresh every 15 minutes instead of 10
-        tokenRefreshInterval = setInterval(async () => {
-            const isRefreshed = await refreshToken();
-            if (!isRefreshed) {
-                handleAutoLogout();
-            }
-        }, 15 * 60 * 1000);
-    }
-    
-    // Auto logout handler
-    function handleAutoLogout() {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('currentUser');
-        
-        if (tokenRefreshInterval) {
-            clearInterval(tokenRefreshInterval);
-            tokenRefreshInterval = null;
-        }
-        
-        checkLoginStatus();
-        showNotification('আপনার সেশন শেষ হয়ে গেছে। আবার লগইন করুন।', 'error');
-    }
-    
-    // Optimized login status check
-    async function checkLoginStatus() {
-        const token = localStorage.getItem('authToken');
-        const loginButton = document.getElementById('loginButton');
-        const profileDropdown = document.getElementById('profileDropdown');
-        
-        if (token) {
-            try {
-                // Use faster validation endpoint if available
-                const response = await fetchWithTimeout(`${DB_API_URL}/validate-token`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }, 5000, 1);
-                
-                const data = await response.json();
-                
-                if (data.valid) {
-                    if (loginButton) loginButton.style.display = 'none';
-                    if (profileDropdown) profileDropdown.style.display = 'block';
-                    
-                    if (data.user) {
-                        localStorage.setItem('currentUser', JSON.stringify(data.user));
-                    }
-                    
-                    if (!tokenRefreshInterval) {
-                        setupTokenRefresh();
-                    }
-                    
-                    return true;
-                } else {
-                    const isRefreshed = await refreshToken();
-                    if (isRefreshed) {
-                        return await checkLoginStatus();
-                    } else {
-                        handleAutoLogout();
-                        return false;
-                    }
-                }
-            } catch (error) {
-                console.error('Error validating token:', error);
-                // On network error, try refresh once
-                const isRefreshed = await refreshToken();
-                if (!isRefreshed) {
-                    handleAutoLogout();
-                }
-                return false;
-            }
-        } else {
-            if (loginButton) loginButton.style.display = 'block';
-            if (profileDropdown) profileDropdown.style.display = 'none';
-            
-            if (tokenRefreshInterval) {
-                clearInterval(tokenRefreshInterval);
-                tokenRefreshInterval = null;
-            }
-            
-            return false;
-        }
-    }
-    
-    // Save auth token optimized
-    function saveAuthToken(token, user) {
-        sessionStorage.setItem('authToken', value);
-        sessionStorage.setItem('currentUser', JSON.stringify(data.user));
-        setupTokenRefresh();
-        checkLoginStatus();
-    }
-    
-    // Optimized user activity tracking
-    let userActivityTimer;
-    let isTrackingActivity = false;
-    
-    function resetUserActivity() {
-        if (!isTrackingActivity) return;
-        
-        if (userActivityTimer) {
-            clearTimeout(userActivityTimer);
-        }
-        
-        userActivityTimer = setTimeout(() => {
-            const token = localStorage.getItem('authToken');
-            if (token) {
-                showNotification('আপনি দীর্ঘক্ষণ নিষ্ক্রিয় রয়েছেন। অ্যাক্টিভ থাকার জন্য পেজে ক্লিক করুন।', 'error');
-            }
-        }, 30 * 60 * 1000);
-    }
-    
-    function setupUserActivityTracking() {
-        if (isTrackingActivity) return;
-        
-        const events = ['click', 'keypress', 'scroll', 'touchstart'];
-        const throttledReset = throttle(resetUserActivity, 30000); // Throttle to once per 30 seconds
-        
-        events.forEach(event => {
-            document.addEventListener(event, throttledReset, { passive: true });
-        });
-        
-        isTrackingActivity = true;
-        resetUserActivity();
-    }
-    
-    // Throttle function for performance
-    function throttle(func, delay) {
-        let timeoutId;
-        let lastExecTime = 0;
-        
-        return function (...args) {
-            const currentTime = Date.now();
-            
-            if (currentTime - lastExecTime > delay) {
-                func.apply(this, args);
-                lastExecTime = currentTime;
-            } else {
-                clearTimeout(timeoutId);
-                timeoutId = setTimeout(() => {
-                    func.apply(this, args);
-                    lastExecTime = Date.now();
-                }, delay - (currentTime - lastExecTime));
-            }
-        };
-    }
-    
-    // Optimized DOM content loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize with minimal operations
-        toggleForm('login');
-        
-        // Setup OTP inputs with event delegation
-        const otpContainer = document.querySelector('.otp-inputs');
-        if (otpContainer) {
-            otpContainer.addEventListener('input', function(e) {
-                if (e.target.classList.contains('otp-digit')) {
-                    const inputs = otpContainer.querySelectorAll('.otp-digit');
-                    const currentIndex = Array.from(inputs).indexOf(e.target);
-                    
-                    if (e.target.value.length === 1 && currentIndex < inputs.length - 1) {
-                        inputs[currentIndex + 1].focus();
-                    }
-                }
-            });
-            
-            otpContainer.addEventListener('keydown', function(e) {
-                if (e.target.classList.contains('otp-digit') && e.key === 'Backspace') {
-                    const inputs = otpContainer.querySelectorAll('.otp-digit');
-                    const currentIndex = Array.from(inputs).indexOf(e.target);
-                    
-                    if (e.target.value.length === 0 && currentIndex > 0) {
-                        inputs[currentIndex - 1].focus();
-                    }
-                }
-            });
-        }
-        
-        // Setup password toggles with event delegation
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('toggle-password')) {
-                const inputId = e.target.getAttribute('data-target');
-                const toggleId = e.target.id;
-                togglePasswordVisibility(inputId, toggleId);
-            }
-        });
-        
-        // Setup navigation with event delegation
-        document.addEventListener('click', function(e) {
-            if (e.target.id === 'goToEmailCheck') {
-                toggleForm('emailCheck');
-            } else if (e.target.id === 'goToLogin') {
-                toggleForm('login');
-            } else if (e.target.id === 'closeModal') {
-                closeModal();
-            }
-        });
-        
-        // Setup login popup
-        const loginButton = document.querySelector('.login-button');
-        const loginPopup = document.querySelector('.login-popup');
-        const blurOverlay = document.querySelector('.blur-overlay');
-        const closeLogin = document.querySelector('.close-login');
-        
-        if (loginButton && loginPopup && blurOverlay) {
-            loginButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginPopup.classList.add('active');
-                blurOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-            
-            const closePopup = function() {
-                loginPopup.classList.remove('active');
-                blurOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-            };
-            
-            if (closeLogin) closeLogin.addEventListener('click', closePopup);
-            if (blurOverlay) blurOverlay.addEventListener('click', closePopup);
-        }
-        
-        // Setup logout button
-        const logoutButton = document.getElementById('logoutButton');
-        if (logoutButton) {
-            logoutButton.addEventListener('click', async function(e) {
-                e.preventDefault();
-                
-                try {
-                    const token = localStorage.getItem('authToken');
-                    
-                    if (token) {
-                        // Don't wait for logout API, do it in background
-                        fetchWithTimeout(`${DB_API_URL}/logout`, {
-                            method: 'POST',
-                            headers: {
-                                'Authorization': `Bearer ${token}`
-                            }
-                        }, 3000, 0).catch(() => {}); // Ignore errors
-                    }
-                } catch (error) {
-                    // Ignore logout API errors
-                } finally {
-                    // Immediate cleanup
-                    localStorage.removeItem('authToken');
-                    localStorage.removeItem('currentUser');
-                    
-                    if (tokenRefreshInterval) {
-                        clearInterval(tokenRefreshInterval);
-                        tokenRefreshInterval = null;
-                    }
-                    
-                    if (userActivityTimer) {
-                        clearTimeout(userActivityTimer);
-                    }
-                    
-                    checkLoginStatus();
-                    showNotification('আপনি সফলভাবে লগআউট করেছেন।', 'success');
-                }
-            });
-        }
-        
-        // Defer heavy operations
-        setTimeout(() => {
-            checkLoginStatus();
-            setupUserActivityTracking();
-        }, 100);
-        
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', function() {
-            if (tokenRefreshInterval) clearInterval(tokenRefreshInterval);
-            if (userActivityTimer) clearTimeout(userActivityTimer);
-        });
-        
-        // Check login status when page becomes visible
-        document.addEventListener('visibilitychange', function() {
-            if (!document.hidden) {
-                setTimeout(checkLoginStatus, 100);
-            }
-        });
-        
-        // Add spinner CSS
-        if (!document.getElementById('spinnerStyles')) {
-            const style = document.createElement('style');
-            style.id = 'spinnerStyles';
-            style.textContent = `
-                @keyframes spin {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                }
-                .custom-notification {
-                    font-family: Arial, sans-serif;
-                }
-            `;
-            document.head.appendChild(style);
-        }
-    });
-</script> -->
-
-
-
 
 <!-- সংশোধন লডিং কমানোর জন্য 2-->
 <script>
@@ -6897,7 +6281,36 @@ document.addEventListener('visibilitychange', function() {
 console.log('Profile dropdown script initialized');
 </script>
 
+<!-- form DeepSeek -->
+<script>
+    async function sendOTP(email) {
+    showLoading();
+    try {
+        const response = await fetch(`${DB_API_URL}/send-otp`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email })
+        });
 
+        const data = await response.json();
+        hideLoading();
+
+        if (data.success) {
+            return true;
+        } else {
+            showNotification(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে', 'error');
+            return false;
+        }
+    } catch (error) {
+        hideLoading();
+        showNotification('সার্ভারে সংযোগ সমস্যা। পরে আবার চেষ্টা করুন।', 'error');
+        console.error('Error sending OTP:', error);
+        return false;
+    }
+}
+</script>
 
 
 <!-- CSS স্টাইল - আপনার স্টাইলশিট ফাইলে যোগ করুন -->
