@@ -6575,115 +6575,359 @@ console.log('Profile dropdown script initialized');
 
 
 
-
 <style>
-    /* CSS - আপনার স্টাইল শিটে এই কোডগুলো যোগ করুন */
+    /* Dark Mode Styles */
+    body.dark-theme {
+        background-color: #121212;
+        color: #ffffff !important;
+    }
 
-/* ডার্ক মোড ভেরিয়েবল */
-:root {
-  --bg-color: #ffffff;
-  --text-color: #333333;
-  --nav-bg: #2c5f2d;
-  --hero-bg: #f8f9fa;
-  --card-bg: #ffffff;
-  --shadow: rgba(0,0,0,0.1);
-}
+    body.dark-theme * {
+        color: #ffffff !important;
+    }
 
-[data-theme="dark"] {
-  --bg-color: #1a1a1a;
-  --text-color: #ffffff;
-  --nav-bg: linear-gradient(135deg, #1a3a1c 0%, #2d4a2e 100%);
-  --hero-bg: #2a2a2a;
-  --card-bg: #333333;
-  --shadow: rgba(0,0,0,0.3);
-}
+    /* Navigation Bar */
+    body.dark-theme nav {
+        background-color: #1e1e1e;
+        border-bottom-color: #333;
+    }
 
-/* বডি স্টাইল */
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: all 0.3s ease;
-}
+    body.dark-theme .menu-link {
+        color: #ffffff !important;
+    }
 
-/* নেভবার ডার্ক মোড */
-nav {
-  background: var(--bg-color);
-  transition: all 0.3s ease;
-}
+    body.dark-theme .menu-link:hover {
+        background-color: #6A35F2;
+        color: white !important;
+    }
 
-/* হিরো সেকশন ডার্ক মোড */
-.container12 {
-  /* background-color: var(--hero-bg); */
-  transition: all 0.3s ease;
-}
+    body.dark-theme .dropdown-menu {
+        background-color: #2d2d2d;
+        border-color: #333;
+    }
 
-.hero-section {
-  /* background-color: var(--hero-bg); */
-  transition: all 0.3s ease;
-}
+    body.dark-theme .dropdown-link {
+        color: #ffffff !important;
+    }
 
-.hero-content h2 {
-  color: var(--text-color);
-}
+    body.dark-theme .dropdown-link:hover {
+        background-color: rgba(106, 53, 242, 0.3);
+    }
 
-.hero-content p {
-  color: var(--text-color);
-  opacity: 0.8;
-}
+    /* Search Box */
+    body.dark-theme .search-box0 {
+        background-color: #2d2d2d;
+        border-color: #444;
+        color: #ffffff;
+    }
 
-/* স্লাইড কন্টেন্ট ডার্ক মোড */
-.slide-content {
-  background: var(--card-bg);
-  box-shadow: 0 4px 15px var(--shadow);
-  transition: all 0.3s ease;
-}
+    body.dark-theme .search-input {
+        color: #ffffff !important;
+        background-color: transparent;
+    }
 
-.slide-content h3,
-.slide-content p {
-  color: var(--text-color);
-}
+    body.dark-theme .search-input::placeholder {
+        color: #aaa !important;
+    }
 
-/* বাটন স্টাইল ডার্ক মোডে */
-[data-theme="dark"] .container12{
-  background: rgba(255,255,255,0.1);
-}
+    /* Mobile Top Bar */
+    body.dark-theme .mobile-top-bar {
+        background: linear-gradient(135deg, #4a25b0 0%, #6a3ad3 100%);
+    }
 
-[data-theme="dark"] .btn {
-  border: 1px solid rgba(255,255,255,0.2);
-}
+    /* Buttons */
+    body.dark-theme .login-button {
+        background-color: #6A35F2;
+        color: white;
+    }
 
-[data-theme="dark"] .btn-primary {
-  background: linear-gradient(135deg, #4a7c59 0%, #6b8e6b 100%);
-}
+    body.dark-theme .cart-icon {
+        color: #6A35F2;
+    }
 
-[data-theme="dark"] .btn-secondary {
-  background: rgba(255,255,255,0.1);
-  color: #ffffff;
-}
-[data-theme="dark"] .hamburger .line1{
-  background: #ffffff;
-}
-[data-theme="dark"] .hamburger .line2{
-  background: #ffffff;
-}
-[data-theme="dark"] .hamburger .line3{
-  background: #ffffff;
-}
+    /* Cards and Containers */
+    body.dark-theme .container4 {
+        background-color: #1e1e1e;
+    }
 
-/* থিম টগল বাটন স্টাইল */
-.theme-toggle {
-  transition: all 0.3s ease;
-}
+    /* Text Elements */
+    body.dark-theme h1,
+    body.dark-theme h2,
+    body.dark-theme h3,
+    body.dark-theme h4,
+    body.dark-theme h5,
+    body.dark-theme h6,
+    body.dark-theme p,
+    body.dark-theme span,
+    body.dark-theme a,
+    body.dark-theme li {
+        color: #ffffff !important;
+    }
 
-.theme-toggle:hover {
-  transform: scale(1.1);
-}
+    /* Links */
+    body.dark-theme a {
+        color: #a78bfa !important;
+    }
 
-/* স্মুথ ট্রানজিশন সব এলিমেন্টের জন্য */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
+    body.dark-theme a:hover {
+        color: #8b5cf6 !important;
+    }
+
+    /* Form Elements */
+    body.dark-theme input,
+    body.dark-theme textarea,
+    body.dark-theme select {
+        background-color: #2d2d2d;
+        color: #ffffff !important;
+        border-color: #444;
+    }
+
+    /* Login Popup */
+    body.dark-theme .login-popup {
+        background-color: #1f1f1f;
+    }
+
+    body.dark-theme .login-title {
+        color: #ffffff;
+    }
+
+    /* Overlay */
+    body.dark-theme .overlay {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    /* Language Toggle */
+    body.dark-theme .language-toggleA {
+        background-color: #2d2d2d;
+        border-color: #444;
+        color: #ffffff;
+    }
+
+    /* Ensure all icons remain visible */
+    body.dark-theme .fas,
+    body.dark-theme .far,
+    body.dark-theme .fab {
+        color: inherit !important;
+    }
+
+    /* Specific element overrides */
+    body.dark-theme .phone-info,
+    body.dark-theme .phone-number,
+    body.dark-theme .phone-time {
+        color: #ffffff !important;
+    }
+
+    /* Footer elements */
+    body.dark-theme footer {
+        background-color: #1e1e1e;
+        color: #ffffff !important;
+    }
+
+    /* Course cards and other containers */
+    body.dark-theme .course-card,
+    body.dark-theme .card {
+        background-color: #2d2d2d;
+        border-color: #444;
+    }
+
+    /* Ensure dropdowns are visible */
+    body.dark-theme .dropdown-menu1 {
+        background-color: #2d2d2d;
+        border-color: #444;
+    }
+
+    body.dark-theme .dropdown-item {
+        color: #ffffff !important;
+    }
+
+    /* Make sure the theme toggle icon is visible */
+    body.dark-theme .theme-toggle i {
+        color: #6A35F2 !important;
+    }
 </style>
+<style>
+    /* Dark Mode Styles for Remaining Elements */
+    
+    /* Login Popup */
+    body.dark-theme .login-popup {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+    }
+    
+    body.dark-theme .login-popup .container {
+        background-color: #2d2d2d;
+    }
+    
+    body.dark-theme .login-popup .title {
+        color: #ffffff !important;
+    }
+    
+    body.dark-theme .login-popup input {
+        background-color: #333;
+        color: #ffffff !important;
+        border-color: #444;
+    }
+    
+    body.dark-theme .login-popup .button {
+        background-color: #6A35F2;
+        color: white !important;
+    }
+    
+    body.dark-theme .login-popup .form-footer {
+        color: #aaa !important;
+    }
+    
+    body.dark-theme .login-popup .form-footer a {
+        color: #a78bfa !important;
+    }
+    
+    /* Course Items */
+    body.dark-theme .course-itemD {
+        background-color: #2d2d2d !important;
+        border-color: #444 !important;
+    }
+    
+    body.dark-theme .course-itemD .course-title {
+        color: #ffffff !important;
+    }
+    
+    body.dark-theme .course-itemD .course-meta {
+        color: #aaa !important;
+    }
+    
+    body.dark-theme .course-itemD .course-price {
+        color: #ffffff !important;
+    }
+    
+    /* Add to Cart Button */
+    body.dark-theme .add-to-cart-btn {
+        background-color: #6A35F2 !important;
+        color: white !important;
+        border-color: #6A35F2 !important;
+    }
+    
+    body.dark-theme .add-to-cart-btn:hover {
+        background-color: #7c4dff !important;
+    }
+    
+    /* Course Cards */
+    body.dark-theme .course-cardAB {
+        background-color: #2d2d2d !important;
+        border-color: #444 !important;
+    }
+    
+    body.dark-theme .course-cardAB .course-title {
+        color: #ffffff !important;
+    }
+    
+    body.dark-theme .course-cardAB .course-instructor {
+        color: #aaa !important;
+    }
+    
+    body.dark-theme .course-cardAB .course-meta {
+        color: #aaa !important;
+    }
+    
+    /* Feature Cards */
+    body.dark-theme .feature-card {
+        background-color: #2d2d2d !important;
+        border-color: #444 !important;
+    }
+    
+    body.dark-theme .feature-card .feature-title {
+        color: #ffffff !important;
+    }
+    
+    body.dark-theme .feature-card .feature-description {
+        color: #aaa !important;
+    }
+    
+    body.dark-theme .feature1 {
+        background-color: #1e1e1e !important;
+    }
+    
+    /* Testimonials */
+    body.dark-theme .testimonial {
+        background-color: #2d2d2d !important;
+        border-color: #444 !important;
+    }
+    
+    body.dark-theme .testimonial .testimonial-text {
+        color: #ffffff !important;
+    }
+    
+    body.dark-theme .testimonial .testimonial-author {
+        color: #aaa !important;
+    }
+    
+    body.dark-theme .testimonial .testimonial-role {
+        color: #777 !important;
+    }
+    
+    /* Card Content */
+    body.dark-theme .card-content {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    
+    body.dark-theme .card-content h3,
+    body.dark-theme .card-content p {
+        color: #ffffff !important;
+    }
+    
+    /* Ensure all icons remain visible */
+    body.dark-theme .course-itemD .fas,
+    body.dark-theme .course-itemD .far,
+    body.dark-theme .testimonial .fas {
+        color: #6A35F2 !important;
+    }
+    
+    /* Price and Discount Styling */
+    body.dark-theme .original-price {
+        color: #aaa !important;
+        text-decoration: line-through;
+    }
+    
+    body.dark-theme .current-price {
+        color: #6A35F2 !important;
+        font-weight: bold;
+    }
+    
+    body.dark-theme .discount-percentage {
+        color: #4CAF50 !important;
+    }
+</style>
+<script>
+    // Theme toggle functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.querySelector('.theme-toggle');
+    
+    // Check for saved theme preference or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Set initial theme
+    if (savedTheme === 'dark' || (!savedTheme && prefersDarkMode)) {
+        document.body.classList.add('dark-theme');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+    
+    // Theme toggle event
+    themeToggle.addEventListener('click', function() {
+        if (document.body.classList.contains('dark-theme')) {
+            document.body.classList.remove('dark-theme');
+            localStorage.setItem('theme', 'light');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        } else {
+            document.body.classList.add('dark-theme');
+            localStorage.setItem('theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    });
+});
+</script>
 <script>
     // JavaScript - আপনার স্ক্রিপ্ট ফাইলে বা <script> ট্যাগে এই কোড যোগ করুন
 
@@ -7789,7 +8033,9 @@ function showDeviceInfo() {
             }
     
             .course-itemD {
-                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                /* background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); */
+border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডার */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
                 border-radius: 15px;
                 padding: 20px;
                 position: relative;
