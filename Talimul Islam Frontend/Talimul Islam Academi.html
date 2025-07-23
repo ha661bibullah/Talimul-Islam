@@ -4112,7 +4112,827 @@ animation: spin 1s linear infinite;
 
 
 
+
+
 <script>
+    // API URL - সার্ভার URL
+    const API_URL = 'https://talimul-islam.onrender.com/api';
+    const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com/api';
+         
+    let currentEmail = '';
+    let otpTimer;
+    let tokenRefreshInterval;
+
+    // অপ্টিমাইজড Timeout - ৫ সেকেন্ড করা হয়েছে ১০ সেকেন্ডের পরিবর্তে
+    const fetchWithTimeout = async (url, options, timeout = 5000) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+        try {
+            const response = await fetch(url, {
+                ...options,
+                signal: controller.signal
+            });
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            return response;
+        } catch (error) {
+            clearTimeout(timeoutId);
+            if (error.name === 'AbortError') {
+                throw new Error('রিকোয়েস্ট টাইমআউট হয়েছে');
+            }
+            throw error;
+        }
+    };
+
+    // সাধারণ ফাংশন
+    // Toggle between forms
+    function toggleForm(formType) {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('emailCheckSection').style.display = 'none';
+        document.getElementById('otpVerificationSection').style.display = 'none';
+        document.getElementById('signupSection').style.display = 'none';
+        
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('emailCheckForm').style.display = 'none';
+        document.getElementById('otpVerificationForm').style.display = 'none';
+        document.getElementById('signupForm').style.display = 'none';
+        
+        if (formType === 'login') {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'block';
+        } else if (formType === 'emailCheck') {
+            document.getElementById('emailCheckSection').style.display = 'block';
+            document.getElementById('emailCheckForm').style.display = 'block';
+        } else if (formType === 'otpVerification') {
+            document.getElementById('otpVerificationSection').style.display = 'block';
+            document.getElementById('otpVerificationForm').style.display = 'block';
+        } else if (formType === 'signup') {
+            document.getElementById('signupSection').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'block';
+        }
+    }
+    
+    // Toggle password visibility
+    function togglePasswordVisibility(inputId, toggleId) {
+        const passwordInput = document.getElementById(inputId);
+        const toggleButton = document.getElementById(toggleId);
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleButton.textContent = 'লুকান';
+        } else {
+            passwordInput.type = 'password';
+            toggleButton.textContent = 'দেখুন';
+        }
+    }
+    
+    // Start OTP timer
+    function startOTPTimer() {
+        let totalSeconds = 120; // 2 minutes
+        
+        clearInterval(otpTimer);
+        document.getElementById('resendOtp').disabled = true;
+        
+        // Update timer display immediately
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        document.getElementById('timer').textContent = 
+            (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+            (seconds < 10 ? '0' + seconds : seconds);
+        
+        otpTimer = setInterval(function() {
+            totalSeconds--;
+            
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            
+            document.getElementById('timer').textContent = 
+                (minutes < 10 ? '0' + minutes : minutes) + ':' + 
+                (seconds < 10 ? '0' + seconds : seconds);
+            
+            if (totalSeconds <= 0) {
+                clearInterval(otpTimer);
+                document.getElementById('resendOtp').disabled = false;
+            }
+        }, 1000);
+    }
+    
+    // লোডিং ফাংশন
+    function createLoader() {
+        const loader = document.createElement('div');
+        loader.className = 'loader';
+        loader.id = 'pageLoader';
+        
+        const spinner = document.createElement('div');
+        spinner.className = 'spinner';
+        
+        loader.appendChild(spinner);
+        document.body.appendChild(loader);
+    }
+    
+    function showLoading() {
+        if (!document.getElementById('pageLoader')) {
+            createLoader();
+        }
+        document.getElementById('pageLoader').style.display = 'flex';
+    }
+    
+    function hideLoading() {
+        const loader = document.getElementById('pageLoader');
+        if (loader) {
+            loader.style.display = 'none';
+        }
+    }
+    
+    // Show error with specified message
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.classList.add('show-error');
+        }
+    }
+    
+    // Hide error
+    function hideError(elementId) {
+        const errorElement = document.getElementById(elementId);
+        if (errorElement) {
+            errorElement.classList.remove('show-error');
+        }
+    }
+    
+    // Email validation function
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    // নোটিফিকেশন পপআপ ফাংশন
+    function showNotification(message, type = 'success') {
+        // Remove existing notification
+        const existingNotification = document.getElementById('customNotification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        // Create new notification
+        const notification = document.createElement('div');
+        notification.id = 'customNotification';
+        notification.className = `custom-notification ${type}`;
+        
+        notification.innerHTML = `
+            <div class="notification-content">
+                <span class="notification-message">${message}</span>
+                <span class="notification-close">&times;</span>
+            </div>
+        `;
+        
+        // Notification styles
+        Object.assign(notification.style, {
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            backgroundColor: type === 'success' ? '#4CAF50' : '#f44336',
+            color: 'white',
+            padding: '15px',
+            borderRadius: '5px',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+            zIndex: '9999',
+            transition: 'all 0.3s ease',
+            opacity: '0'
+        });
+        
+        document.body.appendChild(notification);
+        
+        // Fade in effect
+        setTimeout(() => {
+            notification.style.opacity = '1';
+        }, 10);
+        
+        // Close button functionality
+        const closeButton = notification.querySelector('.notification-close');
+        Object.assign(closeButton.style, {
+            marginLeft: '15px',
+            cursor: 'pointer',
+            fontWeight: 'bold'
+        });
+        
+        closeButton.addEventListener('click', function() {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        });
+        
+        // Auto close after 5 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 5000);
+    }
+    
+    // মডাল ফাংশন
+    function openModal() {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+    
+    function closeModal() {
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+        toggleForm('login');
+    }
+    
+    // টোকেন ম্যানেজমেন্ট ফাংশন
+    async function refreshToken() {
+        try {
+            const token = localStorage.getItem('authToken');
+            if (!token) return false;
+            
+            const response = await fetchWithTimeout(`${DB_API_URL}/refresh-token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }, 3000);
+            
+            const data = await response.json();
+            
+            if (data.token) {
+                localStorage.setItem('authToken', data.token);
+                if (data.user) {
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                }
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error('Token refresh error:', error);
+            return false;
+        }
+    }
+    
+    function setupTokenRefresh() {
+        tokenRefreshInterval = setInterval(async () => {
+            const isRefreshed = await refreshToken();
+            if (!isRefreshed) {
+                handleAutoLogout();
+            }
+        }, 15 * 60 * 1000);
+    }
+    
+    function handleAutoLogout() {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('currentUser');
+        
+        if (tokenRefreshInterval) {
+            clearInterval(tokenRefreshInterval);
+        }
+        
+        checkLoginStatus();
+        showNotification('আপনার সেশন শেষ হয়ে গেছে। আবার লগইন করুন।', 'error');
+    }
+    
+    // লগইন স্টেটাস চেক
+    async function checkLoginStatus() {
+        const token = localStorage.getItem('authToken');
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (!loginButton || !profileDropdown) return false;
+        
+        if (token) {
+            try {
+                const response = await fetchWithTimeout(`${DB_API_URL}/validate-token`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }, 2000);
+                
+                const data = await response.json();
+                
+                if (data.valid) {
+                    loginButton.style.display = 'none';
+                    profileDropdown.style.display = 'block';
+                    
+                    if (data.user) {
+                        localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    }
+                    
+                    if (!tokenRefreshInterval) {
+                        setupTokenRefresh();
+                    }
+                    
+                    return true;
+                }
+                handleAutoLogout();
+                return false;
+            } catch (error) {
+                console.error('Error validating token:', error);
+                handleAutoLogout();
+                return false;
+            }
+        } else {
+            loginButton.style.display = 'block';
+            profileDropdown.style.display = 'none';
+            
+            if (tokenRefreshInterval) {
+                clearInterval(tokenRefreshInterval);
+                tokenRefreshInterval = null;
+            }
+            
+            return false;
+        }
+    }
+    
+    function saveAuthToken(token, user) {
+        localStorage.setItem('authToken', token);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        setupTokenRefresh();
+        
+        const loginButton = document.getElementById('loginButton');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        if (loginButton) loginButton.style.display = 'none';
+        if (profileDropdown) profileDropdown.style.display = 'block';
+    }
+    
+    // ইউজার অ্যাক্টিভিটি ট্র্যাকিং
+    let userActivityTimer;
+    
+    function resetUserActivity() {
+        if (userActivityTimer) {
+            clearTimeout(userActivityTimer);
+        }
+        
+        userActivityTimer = setTimeout(() => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                showNotification('আপনি দীর্ঘক্ষণ নিষ্ক্রিয় রয়েছেন। অ্যাক্টিভ থাকার জন্য পেজে ক্লিক করুন।', 'error');
+            }
+        }, 45 * 60 * 1000);
+    }
+    
+    function setupUserActivityTracking() {
+        const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+        
+        events.forEach(event => {
+            document.addEventListener(event, resetUserActivity, true);
+        });
+        
+        resetUserActivity();
+    }
+    
+    // Handle Email Check form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const emailCheckForm = document.getElementById('emailCheckForm');
+        if (emailCheckForm) {
+            emailCheckForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
+                });
+                
+                const email = document.getElementById('checkEmail').value.trim();
+                
+                if (!email || !validateEmail(email)) {
+                    showError('checkEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন');
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    currentEmail = email;
+                    
+                    const userEmailElement = document.getElementById('userEmail');
+                    if (userEmailElement) {
+                        userEmailElement.textContent = email;
+                    }
+                    
+                    const response = await fetchWithTimeout(`${API_URL}/send-otp`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        if (data.message === 'Email already exists') {
+                            showError('checkEmailError', 'এই ইমেইল দিয়ে ইতিমধ্যে একটি একাউন্ট আছে');
+                        } else {
+                            throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                        }
+                        return;
+                    }
+                    
+                    document.querySelectorAll('.otp-digit').forEach(input => {
+                        input.value = '';
+                    });
+                    
+                    startOTPTimer();
+                    toggleForm('otpVerification');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে। পরে আবার চেষ্টা করুন।', 'error');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+    
+    // Handle Resend OTP button
+    document.addEventListener('DOMContentLoaded', function() {
+        const resendOtpButton = document.getElementById('resendOtp');
+        if (resendOtpButton) {
+            resendOtpButton.addEventListener('click', async function() {
+                if (this.disabled || !currentEmail) return;
+                
+                try {
+                    showLoading();
+                    this.disabled = true;
+                    
+                    const response = await fetchWithTimeout(`${API_URL}/send-otp`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email: currentEmail })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'OTP পাঠাতে ত্রুটি হয়েছে');
+                    }
+                    
+                    document.querySelectorAll('.otp-digit').forEach(input => input.value = '');
+                    startOTPTimer();
+                    showNotification('নতুন OTP পাঠানো হয়েছে।', 'success');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification(error.message || 'OTP পাঠাতে ত্রুটি হয়েছে।', 'error');
+                    this.disabled = false;
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+    
+    // Handle OTP Verification form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const otpVerificationForm = document.getElementById('otpVerificationForm');
+        if (otpVerificationForm) {
+            otpVerificationForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                hideError('otpError');
+                
+                const otpInputs = ['otp1', 'otp2', 'otp3', 'otp4'];
+                const enteredOTP = otpInputs.map(id => {
+                    const element = document.getElementById(id);
+                    return element ? element.value : '';
+                }).join('');
+                
+                if (enteredOTP.length !== 4) {
+                    showError('otpError', 'অনুগ্রহ করে সম্পূর্ণ OTP দিন');
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    
+                    const response = await fetchWithTimeout(`${API_URL}/verify-otp`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ 
+                            email: currentEmail,
+                            otp: enteredOTP
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        if (data.message && (
+                            data.message.includes('invalid') || 
+                            data.message.includes('wrong') || 
+                            data.message.includes('incorrect') ||
+                            data.message.includes('OTP') ||
+                            data.message.includes('অবৈধ')
+                        )) {
+                            showError('otpError', 'অবৈধ OTP');
+                        } else {
+                            showError('otpError', data.message || 'অবৈধ OTP');
+                        }
+                        return;
+                    }
+                    
+                    clearInterval(otpTimer);
+                    toggleForm('signup');
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    
+                    if (error.message.includes('টাইমআউট') || error.message.includes('timeout')) {
+                        showError('otpError', 'রিকোয়েস্ট টাইমআউট হয়েছে। আবার চেষ্টা করুন।');
+                    } else if (error.message.includes('সংযোগ সমস্যা') || error.message.includes('network')) {
+                        showError('otpError', 'অবৈধ OTP');
+                    } else {
+                        showError('otpError', 'অবৈধ OTP');
+                    }
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+
+    // Handle Registration form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const signupForm = document.getElementById('signupForm');
+        if (signupForm) {
+            signupForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
+                });
+                
+                const formData = {
+                    name: document.getElementById('signupName').value.trim(),
+                    password: document.getElementById('signupPassword').value,
+                    confirmPassword: document.getElementById('signupConfirmPassword').value
+                };
+                
+                const errors = [];
+                if (!formData.name) errors.push(['signupNameError', 'নাম আবশ্যক']);
+                if (!formData.password || formData.password.length < 6) {
+                    errors.push(['signupPasswordError', 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে']);
+                }
+                if (formData.password !== formData.confirmPassword) {
+                    errors.push(['signupConfirmPasswordError', 'পাসওয়ার্ড মিলছে না']);
+                }
+                
+                if (errors.length > 0) {
+                    errors.forEach(([id, message]) => showError(id, message));
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    
+                    const response = await fetchWithTimeout(`${DB_API_URL}/register`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            name: formData.name,
+                            email: currentEmail,
+                            password: formData.password
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে');
+                    }
+                    
+                    if (data.token && data.user) {
+                        saveAuthToken(data.token, data.user);
+                    }
+                    
+                    openModal();
+                    signupForm.reset();
+                    
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    showNotification(error.message || 'রেজিস্ট্রেশন সম্পন্ন করতে ত্রুটি হয়েছে।', 'error');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+
+    // Handle Login form submission
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.classList.remove('show-error');
+                });
+                
+                const credentials = {
+                    email: document.getElementById('loginEmail').value.trim(),
+                    password: document.getElementById('loginPassword').value
+                };
+                
+                const errors = [];
+                if (!credentials.email || !validateEmail(credentials.email)) {
+                    errors.push(['loginEmailError', 'অনুগ্রহ করে একটি বৈধ ইমেইল লিখুন']);
+                }
+                if (!credentials.password) {
+                    errors.push(['loginPasswordError', 'পাসওয়ার্ড আবশ্যক']);
+                }
+                
+                if (errors.length > 0) {
+                    errors.forEach(([id, message]) => showError(id, message));
+                    return;
+                }
+                
+                try {
+                    showLoading();
+                    
+                    const response = await fetchWithTimeout(`${DB_API_URL}/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(credentials)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.message || 'লগইন করতে ত্রুটি হয়েছে');
+                    }
+                    
+                    if (data.token && data.user) {
+                        saveAuthToken(data.token, data.user);
+                    }
+                    
+                    const loginPopup = document.querySelector('.login-popup');
+                    const blurOverlay = document.querySelector('.blur-overlay');
+                    
+                    if (loginPopup) loginPopup.classList.remove('active');
+                    if (blurOverlay) blurOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                    
+                    showNotification(`সফলভাবে লগইন করা হয়েছে! স্বাগতম ${data.user.name}`, 'success');
+                    
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showNotification(error.message || 'ভুল ইমেইল বা পাসওয়ার্ড।', 'error');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+    });
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleForm('login');
+        
+        // Set up OTP input fields
+        const otpInputs = document.querySelectorAll('.otp-digit');
+        for (let i = 0; i < otpInputs.length; i++) {
+            otpInputs[i].addEventListener('input', function() {
+                if (this.value.length === 1 && i < otpInputs.length - 1) {
+                    otpInputs[i + 1].focus();
+                }
+            });
+            
+            otpInputs[i].addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value.length === 0 && i > 0) {
+                    otpInputs[i - 1].focus();
+                }
+            });
+        }
+        
+        // Password toggle buttons
+        document.querySelectorAll('.toggle-password').forEach(button => {
+            button.addEventListener('click', function() {
+                const inputId = this.getAttribute('data-target');
+                const toggleId = this.id;
+                togglePasswordVisibility(inputId, toggleId);
+            });
+        });
+        
+        // Navigation buttons
+        document.getElementById('goToEmailCheck')?.addEventListener('click', () => toggleForm('emailCheck'));
+        document.getElementById('goToLogin')?.addEventListener('click', () => toggleForm('login'));
+        document.getElementById('closeModal')?.addEventListener('click', closeModal);
+        
+        // Login popup and blur effect
+        const loginButton = document.querySelector('.login-button');
+        const loginPopup = document.querySelector('.login-popup');
+        const blurOverlay = document.querySelector('.blur-overlay');
+        const closeLogin = document.querySelector('.close-login');
+        
+        loginButton?.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginPopup?.classList.add('active');
+            blurOverlay?.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeLogin?.addEventListener('click', function() {
+            loginPopup?.classList.remove('active');
+            blurOverlay?.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        blurOverlay?.addEventListener('click', function() {
+            loginPopup?.classList.remove('active');
+            blurOverlay?.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Logout button
+        document.getElementById('logoutButton')?.addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            try {
+                const token = localStorage.getItem('authToken');
+                
+                if (token) {
+                    await fetchWithTimeout(`${DB_API_URL}/logout`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+            } finally {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('currentUser');
+                
+                if (tokenRefreshInterval) {
+                    clearInterval(tokenRefreshInterval);
+                    tokenRefreshInterval = null;
+                }
+                
+                if (userActivityTimer) {
+                    clearTimeout(userActivityTimer);
+                }
+                
+                document.getElementById('loginButton').style.display = 'block';
+                document.getElementById('profileDropdown').style.display = 'none';
+                
+                showNotification('আপনি সফলভাবে লগআউট করেছেন।', 'success');
+            }
+        });
+        
+        // Check login status after delay
+        setTimeout(checkLoginStatus, 1000);
+        
+        // User activity tracking
+        setupUserActivityTracking();
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (tokenRefreshInterval) clearInterval(tokenRefreshInterval);
+            if (userActivityTimer) clearTimeout(userActivityTimer);
+        });
+        
+        // Check login status when page becomes visible
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                setTimeout(checkLoginStatus, 500);
+            }
+        });
+    });
+</script>
+
+
+
+
+<!-- form DeepSeek for Login -->
+<!-- <script>
     // API URL - সার্ভার URL
     const API_URL = 'https://talimul-islam.onrender.com/api';
     const DB_API_URL = 'https://t-i-a-storage-backend.onrender.com/api';
@@ -5020,10 +5840,7 @@ animation: spin 1s linear infinite;
             });
         }
     });
-</script>
-
-
-
+</script> -->
 
 
 
