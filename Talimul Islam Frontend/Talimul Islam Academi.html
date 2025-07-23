@@ -876,97 +876,6 @@ nav {
             </button>
         </div>
 </div>
-<!-- <script>
-        let isEnglish = true;
-        
-        // পতাকার URL গুলো
-        const flagUrls = {
-            us: {
-                url: 'https://flagcdn.com/w40/us.png',
-                alt: 'US Flag',
-                fallback: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/US.svg'
-            },
-            bd: {
-                url: 'https://flagcdn.com/w40/bd.png',
-                alt: 'BD Flag',
-                fallback: 'https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/BD.svg'
-            }
-        };
-
-        function toggleLanguage() {
-            const flagIcon = document.getElementById('flagIcon');
-            const languageText = document.getElementById('languageText');
-            
-            // লোডিং ইফেক্ট
-            flagIcon.classList.add('loading');
-            
-            if (isEnglish) {
-                // বাংলায় পরিবর্তন
-                flagIcon.src = flagUrls.bd.url;
-                flagIcon.alt = flagUrls.bd.alt;
-                languageText.textContent = 'বাংলা';
-                isEnglish = false;
-            } else {
-                // ইংরেজিতে পরিবর্তন
-                flagIcon.src = flagUrls.us.url;
-                flagIcon.alt = flagUrls.us.alt;
-                languageText.textContent = 'English';
-                isEnglish = true;
-            }
-            
-            // লোডিং ইফেক্ট রিমুভ
-            setTimeout(() => {
-                flagIcon.classList.remove('loading');
-            }, 300);
-        }
-
-        // পতাকা ইমেজ লোড এরর হ্যান্ডলিং
-        function handleFlagError(img) {
-            console.warn('Flag image failed to load:', img.src);
-            
-            // ফলব্যাক URL ব্যবহার করুন
-            const currentFlag = isEnglish ? 'us' : 'bd';
-            if (img.src !== flagUrls[currentFlag].fallback) {
-                img.src = flagUrls[currentFlag].fallback;
-            } else {
-                // যদি ফলব্যাক ও ব্যর্থ হয়, তাহলে টেক্সট দেখান
-                img.style.display = 'none';
-                img.parentElement.innerHTML += `<span style="font-size: 10px;">${img.alt}</span>`;
-            }
-        }
-
-        // প্রি-লোড করুন পতাকার ইমেজ গুলো
-        function preloadFlags() {
-            Object.values(flagUrls).forEach(flag => {
-                const img = new Image();
-                img.src = flag.url;
-                // ফলব্যাক ও প্রি-লোড করুন
-                const fallbackImg = new Image();
-                fallbackImg.src = flag.fallback;
-            });
-        }
-
-        // পেজ লোড হলে পতাকা প্রি-লোড করুন
-        document.addEventListener('DOMContentLoaded', preloadFlags);
-
-        // অ্যাডভান্সড ফিচার: ভাষা পছন্দ সেভ করুন
-        function saveLanguagePreference() {
-            localStorage.setItem('preferredLanguage', isEnglish ? 'en' : 'bn');
-        }
-
-        function loadLanguagePreference() {
-            const saved = localStorage.getItem('preferredLanguage');
-            if (saved === 'bn' && isEnglish) {
-                toggleLanguage();
-            }
-        }
-
-        // পেজ লোড হলে সেভ করা ভাষা লোড করুন
-        document.addEventListener('DOMContentLoaded', loadLanguagePreference);
-
-        // ভাষা পরিবর্তনের সময় সেভ করুন
-        document.getElementById('flagIcon').addEventListener('load', saveLanguagePreference);
-</script> -->
 <script>
     // ভাষা পরিবর্তনের জন্য সম্পূর্ণ JavaScript কোড (উন্নত সংস্করণ)
 
@@ -1567,6 +1476,283 @@ window.toggleLanguageA = toggleLanguageA;
 window.handleFlagError = handleFlagError;
 window.handleFlagErrorA = handleFlagErrorA;
 </script>
+
+
+
+
+
+
+
+<!-- deepseek -->
+<style>
+/* =============================================
+   মোবাইল সাইডবার স্টাইল উন্নতকরণ
+============================================= */
+
+@media screen and (max-width: 1024px) {
+    .menu-items {
+        position: fixed;
+        top: 105px; /* টপ বার + নেভবার এর নিচে */
+        left: -280px;
+        width: 280px;
+        height: calc(100vh - 105px);
+        background-color: #fff;
+        flex-direction: column;
+        padding: 20px 0;
+        gap: 0;
+        box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+        z-index: 95;
+        overflow-y: auto;
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+    
+    .menu-items a {
+        padding: 12px 25px;
+        transition: all 0.2s ease;
+    }
+    
+    .menu-items.active {
+        left: 0;
+        overflow: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    /* ড্রপডাউন মেনু স্টাইল */
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+        background-color: #f8f9fa;
+        animation: none;
+        transform: none;
+        opacity: 1;
+        display: none;
+        padding: 0;
+        border-left: 4px solid #6A35F2;
+    }
+    
+    .menu-item.show-dropdown .dropdown-menu {
+        display: block;
+    }
+    
+    .dropdown-link {
+        padding: 10px 25px 10px 35px;
+        color: #555;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+    
+    .dropdown-link:hover {
+        background-color: rgba(106, 53, 242, 0.1);
+        color: #6A35F2;
+        transform: translateX(5px);
+    }
+    
+    /* মেনু আইটেম স্টাইল */
+    .menu-item {
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+        transition: background-color 0.2s ease;
+    }
+    
+    .menu-link {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 25px;
+        color: #333;
+        font-weight: 500;
+    }
+    
+    .menu-link:hover {
+        background-color: #6A35F2;
+        color: white;
+        border-radius: 0;
+    }
+    
+    /* ড্রপডাউন টগল আইকন */
+    .dropdown-toggle {
+        transition: transform 0.3s ease;
+        font-size: 12px;
+        margin-left: 5px;
+    }
+    
+    .menu-item.show-dropdown .dropdown-toggle {
+        transform: rotate(180deg);
+    }
+    
+    /* সক্রিয় মেনু আইটেম স্টাইল */
+    .menu-link.active {
+        background-color: #6A35F2;
+        color: white;
+        font-weight: 600;
+    }
+    
+    /* স্ক্রলবার স্টাইল (যদি প্রয়োজন হয়) */
+    .menu-items::-webkit-scrollbar {
+        width: 5px;
+    }
+    
+    .menu-items::-webkit-scrollbar-thumb {
+        background-color: rgba(106, 53, 242, 0.5);
+        border-radius: 10px;
+    }
+    
+    .menu-items::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+    
+    /* অভারলে স্টাইল */
+    .overlay {
+        position: fixed;
+        top: 105px;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 105px);
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 90;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+}
+</style>
+<style>
+    /* থিম টগল বাটনের স্টাইল - সার্চ এবং কার্ট আইকনের সাথে সমানভাবে দেখানোর জন্য */
+    .theme-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2rem;
+        color: #6A35F2;
+        transition: color 0.3s ease;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+    }
+
+    .theme-toggle:hover {
+        background-color: rgba(106, 53, 242, 0.1);
+    }
+
+    /* মোবাইল ভিউতে থিম টগল স্টাইল */
+    @media screen and (max-width: 1024px) {
+        .theme-toggle {
+            width: 32px;
+            height: 32px;
+            font-size: 1rem;
+        }
+    }
+
+    /* নেভ-রাইট সেকশনের স্টাইল */
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* কার্ট আইকন স্টাইল */
+    .cart-icon {
+        position: relative;
+        color: #6A35F2;
+        padding: 8px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+    }
+
+    .cart-icon:hover {
+        background-color: rgba(106, 53, 242, 0.1);
+    }
+
+    .cart-badge {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        background-color: #6A35F2;
+        color: white;
+        font-size: 10px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* মোবাইল সার্চ আইকন স্টাইল */
+    .mobile-search-icon {
+        display: none;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 50%;
+        color: #6A35F2;
+        transition: all 0.3s ease;
+        width: 36px;
+        height: 36px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-search-icon:hover {
+        background-color: rgba(106, 53, 242, 0.1);
+    }
+
+    /* মোবাইল ভিউতে স্টাইল */
+    @media screen and (max-width: 1024px) {
+        .mobile-search-icon {
+            display: flex;
+        }
+        
+        .nav-right {
+            gap: 8px;
+        }
+        
+        .theme-toggle, .cart-icon, .mobile-search-icon {
+            width: 32px;
+            height: 32px;
+            font-size: 1rem;
+        }
+    }
+
+    /* ছোট মোবাইল ডিভাইসের জন্য অতিরিক্ত অ্যাডজাস্টমেন্ট */
+    @media screen and (max-width: 360px) {
+        .nav-right {
+            gap: 5px;
+        }
+        
+        .theme-toggle, .cart-icon, .mobile-search-icon {
+            width: 28px;
+            height: 28px;
+            font-size: 0.9rem;
+        }
+        
+        .cart-badge {
+            width: 14px;
+            height: 14px;
+            font-size: 8px;
+        }
+    }
+</style>
+
+
+
+
 
 
 
@@ -6282,7 +6468,7 @@ console.log('Profile dropdown script initialized');
 </script>
 
 <!-- form DeepSeek -->
-<script>
+<!-- <script>
     async function sendOTP(email) {
     showLoading();
     try {
@@ -6315,7 +6501,7 @@ console.log('Profile dropdown script initialized');
         return false;
     }
 }
-</script>
+</script> -->
 
 
 <!-- CSS স্টাইল - আপনার স্টাইলশিট ফাইলে যোগ করুন -->
@@ -6372,7 +6558,7 @@ console.log('Profile dropdown script initialized');
 </style>
 
 
-</head>
+</head> 
 
 
 
@@ -6427,12 +6613,12 @@ nav {
 
 /* হিরো সেকশন ডার্ক মোড */
 .container12 {
-  background-color: var(--hero-bg);
+  /* background-color: var(--hero-bg); */
   transition: all 0.3s ease;
 }
 
 .hero-section {
-  background-color: var(--hero-bg);
+  /* background-color: var(--hero-bg); */
   transition: all 0.3s ease;
 }
 
@@ -6583,7 +6769,7 @@ window.addEventListener('load', function() {
     max-width: 1200px;
     margin: 0 auto;
     padding: 15px;
-    background-color: white;
+    /* background-color: white; */
     /* border-radius: 8px; */
     /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); */
     margin-bottom: 15px;
@@ -6867,12 +7053,8 @@ p {
         </div>
     </section>
 </div>
-
- <!-- * এই স্ক্রিপ্টটি হোমপেজ বা হিরো সেকশনের স্লাইডশো পরিচালনা করে: -->
- <!-- * - প্রতি ৬ সেকেন্ডে স্লাইড পরিবর্তন হয় (auto-play) -->
- <!-- * - ইউজার যখন হিরো ইমেজে হোভার করে, তখন স্লাইডশো থেমে যায় -->
- <!-- * - হোভার থেকে মাউস সরালে আবার স্লাইডশো শুরু হয় -->
-    <script>
+ <!-- হোভার থেকে মাউস সরালে আবার স্লাইডশো শুরু হয় -->
+<script>
        document.addEventListener('DOMContentLoaded', function() {
     let slides = document.querySelectorAll('.slide');
     let currentSlide = 0;
@@ -6901,72 +7083,7 @@ p {
     // Start the slideshow initially
     startSlideshow();
 });
-    </script>
-
- <!-- * এই স্ক্রিপ্টটি একটি নির্দিষ্ট বাটনে ক্লিক করলে পেজটি একটি নির্ধারিত সেকশনে স্মুথ স্ক্রল করে। -->
- <!-- * - .btn.btn-primary ক্লাসযুক্ত বাটনের জন্য ইভেন্ট লিসেনার যুক্ত করে -->
- <!-- * - .section-header অথবা #madrasa-courses আইডিতে স্ক্রল করে নিয়ে যায় -->
- <!-- * - স্ক্রলের সময় নির্দিষ্ট পরিমাণ (offset) আগেই থামে (ex: 80px) -->
-    <!-- <script>
-      // Add event listener to the button when the document is loaded
-      document.addEventListener('DOMContentLoaded', function () {
-        const courseButton = document.querySelector('.btn.btn-primary');
-    
-        if (courseButton) {
-          courseButton.addEventListener('click', function (e) {
-            e.preventDefault();
-    
-            // Find the target section (with class or ID)
-            const sectionHeader = document.querySelector('.section-header');
-    
-            if (sectionHeader) {
-              // কত পিক্সেল উপরে থামবে সেটি নির্ধারণ করো (offset)
-              const offset = 80; // 100px আগে থামবে, প্রয়োজনে মান বাড়াও/কমাও
-    
-              // এলিমেন্টের পজিশন বের করো
-              const elementPosition = sectionHeader.getBoundingClientRect().top;
-              const offsetPosition = elementPosition + window.pageYOffset - offset;
-    
-              // স্ক্রল করো নির্দিষ্ট স্থানে (smoothly)
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-              });
-            }
-          });
-        }
-      });
-    
-      // Alternative method if you prefer to use a specific ID
-      function setupScrollButton() {
-        const courseButton = document.querySelector('.btn.btn-primary');
-    
-        if (courseButton) {
-          courseButton.addEventListener('click', function (e) {
-            e.preventDefault();
-    
-            // Option 1: Using ID if available
-            const sectionHeader = document.getElementById('madrasa-courses') || document.querySelector('.section-header');
-    
-            if (sectionHeader) {
-              const offset = 80; // 100px আগে থামবে
-              const elementPosition = sectionHeader.getBoundingClientRect().top;
-              const offsetPosition = elementPosition + window.pageYOffset - offset;
-    
-              window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-              });
-            }
-          });
-        }
-      }
-    
-      // You can call this function on page load if you're adding the script at the end of your body
-      // setupScrollButton();
-    </script>
-     -->
-
+</script>
 <script>
     // রেসপন্সিভ স্মুথ স্ক্রল - মোবাইল এবং ডেস্কটপের জন্য আলাদা সেটিংস
 document.addEventListener('DOMContentLoaded', function() {
@@ -7101,14 +7218,14 @@ function showDeviceInfo() {
     
     
 
-<!-- আমাদের বিভাগ সমূহ -->
+<!--* আমাদের বিভাগ সমূহ -->
     <style>
         .containeraTA {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             position: relative;
-            background: white;
+            /* background: white; */
         }
 
         .headeraTA {
@@ -7439,6 +7556,7 @@ function showDeviceInfo() {
                 inset 0 1px 0 rgba(255,255,255,0.6);
         }
     </style>
+<!-- আমাদের বিভাগ সমূহ -->
     <div class="containeraTA" id="container">
         <div class="headeraTA">
             <h2>আমাদের বিভাগ সমূহ</h2>
@@ -7482,7 +7600,7 @@ function showDeviceInfo() {
             </div>
         </div>
     </div>
-
+<!-- আমাদের বিভাগ সমূহ -->
     <script>
         // Particle System JavaScript
         class ParticleSystem {
@@ -7645,11 +7763,11 @@ function showDeviceInfo() {
             }
     
             .sectionD, .sectionDE {
-                background: rgba(255, 255, 255, 0.95);
+                /* background: rgba(255, 255, 255, 0.95); */
                 backdrop-filter: blur(20px);
                 border-radius: 20px;
                 padding: 30px;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                /* box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); */
                 border: 1px solid rgba(255, 255, 255, 0.3);
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
@@ -7823,7 +7941,7 @@ function showDeviceInfo() {
                 }
     
                 .sectionD, .sectionDE {
-                    background: white;
+                    /* background: white; */
                     border: none;
                     border-radius: 20px;
                     padding: 25px 20px;
@@ -8120,15 +8238,15 @@ function showDeviceInfo() {
 
 
 
-<!-- আমাদের মাদ্রাসা কোর্সসমূহ -->
+<!--* আমাদের মাদ্রাসা কোর্সসমূহ -->
 <style>
     .container1 {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 10px;
-      background-color: white;
+      /* background-color: white; */
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
     margin-top: 15px;
     padding-bottom: 2px;
     }
@@ -8566,7 +8684,8 @@ function showDeviceInfo() {
 .see-more-btn i {
   margin-left: 8px;
 }
-</style>   
+</style>  
+<!-- আমাদের মাদ্রাসা কোর্সসমূহ -->
 <div class="container1">
     <div class="section-header">
         <h2>আমাদের কোর্সসমূহ</h2>
@@ -8982,9 +9101,9 @@ function showDeviceInfo() {
     <i class="fas fa-plus"></i>
     <span id="buttonText">আরো দেখুন</span>
 </button>
-  </div>  
+</div>  
 </div> 
-
+<!-- আমাদের মাদ্রাসা কোর্সসমূহ -->
 <style>
         /* বাটনের স্টাইল */
         .toggle-button {
@@ -9034,7 +9153,7 @@ function showDeviceInfo() {
             transform: translateY(0);
         }
 </style>
-
+<!-- আমাদের মাদ্রাসা কোর্সসমূহ -->
 <script>
 let isCoursesVisible = false;
 
@@ -9434,7 +9553,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 </style>
-<!-- মূল কাউন্টার সেকশন -->
+<!--* মূল কাউন্টার সেকশন -->
 <section class="counter-sectionST">
     <div class="containerST">
         <div class="stats-gridST" id="statsGridST">
@@ -9556,14 +9675,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-<!-- আপনি কি শিখতে চান? -->
+<!--* আপনি কি শিখতে চান? -->
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap'); 
     .containerAB {
-        background: rgba(255, 255, 255, 0.95);
+        /* background: rgba(255, 255, 255, 0.95); */
         border-radius: 16px;
         padding: 1rem;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        /* box-shadow: 0 20px 40px rgba(0,0,0,0.1); */
         max-width: 1200px;
         width: 100%;
         margin: 0 auto;
@@ -9756,7 +9875,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 </style>
-
+<!-- আপনি কি শিখতে চান? -->
 <style>
     .show-more-container {
         text-align: center;
@@ -10074,7 +10193,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         
 </div>  
-
+<!-- আপনি কি শিখতে চান? -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     const showMoreBtn = document.getElementById('showMoreBtn');
@@ -10153,15 +10272,15 @@ document.head.appendChild(style);
 
 
 
-<!-- কেন মাদ্রাসা অনলাইন বেছে নিবেন -->
-   <style>
+<!--* কেন মাদ্রাসা অনলাইন বেছে নিবেন -->
+<style>
 .container6 {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 10px;
-    background-color: white;
+    /* background-color: white; */
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
     margin-top: 15px;
     padding-bottom: 2px;
 }
@@ -10387,8 +10506,8 @@ document.head.appendChild(style);
         font-size: 1.2rem;
     }
 }
-   </style>
-    <div class="container6">
+</style>
+<div class="container6">
     <section class="header2">
         <h2>কেন মাদ্রাসা অনলাইন বেছে নিবেন</h2>
         <p>বাংলাদেশ থেকে শুরু, লক্ষ্য বিশ্বজুড়ে ইসলামী শিক্ষা ছড়িয়ে দেওয়া।</p>
@@ -10435,17 +10554,17 @@ document.head.appendChild(style);
 
 
 
-<!-- আমাদের শিক্ষার্থীরা কী বলেন? -->
-        <style>
+<!--* আমাদের শিক্ষার্থীরা কী বলেন? -->
+<style>
             @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');            
             .testimonials {
 
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 0px;
-            background-color: white;
+            /* background-color: white; */
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
             margin-top: 15px;
             padding-top: 20px;
             padding-bottom: 10px;
@@ -10768,8 +10887,8 @@ document.head.appendChild(style);
                     top: -6px;
                 }
             }
-        </style>
-        <section class="testimonials">
+</style>
+<section class="testimonials">
             <h2>আমাদের শিক্ষার্থীরা কী বলেন?</h2>
             <!-- <p>আমাদের প্ল্যাটফর্ম কীভাবে বদলে দিয়েছে শিক্ষার্থীদের ইসলামী জীবনধারা, তা জানুন।</p> -->
             
@@ -10818,7 +10937,7 @@ document.head.appendChild(style);
                     <p class="testimonial-text">অনলাইন কোর্সগুলি আমার দ্বীনি শিক্ষার যাত্রায় অপরিহার্য হয়ে উঠেছে। ঘরে বসে এরকম গুণমান সম্পন্ন শিক্ষা পাওয়া অসাধারণ।</p>
                 </div>
             </div>
-        </section>
+</section>
 
 
 
@@ -10848,7 +10967,7 @@ document.head.appendChild(style);
             max-width: 1200px;
             margin: 0 auto;
             padding: 15px;
-            background-color: white;
+            /* background-color: white; */
             /* margin-top: 15px; */
             /* border-radius: 8px; */
             /* box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); */
