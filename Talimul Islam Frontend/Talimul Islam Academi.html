@@ -9411,33 +9411,24 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
 
 
 
-
-<!--* আমাদের মাদ্রাসা কোর্সসমূহ -->
 <style>
     .container1 {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 10px;
-      /* background-color: white; */
-    border-radius: 10px;
-    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
-    margin-top: 15px;
-    padding-bottom: 2px;
+      border-radius: 10px;
+      margin-top: 15px;
+      padding-bottom: 2px;
     }
 
     .section-header {
         text-align: center;
         margin-bottom: 10px;
         margin-top: 10px;
-        /* padding-top: 30px; */
     }
     
     .section-header h2 {
-        /* width: 100%; */
-        /* height: auto; */
-        /* background: #dcdcdc; */
         font-size: 2rem;
-        /* font-weight: 700; */
         color: #2d3748;
         margin-bottom: 10px;
         padding-top: 20px;
@@ -9450,17 +9441,14 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
         color: #666;
         max-width: 600px;
         margin: 0 auto;
-        /* padding-top: 15px; */
         display: none;
     }
-    
     
     /* কোর্স গ্রিড */
     .course-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 20px;
-      /* padding: 30px 0; */
     }
     
     /* বিভিন্ন স্ক্রিন সাইজে রেসপনসিভ গ্রিড */
@@ -9497,13 +9485,14 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
       .course-meta {
         flex-wrap: wrap;
         gap: 8px !important;
+        font-size: 11px !important;
       }
       
       .action-buttons {
         flex-direction: column;
       }
       
-      .add-to-cart-btn, .buy-now-btn {
+      .buy-now-btn {
         padding: 6px 10px !important;
         font-size: 12px !important;
       }
@@ -9523,22 +9512,12 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
       .course-info {
         padding: 12px !important;
       }
-      
-      .instructor span {
-        font-size: 11px !important;
-      }
-      
-      .instructor-img {
-        width: 25px !important;
-        height: 25px !important;
-      }
     }
     
     /* মোবাইল সাইজে কার্ডের স্টাইল ফাইন-টিউনিং */
     @media (max-width: 400px) {
       .course-grid {
         gap: 10px;
-        grid-template-columns: repeat(2, 1fr);
       }
       
       .course-title {
@@ -9569,7 +9548,6 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
     }
     
     .course-card:hover {
-      /* transform: translateY(-5px); */
       box-shadow: 0 8px 20px rgba(106, 53, 242, 0.15);
       border-color: rgba(106, 53, 242, 0.1);
     }
@@ -9631,25 +9609,6 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-    }
-    
-    .instructor {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    
-    .instructor-img {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    
-    .instructor span {
-      font-size: 13px;
-      color: #555;
     }
     
     .course-title {
@@ -9723,8 +9682,8 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
       width: 100%;
     }
     
-    /* কার্ট ও কিনুন বাটন */
-    .add-to-cart-btn, .buy-now-btn {
+    /* কিনুন বাটন */
+    .buy-now-btn {
       padding: 8px 12px;
       border-radius: 50px;
       font-size: 13px;
@@ -9739,19 +9698,6 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
       align-items: center;
       justify-content: center;
       gap: 5px;
-    }
-    
-    .add-to-cart-btn {
-      background-color: #fff;
-      color: #6A35F2;
-      border: 1px solid #6A35F2;
-    }
-    
-    .add-to-cart-btn:hover {
-      background-color: #f5f0ff;
-    }
-    
-    .buy-now-btn {
       background-color: #6A35F2;
       color: white;
       border: 1px solid #6A35F2;
@@ -9761,573 +9707,428 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
       background-color: #5628d8;
     }
     
-    /* আরো দেখুন বাটন স্টাইল */
-    .see-more-container {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      margin: 30px 0 50px;
-      text-align: center;
+    /* বাটনের স্টাইল */
+    .toggle-button {
+        background: #6A35F2;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 50px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 20px auto;
+        display: block;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    .toggle-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .toggle-button:active {
+        transform: translateY(0);
+    }
+
+    .toggle-button i {
+        margin-right: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    /* হিডেন কোর্সের স্টাইল */
+    .hidden-course {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+    }
+
+    .hidden-course.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
     }
     
-    .see-more-btn {
-      background-color: #6A35F2;
-      color: white;
-      padding: 12px 35px;
-      border-radius: 50px;
-      font-size: 16px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 12px rgba(106, 53, 242, 0.2);
+    /* ডেস্কটপে প্রথম ৫টি এবং মোবাইলে প্রথম ৪টি কার্ড ছাড়া বাকিগুলো হাইড */
+    @media (max-width: 576px) {
+        .course-card:nth-child(n+5) {
+            display: none;
+        }
     }
     
-    .see-more-btn:hover {
-      background-color: #5628d8;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(106, 53, 242, 0.3);
+    @media (min-width: 577px) {
+        .course-card:nth-child(n+6) {
+            display: none;
+        }
     }
-    
-    .see-more-btn i {
-      font-size: 14px;
-    }
-    
-
-
-
-
-
-
-
-
-
-    /* কোর্স কার্ড এবং গ্রিড স্টাইল */
-.course-card {
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
-  position: relative;
-}
-
-.course-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.hidden-course {
-  display: none;
-}
-
-/* সি মোর বাটন স্টাইল */
-.see-more-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0 40px;
-}
-
-.see-more-btn {
-      background-color: #6A35F2;
-      color: white;
-      padding: 12px 35px;
-      border-radius: 50px;
-      font-size: 16px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 12px rgba(106, 53, 242, 0.2);
-    }
-    
-    .see-more-btn:hover {
-      background-color: #5628d8;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(106, 53, 242, 0.3);
-    }
-
-.see-more-btn i {
-  margin-left: 8px;
-}
 </style>  
+
 <!-- আমাদের মাদ্রাসা কোর্সসমূহ -->
 <div class="container1">
     <div class="section-header">
         <h2>আমাদের কোর্সসমূহ</h2>
         <p>সর্বাধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষা গ্রহণ করুন অনলাইনে</p>
     </div>
-  <div class="course-grid" id="courseGrid">
-    <!-- কোর্স কার্ড 1 -->
-    <div class="course-card">
-      <a href="Course Details.html" class="course-card-link" aria-label="হিফজুল কুরআন কোর্স বিস্তারিত"></a>
-      <div class="course-thumbnail">
-        <img src="img/al-quran-7737560_1280.jpg" alt="হিফজুল কুরআন কোর্স">
-        <div class="level-badge beginner">বেসিক</div>
-      </div>
-      <div class="course-info">
-        <div class="instructor">
-          <img src="img/Talimul Islam Academi.jpeg" alt="শিক্ষক" class="instructor-img">
-          <span>মাওলানা আব্দুল্লাহ</span>
+    <div class="course-grid" id="courseGrid">
+        <!-- কোর্স কার্ড 1 (সবসময় শো) -->
+        <div class="course-card">
+            <a href="Course Details.html" class="course-card-link" aria-label="হিফজুল কুরআন কোর্স বিস্তারিত"></a>
+            <div class="course-thumbnail">
+                <img src="img/al-quran-7737560_1280.jpg" alt="হিফজুল কুরআন কোর্স">
+                <div class="level-badge beginner">বেসিক</div>
+            </div>
+            <div class="course-info">
+                <h3 class="course-title">বিশুদ্ধ তাজবিদসহ কুরআন শিক্ষার মাধ্যমে আধ্যাত্মিক উন্নতি অর্জন করুন।</h3>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-video"></i>
+                        <span>২৪ ক্লাস</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>৭ ঘন্টা</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>১ টি নোট</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="price">
+                        <span class="current-price">৳৩,৫০০</span>
+                        <span class="original-price">৳৪,৫০০</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="Course Details.html" class="buy-now-btn">দেখুন</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3 class="course-title">বিশুদ্ধ তাজবিদসহ কুরআন শিক্ষার মাধ্যমে আধ্যাত্মিক উন্নতি অর্জন করুন।</h3>
-        <div class="course-meta">
-          <div class="meta-item">
-            <i class="fas fa-book-open"></i>
-            <span>১৮ অধ্যায়</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-users"></i>
-            <span>৩৫০ শিক্ষার্থী</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-star"></i>
-            <span>৪.৮</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price">
-            <span class="current-price">৳৩,৫০০</span>
-            <span class="original-price">৳৪,৫০০</span>
-          </div>
-          <div class="action-buttons">
-            <button class="add-to-cart-btn" onclick="addToCart(1)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="Course Details.html" class="buy-now-btn">দেখুন</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- কোর্স কার্ড 2 -->
-    <div class="course-card">
-      <a href="Course Details.html" class="course-card-link" aria-label="তাজবীদ কোর্স বিস্তারিত"></a>
-      <div class="course-thumbnail">
-        <img src="img/al-quran-7741928_1280.jpg" alt="তাজবীদ কোর্স">
-        <div class="level-badge intermediate">মধ্যবর্তী</div>
-      </div>
-      <div class="course-info">
-        <div class="instructor">
-          <img src="img/Darul_Uloom_Deoband.jpg" alt="শিক্ষক" class="instructor-img">
-          <span>মাওলানা ইব্রাহিম</span>
+        <!-- কোর্স কার্ড 2 (সবসময় শো) -->
+        <div class="course-card">
+            <a href="Course Details.html" class="course-card-link" aria-label="তাজবীদ কোর্স বিস্তারিত"></a>
+            <div class="course-thumbnail">
+                <img src="img/al-quran-7741928_1280.jpg" alt="তাজবীদ কোর্স">
+                <div class="level-badge intermediate">মধ্যবর্তী</div>
+            </div>
+            <div class="course-info">
+                <h3 class="course-title">হাদিসের সঠিক ব্যাখ্যা ও বিশ্লেষণ শিখুন, নবীর (সাঃ) জীবন থেকে শিক্ষা নিন।</h3>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-video"></i>
+                        <span>১৮ ক্লাস</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>৫ ঘন্টা</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>২ টি নোট</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="price">
+                        <span class="current-price">৳২,৮০০</span>
+                        <span class="original-price">৳৩,৫০০</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="Course Details.html" class="buy-now-btn">দেখুন</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3 class="course-title">হাদিসের সঠিক ব্যাখ্যা ও বিশ্লেষণ শিখুন, নবীর (সাঃ) জীবন থেকে শিক্ষা নিন।</h3>
-        <div class="course-meta">
-          <div class="meta-item">
-            <i class="fas fa-book-open"></i>
-            <span>১২ অধ্যায়</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-users"></i>
-            <span>২৪০ শিক্ষার্থী</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-star"></i>
-            <span>৪.৯</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price">
-            <span class="current-price">৳২,৮০০</span>
-            <span class="original-price">৳৩,৫০০</span>
-          </div>
-          <div class="action-buttons">
-            <button class="add-to-cart-btn" onclick="addToCart(2)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="Course Details.html" class="buy-now-btn">কিনুন</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- কোর্স কার্ড 3 -->
-    <div class="course-card">
-      <a href="Course Details.html" class="course-card-link" aria-label="আরবি ভাষা কোর্স বিস্তারিত"></a>
-      <div class="course-thumbnail">
-        <img src="img/holy-quran-1528446_1280.jpg" alt="আরবি ভাষা কোর্স">
-        <div class="level-badge beginner">বেসিক</div>
-      </div>
-      <div class="course-info">
-        <div class="instructor">
-          <img src="img/80px.png" alt="শিক্ষক" class="instructor-img">
-          <span>মাওলানা জাকির</span>
+        <!-- কোর্স কার্ড 3 (সবসময় শো) -->
+        <div class="course-card">
+            <a href="Course Details.html" class="course-card-link" aria-label="আরবি ভাষা কোর্স বিস্তারিত"></a>
+            <div class="course-thumbnail">
+                <img src="img/holy-quran-1528446_1280.jpg" alt="আরবি ভাষা কোর্স">
+                <div class="level-badge beginner">বেসিক</div>
+            </div>
+            <div class="course-info">
+                <h3 class="course-title">ইসলামী আইন ও জীবন বিধান শিখে আপনার দৈনন্দিন জীবনে সঠিক সিদ্ধান্ত নিন।</h3>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-video"></i>
+                        <span>৩০ ক্লাস</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>১০ ঘন্টা</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>৩ টি নোট</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="price">
+                        <span class="current-price">৳৪,২০০</span>
+                        <span class="original-price">৳৫,০০০</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="Course Details.html" class="buy-now-btn">দেখুন</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3 class="course-title">ইসলামী আইন ও জীবন বিধান শিখে আপনার দৈনন্দিন জীবনে সঠিক সিদ্ধান্ত নিন।</h3>
-        <div class="course-meta">
-          <div class="meta-item">
-            <i class="fas fa-book-open"></i>
-            <span>২০ অধ্যায়</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-users"></i>
-            <span>৪২০ শিক্ষার্থী</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-star"></i>
-            <span>৪.৭</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price">
-            <span class="current-price">৳৪,২০০</span>
-            <span class="original-price">৳৫,০০০</span>
-          </div>
-          <div class="action-buttons">
-            <button class="add-to-cart-btn" onclick="addToCart(3)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="Course Details.html" class="buy-now-btn">কিনুন</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- কোর্স কার্ড 4 -->
-    <div class="course-card">
-      <a href="Course Details.html" class="course-card-link" aria-label="ফিকাহ কোর্স বিস্তারিত"></a>
-      <div class="course-thumbnail">
-        <img src="img/al-quran-7737590_1280.jpg" alt="ফিকাহ কোর্স">
-        <div class="level-badge advanced">অ্যাডভান্সড</div>
-      </div>
-      <div class="course-info">
-        <div class="instructor">
-          <img src="img/pexels-648298123-28872754.jpg" alt="শিক্ষক" class="instructor-img">
-          <span>মাওলানা রফিক</span>
+        <!-- কোর্স কার্ড 4 (সবসময় শো) -->
+        <div class="course-card">
+            <a href="Course Details.html" class="course-card-link" aria-label="ফিকাহ কোর্স বিস্তারিত"></a>
+            <div class="course-thumbnail">
+                <img src="img/al-quran-7737590_1280.jpg" alt="ফিকাহ কোর্স">
+                <div class="level-badge advanced">অ্যাডভান্সড</div>
+            </div>
+            <div class="course-info">
+                <h3 class="course-title">আরবি ভাষার গভীরে প্রবেশ করুন, কুরআন ও হাদিস বুঝতে পারদর্শী হন।</h3>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-video"></i>
+                        <span>২০ ক্লাস</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>৮ ঘন্টা</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>২ টি নোট</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="price">
+                        <span class="current-price">৳৪,৮০০</span>
+                        <span class="original-price">৳৫,৫০০</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="Course Details.html" class="buy-now-btn">দেখুন</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h3 class="course-title">আরবি ভাষার গভীরে প্রবেশ করুন, কুরআন ও হাদিস বুঝতে পারদর্শী হন।</h3>
-        <div class="course-meta">
-          <div class="meta-item">
-            <i class="fas fa-book-open"></i>
-            <span>১৪ অধ্যায়</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-users"></i>
-            <span>১৮০ শিক্ষার্থী</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-star"></i>
-            <span>৪.৬</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price">
-            <span class="current-price">৳৪,৮০০</span>
-            <span class="original-price">৳৫,৫০০</span>
-          </div>
-          <div class="action-buttons">
-            <button class="add-to-cart-btn" onclick="addToCart(4)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="Course Details.html" class="buy-now-btn">কিনুন</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- কোর্স কার্ড 5 -->
-    <div class="course-card">
-      <a href="Course Details.html" class="course-card-link" aria-label="হাদিস কোর্স বিস্তারিত"></a>
-      <div class="course-thumbnail">
-        <img src="img/man-7757211_1280.png" alt="হাদিস কোর্স">
-        <div class="level-badge intermediate">মধ্যবর্তী</div>
-      </div>
-      <div class="course-info">
-        <div class="instructor">
-          <img src="img/al-quran-7741928_1280.jpg" alt="শিক্ষক" class="instructor-img">
-          <span>মাওলানা সালেহ</span>
-        </div>
-        <h3 class="course-title">কুরআনের তাফসির শিখে আল্লাহর কালামকে গভীরভাবে বুঝুন এবং জীবনে প্রয়োগ করুন।</h3>
-        <div class="course-meta">
-          <div class="meta-item">
-            <i class="fas fa-book-open"></i>
-            <span>১৬ অধ্যায়</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-users"></i>
-            <span>২৮০ শিক্ষার্থী</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-star"></i>
-            <span>৪.৮</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price">
-            <span class="current-price">৳৩,৮০০</span>
-            <span class="original-price">৳৪,৫০০</span>
-          </div>
-          <div class="action-buttons">
-            <button class="add-to-cart-btn" onclick="addToCart(5)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="course-checkout.html?id=5" class="buy-now-btn">কিনুন</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- কোর্স কার্ড 6 (হিডেন) -->
-    <div class="course-card hidden-course">
-      <a href="course-details.html?id=6" class="course-card-link" aria-label="সীরাত কোর্স বিস্তারিত"></a>
-      <div class="course-thumbnail">
-        <img src="img/al-quran-7737560_1280.jpg" alt="সীরাত কোর্স">
-        <div class="level-badge beginner">বেসিক</div>
-      </div>
-      <div class="course-info">
-        <div class="instructor">
-          <img src="img/holy-quran-1528446_1280.jpg" alt="শিক্ষক" class="instructor-img">
-          <span>মাওলানা আতিকুল্লাহ</span>
-        </div>
-        <h3 class="course-title">ইসলামী ইতিহাস, সংস্কৃতি ও শাস্ত্রের সঠিক জ্ঞান অর্জন করুন একটি বৈজ্ঞানিক দৃষ্টিভঙ্গি থেকে।</h3>
-        <div class="course-meta">
-          <div class="meta-item">
-            <i class="fas fa-book-open"></i>
-            <span>১৫ অধ্যায়</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-users"></i>
-            <span>২৫০ শিক্ষার্থী</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-star"></i>
-            <span>৪.৭</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price">
-            <span class="current-price">৳৩,৬০০</span>
-            <span class="original-price">৳৪,২০০</span>
-          </div>
-          <div class="action-buttons">
-            <button class="add-to-cart-btn" onclick="addToCart(6)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="course-checkout.html?id=6" class="buy-now-btn">কিনুন</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- কোর্স কার্ড 7 (হিডেন) -->
-    <div class="course-card hidden-course">
-      <a href="course-details.html?id=7" class="course-card-link" aria-label="ইসলামিক আখলাক ও আদব কোর্স বিস্তারিত"></a>
-      <div class="course-thumbnail">
-        <img src="img/al-quran-7737590_1280.jpg" alt="ইসলামিক আখলাক ও আদব কোর্স">
-        <div class="level-badge beginner">বেসিক</div>
-      </div>
-      <div class="course-info">
-        <div class="instructor">
-          <img src="img/al-quran-7741928_1280.jpg" alt="শিক্ষক" class="instructor-img">
-          <span>মাওলানা হাসান</span>
-        </div>
-        <h3 class="course-title">সঠিক বিশ্বাস ও তাওহিদের মৌলিক শিক্ষা গ্রহণ করে ঈমানকে দৃঢ় করুন।</h3>
-        <div class="course-meta">
-          <div class="meta-item">
-            <i class="fas fa-book-open"></i>
-            <span>১৬ অধ্যায়</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-users"></i>
-            <span>২২০ শিক্ষার্থী</span>
-          </div>
-          <div class="meta-item">
-            <i class="fas fa-star"></i>
-            <span>৪.৮</span>
-          </div>
-        </div>
-        <div class="course-footer">
-          <div class="price">
-            <span class="current-price">৳২,৯০০</span>
-            <span class="original-price">৳৩,৫০০</span>
-          </div>
-          <div class="action-buttons">
-            <button class="add-to-cart-btn" onclick="addToCart(7)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-            <a href="course-checkout.html?id=7" class="buy-now-btn">কিনুন</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- কোর্স কার্ড 8 (হিডেন) -->
-       <!-- কোর্স কার্ড 7 (হিডেন) -->
-       <div class="course-card hidden-course">
-        <a href="course-details.html?id=7" class="course-card-link" aria-label="ইসলামিক আখলাক ও আদব কোর্স বিস্তারিত"></a>
-        <div class="course-thumbnail">
-          <img src="img/Darul_Uloom_Deoband.jpg" alt="ইসলামিক আখলাক ও আদব কোর্স">
-          <div class="level-badge beginner">বেসিক</div>
-        </div>
-        <div class="course-info">
-          <div class="instructor">
-            <img src="img/al-quran-7737560_1280.jpg" alt="শিক্ষক" class="instructor-img">
-            <span>মাওলানা হাসান</span>
-          </div>
-          <h3 class="course-title">প্রিয় নবী মুহাম্মাদ (সা.)-এর জীবনচরিত শিখে আদর্শ মুসলিম হিসেবে গড়ে উঠুন।</h3>
-          <div class="course-meta">
-            <div class="meta-item">
-              <i class="fas fa-book-open"></i>
-              <span>১৬ অধ্যায়</span>
+        <!-- কোর্স কার্ড 5 (ডেস্কটপে শো, মোবাইলে হাইড) -->
+        <div class="course-card desktop-only">
+            <a href="Course Details.html" class="course-card-link" aria-label="হাদিস কোর্স বিস্তারিত"></a>
+            <div class="course-thumbnail">
+                <img src="img/man-7757211_1280.png" alt="হাদিস কোর্স">
+                <div class="level-badge intermediate">মধ্যবর্তী</div>
             </div>
-            <div class="meta-item">
-              <i class="fas fa-users"></i>
-              <span>২২০ শিক্ষার্থী</span>
+            <div class="course-info">
+                <h3 class="course-title">কুরআনের তাফসির শিখে আল্লাহর কালামকে গভীরভাবে বুঝুন এবং জীবনে প্রয়োগ করুন।</h3>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-video"></i>
+                        <span>২২ ক্লাস</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>৯ ঘন্টা</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>১ টি নোট</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="price">
+                        <span class="current-price">৳৩,৮০০</span>
+                        <span class="original-price">৳৪,৫০০</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="course-checkout.html?id=5" class="buy-now-btn">দেখুন</a>
+                    </div>
+                </div>
             </div>
-            <div class="meta-item">
-              <i class="fas fa-star"></i>
-              <span>৪.৮</span>
-            </div>
-          </div>
-          <div class="course-footer">
-            <div class="price">
-              <span class="current-price">৳২,৯০০</span>
-              <span class="original-price">৳৩,৫০০</span>
-            </div>
-            <div class="action-buttons">
-              <button class="add-to-cart-btn" onclick="addToCart(7)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-              <a href="course-checkout.html?id=7" class="buy-now-btn">কিনুন</a>
-            </div>
-          </div>
         </div>
-      </div>
-    
-    <!-- কোর্স কার্ড 9 (হিডেন) -->
-     <!-- কোর্স কার্ড 7 (হিডেন) -->
-     <div class="course-card hidden-course">
-        <a href="course-details.html?id=7" class="course-card-link" aria-label="ইসলামিক আখলাক ও আদব কোর্স বিস্তারিত"></a>
-        <div class="course-thumbnail">
-          <img src="img/mardin-3551714_1280.jpg" alt="ইসলামিক আখলাক ও আদব কোর্স">
-          <div class="level-badge beginner">বেসিক</div>
+        
+        <!-- কোর্স কার্ড 6 (হিডেন) -->
+        <div class="course-card hidden-course">
+            <a href="course-details.html?id=6" class="course-card-link" aria-label="সীরাত কোর্স বিস্তারিত"></a>
+            <div class="course-thumbnail">
+                <img src="img/al-quran-7737560_1280.jpg" alt="সীরাত কোর্স">
+                <div class="level-badge beginner">বেসিক</div>
+            </div>
+            <div class="course-info">
+                <h3 class="course-title">ইসলামী ইতিহাস, সংস্কৃতি ও শাস্ত্রের সঠিক জ্ঞান অর্জন করুন একটি বৈজ্ঞানিক দৃষ্টিভঙ্গি থেকে।</h3>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-video"></i>
+                        <span>১৫ ক্লাস</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>৬ ঘন্টা</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>২ টি নোট</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="price">
+                        <span class="current-price">৳৩,৬০০</span>
+                        <span class="original-price">৳৪,২০০</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="course-checkout.html?id=6" class="buy-now-btn">দেখুন</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="course-info">
-          <div class="instructor">
-            <img src="img/al-quran-7737560_1280.jpg" alt="শিক্ষক" class="instructor-img">
-            <span>মাওলানা হাসান</span>
-          </div>
-          <h3 class="course-title">নৈতিকতা ও চরিত্র গঠনের ইসলামী শিক্ষায় নিজের ব্যক্তিত্ব উন্নত করুন।</h3>
-          <div class="course-meta">
-            <div class="meta-item">
-              <i class="fas fa-book-open"></i>
-              <span>১৬ অধ্যায়</span>
-            </div>
-            <div class="meta-item">
-              <i class="fas fa-users"></i>
-              <span>২২০ শিক্ষার্থী</span>
-            </div>
-            <div class="meta-item">
-              <i class="fas fa-star"></i>
-              <span>৪.৮</span>
-            </div>
-          </div>
-          <div class="course-footer">
-            <div class="price">
-              <span class="current-price">৳২,৯০০</span>
-              <span class="original-price">৳৩,৫০০</span>
-            </div>
-            <div class="action-buttons">
-              <button class="add-to-cart-btn" onclick="addToCart(7)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-              <a href="course-checkout.html?id=7" class="buy-now-btn">কিনুন</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    
-    <!-- কোর্স কার্ড 10 (হিডেন) -->
+        
         <!-- কোর্স কার্ড 7 (হিডেন) -->
         <div class="course-card hidden-course">
             <a href="course-details.html?id=7" class="course-card-link" aria-label="ইসলামিক আখলাক ও আদব কোর্স বিস্তারিত"></a>
             <div class="course-thumbnail">
-              <img src="img/al-quran-7737590_1280.jpg" alt="ইসলামিক আখলাক ও আদব কোর্স">
-              <div class="level-badge beginner">বেসিক</div>
+                <img src="img/al-quran-7737590_1280.jpg" alt="ইসলামিক আখলাক ও আদব কোর্স">
+                <div class="level-badge beginner">বেসিক</div>
             </div>
             <div class="course-info">
-              <div class="instructor">
-                <img src="img/Darul_Uloom_Deoband.jpg" alt="শিক্ষক" class="instructor-img">
-                <span>মাওলানা হাসান</span>
-              </div>
-              <h3 class="course-title">ইসলামের শান্তির বার্তা ছড়িয়ে দিতে দাওয়াহর সঠিক পদ্ধতি ও জ্ঞান অর্জন করুন।</h3>
-              <div class="course-meta">
-                <div class="meta-item">
-                  <i class="fas fa-book-open"></i>
-                  <span>১৬ অধ্যায়</span>
+                <h3 class="course-title">সঠিক বিশ্বাস ও তাওহিদের মৌলিক শিক্ষা গ্রহণ করে ঈমানকে দৃঢ় করুন।</h3>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-video"></i>
+                        <span>১৮ ক্লাস</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>৫ ঘন্টা</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>১ টি নোট</span>
+                    </div>
                 </div>
-                <div class="meta-item">
-                  <i class="fas fa-users"></i>
-                  <span>২২০ শিক্ষার্থী</span>
+                <div class="course-footer">
+                    <div class="price">
+                        <span class="current-price">৳২,৯০০</span>
+                        <span class="original-price">৳৩,৫০০</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="course-checkout.html?id=7" class="buy-now-btn">দেখুন</a>
+                    </div>
                 </div>
-                <div class="meta-item">
-                  <i class="fas fa-star"></i>
-                  <span>৪.৮</span>
-                </div>
-              </div>
-              <div class="course-footer">
-                <div class="price">
-                  <span class="current-price">৳২,৯০০</span>
-                  <span class="original-price">৳৩,৫০০</span>
-                </div>
-                <div class="action-buttons">
-                  <button class="add-to-cart-btn" onclick="addToCart(7)"><i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন</button>
-                  <a href="course-checkout.html?id=7" class="buy-now-btn">কিনুন</a>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-
-  <!-- আরো দেখুন বাটন ও এর কন্টেইনার -->
-  <button class="toggle-button" id="toggleCoursesBtn" onclick="toggleCourses()">
-    <i class="fas fa-plus"></i>
-    <span id="buttonText">আরো দেখুন</span>
-</button>
-</div>  
-</div> 
-<!-- আমাদের মাদ্রাসা কোর্সসমূহ -->
-<style>
-        /* বাটনের স্টাইল */
-        .toggle-button {
-            background: #6A35F2;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 20px auto;
-            display: block;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        .toggle-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-
-        .toggle-button:active {
-            transform: translateY(0);
-        }
-
-        .toggle-button i {
-            margin-right: 8px;
-            transition: transform 0.3s ease;
-        }
-
-
         
-
+        <!-- কোর্স কার্ড 8 (হিডেন) -->
+        <div class="course-card hidden-course">
+            <a href="course-details.html?id=8" class="course-card-link" aria-label="নবী জীবনী কোর্স বিস্তারিত"></a>
+            <div class="course-thumbnail">
+                <img src="img/Darul_Uloom_Deoband.jpg" alt="নবী জীবনী কোর্স">
+                <div class="level-badge beginner">বেসিক</div>
+            </div>
+            <div class="course-info">
+                <h3 class="course-title">প্রিয় নবী মুহাম্মাদ (সা.)-এর জীবনচরিত শিখে আদর্শ মুসলিম হিসেবে গড়ে উঠুন।</h3>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-video"></i>
+                        <span>২০ ক্লাস</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>৭ ঘন্টা</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>২ টি নোট</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="price">
+                        <span class="current-price">৳২,৯০০</span>
+                        <span class="original-price">৳৩,৫০০</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="course-checkout.html?id=8" class="buy-now-btn">দেখুন</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         
+        <!-- কোর্স কার্ড 9 (হিডেন) -->
+        <div class="course-card hidden-course">
+            <a href="course-details.html?id=9" class="course-card-link" aria-label="নৈতিকতা কোর্স বিস্তারিত"></a>
+            <div class="course-thumbnail">
+                <img src="img/mardin-3551714_1280.jpg" alt="নৈতিকতা কোর্স">
+                <div class="level-badge beginner">বেসিক</div>
+            </div>
+            <div class="course-info">
+                <h3 class="course-title">নৈতিকতা ও চরিত্র গঠনের ইসলামী শিক্ষায় নিজের ব্যক্তিত্ব উন্নত করুন।</h3>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-video"></i>
+                        <span>১২ ক্লাস</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>৪ ঘন্টা</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>১ টি নোট</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="price">
+                        <span class="current-price">৳২,৫০০</span>
+                        <span class="original-price">৳৩,০০০</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="course-checkout.html?id=9" class="buy-now-btn">দেখুন</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- কোর্স কার্ড 10 (হিডেন) -->
+        <div class="course-card hidden-course">
+            <a href="course-details.html?id=10" class="course-card-link" aria-label="দাওয়াহ কোর্স বিস্তারিত"></a>
+            <div class="course-thumbnail">
+                <img src="img/al-quran-7737590_1280.jpg" alt="দাওয়াহ কোর্স">
+                <div class="level-badge beginner">বেসিক</div>
+            </div>
+            <div class="course-info">
+                <h3 class="course-title">ইসলামের শান্তির বার্তা ছড়িয়ে দিতে দাওয়াহর সঠিক পদ্ধতি ও জ্ঞান অর্জন করুন।</h3>
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-video"></i>
+                        <span>১৬ ক্লাস</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>৬ ঘন্টা</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>২ টি নোট</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <div class="price">
+                        <span class="current-price">৳৩,২০০</span>
+                        <span class="original-price">৳৩,৮০০</span>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="course-checkout.html?id=10" class="buy-now-btn">দেখুন</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        /* হিডেন কোর্সের স্টাইল */
-        .hidden-course {
-            display: none;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
-        }
+    <!-- আরো দেখুন বাটন -->
+    <button class="toggle-button" id="toggleCoursesBtn" onclick="toggleCourses()">
+        <i class="fas fa-plus"></i>
+        <span id="buttonText">আরো দেখুন</span>
+    </button>
+</div>
 
-        .hidden-course.show {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-</style>
-<!-- আমাদের মাদ্রাসা কোর্সসমূহ -->
 <script>
 let isCoursesVisible = false;
 
@@ -10341,13 +10142,13 @@ function toggleCourses() {
         // কোর্সগুলো দেখান
         hiddenCourses.forEach((course, index) => {
             setTimeout(() => {
+                course.classList.add('show');
                 course.style.display = 'block';
-                // সামান্য অ্যানিমেশনের জন্য
                 setTimeout(() => {
                     course.style.opacity = '1';
                     course.style.transform = 'translateY(0)';
                 }, 50);
-            }, index * 100); // একটার পর একটা দেখানোর জন্য
+            }, index * 100);
         });
         
         // বাটনের টেক্সট ও আইকন পরিবর্তন
@@ -10361,9 +10162,8 @@ function toggleCourses() {
             setTimeout(() => {
                 course.style.opacity = '0';
                 course.style.transform = 'translateY(20px)';
-                
-                // অ্যানিমেশন শেষে সম্পূর্ণ লুকান
                 setTimeout(() => {
+                    course.classList.remove('show');
                     course.style.display = 'none';
                 }, 300);
             }, index * 50);
@@ -10385,6 +10185,32 @@ document.addEventListener('DOMContentLoaded', function() {
         course.style.transform = 'translateY(20px)';
         course.style.transition = 'all 0.3s ease';
     });
+
+    // ডেস্কটপে ৫ম কার্ড শো করানোর জন্য
+    const desktopOnlyCards = document.querySelectorAll('.desktop-only');
+    if (window.innerWidth > 576) {
+        desktopOnlyCards.forEach(card => {
+            card.style.display = 'block';
+        });
+    } else {
+        desktopOnlyCards.forEach(card => {
+            card.style.display = 'none';
+        });
+    }
+});
+
+// রেসাইজ ইভেন্ট হ্যান্ডলার
+window.addEventListener('resize', function() {
+    const desktopOnlyCards = document.querySelectorAll('.desktop-only');
+    if (window.innerWidth > 576) {
+        desktopOnlyCards.forEach(card => {
+            card.style.display = 'block';
+        });
+    } else {
+        desktopOnlyCards.forEach(card => {
+            card.style.display = 'none';
+        });
+    }
 });
 </script>
 
