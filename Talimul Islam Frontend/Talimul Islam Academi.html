@@ -4847,65 +4847,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script> 
 
-<!-- ”অবৈধ OTP  -->
-  <script>
-// "পুনরায় OTP পাঠান" বাটন সক্রিয় থাকাকালীন "অবৈধ OTP" এরর মেসেজ লুকানোর জন্য
-document.addEventListener('DOMContentLoaded', function() {
-    const resendOtpButton = document.getElementById('resendOtp');
-    const otpErrorElement = document.getElementById('otpError');
-    
-    if (resendOtpButton && otpErrorElement) {
-        // রিসেন্ড বাটনের স্টেট চেক করার ফাংশন
-        function checkResendButtonState() {
-            // যদি রিসেন্ড বাটন সক্রিয় থাকে (disabled = false) 
-            // এবং OTP এরর মেসেজ দেখানো থাকে
-            if (!resendOtpButton.disabled && otpErrorElement.classList.contains('show-error')) {
-                // এরর মেসেজ লুকিয়ে দিন
-                otpErrorElement.classList.remove('show-error');
-                console.log('OTP error hidden because resend button is active');
-            }
-        }
-        
-        // MutationObserver ব্যবহার করে রিসেন্ড বাটনের disabled প্রপার্টি মনিটর করুন
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
-                    // বাটনের disabled স্টেট পরিবর্তন হলে চেক করুন
-                    setTimeout(checkResendButtonState, 50);
-                }
-            });
-        });
-        
-        // রিসেন্ড বাটনের attributes পরিবর্তন observe করুন
-        observer.observe(resendOtpButton, {
-            attributes: true,
-            attributeFilter: ['disabled']
-        });
-        
-        // প্রতি সেকেন্ডে একবার চেক করুন (অতিরিক্ত নিরাপত্তার জন্য)
-        const intervalCheck = setInterval(checkResendButtonState, 1000);
-        
-        // পেজ বন্ধ হওয়ার আগে cleanup
-        window.addEventListener('beforeunload', function() {
-            observer.disconnect();
-            clearInterval(intervalCheck);
-        });
-        
-        // প্রথমবার চেক করুন
-        checkResendButtonState();
-    }
-});
 
-// অতিরিক্ত ফাংশন: ম্যানুয়ালি এরর লুকানোর জন্য
-function hideOtpErrorIfResendActive() {
-    const resendOtpButton = document.getElementById('resendOtp');
-    const otpErrorElement = document.getElementById('otpError');
-    
-    if (resendOtpButton && otpErrorElement && !resendOtpButton.disabled) {
-        otpErrorElement.classList.remove('show-error');
-    }
-}
-</script>
 
 <!-- লগআউট অটোভাবে বন্ধ করার কোড  -->
 <script>
