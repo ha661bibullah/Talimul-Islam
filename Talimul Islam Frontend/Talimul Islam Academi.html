@@ -1587,7 +1587,7 @@
                 </div>
                 <div class="dropdown-content" id="mobileDropdownContent">
                     <a href="#"><i class="fas fa-user"></i> প্রোফাইল তথ্য</a>
-                        <a href="/TalimulFcopy/my-course.html" class="nav-link"><i class="fas fa-book"></i> আমার কোর্স</a>
+                        <a href="Our-Course.html" class="nav-link"><i class="fas fa-book"></i> আমার কোর্স</a>
                     <a href="#" id="mobileLogoutButton"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
                 </div>
             </div>
@@ -5183,7 +5183,7 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
                 <span class="original-price">৳ ৩,০০০</span>
             </div>
             <div class="action-buttons">
-                <a href="Practical-Ibarat.html" class="buy-now-btn" id="practical-ibarot-btn">দেখুন</a>
+                <a href="/Talimul Islam Frontend/Practical-Ibarat.html" class="buy-now-btn" id="practical-ibarot-btn">দেখুন</a>
             </div>
         </div>
     </div>
@@ -5553,7 +5553,7 @@ function updateCourseCardUI() {
         {
             courseId: 'practical-ibarot',
             page: 'Practical-Ibarat',
-            htmlPage: 'Practical-Ibarat.html',
+            htmlPage: '/Talimul Islam Frontend/Practical-Ibarat.html',
             price: '৳ ১,৫০০',
             original: '৳ ৩,০০০'
         },
@@ -5755,13 +5755,13 @@ function updateIbarotCourseCard() {
         priceContainer.innerHTML = '<span class="current-price" style="color:#43a047;">একটিভ</span>';
         actionButton.textContent = 'এন্ট্রি করুন';
         actionButton.style.backgroundColor = '#43a047';
-        actionButton.href = 'Practical-Ibarat.html?id=practical-ibarot';
+        actionButton.href = '/Talimul Islam Frontend/Practical-Ibarat.html?id=practical-ibarot';
     } else {
         // Default state (no changes needed)
         priceContainer.innerHTML = '<span class="current-price">৳ ১,৫০০</span><span class="original-price">৳ ৩,০০০</span>';
         actionButton.textContent = 'দেখুন';
         actionButton.style.backgroundColor = '#6A35F2';
-        actionButton.href = 'Practical-Ibarat.html';
+        actionButton.href = '/Talimul Islam Frontend/Practical-Ibarat.html';
     }
 }
 
