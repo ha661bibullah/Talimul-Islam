@@ -3216,7 +3216,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
 
 
 
-    <style>
+<style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
         
         :root {
@@ -3227,14 +3227,14 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             --dark-color: #1B262C;
         }
         
-        .container {
+        .containerL {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
         /* Header Section */
-        .header {
+        .headerL {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border-radius: 0 0 30px 30px;
@@ -3251,20 +3251,20 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1)
         }
         
-        .header h1 {
+        .headerL h1 {
             font-size: 2.5rem;
             margin-bottom: 15px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
         
-        .header p {
+        .headerL p {
             font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto;
         }
         
         /* Hero Section */
-        .hero {
+        .heroL {
             position: relative;
             background-color: var(--light-color);
             border-radius: 20px;
@@ -3274,50 +3274,50 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
-        .hero-content {
+        .hero-contentL {
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
         
-        .hero-text {
+        .hero-textL {
             flex: 1;
             padding-right: 40px;
         }
         
-        .hero-text h2 {
+        .hero-textL h2 {
             font-size: 2.2rem;
             margin-bottom: 20px;
             color: var(--primary-color);
         }
         
-        .hero-text p {
+        .hero-textL p {
             font-size: 1.1rem;
             margin-bottom: 25px;
         }
         
-        .hero-image {
+        .hero-imageL {
             flex: 1;
             text-align: center;
         }
         
-        .hero-image img {
+        .hero-imageL img {
             max-width: 100%;
             border-radius: 15px;
             box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         /* Course Features */
-        .features {
+        .featuresL {
             margin: 60px 0;
         }
         
-        .features-heading {
+        .features-headingL {
             text-align: center;
             margin-bottom: 40px;
         }
         
-        .features-heading h2 {
+        .features-headingL h2 {
             font-size: 2rem;
             color: var(--primary-color);
             position: relative;
@@ -3325,7 +3325,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             padding-bottom: 10px;
         }
         
-        .features-heading h2:after {
+        .features-headingL h2:after {
             content: '';
             position: absolute;
             width: 60%;
@@ -3336,13 +3336,13 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transform: translateX(-50%);
         }
         
-        .features-grid {
+        .features-gridL {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
         
-        .feature-card {
+        .feature-cardL {
             background-color: white;
             border-radius: 15px;
             padding: 30px;
@@ -3350,41 +3350,41 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .feature-card:hover {
+        .feature-cardL:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
         
-        .feature-icon {
+        .feature-iconL {
             font-size: 2.5rem;
             color: var(--accent-color);
             margin-bottom: 20px;
             text-align: center;
         }
         
-        .feature-card h3 {
+        .feature-cardL h3 {
             font-size: 1.4rem;
             margin-bottom: 15px;
             color: var(--primary-color);
             text-align: center;
         }
         
-        .feature-card p {
+        .feature-cardL p {
             font-size: 1rem;
             color: #555;
         }
         
         /* Course List */
-        .courses {
+        .coursesL {
             margin: 60px 0;
         }
         
-        .courses-heading {
+        .courses-headingL {
             text-align: center;
             margin-bottom: 40px;
         }
         
-        .courses-heading h2 {
+        .courses-headingL h2 {
             font-size: 2rem;
             color: var(--primary-color);
             position: relative;
@@ -3392,7 +3392,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             padding-bottom: 10px;
         }
         
-        .courses-heading h2:after {
+        .courses-headingL h2:after {
             content: '';
             position: absolute;
             width: 60%;
@@ -3403,13 +3403,13 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transform: translateX(-50%);
         }
         
-        .course-grid {
+        .course-gridL {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
         }
         
-        .course-card {
+        .course-cardL {
             background-color: white;
             border-radius: 15px;
             overflow: hidden;
@@ -3417,11 +3417,11 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transition: transform 0.3s ease;
         }
         
-        .course-card:hover {
+        .course-cardL:hover {
             transform: translateY(-10px);
         }
         
-        .course-image {
+        .course-imageL {
             height: 200px;
             background-color: var(--secondary-color);
             display: flex;
@@ -3432,23 +3432,23 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             font-weight: bold;
         }
         
-        .course-content {
+        .course-contentL {
             padding: 25px;
         }
         
-        .course-content h3 {
+        .course-contentL h3 {
             font-size: 1.4rem;
             margin-bottom: 15px;
             color: var(--primary-color);
         }
         
-        .course-content p {
+        .course-contentL p {
             font-size: 1rem;
             color: #555;
             margin-bottom: 15px;
         }
         
-        .course-info {
+        .course-infoL {
             display: flex;
             justify-content: space-between;
             border-top: 1px solid #eee;
@@ -3458,7 +3458,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
         }
         
         /* CTA Section */
-        .cta {
+        .ctaL {
             background: linear-gradient(135deg, var(--accent-color), #218838);
             border-radius: 20px;
             padding: 60px 40px;
@@ -3468,18 +3468,18 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
-        .cta h2 {
+        .ctaL h2 {
             font-size: 2.2rem;
             margin-bottom: 20px;
         }
         
-        .cta p {
+        .ctaL p {
             font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto 30px;
         }
         
-        .cta-btn {
+        .cta-btnL {
             display: inline-block;
             background-color: white;
             color: var(--accent-color);
@@ -3492,22 +3492,22 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .cta-btn:hover {
+        .cta-btnL:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         
         /* Teacher Section */
-        .teachers {
+        .teachersL {
             margin: 60px 0;
         }
         
-        .teachers-heading {
+        .teachers-headingL {
             text-align: center;
             margin-bottom: 40px;
         }
         
-        .teachers-heading h2 {
+        .teachers-headingL h2 {
             font-size: 2rem;
             color: var(--primary-color);
             position: relative;
@@ -3515,7 +3515,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             padding-bottom: 10px;
         }
         
-        .teachers-heading h2:after {
+        .teachers-headingL h2:after {
             content: '';
             position: absolute;
             width: 60%;
@@ -3526,13 +3526,13 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transform: translateX(-50%);
         }
         
-        .teachers-grid {
+        .teachers-gridL {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
         }
         
-        .teacher-card {
+        .teacher-cardL {
             background-color: white;
             border-radius: 15px;
             padding: 30px;
@@ -3541,11 +3541,11 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transition: transform 0.3s ease;
         }
         
-        .teacher-card:hover {
+        .teacher-cardL:hover {
             transform: translateY(-10px);
         }
         
-        .teacher-img {
+        .teacher-imgL {
             width: 120px;
             height: 120px;
             border-radius: 50%;
@@ -3559,19 +3559,19 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             border: 5px solid #eef8ff;
         }
         
-        .teacher-card h3 {
+        .teacher-cardL h3 {
             font-size: 1.3rem;
             color: var(--primary-color);
             margin-bottom: 10px;
         }
         
-        .teacher-card p {
+        .teacher-cardL p {
             font-size: 0.95rem;
             color: #555;
         }
         
         /* Enrollment Section */
-        .enrollment {
+        .enrollmentL {
             margin: 60px 0;
             background-color: white;
             border-radius: 20px;
@@ -3579,12 +3579,12 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
         
-        .enrollment-heading {
+        .enrollment-headingL {
             text-align: center;
             margin-bottom: 40px;
         }
         
-        .enrollment-heading h2 {
+        .enrollment-headingL h2 {
             font-size: 2rem;
             color: var(--primary-color);
             position: relative;
@@ -3592,7 +3592,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             padding-bottom: 10px;
         }
         
-        .enrollment-heading h2:after {
+        .enrollment-headingL h2:after {
             content: '';
             position: absolute;
             width: 60%;
@@ -3603,24 +3603,24 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transform: translateX(-50%);
         }
 
-        .form-group {
+        .form-groupL {
             margin-bottom: 25px;
             font-family: 'Hind Siliguri', sans-serif;
         }
         
-        .form-group label {
+        .form-groupL label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
             color: var(--primary-color);
             font-family: 'Hind Siliguri', sans-serif;
         }
-    .form-group input{
+    .form-groupL input{
         font-family: 'Hind Siliguri', sans-serif;
         font-size: 1rem;
     }
         
-        .form-control {
+        .form-controlL {
             width: 100%;
             padding: 15px;
             border: 1px solid #ddd;
@@ -3629,13 +3629,13 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             font-family: 'Hind Siliguri', sans-serif;
         }
         
-        .form-control:focus {
+        .form-controlL:focus {
             outline: none;
             border-color: var(--secondary-color);
             box-shadow: 0 0 0 3px rgba(50, 130, 184, 0.2);
         }
         
-        .submit-btn {
+        .submit-btnL {
             background-color: var(--accent-color);
             color: white;
             border: none;
@@ -3647,21 +3647,21 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transition: background-color 0.3s ease;
         }
         
-        .submit-btn:hover {
+        .submit-btnL:hover {
             background-color: #218838;
         }
         
         /* Testimonials */
-        .testimonials {
+        .testimonialsL {
             margin: 60px 0;
         }
         
-        .testimonials-heading {
+        .testimonials-headingL {
             text-align: center;
             margin-bottom: 40px;
         }
         
-        .testimonials-heading h2 {
+        .testimonials-headingL h2 {
             font-size: 2rem;
             color: var(--primary-color);
             position: relative;
@@ -3669,7 +3669,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             padding-bottom: 10px;
         }
         
-        .testimonials-heading h2:after {
+        .testimonials-headingL h2:after {
             content: '';
             position: absolute;
             width: 60%;
@@ -3680,13 +3680,13 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transform: translateX(-50%);
         }
         
-        .testimonials-grid {
+        .testimonials-gridL {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
         
-        .testimonial-card {
+        .testimonial-cardL {
             background-color: white;
             border-radius: 15px;
             padding: 30px;
@@ -3694,7 +3694,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             position: relative;
         }
         
-        .testimonial-card:before {
+        .testimonial-cardL:before {
             content: '"';
             position: absolute;
             top: 10px;
@@ -3705,24 +3705,24 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             line-height: 1;
         }
         
-        .testimonial-content {
+        .testimonial-contentL {
             position: relative;
             z-index: 1;
         }
         
-        .testimonial-content p {
+        .testimonial-contentL p {
             font-size: 1rem;
             color: #555;
             margin-bottom: 20px;
             font-style: normal;
         }
         
-        .testimonial-author {
+        .testimonial-authorL {
             display: flex;
             align-items: center;
         }
         
-        .author-avatar {
+        .author-avatarL {
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -3735,29 +3735,29 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             font-weight: bold;
         }
         
-        .author-info h4 {
+        .author-infoL h4 {
             font-size: 1.1rem;
             color: var(--primary-color);
             margin-bottom: 5px;
         }
         
-        .author-info p {
+        .author-infoL p {
             font-size: 0.9rem;
             color: #777;
             margin: 0;
         }
         
         /* FAQ Section */
-        .faq {
+        .faqL {
             margin: 60px 0;
         }
         
-        .faq-heading {
+        .faq-headingL {
             text-align: center;
             margin-bottom: 40px;
         }
         
-        .faq-heading h2 {
+        .faq-headingL h2 {
             font-size: 2rem;
             color: var(--primary-color);
             position: relative;
@@ -3765,7 +3765,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             padding-bottom: 10px;
         }
         
-        .faq-heading h2:after {
+        .faq-headingL h2:after {
             content: '';
             position: absolute;
             width: 60%;
@@ -3776,12 +3776,12 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transform: translateX(-50%);
         }
         
-        .accordion {
+        .accordionL {
             max-width: 800px;
             margin: 0 auto;
         }
         
-        .accordion-item {
+        .accordion-itemL {
             background-color: white;
             border-radius: 10px;
             margin-bottom: 15px;
@@ -3789,7 +3789,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             overflow: hidden;
         }
         
-        .accordion-header {
+        .accordion-headerL {
             padding: 20px;
             background-color: #f9f9f9;
             color: var(--primary-color);
@@ -3801,102 +3801,102 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             align-items: center;
         }
         
-        .accordion-header:hover {
+        .accordion-headerL:hover {
             background-color: #f0f0f0;
         }
         
-        .accordion-content {
+        .accordion-contentL {
             padding: 0 20px;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease, padding 0.3s ease;
         }
         
-        .accordion-content.active {
+        .accordion-contentL.active {
             padding: 20px;
             max-height: 1000px;
         }
         
         /* Media Queries */
         @media (max-width: 992px) {
-            .hero-content {
+            .hero-contentL {
                 flex-direction: column;
             }
             
-            .hero-text {
+            .hero-textL {
                 padding-right: 0;
                 margin-bottom: 30px;
             }
         }
         
         @media (max-width: 768px) {
-            .header h1 {
+            .headerL h1 {
                 font-size: 2rem;
             }
             
-            .hero {
+            .heroL {
                 padding: 30px;
             }
             
-            .feature-card, .course-card, .teacher-card, .testimonial-card {
+            .feature-cardL, .course-cardL, .teacher-cardL, .testimonial-cardL {
                 padding: 20px;
             }
         }
         
         @media (max-width: 576px) {
-            .header {
+            .headerL {
                 padding: 20px 0;
             }
             
-            .header h1 {
+            .headerL h1 {
                 font-size: 1.8rem;
             }
             
-            .header p {
+            .headerL p {
                 font-size: 1rem;
             }
             
-            .hero-text h2 {
+            .hero-textL h2 {
                 font-size: 1.8rem;
             }
             
-            .cta {
+            .ctaL {
                 padding: 40px 20px;
             }
             
-            .cta h2 {
+            .ctaL h2 {
                 font-size: 1.8rem;
             }
             
-            .cta p {
+            .ctaL p {
                 font-size: 1rem;
             }
             
-            .cta-btn {
+            .cta-btnL {
                 padding: 12px 25px;
                 font-size: 1rem;
             }
         }
     </style>
     <!-- Header Section -->
-    <header class="header">
-        <div class="container">
+    <header class="headerL">
+        <div class="containerL">
             <h1>মাদ্রাসা লাইভ কোর্স</h1>
             <p>ইসলামিক জ্ঞান অর্জনের জন্য আমাদের অনলাইন লাইভ কোর্সে যোগ দিন</p>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="container">
+    <main class="containerL">
         <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <div class="hero-text">
+        <section class="heroL">
+            <div class="hero-contentL">
+                <div class="hero-textL">
                     <h2>কুরআন, হাদিস এবং ফিকহ শিখুন ঘরে বসেই</h2>
                     <p>আমাদের বিশেষজ্ঞ শিক্ষকদের সাথে অনলাইনে লাইভ ক্লাসের মাধ্যমে ইসলামিক জ্ঞান অর্জন করুন। আমরা প্রতিটি শিক্ষার্থীর জন্য ব্যক্তিগত মনোযোগ দিয়ে থাকি যাতে তারা সঠিকভাবে এবং সহজে শিখতে পারে।</p>
-                    <a href="#enrollment" class="cta-btn">এখনই ভর্তি হোন</a>
+                    <a href="#enrollment" class="cta-btnL">এখনই ভর্তি হোন</a>
                 </div>
-                <div class="hero-image">
+                <div class="hero-imageL">
                     <div style="width: 100%; height: 300px; background-color: var(--secondary-color); border-radius: 15px; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.5rem; font-weight: bold;">
                         ছবি: অনলাইন মাদ্রাসা শিক্ষা
                     </div>
@@ -3905,23 +3905,23 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
         </section>
 
         <!-- Course Features -->
-        <section class="features">
-            <div class="features-heading">
+        <section class="featuresL">
+            <div class="features-headingL">
                 <h2>আমাদের কোর্সের বৈশিষ্ট্য</h2>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
+            <div class="features-gridL">
+                <div class="feature-cardL">
+                    <div class="feature-iconL">📱</div>
                     <h3>অনলাইন লাইভ ক্লাস</h3>
                     <p>যেকোনো স্থান থেকে মোবাইল বা কম্পিউটার দিয়ে আমাদের লাইভ ক্লাসে অংশগ্রহণ করুন। আপনি প্রশ্ন করতে পারেন এবং সরাসরি উত্তর পেতে পারেন।</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">👨‍🏫</div>
+                <div class="feature-cardL">
+                    <div class="feature-iconL">👨‍🏫</div>
                     <h3>অভিজ্ঞ শিক্ষক</h3>
                     <p>আমাদের সকল শিক্ষক বিভিন্ন প্রতিষ্ঠিত ইসলামিক বিশ্ববিদ্যালয় থেকে অধ্যয়ন করেছেন এবং তাদের বিষয়ে গভীর জ্ঞান রয়েছে।</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
+                <div class="feature-cardL">
+                    <div class="feature-iconL">📚</div>
                     <h3>সমৃদ্ধ শিক্ষা উপকরণ</h3>
                     <p>ক্লাস নোট, বই, অডিও এবং ভিডিও সহ বিভিন্ন ধরনের শিক্ষা উপকরণ প্রদান করা হয়, যা শিক্ষার্থীদের বুঝতে সাহায্য করে।</p>
                 </div>
@@ -3929,39 +3929,39 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
         </section>
 
         <!-- Course List -->
-        <section class="courses" id="courses">
-            <div class="courses-heading">
+        <section class="coursesL" id="courses">
+            <div class="courses-headingL">
                 <h2>আমাদের কোর্সসমূহ</h2>
             </div>
-            <div class="course-grid">
-                <div class="course-card">
-                    <div class="course-image">কুরআন শিক্ষা</div>
-                    <div class="course-content">
+            <div class="course-gridL">
+                <div class="course-cardL">
+                    <div class="course-imageL">কুরআন শিক্ষা</div>
+                    <div class="course-contentL">
                         <h3>কুরআন তাজবীদ ও হিফজ কোর্স</h3>
                         <p>সঠিক উচ্চারণ ও নিয়ম অনুসারে কুরআন তিলাওয়াত শিখুন। আমরা হিফজের জন্যও প্রশিক্ষণ দিয়ে থাকি।</p>
-                        <div class="course-info">
+                        <div class="course-infoL">
                             <span>সময়কাল: ৬ মাস</span>
                             <span>ক্লাস: সপ্তাহে ৩ দিন</span>
                         </div>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-image">হাদিস শিক্ষা</div>
-                    <div class="course-content">
+                <div class="course-cardL">
+                    <div class="course-imageL">হাদিস শিক্ষা</div>
+                    <div class="course-contentL">
                         <h3>হাদিস শরীফ অধ্যয়ন</h3>
                         <p>মহানবী (সাঃ) এর হাদিস অধ্যয়ন করুন এবং এর অর্থ ও প্রয়োগ শিখুন। বিশেষ হাদিস সংকলন নিয়ে আলোচনা করা হবে।</p>
-                        <div class="course-info">
+                        <div class="course-infoL">
                             <span>সময়কাল: ৮ মাস</span>
                             <span>ক্লাস: সপ্তাহে ২ দিন</span>
                         </div>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-image">ফিকহ শিক্ষা</div>
-                    <div class="course-content">
+                <div class="course-cardL">
+                    <div class="course-imageL">ফিকহ শিক্ষা</div>
+                    <div class="course-contentL">
                         <h3>ইসলামিক ফিকহ ও শরিয়া</h3>
                         <p>ইসলামিক আইন এবং নীতিমালা সম্পর্কে জানুন। দৈনন্দিন জীবনে ইসলামিক বিধি-বিধান প্রয়োগের পদ্ধতি শিখুন।</p>
-                        <div class="course-info">
+                        <div class="course-infoL">
                             <span>সময়কাল: ১০ মাস</span>
                             <span>ক্লাস: সপ্তাহে ২ দিন</span>
                         </div>
@@ -3971,35 +3971,35 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
         </section>
 
         <!-- CTA Section -->
-        <section class="cta">
+        <section class="ctaL">
             <h2>আজই আমাদের সাথে যোগ দিন</h2>
             <p>অনলাইন লাইভ কোর্সের মাধ্যমে আপনার ইসলামিক জ্ঞান বৃদ্ধি করুন। সীমিত আসন সংখ্যা - আজই রেজিস্ট্রেশন করুন!</p>
-            <a href="#enrollment" class="cta-btn">রেজিস্ট্রেশন করুন</a>
+            <a href="#enrollment" class="cta-btnL">রেজিস্ট্রেশন করুন</a>
         </section>
 
         <!-- Teacher Section -->
-        <section class="teachers">
-            <div class="teachers-heading">
+        <section class="teachersL">
+            <div class="teachers-headingL">
                 <h2>আমাদের শিক্ষকগণ</h2>
             </div>
-            <div class="teachers-grid">
-                <div class="teacher-card">
-                    <div class="teacher-img">মু</div>
+            <div class="teachers-gridL">
+                <div class="teacher-cardL">
+                    <div class="teacher-imgL">মু</div>
                     <h3>মাওলানা মুফতি আব্দুল্লাহ</h3>
                     <p>কুরআন ও তাফসীর বিশেষজ্ঞ</p>
                 </div>
-                <div class="teacher-card">
-                    <div class="teacher-img">আ</div>
+                <div class="teacher-cardL">
+                    <div class="teacher-imgL">আ</div>
                     <h3>মাওলানা আবু বকর</h3>
                     <p>হাদিস বিশেষজ্ঞ</p>
                 </div>
-                <div class="teacher-card">
-                    <div class="teacher-img">র</div>
+                <div class="teacher-cardL">
+                    <div class="teacher-imgL">র</div>
                     <h3>মাওলানা রহমান</h3>
                     <p>ফিকহ বিশেষজ্ঞ</p>
                 </div>
-                <div class="teacher-card">
-                    <div class="teacher-img">ফ</div>
+                <div class="teacher-cardL">
+                    <div class="teacher-imgL">ফ</div>
                     <h3>মাওলানা ফারুক</h3>
                     <p>আরবি ভাষা বিশেষজ্ঞ</p>
                 </div>
@@ -4007,168 +4007,158 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
         </section>
 
         <!-- Enrollment Form -->
-        <section class="enrollment" id="enrollment">
-            <div class="enrollment-heading">
+        <section class="enrollmentL" id="enrollment">
+            <div class="enrollment-headingL">
                 <h2>রেজিস্ট্রেশন ফরম</h2>
             </div>
           
-            
+            <form>
+                <div class="form-groupL">
+                    <label for="name">নাম</label>
+                    <input type="text" class="form-controlL" id="name" placeholder="আপনার পূর্ণ নাম লিখুন">
+                </div>
+                <div class="form-groupL">
+                    <label for="phone">মোবাইল নম্বর</label>
+                    <input type="tel" class="form-controlL" id="phone" placeholder="আপনার মোবাইল নম্বর লিখুন">
+                </div>
+                <div class="form-groupL">
+                    <label for="email">ইমেইল (ঐচ্ছিক)</label>
+                    <input type="email" class="form-controlL" id="email" placeholder="আপনার ইমেইল ঠিকানা লিখুন">
+                </div>
+                <div class="form-groupL">
+                    <label for="address">ঠিকানা</label>
+                    <textarea class="form-controlL" id="address" rows="3" placeholder="আপনার ঠিকানা লিখুন"></textarea>
+                </div>
+                <div class="form-groupL">
+                    <label for="course">কোর্স নির্বাচন করুন</label>
+                    <select class="form-controlL" id="course">
+                        <option value="">কোর্স নির্বাচন করুন</option>
+                        <option value="quran">কুরআন তাজবীদ ও হিফজ কোর্স</option>
+                        <option value="hadith">হাদিস শরীফ অধ্যয়ন</option>
+                        <option value="fiqh">ইসলামিক ফিকহ ও শরিয়া</option>
+                    </select>
+                </div>
+                <div class="form-groupL">
+                    <label for="experience">পূর্ব অভিজ্ঞতা (যদি থাকে)</label>
+                    <textarea class="form-controlL" id="experience" rows="3" placeholder="আপনার পূর্ব ইসলামিক শিক্ষা সম্পর্কে লিখুন"></textarea>
+                </div>
+                <button type="submit" class="submit-btnL">রেজিস্ট্রেশন সম্পন্ন করুন</button>
+            </form>
+        </section>
 
-
-
-
-
-
-
-            <!-- Enrollment Form (continued) -->
-<form>
-    <div class="form-group">
-        <label for="name">নাম</label>
-        <input type="text" class="form-control" id="name" placeholder="আপনার পূর্ণ নাম লিখুন">
-    </div>
-    <div class="form-group">
-        <label for="phone">মোবাইল নম্বর</label>
-        <input type="tel" class="form-control" id="phone" placeholder="আপনার মোবাইল নম্বর লিখুন">
-    </div>
-    <div class="form-group">
-        <label for="email">ইমেইল (ঐচ্ছিক)</label>
-        <input type="email" class="form-control" id="email" placeholder="আপনার ইমেইল ঠিকানা লিখুন">
-    </div>
-    <div class="form-group">
-        <label for="address">ঠিকানা</label>
-        <textarea class="form-control" id="address" rows="3" placeholder="আপনার ঠিকানা লিখুন"></textarea>
-    </div>
-    <div class="form-group">
-        <label for="course">কোর্স নির্বাচন করুন</label>
-        <select class="form-control" id="course">
-            <option value="">কোর্স নির্বাচন করুন</option>
-            <option value="quran">কুরআন তাজবীদ ও হিফজ কোর্স</option>
-            <option value="hadith">হাদিস শরীফ অধ্যয়ন</option>
-            <option value="fiqh">ইসলামিক ফিকহ ও শরিয়া</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="experience">পূর্ব অভিজ্ঞতা (যদি থাকে)</label>
-        <textarea class="form-control" id="experience" rows="3" placeholder="আপনার পূর্ব ইসলামিক শিক্ষা সম্পর্কে লিখুন"></textarea>
-    </div>
-    <button type="submit" class="submit-btn">রেজিস্ট্রেশন সম্পন্ন করুন</button>
-</form>
-</section>
-
-<!-- Testimonials -->
-<section class="testimonials">
-    <div class="testimonials-heading">
-        <h2>শিক্ষার্থীদের মতামত</h2>
-    </div>
-    <div class="testimonials-grid">
-        <div class="testimonial-card">
-            <div class="testimonial-content">
-                <p>আমি আমার ব্যস্ত জীবন থেকে সময় বের করে এই অনলাইন কোর্সে অংশগ্রহণ করেছি। এটি আমার জন্য খুবই উপকারী হয়েছে। এখন আমি সঠিকভাবে কুরআন তিলাওয়াত করতে পারি।</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">ক</div>
-                    <div class="author-info">
-                        <h4>কামাল হোসেন</h4>
-                        <p>কুরআন তাজবীদ কোর্স</p>
+        <!-- Testimonials -->
+        <section class="testimonialsL">
+            <div class="testimonials-headingL">
+                <h2>শিক্ষার্থীদের মতামত</h2>
+            </div>
+            <div class="testimonials-gridL">
+                <div class="testimonial-cardL">
+                    <div class="testimonial-contentL">
+                        <p>আমি আমার ব্যস্ত জীবন থেকে সময় বের করে এই অনলাইন কোর্সে অংশগ্রহণ করেছি। এটি আমার জন্য খুবই উপকারী হয়েছে। এখন আমি সঠিকভাবে কুরআন তিলাওয়াত করতে পারি।</p>
+                        <div class="testimonial-authorL">
+                            <div class="author-avatarL">ক</div>
+                            <div class="author-infoL">
+                                <h4>কামাল হোসেন</h4>
+                                <p>কুরআন তাজবীদ কোর্স</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-cardL">
+                    <div class="testimonial-contentL">
+                        <p>আমি ঘরে বসেই হাদিস শিক্ষা নিতে পেরে খুবই আনন্দিত। শিক্ষকদের পদ্ধতি এবং ধৈর্য প্রশংসনীয়। আমি আমার বন্ধুদেরও এই কোর্সে যোগ দিতে উৎসাহিত করেছি।</p>
+                        <div class="testimonial-authorL">
+                            <div class="author-avatarL">ন</div>
+                            <div class="author-infoL">
+                                <h4>নাসিমা বেগম</h4>
+                                <p>হাদিস শরীফ কোর্স</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-cardL">
+                    <div class="testimonial-contentL">
+                        <p>ফিকহ সম্পর্কে আমার ধারণা খুবই সীমিত ছিল। এই কোর্স আমাকে দৈনন্দিন জীবনে ইসলামিক বিধি-বিধান সম্পর্কে গভীর জ্ঞান দিয়েছে। আমি এখন অনেক বেশি আত্মবিশ্বাসী।</p>
+                        <div class="testimonial-authorL">
+                            <div class="author-avatarL">র</div>
+                            <div class="author-infoL">
+                                <h4>রহিম আলী</h4>
+                                <p>ইসলামিক ফিকহ কোর্স</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="testimonial-card">
-            <div class="testimonial-content">
-                <p>আমি ঘরে বসেই হাদিস শিক্ষা নিতে পেরে খুবই আনন্দিত। শিক্ষকদের পদ্ধতি এবং ধৈর্য প্রশংসনীয়। আমি আমার বন্ধুদেরও এই কোর্সে যোগ দিতে উৎসাহিত করেছি।</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">ন</div>
-                    <div class="author-info">
-                        <h4>নাসিমা বেগম</h4>
-                        <p>হাদিস শরীফ কোর্স</p>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faqL">
+            <div class="faq-headingL">
+                <h2>সাধারণ জিজ্ঞাসা</h2>
+            </div>
+            <div class="accordionL">
+                <div class="accordion-itemL">
+                    <div class="accordion-headerL">
+                        <span>কিভাবে লাইভ ক্লাসে অংশগ্রহণ করব?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-contentL">
+                        <p>রেজিস্ট্রেশন করার পর, আপনি একটি লগইন আইডি এবং পাসওয়ার্ড পাবেন। আমাদের ওয়েবসাইটে লগইন করে নির্ধারিত সময়ে লাইভ ক্লাসে অংশগ্রহণ করতে পারবেন। আমরা জুম বা গুগল মিট ব্যবহার করি।</p>
+                    </div>
+                </div>
+                <div class="accordion-itemL">
+                    <div class="accordion-headerL">
+                        <span>কোর্স ফি কত?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-contentL">
+                        <p>আমাদের কোর্স ফি বিভিন্ন প্রোগ্রাম অনুসারে পরিবর্তিত হয়। কুরআন তাজবীদ কোর্স: ১৫০০ টাকা/মাস, হাদিস শরীফ কোর্স: ১৮০০ টাকা/মাস, ইসলামিক ফিকহ কোর্স: ২০০০ টাকা/মাস। বিস্তারিত জানতে আমাদের সাথে যোগাযোগ করুন।</p>
+                    </div>
+                </div>
+                <div class="accordion-itemL">
+                    <div class="accordion-headerL">
+                        <span>মিস করা ক্লাস কিভাবে দেখব?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-contentL">
+                        <p>সমস্ত লাইভ ক্লাস রেকর্ড করা হয় এবং আমাদের লার্নিং পোর্টালে আপলোড করা হয়। আপনি যেকোনো সময় লগইন করে মিস করা ক্লাসগুলো দেখতে পারবেন।</p>
+                    </div>
+                </div>
+                <div class="accordion-itemL">
+                    <div class="accordion-headerL">
+                        <span>শিক্ষার্থীদের জন্য কি কোন সাপোর্ট সিস্টেম আছে?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-contentL">
+                        <p>হ্যাঁ, আমাদের শিক্ষকগণ ক্লাসের বাইরেও নির্দিষ্ট সময়ে প্রশ্নের উত্তর দেন। আমাদের হোয়াটসঅ্যাপ গ্রুপ রয়েছে যেখানে আপনি সহপাঠী এবং শিক্ষকদের সাথে যোগাযোগ করতে পারেন।</p>
+                    </div>
+                </div>
+                <div class="accordion-itemL">
+                    <div class="accordion-headerL">
+                        <span>কোর্স শেষে কি সার্টিফিকেট দেওয়া হয়?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-contentL">
+                        <p>হ্যাঁ, কোর্স সফলভাবে সম্পন্ন করার পর আমরা ডিজিটাল সার্টিফিকেট প্রদান করি। আপনি চাইলে হার্ড কপিও পেতে পারেন অতিরিক্ত মূল্যের বিনিময়ে।</p>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="testimonial-card">
-            <div class="testimonial-content">
-                <p>ফিকহ সম্পর্কে আমার ধারণা খুবই সীমিত ছিল। এই কোর্স আমাকে দৈনন্দিন জীবনে ইসলামিক বিধি-বিধান সম্পর্কে গভীর জ্ঞান দিয়েছে। আমি এখন অনেক বেশি আত্মবিশ্বাসী।</p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">র</div>
-                    <div class="author-info">
-                        <h4>রহিম আলী</h4>
-                        <p>ইসলামিক ফিকহ কোর্স</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+        </section>
+    </main>
 
-<!-- FAQ Section -->
-<section class="faq">
-    <div class="faq-heading">
-        <h2>সাধারণ জিজ্ঞাসা</h2>
-    </div>
-    <div class="accordion">
-        <div class="accordion-item">
-            <div class="accordion-header">
-                <span>কিভাবে লাইভ ক্লাসে অংশগ্রহণ করব?</span>
-                <span>+</span>
-            </div>
-            <div class="accordion-content">
-                <p>রেজিস্ট্রেশন করার পর, আপনি একটি লগইন আইডি এবং পাসওয়ার্ড পাবেন। আমাদের ওয়েবসাইটে লগইন করে নির্ধারিত সময়ে লাইভ ক্লাসে অংশগ্রহণ করতে পারবেন। আমরা জুম বা গুগল মিট ব্যবহার করি।</p>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <div class="accordion-header">
-                <span>কোর্স ফি কত?</span>
-                <span>+</span>
-            </div>
-            <div class="accordion-content">
-                <p>আমাদের কোর্স ফি বিভিন্ন প্রোগ্রাম অনুসারে পরিবর্তিত হয়। কুরআন তাজবীদ কোর্স: ১৫০০ টাকা/মাস, হাদিস শরীফ কোর্স: ১৮০০ টাকা/মাস, ইসলামিক ফিকহ কোর্স: ২০০০ টাকা/মাস। বিস্তারিত জানতে আমাদের সাথে যোগাযোগ করুন।</p>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <div class="accordion-header">
-                <span>মিস করা ক্লাস কিভাবে দেখব?</span>
-                <span>+</span>
-            </div>
-            <div class="accordion-content">
-                <p>সমস্ত লাইভ ক্লাস রেকর্ড করা হয় এবং আমাদের লার্নিং পোর্টালে আপলোড করা হয়। আপনি যেকোনো সময় লগইন করে মিস করা ক্লাসগুলো দেখতে পারবেন।</p>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <div class="accordion-header">
-                <span>শিক্ষার্থীদের জন্য কি কোন সাপোর্ট সিস্টেম আছে?</span>
-                <span>+</span>
-            </div>
-            <div class="accordion-content">
-                <p>হ্যাঁ, আমাদের শিক্ষকগণ ক্লাসের বাইরেও নির্দিষ্ট সময়ে প্রশ্নের উত্তর দেন। আমাদের হোয়াটসঅ্যাপ গ্রুপ রয়েছে যেখানে আপনি সহপাঠী এবং শিক্ষকদের সাথে যোগাযোগ করতে পারেন।</p>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <div class="accordion-header">
-                <span>কোর্স শেষে কি সার্টিফিকেট দেওয়া হয়?</span>
-                <span>+</span>
-            </div>
-            <div class="accordion-content">
-                <p>হ্যাঁ, কোর্স সফলভাবে সম্পন্ন করার পর আমরা ডিজিটাল সার্টিফিকেট প্রদান করি। আপনি চাইলে হার্ড কপিও পেতে পারেন অতিরিক্ত মূল্যের বিনিময়ে।</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-</main>
-
-<script>
-    // Accordion functionality
-    document.querySelectorAll('.accordion-header').forEach(button => {
-        button.addEventListener('click', () => {
-            const content = button.nextElementSibling;
-            content.classList.toggle('active');
-            
-            // Change plus/minus sign
-            const sign = button.querySelector('span:last-child');
-            sign.textContent = content.classList.contains('active') ? '-' : '+';
+    <script>
+        // Accordion functionality
+        document.querySelectorAll('.accordion-headerL').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                content.classList.toggle('active');
+                
+                // Change plus/minus sign
+                const sign = button.querySelector('span:last-child');
+                sign.textContent = content.classList.contains('active') ? '-' : '+';
+            });
         });
-    });
-</script>
+    </script>
 
 
 

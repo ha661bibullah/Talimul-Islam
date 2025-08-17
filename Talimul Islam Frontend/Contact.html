@@ -3202,9 +3202,9 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
 
 
 
+ 
 
-
-<style>
+ <style>
         * {
             margin: 0;
             padding: 0;
@@ -3212,19 +3212,19 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             font-family: 'Hind Siliguri', Arial, sans-serif;
         }
         
-        Cbody {
+        body {
             background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
         }
         
-        C.container {
+        .containerC {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
-        C.contact-header {
+        .contact-headerC {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             padding: 80px 0;
             color: white;
@@ -3241,26 +3241,26 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1)
         }
         
-        C.contact-header h1 {
+        .contact-headerC h1 {
             font-size: 3rem;
             margin-bottom: 15px;
             font-weight: 700;
         }
         
-        C.contact-header p {
+        .contact-headerC p {
             font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto;
         }
         
-        C.contact-content {
+        .contact-contentC {
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
             margin-bottom: 50px;
         }
         
-        C.contact-info1 {
+        .contact-info1C {
             flex: 1;
             min-width: 300px;
             /* background-color: white; */
@@ -3269,7 +3269,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         
-        C.contact-form {
+        .contact-formC {
             flex: 2;
             min-width: 300px;
             background-color: white;
@@ -3278,13 +3278,13 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         
-        C.info-item {
+        .info-itemC {
             margin-bottom: 25px;
             display: flex;
             align-items: center;
         }
         
-        C.info-icon {
+        .info-iconC {
             width: 50px;
             height: 50px;
             background-color: #f0f7ff;
@@ -3297,36 +3297,36 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             font-size: 1.5rem;
         }
         
-        C.info-text h3 {
+        .info-textC h3 {
             font-size: 1.2rem;
             margin-bottom: 5px;
             color: #333;
         }
         
-        C.info-text p {
+        .info-textC p {
             color: #666;
         }
         
-        C.contact-form h2 {
+        .contact-formC h2 {
             margin-bottom: 25px;
             font-size: 1.8rem;
             color: #333;
         }
         
-        C.form-group {
+        .form-groupC {
             margin-bottom: 20px;
         }
         
-        C.form-group label {
+        .form-groupC label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
             color: #555;
         }
         
-        C.form-group input,
-        C.form-group textarea,
-        C.form-group select {
+        .form-groupC input,
+        .form-groupC textarea,
+        .form-groupC select {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #ddd;
@@ -3336,20 +3336,20 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transition: all 0.3s;
         }
         
-        C.form-group input:focus,
-        C.form-group textarea:focus,
-        C.form-group select:focus {
+        .form-groupC input:focus,
+        .form-groupC textarea:focus,
+        .form-groupC select:focus {
             border-color: #2575fc;
             outline: none;
             box-shadow: 0 0 0 2px rgba(37, 117, 252, 0.1);
         }
         
-        C.form-group textarea {
+        .form-groupC textarea {
             height: 120px;
             resize: vertical;
         }
         
-        Cbutton {
+        button {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: white;
             border: none;
@@ -3361,12 +3361,12 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             font-weight: 500;
         }
         
-        Cbutton:hover {
+        button:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(37, 117, 252, 0.2);
         }
         
-        C.course-highlight {
+        .course-highlightC {
             background-color: white;
             border-radius: 15px;
             padding: 40px;
@@ -3375,13 +3375,13 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             text-align: center;
         }
         
-        C.course-highlight h2 {
+        .course-highlightC h2 {
             font-size: 2rem;
             margin-bottom: 20px;
             color: #333;
         }
         
-        C.course-highlight p {
+        .course-highlightC p {
             color: #666;
             margin-bottom: 30px;
             max-width: 800px;
@@ -3389,14 +3389,14 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             margin-right: auto;
         }
         
-        C.course-cards {
+        .course-cardsC {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
         }
         
-        C.course-card {
+        .course-cardC {
             background-color: #f8f9fa;
             border-radius: 12px;
             overflow: hidden;
@@ -3405,12 +3405,12 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transition: all 0.3s;
         }
         
-        C.course-card:hover {
+        .course-cardC:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
         }
         
-        C.course-img {
+        .course-imgC {
             height: 160px;
             background-color: #ddd;
             display: flex;
@@ -3421,30 +3421,30 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             background: linear-gradient(45deg, #2575fc, #6a11cb);
         }
         
-        C.course-details {
+        .course-detailsC {
             padding: 20px;
         }
         
-        C.course-details h3 {
+        .course-detailsC h3 {
             font-size: 1.3rem;
             margin-bottom: 10px;
             color: #333;
         }
         
-        C.course-details p {
+        .course-detailsC p {
             color: #666;
             margin-bottom: 15px;
             font-size: 0.95rem;
         }
         
-        C.course-price {
+        .course-priceC {
             font-size: 1.2rem;
             font-weight: 600;
             color: #2575fc;
             margin-bottom: 15px;
         }
         
-        C.buy-btn {
+        .buy-btnC {
             display: inline-block;
             background-color: #2575fc;
             color: white;
@@ -3455,24 +3455,24 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transition: all 0.3s;
         }
         
-        C.buy-btn:hover {
+        .buy-btnC:hover {
             background-color: #1a65e8;
             transform: translateY(-2px);
         }
         
         /* FAQ Section */
-        C.faq-section {
+        .faq-sectionC {
             margin: 50px 0;
         }
         
-        C.faq-section h2 {
+        .faq-sectionC h2 {
             text-align: center;
             font-size: 2rem;
             margin-bottom: 30px;
             color: #333;
         }
         
-        C.faq-item {
+        .faq-itemC {
             background-color: white;
             border-radius: 10px;
             padding: 20px;
@@ -3480,95 +3480,94 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         
-        C.faq-question {
+        .faq-questionC {
             font-size: 1.2rem;
             font-weight: 600;
             color: #333;
             margin-bottom: 10px;
         }
         
-        C.faq-answer {
+        .faq-answerC {
             color: #666;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
-            C.contact-header {
+            .contact-headerC {
                 padding: 50px 0;
                 border-radius: 0 0 30px 30px;
             }
             
-            C.contact-header h1 {
+            .contact-headerC h1 {
                 font-size: 2rem;
             }
             
-            C.course-cards {
+            .course-cardsC {
                 justify-content: center;
             }
             
-            C.course-card {
+            .course-cardC {
                 width: 100%;
                 max-width: 350px;
             }
         }
-    </style>
-    <section class="Ccontact-header">
-        <div class="Ccontainer">
+ </style>
+ <section class="contact-headerC">
+        <div class="containerC">
             <h1>যোগাযোগ করুন</h1>
             <p>আমাদের কোর্স সম্পর্কে বিস্তারিত জানতে এবং আপনার প্রশ্নের উত্তর পেতে আমাদের সাথে যোগাযোগ করুন</p>
         </div>
-    </section>
-    
-    <div class="Ccontainer">
-        <div class="Ccontact-content">
-            <div class="Ccontact-info1">
+ </section>
+<div class="containerC">
+        <div class="contact-contentC">
+            <div class="contact-info1C">
                 <h2>যোগাযোগের তথ্য</h2>
-                <div class="Cinfo-item">
-                    <div class="Cinfo-icon">📱</div>
-                    <div class="Cinfo-text">
+                <div class="info-itemC">
+                    <div class="info-iconC">📱</div>
+                    <div class="info-textC">
                         <h3>ফোন নম্বর</h3>
                         <p>+৮৮০ ১৭১২-৩৪৫৬৭৮</p>
                     </div>
                 </div>
-                <div class="Cinfo-item">
-                    <div class="Cinfo-icon">✉️</div>
-                    <div class="Cinfo-text">
+                <div class="info-itemC">
+                    <div class="info-iconC">✉️</div>
+                    <div class="info-textC">
                         <h3>ইমেইল</h3>
                         <p>contact@amardershiksha.com</p>
                     </div>
                 </div>
-                <div class="Cinfo-item">
-                    <div class="Cinfo-icon">🏢</div>
-                    <div class="Cinfo-text">
+                <div class="info-itemC">
+                    <div class="info-iconC">🏢</div>
+                    <div class="info-textC">
                         <h3>ঠিকানা</h3>
                         <p>লেভেল ৫, বাড়ি ৪৫, রোড ১০, বনানী, ঢাকা ১২১৩</p>
                     </div>
                 </div>
-                <div class="Cinfo-item">
-                    <div class="Cinfo-icon">⏰</div>
-                    <div class="Cinfo-text">
+                <div class="info-itemC">
+                    <div class="info-iconC">⏰</div>
+                    <div class="info-textC">
                         <h3>সময়সূচি</h3>
                         <p>সকাল ৯টা থেকে সন্ধ্যা ৮টা (শুক্রবার বন্ধ)</p>
                     </div>
                 </div>
             </div>
             
-            <div class="Ccontact-form">
+            <div class="contact-formC">
                 <h2>আমাদের সাথে যোগাযোগ করুন</h2>
                 <form id="contactForm">
-                    <div class="Cform-group">
+                    <div class="form-groupC">
                         <label for="name">আপনার নাম</label>
                         <input type="text" id="name" name="name" required>
                     </div>
-                    <div class="Cform-group">
+                    <div class="form-groupC">
                         <label for="email">ইমেইল</label>
                         <input type="email" id="email" name="email" required>
                     </div>
-                    <div class="Cform-group">
+                    <div class="form-groupC">
                         <label for="phone">ফোন নম্বর</label>
                         <input type="tel" id="phone" name="phone" required>
                     </div>
-                    <div class="Cform-group">
+                    <div class="form-groupC">
                         <label for="course">আপনি কোন কোর্স সম্পর্কে জানতে চান?</label>
                         <select id="course" name="course">
                             <option value="">কোর্স নির্বাচন করুন</option>
@@ -3578,7 +3577,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
                             <option value="digital">ডিজিটাল মার্কেটিং</option>
                         </select>
                     </div>
-                    <div class="Cform-group">
+                    <div class="form-groupC">
                         <label for="message">আপনার মেসেজ</label>
                         <textarea id="message" name="message" required></textarea>
                     </div>
@@ -3587,87 +3586,85 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             </div>
         </div>
         
-        <div class="Ccourse-highlight">
+        <div class="course-highlightC">
             <h2>আমাদের জনপ্রিয় কোর্সসমূহ</h2>
             <p>আপনার ক্যারিয়ার উন্নয়নের জন্য আমাদের বিশেষজ্ঞ প্রশিক্ষকদের দ্বারা পরিচালিত অনলাইন কোর্সগুলি দেখুন</p>
             
-            <div class="Ccourse-cards">
-                <div class="Ccourse-card">
-                    <div class="Ccourse-img">
+            <div class="course-cardsC">
+                <div class="course-cardC">
+                    <div class="course-imgC">
                         <img src="/api/placeholder/300/160" alt="ওয়েব ডেভেলপমেন্ট কোর্স">
                     </div>
-                    <div class="Ccourse-details">
+                    <div class="course-detailsC">
                         <h3>ওয়েব ডেভেলপমেন্ট</h3>
                         <p>HTML, CSS, JavaScript, React, Node.js সহ সম্পূর্ণ ফ্রন্ট-এন্ড ও ব্যাক-এন্ড ডেভেলপমেন্ট শিখুন</p>
-                        <div class="Ccourse-price">৳১২,০০০</div>
-                        <a href="#" class="Cbuy-btn">কোর্সটি কিনুন</a>
+                        <div class="course-priceC">৳১২,০০০</div>
+                        <a href="#" class="buy-btnC">কোর্সটি কিনুন</a>
                     </div>
                 </div>
                 
-                <div class="Ccourse-card">
-                    <div class="Ccourse-img">
+                <div class="course-cardC">
+                    <div class="course-imgC">
                         <img src="/api/placeholder/300/160" alt="মোবাইল অ্যাপ ডেভেলপমেন্ট কোর্স">
                     </div>
-                    <div class="Ccourse-details">
+                    <div class="course-detailsC">
                         <h3>মোবাইল অ্যাপ ডেভেলপমেন্ট</h3>
                         <p>Flutter, React Native, Android, iOS অ্যাপ ডেভেলপমেন্ট শিখুন এবং প্রফেশনাল ডেভেলপার হোন</p>
-                        <div class="Ccourse-price">৳১৫,০০০</div>
-                        <a href="#" class="Cbuy-btn">কোর্সটি কিনুন</a>
+                        <div class="course-priceC">৳১৫,০০০</div>
+                        <a href="#" class="buy-btnC">কোর্সটি কিনুন</a>
                     </div>
                 </div>
                 
-                <div class="Ccourse-card">
-                    <div class="Ccourse-img">
+                <div class="course-cardC">
+                    <div class="course-imgC">
                         <img src="/api/placeholder/300/160" alt="ডিজিটাল মার্কেটিং কোর্স">
                     </div>
-                    <div class="Ccourse-details">
+                    <div class="course-detailsC">
                         <h3>ডিজিটাল মার্কেটিং</h3>
                         <p>SEO, SEM, সোশ্যাল মিডিয়া মার্কেটিং, কনটেন্ট মার্কেটিং, ইমেইল মার্কেটিং এবং আরও অনেক কিছু শিখুন</p>
-                        <div class="Ccourse-price">৳৯,০০০</div>
-                        <a href="#" class="Cbuy-btn">কোর্সটি কিনুন</a>
+                        <div class="course-priceC">৳৯,০০০</div>
+                        <a href="#" class="buy-btnC">কোর্সটি কিনুন</a>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="Cfaq-section">
+        <div class="faq-sectionC">
             <h2>সাধারণ জিজ্ঞাসা</h2>
             
-            <div class="Cfaq-item">
-                <div class="Cfaq-question">কোর্সগুলো কি পুরোপুরি অনলাইনে হয়?</div>
-                <div class="Cfaq-answer">হ্যাঁ, আমাদের সব কোর্স পুরোপুরি অনলাইনে হয়। আপনি যেকোনো সময়, যেকোনো স্থান থেকে অ্যাক্সেস করতে পারবেন।</div>
+            <div class="faq-itemC">
+                <div class="faq-questionC">কোর্সগুলো কি পুরোপুরি অনলাইনে হয়?</div>
+                <div class="faq-answerC">হ্যাঁ, আমাদের সব কোর্স পুরোপুরি অনলাইনে হয়। আপনি যেকোনো সময়, যেকোনো স্থান থেকে অ্যাক্সেস করতে পারবেন।</div>
             </div>
             
-            <div class="Cfaq-item">
-                <div class="Cfaq-question">কোর্সের মেয়াদ কত দিন?</div>
-                <div class="Cfaq-answer">কোর্স অনুযায়ী মেয়াদ আলাদা। সাধারণত আমাদের কোর্সের মেয়াদ ৩ থেকে ৬ মাস পর্যন্ত হয়ে থাকে।</div>
+            <div class="faq-itemC">
+                <div class="faq-questionC">কোর্সের মেয়াদ কত দিন?</div>
+                <div class="faq-answerC">কোর্স অনুযায়ী মেয়াদ আলাদা। সাধারণত আমাদের কোর্সের মেয়াদ ৩ থেকে ৬ মাস পর্যন্ত হয়ে থাকে।</div>
             </div>
             
-            <div class="Cfaq-item">
-                <div class="Cfaq-question">কোর্স ফি একবারে দিতে হবে নাকি কিস্তিতে দেওয়া যাবে?</div>
-                <div class="Cfaq-answer">আমরা একবারে পেমেন্ট এবং ২-৩ কিস্তিতে পেমেন্ট উভয় অপশনই প্রদান করি। কিস্তিতে পেমেন্ট করলে সামান্য অতিরিক্ত চার্জ প্রযোজ্য।</div>
+            <div class="faq-itemC">
+                <div class="faq-questionC">কোর্স ফি একবারে দিতে হবে নাকি কিস্তিতে দেওয়া যাবে?</div>
+                <div class="faq-answerC">আমরা একবারে পেমেন্ট এবং ২-৩ কিস্তিতে পেমেন্ট উভয় অপশনই প্রদান করি। কিস্তিতে পেমেন্ট করলে সামান্য অতিরিক্ত চার্জ প্রযোজ্য।</div>
             </div>
             
-            <div class="Cfaq-item">
-                <div class="Cfaq-question">কোর্স শেষে কি সার্টিফিকেট দেওয়া হয়?</div>
-                <div class="Cfaq-answer">হ্যাঁ, সব কোর্স সফলভাবে সম্পন্ন করার পর আপনি ইন্ডাস্ট্রি স্বীকৃত সার্টিফিকেট পাবেন।</div>
+            <div class="faq-itemC">
+                <div class="faq-questionC">কোর্স শেষে কি সার্টিফিকেট দেওয়া হয়?</div>
+                <div class="faq-answerC">হ্যাঁ, সব কোর্স সফলভাবে সম্পন্ন করার পর আপনি ইন্ডাস্ট্রি স্বীকৃত সার্টিফিকেট পাবেন।</div>
             </div>
             
-            <div class="Cfaq-item">
-                <div class="Cfaq-question">কোর্স থেকে কি জব প্লেসমেন্ট সাপোর্ট দেওয়া হয়?</div>
-                <div class="Cfaq-answer">হ্যাঁ, আমরা সেরা শিক্ষার্থীদের জন্য জব প্লেসমেন্ট সাপোর্ট প্রদান করি। আমাদের অনেক পার্টনার কোম্পানি রয়েছে যারা আমাদের গ্র্যাজুয়েটদের নিয়োগ দেয়।</div>
+            <div class="faq-itemC">
+                <div class="faq-questionC">কোর্স থেকে কি জব প্লেসমেন্ট সাপোর্ট দেওয়া হয়?</div>
+                <div class="faq-answerC">হ্যাঁ, আমরা সেরা শিক্ষার্থীদের জন্য জব প্লেসমেন্ট সাপোর্ট প্রদান করি। আমাদের অনেক পার্টনার কোম্পানি রয়েছে যারা আমাদের গ্র্যাজুয়েটদের নিয়োগ দেয়।</div>
             </div>
         </div>
-    </div>
-    
-    <script>
+</div>
+<script>
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('ধন্যবাদ! আপনার মেসেজ পাঠানো হয়েছে। আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।');
             this.reset();
         });
-    </script>
-
+</script>
 
 
 
