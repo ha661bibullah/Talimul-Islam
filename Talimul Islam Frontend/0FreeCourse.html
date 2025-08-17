@@ -3183,7 +3183,112 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
 };
 </script>
 
+<script>
+// নেভিগেশন মেনু একটিভ স্টাইলিং এবং ক্লিক হ্যান্ডলার
+document.addEventListener('DOMContentLoaded', function() {
+    // বর্তমান URL থেকে একটিভ পেইজ নির্ধারণ
+    const currentPage = window.location.pathname.split('/').pop() || 'Talimul Islam Academi.html';
+    
+    // সব নেভ লিঙ্ক নির্বাচন
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // সব লিঙ্ক থেকে active ক্লাস সরানো
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        
+        // লিঙ্কের href এর সাথে বর্তমান পেইজ মিলানো
+        const linkHref = link.getAttribute('href');
+        if (linkHref && linkHref.includes(currentPage)) {
+            link.classList.add('active');
+        }
+    });
+    
+    // নেভ লিঙ্কে ক্লিক হ্যান্ডলার
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // ড্রপডাউন মেনু আইটেম হলে কিছু করবেন না
+            if (this.closest('.dropdown-content')) return;
+            
+            // সব লিঙ্ক থেকে active ক্লাস সরানো
+            navLinks.forEach(l => l.classList.remove('active'));
+            
+            // ক্লিক করা লিঙ্কে active ক্লাস যোগ
+            this.classList.add('active');
+            
+            // মোবাইল মেনু বন্ধ করা
+            const mobileMenu = document.getElementById('mobileNavMenu');
+            if (mobileMenu) {
+                mobileMenu.style.display = 'none';
+            }
+        });
+    });
+    
+    // ডেস্কটপ এবং মোবাইল লগইন বাটন হ্যান্ডলার
+    const loginButtons = document.querySelectorAll('.login-button');
+    loginButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            window.location.href = 'login.html'; // আপনার লগইন পেইজের URL
+        });
+    });
+    
+    // লগআউট বাটন হ্যান্ডলার
+    const logoutButtons = document.querySelectorAll('#desktopLogoutButton, #mobileLogoutButton');
+    logoutButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            // এখানে লগআউট লজিক যোগ করুন
+            window.location.href = 'Talimul Islam Academi.html'; // লগআউট 후 হোম পেইজে রিডাইরেক্ট
+        });
+    });
+});
 
+// ড্রপডাউন টগল ফাংশন
+function toggleDropdown(element) {
+    const dropdown = element.querySelector('.dropdown-content');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+// প্রোফাইল ড্রপডাউন টগল ফাংশন
+function toggleProfileDropdown(dropdownId) {
+    const dropdown = document.getElementById(dropdownId);
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+// মোবাইল মেনু টগল ফাংশন
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileNavMenu');
+    mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+}
+
+// মোবাইল সার্চ টগল ফাংশন
+function toggleMobileSearch() {
+    const mobileSearch = document.getElementById('mobileSearchBar');
+    mobileSearch.style.display = mobileSearch.style.display === 'block' ? 'none' : 'block';
+}
+
+function closeMobileSearch() {
+    document.getElementById('mobileSearchBar').style.display = 'none';
+}
+
+// থিম টগল ফাংশন
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+}
+
+// ভাষা পরিবর্তন ফাংশন
+function toggleLanguage() {
+    const flag = document.getElementById('flag') || document.getElementById('desktopFlag');
+    const lang = document.getElementById('lang') || document.getElementById('desktopLang');
+    
+    if (flag.src.includes('bd.png')) {
+        flag.src = 'https://flagcdn.com/w40/gb.png';
+        lang.textContent = 'English';
+    } else {
+        flag.src = 'https://flagcdn.com/w40/bd.png';
+        lang.textContent = 'বাংলা';
+    }
+}
+</script>
 
 
     

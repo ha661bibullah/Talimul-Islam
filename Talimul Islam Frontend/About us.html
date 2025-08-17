@@ -3176,7 +3176,112 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
     }
 };
 </script>
+<script>
+// নেভিগেশন মেনু একটিভ স্টাইলিং এবং ক্লিক হ্যান্ডলার
+document.addEventListener('DOMContentLoaded', function() {
+    // বর্তমান URL থেকে একটিভ পেইজ নির্ধারণ
+    const currentPage = window.location.pathname.split('/').pop() || 'Talimul Islam Academi.html';
+    
+    // সব নেভ লিঙ্ক নির্বাচন
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // সব লিঙ্ক থেকে active ক্লাস সরানো
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        
+        // লিঙ্কের href এর সাথে বর্তমান পেইজ মিলানো
+        const linkHref = link.getAttribute('href');
+        if (linkHref && linkHref.includes(currentPage)) {
+            link.classList.add('active');
+        }
+    });
+    
+    // নেভ লিঙ্কে ক্লিক হ্যান্ডলার
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // ড্রপডাউন মেনু আইটেম হলে কিছু করবেন না
+            if (this.closest('.dropdown-content')) return;
+            
+            // সব লিঙ্ক থেকে active ক্লাস সরানো
+            navLinks.forEach(l => l.classList.remove('active'));
+            
+            // ক্লিক করা লিঙ্কে active ক্লাস যোগ
+            this.classList.add('active');
+            
+            // মোবাইল মেনু বন্ধ করা
+            const mobileMenu = document.getElementById('mobileNavMenu');
+            if (mobileMenu) {
+                mobileMenu.style.display = 'none';
+            }
+        });
+    });
+    
+    // ডেস্কটপ এবং মোবাইল লগইন বাটন হ্যান্ডলার
+    const loginButtons = document.querySelectorAll('.login-button');
+    loginButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            window.location.href = 'login.html'; // আপনার লগইন পেইজের URL
+        });
+    });
+    
+    // লগআউট বাটন হ্যান্ডলার
+    const logoutButtons = document.querySelectorAll('#desktopLogoutButton, #mobileLogoutButton');
+    logoutButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            // এখানে লগআউট লজিক যোগ করুন
+            window.location.href = 'Talimul Islam Academi.html'; // লগআউট 후 হোম পেইজে রিডাইরেক্ট
+        });
+    });
+});
 
+// ড্রপডাউন টগল ফাংশন
+function toggleDropdown(element) {
+    const dropdown = element.querySelector('.dropdown-content');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+// প্রোফাইল ড্রপডাউন টগল ফাংশন
+function toggleProfileDropdown(dropdownId) {
+    const dropdown = document.getElementById(dropdownId);
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+// মোবাইল মেনু টগল ফাংশন
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileNavMenu');
+    mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+}
+
+// মোবাইল সার্চ টগল ফাংশন
+function toggleMobileSearch() {
+    const mobileSearch = document.getElementById('mobileSearchBar');
+    mobileSearch.style.display = mobileSearch.style.display === 'block' ? 'none' : 'block';
+}
+
+function closeMobileSearch() {
+    document.getElementById('mobileSearchBar').style.display = 'none';
+}
+
+// থিম টগল ফাংশন
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+}
+
+// ভাষা পরিবর্তন ফাংশন
+function toggleLanguage() {
+    const flag = document.getElementById('flag') || document.getElementById('desktopFlag');
+    const lang = document.getElementById('lang') || document.getElementById('desktopLang');
+    
+    if (flag.src.includes('bd.png')) {
+        flag.src = 'https://flagcdn.com/w40/gb.png';
+        lang.textContent = 'English';
+    } else {
+        flag.src = 'https://flagcdn.com/w40/bd.png';
+        lang.textContent = 'বাংলা';
+    }
+}
+</script>
 
 
 
@@ -3198,34 +3303,42 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
 
 
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap');
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
         
         :root {
             --primary-color: #116530;
             --secondary-color: #4E9F3D;
             --accent-color: #D8E9A8;
-            --text-color: #1E5128;
-            --light-bg: #F7F7F7;
+            --text-color: #2C3E50;
+            --light-bg: #F8F9FA;
             --white: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.7;
         }
         
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             text-align: center;
-            padding: 2rem 0;
+            padding: 3rem 0;
             border-bottom: 5px solid var(--accent-color);
             position: relative;
             overflow: hidden;
-
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1)
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
         }
         
         header::before {
@@ -3239,63 +3352,77 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             opacity: 0.1;
         }
         
-        .logo1 {
-            background-color: var(--white);
-            color: var(--primary-color);
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 1rem;
-            font-size: 2rem;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            /* margin-bottom: 1rem; */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        
-        .tagline {
-            font-size: 1.2rem;
-            font-weight: 300;
-            margin-bottom: 1rem;
-        }
-        
         .container7 {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
+            z-index: 2;
         }
+        
+        .logo1 {
+            background-color: var(--white);
+            color: var(--primary-color);
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            font-weight: bold;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .logo1:hover {
+            transform: rotate(15deg) scale(1.05);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+        
         .container8 {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .container9 {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
         .featured-section {
-            margin-top: -50px;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
         
         .feature-card {
             background-color: var(--white);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
             margin-bottom: 2rem;
             position: relative;
             overflow: hidden;
             border-left: 5px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
         
         .feature-card::before {
@@ -3313,59 +3440,49 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
         
         .feature-card h2 {
             color: var(--primary-color);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             position: relative;
             z-index: 2;
+            font-size: 2rem;
+            font-weight: 600;
         }
         
         .feature-card p {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             position: relative;
             z-index: 2;
+            font-size: 1.1rem;
+            line-height: 1.8;
         }
         
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
         
         .grid-item {
             background-color: var(--white);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 2rem;
             text-align: center;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
+            border-top: 3px solid transparent;
         }
         
         .grid-item:hover {
-            transform: translateY(-5px);
-        }
-        
-        .grid-item::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s ease;
-        }
-        
-        .grid-item:hover::after {
-            transform: scaleX(1);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-top: 3px solid var(--secondary-color);
         }
         
         .icon1 {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             background-color: var(--accent-color);
             color: var(--primary-color);
             border-radius: 50%;
@@ -3373,62 +3490,113 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             justify-content: center;
             align-items: center;
             margin: 0 auto 1.5rem;
-            font-size: 1.8rem;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .grid-item:hover .icon1 {
+            transform: scale(1.1);
+            background-color: var(--secondary-color);
+            color: var(--white);
+        }
+        
+        .grid-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        .grid-item p {
+            color: var(--text-color);
+            font-size: 1rem;
+            line-height: 1.7;
         }
         
         .testimonials {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: var(--white);
-            padding: 3rem 0;
+            padding: 4rem 0;
             position: relative;
             overflow: hidden;
+            margin: 4rem 0;
+            clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+        }
+        
+        .testimonials::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
         
         .testimonials h2 {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             position: relative;
-            color: #2d3748;
-            font-size: 1.5rem;
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: 600;
+            z-index: 2;
         }
         
         .testimonial-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
+            position: relative;
+            z-index: 2;
         }
         
         .testimonial-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 2rem;
             position: relative;
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .testimonial-card:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
         }
         
         .testimonial-text {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             font-style: normal;
+            font-size: 1.1rem;
+            line-height: 1.8;
         }
         
         .testimonial-author {
-            font-weight: bold;
+            font-weight: 600;
             text-align: right;
+            font-style: italic;
+            opacity: 0.9;
         }
         
         .cta-section {
-            padding: 4rem 0;
+            padding: 5rem 0;
             text-align: center;
             background-color: var(--white);
         }
         
         .cta-box {
-            max-width: 700px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 3rem;
-            background-color: var(--accent-color);
-            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent-color), rgba(216, 233, 168, 0.8));
+            border-radius: 15px;
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow);
         }
         
         .cta-box::before {
@@ -3443,71 +3611,146 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             opacity: 0.2;
         }
         
+        .cta-box::after {
+            content: "";
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 150px;
+            height: 150px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+        
         .cta-box h2 {
             color: var(--primary-color);
             margin-bottom: 1.5rem;
             position: relative;
+            z-index: 2;
+            font-size: 2rem;
         }
         
         .cta-box p {
             margin-bottom: 2rem;
             position: relative;
+            z-index: 2;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .btn {
             display: inline-block;
-            padding: 1rem 2rem;
+            padding: 1rem 2.5rem;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: var(--white);
             text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
+            border-radius: 50px;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 4px 10px rgba(17, 101, 48, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(17, 101, 48, 0.3);
+            transition: var(--transition);
             border: none;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            font-size: 1rem;
+        }
+        
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
         }
         
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(17, 101, 48, 0.4);
+            box-shadow: 0 8px 20px rgba(17, 101, 48, 0.4);
         }
         
-    
+        .btn:hover::before {
+            opacity: 1;
+        }
         
         @media (max-width: 768px) {
             h1 {
                 font-size: 2rem;
             }
             
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
             .feature-card {
-                padding: 1.5rem;
+                padding: 1.8rem;
+            }
+            
+            .feature-card h2 {
+                font-size: 1.6rem;
             }
             
             .grid-item {
-                padding: 1.5rem;
+                padding: 1.8rem;
+            }
+            
+            .testimonials {
+                clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+                padding: 3rem 0;
             }
             
             .cta-box {
                 padding: 2rem;
             }
+            
+            .cta-box h2 {
+                font-size: 1.6rem;
+            }
         }
-    </style> 
-    <header>
+        
+        @media (max-width: 480px) {
+            .logo1 {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonials {
+                clip-path: polygon(0 2%, 100% 0, 100% 98%, 0 100%);
+            }
+        }
+</style>    
+<header>
         <div class="container7">
             <div class="logo1">ম</div>
             <h1>মাদ্রাসার ক্লাস কোর্সের মাধ্যমে বিক্রি</h1>
             <p class="tagline">শিক্ষার মাধ্যমে সফল বিক্রয় কৌশল - আধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষার নতুন দিগন্ত</p>
         </div>
-    </header>
-    <div class="container8">
+</header>  
+<div class="container8">
         <section class="featured-section">
             <div class="feature-card">
                 <h2>মাদ্রাসা শিক্ষার মাধ্যমে বিক্রয় কৌশলের নতুন দিগন্ত</h2>
-                <span>মাদ্রাসা শিক্ষা ব্যবস্থাকে আধুনিক বিপণন কৌশলের সাথে সমন্বয় করে আমরা উন্নত করেছি একটি অভিনব পদ্ধতি। ঐতিহ্যবাহী জ্ঞান ও আধুনিক বিক্রয় কৌশলের সমন্বয়ে আমাদের কোর্সগুলি শিক্ষার্থীদেরকে দক্ষ বিক্রয় পেশাজীবী হিসেবে গড়ে তুলতে সহায়তা করে।</span>
-                <span>মাদ্রাসা ভিত্তিক শিক্ষা পদ্ধতির মূল্যবোধ ও নৈতিকতার সাথে বাণিজ্যিক দক্ষতার সমন্বয় করে আমরা তৈরি করেছি একটি অনন্য শিক্ষা ব্যবস্থা, যা শিক্ষার্থীদের বর্তমান বাজারে প্রতিযোগিতা করতে সক্ষম করে তোলে।</span>
+                <p>মাদ্রাসা শিক্ষা ব্যবস্থাকে আধুনিক বিপণন কৌশলের সাথে সমন্বয় করে আমরা উন্নত করেছি একটি অভিনব পদ্ধতি। ঐতিহ্যবাহী জ্ঞান ও আধুনিক বিক্রয় কৌশলের সমন্বয়ে আমাদের কোর্সগুলি শিক্ষার্থীদেরকে দক্ষ বিক্রয় পেশাজীবী হিসেবে গড়ে তুলতে সহায়তা করে।</p>
+                <p>মাদ্রাসা ভিত্তিক শিক্ষা পদ্ধতির মূল্যবোধ ও নৈতিকতার সাথে বাণিজ্যিক দক্ষতার সমন্বয় করে আমরা তৈরি করেছি একটি অনন্য শিক্ষা ব্যবস্থা, যা শিক্ষার্থীদের বর্তমান বাজারে প্রতিযোগিতা করতে সক্ষম করে তোলে।</p>
             </div>
         </section>
         
@@ -3552,7 +3795,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
         </section>
         
         <section class="testimonials">
-            <div class="container9">
+            <div class="container7">
                 <h2>আমাদের সফল শিক্ষার্থীদের অভিজ্ঞতা</h2>
                 <div class="testimonial-grid">
                     <div class="testimonial-card">
@@ -3580,8 +3823,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
                 <a href="#" class="btn">এখনই নিবন্ধন করুন</a>
             </div>
         </section>
-    </div>
-
+</div>
 
 
 
