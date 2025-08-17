@@ -3217,7 +3217,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
 
 
 
-    <style>
+ <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;700&display=swap');
         
         * {
@@ -3226,20 +3226,20 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-sizing: border-box;
         }
         
-        body {
+        Bbody {
             font-family: 'Noto Sans Bengali', sans-serif;
             background-color: #f8f5f0;
             color: #333;
             line-height: 1.6;
         }
         
-        .container {
+        Bcontainer {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
         
-        .header {
+        Bheader {
             text-align: center;
             margin-bottom: 30px;
             padding: 20px;
@@ -3249,18 +3249,18 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .header h1 {
+        Bheader h1 {
             font-size: 36px;
             margin-bottom: 10px;
             font-weight: 700;
         }
         
-        .header p {
+        Bheader p {
             font-size: 18px;
             opacity: 0.9;
         }
         
-        .featured-book {
+        Bfeatured-book {
             display: flex;
             margin: 30px 0;
             background-color: white;
@@ -3269,7 +3269,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .book-image {
+        Bbook-image {
             width: 40%;
             background-color: #e9edf0;
             display: flex;
@@ -3277,44 +3277,44 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             justify-content: center;
         }
         
-        .book-image img {
+        Bbook-image img {
             max-width: 100%;
             height: auto;
         }
         
-        .book-info {
+        Bbook-info {
             width: 60%;
             padding: 30px;
         }
         
-        .book-title {
+        Bbook-title {
             font-size: 28px;
             color: #086e38;
             margin-bottom: 15px;
             font-weight: 700;
         }
         
-        .book-description {
+        Bbook-description {
             margin-bottom: 20px;
             font-size: 16px;
         }
         
-        .book-details {
+        Bbook-details {
             margin-bottom: 20px;
         }
         
-        .book-detail {
+        Bbook-detail {
             display: flex;
             margin-bottom: 10px;
         }
         
-        .detail-label {
+        Bdetail-label {
             width: 120px;
             font-weight: 500;
             color: #555;
         }
         
-        .buy-button {
+        Bbuy-button {
             display: inline-block;
             background-color: #086e38;
             color: white;
@@ -3326,19 +3326,19 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transition: all 0.3s ease;
         }
         
-        .buy-button:hover {
+        Bbuy-button:hover {
             background-color: #054d27;
             transform: translateY(-2px);
         }
         
-        .book-grid {
+        Bbook-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
             margin: 40px 0;
         }
         
-        .book-card {
+        Bbook-card {
             background-color: white;
             border-radius: 8px;
             overflow: hidden;
@@ -3346,11 +3346,11 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transition: transform 0.3s ease;
         }
         
-        .book-card:hover {
+        Bbook-card:hover {
             transform: translateY(-5px);
         }
         
-        .card-image {
+        Bcard-image {
             height: 200px;
             background-color: #e9edf0;
             display: flex;
@@ -3358,24 +3358,24 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             justify-content: center;
         }
         
-        .card-content {
+        Bcard-content {
             padding: 20px;
         }
         
-        .card-title {
+        Bcard-title {
             font-size: 18px;
             color: #086e38;
             margin-bottom: 10px;
             font-weight: 600;
         }
         
-        .card-detail {
+        Bcard-detail {
             display: flex;
             margin-bottom: 5px;
             font-size: 14px;
         }
         
-        .card-button {
+        Bcard-button {
             display: block;
             background-color: #086e38;
             color: white;
@@ -3388,11 +3388,11 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             transition: all 0.3s ease;
         }
         
-        .card-button:hover {
+        Bcard-button:hover {
             background-color: #054d27;
         }
         
-        .section-title {
+        Bsection-title {
             font-size: 24px;
             color: #086e38;
             margin: 40px 0 20px;
@@ -3400,7 +3400,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             position: relative;
         }
         
-        .section-title::after {
+        Bsection-title::after {
             content: '';
             display: block;
             width: 80px;
@@ -3409,165 +3409,164 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             margin: 10px auto;
         }
         
-        .testimonial {
-            /* background-color: white; */
+        Btestimonial {
             padding: 25px;
             border-radius: 10px;
             margin-bottom: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
-        .testimonial-text {
+        Btestimonial-text {
             font-style: normal;
             margin-bottom: 15px;
         }
         
-        .testimonial-author {
+        Btestimonial-author {
             font-weight: 500;
             color: #086e38;
         }
         
         @media (max-width: 768px) {
-            .featured-book {
+            Bfeatured-book {
                 flex-direction: column;
             }
             
-            .book-image, .book-info {
+            Bbook-image, Bbook-info {
                 width: 100%;
             }
             
-            .book-grid {
+            Bbook-grid {
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             }
         }
     </style>
-    <div class="container">
-        <div class="header">
+    <div class="Bcontainer">
+        <div class="Bheader">
             <h1>মাদ্রাসা শিক্ষা সামগ্রী</h1>
             <p>উচ্চমানের ইসলামিক শিক্ষার জন্য নির্বাচিত বই সমূহ</p>
         </div>
         
-        <div class="featured-book">
-            <div class="book-image">
+        <div class="Bfeatured-book">
+            <div class="Bbook-image">
                 <img src="/api/placeholder/300/400" alt="আল-ফিকহুল আকবার">
             </div>
-            <div class="book-info">
-                <h2 class="book-title">আল-ফিকহুল আকবার</h2>
-                <p class="book-description">
+            <div class="Bbook-info">
+                <h2 class="Bbook-title">আল-ফিকহুল আকবার</h2>
+                <p class="Bbook-description">
                     ইমাম আবু হানিফা (রহ.) রচিত এই বইটি ইসলামিক আকিদা ও তাওহিদের মৌলিক বিষয়গুলো নিয়ে আলোচনা করে। এটি মাদ্রাসা শিক্ষার্থীদের জন্য একটি অপরিহার্য পাঠ্য বই যা আকিদা বিষয়ক জ্ঞানের ভিত্তি গঠন করে।
                 </p>
-                <div class="book-details">
-                    <div class="book-detail">
-                        <span class="detail-label">লেখক:</span>
+                <div class="Bbook-details">
+                    <div class="Bbook-detail">
+                        <span class="Bdetail-label">লেখক:</span>
                         <span>ইমাম আবু হানিফা (রহ.)</span>
                     </div>
-                    <div class="book-detail">
-                        <span class="detail-label">প্রকাশনী:</span>
+                    <div class="Bbook-detail">
+                        <span class="Bdetail-label">প্রকাশনী:</span>
                         <span>আল-হেদায়া প্রকাশনী</span>
                     </div>
-                    <div class="book-detail">
-                        <span class="detail-label">পৃষ্ঠা:</span>
+                    <div class="Bbook-detail">
+                        <span class="Bdetail-label">পৃষ্ঠা:</span>
                         <span>১৮০</span>
                     </div>
-                    <div class="book-detail">
-                        <span class="detail-label">মূল্য:</span>
+                    <div class="Bbook-detail">
+                        <span class="Bdetail-label">মূল্য:</span>
                         <span>৩৫০ টাকা</span>
                     </div>
                 </div>
-                <a href="#" class="buy-button">ক্রয় করুন</a>
+                <a href="#" class="Bbuy-button">ক্রয় করুন</a>
             </div>
         </div>
         
-        <h2 class="section-title">নির্বাচিত কোর্স বইসমূহ</h2>
+        <h2 class="Bsection-title">নির্বাচিত কোর্স বইসমূহ</h2>
         
-        <div class="book-grid">
-            <div class="book-card">
-                <div class="card-image">
+        <div class="Bbook-grid">
+            <div class="Bbook-card">
+                <div class="Bcard-image">
                     <img src="/api/placeholder/200/200" alt="সহীহ বুখারী শরীফ">
                 </div>
-                <div class="card-content">
-                    <h3 class="card-title">সহীহ বুখারী শরীফ</h3>
-                    <div class="card-detail">
-                        <span class="detail-label">লেখক:</span>
+                <div class="Bcard-content">
+                    <h3 class="Bcard-title">সহীহ বুখারী শরীফ</h3>
+                    <div class="Bcard-detail">
+                        <span class="Bdetail-label">লেখক:</span>
                         <span>ইমাম বুখারী (রহ.)</span>
                     </div>
-                    <div class="card-detail">
-                        <span class="detail-label">মূল্য:</span>
+                    <div class="Bcard-detail">
+                        <span class="Bdetail-label">মূল্য:</span>
                         <span>১২০০ টাকা</span>
                     </div>
-                    <a href="#" class="card-button">বিস্তারিত দেখুন</a>
+                    <a href="#" class="Bcard-button">বিস্তারিত দেখুন</a>
                 </div>
             </div>
             
-            <div class="book-card">
-                <div class="card-image">
+            <div class="Bbook-card">
+                <div class="Bcard-image">
                     <img src="/api/placeholder/200/200" alt="মিশকাতুল মাসাবিহ">
                 </div>
-                <div class="card-content">
-                    <h3 class="card-title">মিশকাতুল মাসাবিহ</h3>
-                    <div class="card-detail">
-                        <span class="detail-label">লেখক:</span>
+                <div class="Bcard-content">
+                    <h3 class="Bcard-title">মিশকাতুল মাসাবিহ</h3>
+                    <div class="Bcard-detail">
+                        <span class="Bdetail-label">লেখক:</span>
                         <span>খতিব তিবরিজি (রহ.)</span>
                     </div>
-                    <div class="card-detail">
-                        <span class="detail-label">মূল্য:</span>
+                    <div class="Bcard-detail">
+                        <span class="Bdetail-label">মূল্য:</span>
                         <span>৮৫০ টাকা</span>
                     </div>
-                    <a href="#" class="card-button">বিস্তারিত দেখুন</a>
+                    <a href="#" class="Bcard-button">বিস্তারিত দেখুন</a>
                 </div>
             </div>
             
-            <div class="book-card">
-                <div class="card-image">
+            <div class="Bbook-card">
+                <div class="Bcard-image">
                     <img src="/api/placeholder/200/200" alt="নূরুল ইজাহ">
                 </div>
-                <div class="card-content">
-                    <h3 class="card-title">নূরুল ইজাহ</h3>
-                    <div class="card-detail">
-                        <span class="detail-label">লেখক:</span>
+                <div class="Bcard-content">
+                    <h3 class="Bcard-title">নূরুল ইজাহ</h3>
+                    <div class="Bcard-detail">
+                        <span class="Bdetail-label">লেখক:</span>
                         <span>শেখ হাসান শুরুনবুলালী (রহ.)</span>
                     </div>
-                    <div class="card-detail">
-                        <span class="detail-label">মূল্য:</span>
+                    <div class="Bcard-detail">
+                        <span class="Bdetail-label">মূল্য:</span>
                         <span>৩০০ টাকা</span>
                     </div>
-                    <a href="#" class="card-button">বিস্তারিত দেখুন</a>
+                    <a href="#" class="Bcard-button">বিস্তারিত দেখুন</a>
                 </div>
             </div>
             
-            <div class="book-card">
-                <div class="card-image">
+            <div class="Bbook-card">
+                <div class="Bcard-image">
                     <img src="/api/placeholder/200/200" alt="সরফ মীর">
                 </div>
-                <div class="card-content">
-                    <h3 class="card-title">সরফ মীর</h3>
-                    <div class="card-detail">
-                        <span class="detail-label">লেখক:</span>
+                <div class="Bcard-content">
+                    <h3 class="Bcard-title">সরফ মীর</h3>
+                    <div class="Bcard-detail">
+                        <span class="Bdetail-label">লেখক:</span>
                         <span>মীর সাইয়্যেদ শরীফ (রহ.)</span>
                     </div>
-                    <div class="card-detail">
-                        <span class="detail-label">মূল্য:</span>
+                    <div class="Bcard-detail">
+                        <span class="Bdetail-label">মূল্য:</span>
                         <span>২২০ টাকা</span>
                     </div>
-                    <a href="#" class="card-button">বিস্তারিত দেখুন</a>
+                    <a href="#" class="Bcard-button">বিস্তারিত দেখুন</a>
                 </div>
             </div>
         </div>
         
-        <h2 class="section-title">শিক্ষার্থীদের অভিমত</h2>
+        <h2 class="Bsection-title">শিক্ষার্থীদের অভিমত</h2>
         
-        <div class="testimonial">
-            <p class="testimonial-text">
+        <div class="Btestimonial">
+            <p class="Btestimonial-text">
                 "আল-ফিকহুল আকবার" বইটি আমার আকিদা বিষয়ক জ্ঞানকে নতুন মাত্রা দিয়েছে। এই বইয়ের ব্যাখ্যাগুলো খুব সহজবোধ্য এবং গভীর চিন্তার জন্ম দেয়।
             </p>
-            <p class="testimonial-author">— মোহাম্মদ আবদুল্লাহ, দাওরায়ে হাদীস শিক্ষার্থী</p>
+            <p class="Btestimonial-author">— মোহাম্মদ আবদুল্লাহ, দাওরায়ে হাদীস শিক্ষার্থী</p>
         </div>
         
-        <div class="testimonial">
-            <p class="testimonial-text">
+        <div class="Btestimonial">
+            <p class="Btestimonial-text">
                 মাদ্রাসার কোর্সে "নূরুল ইজাহ" বইটি ফিকহ শিক্ষার জন্য অপরিহার্য। এই সাইট থেকে কেনা বইয়ের মানপ্রযুক্তিগত দিক থেকে অসাধারণ এবং দাম সাশ্রয়ী।
             </p>
-            <p class="testimonial-author">— আবু বকর সিদ্দিক, জামিয়া ইসলামিয়া</p>
+            <p class="Btestimonial-author">— আবু বকর সিদ্দিক, জামিয়া ইসলামিয়া</p>
         </div>
     </div>
 
