@@ -3245,520 +3245,471 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
 
 
 
-
 <style>
-/* Hero Section Styles */
-.hero-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    align-items: center;
-    padding: 2rem 0;
-    margin: 0 auto;
-    max-width: 1400px;
-}
+        /* ==================== Container ==================== */
+        .container12 {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-.hero-content {
-    flex: 1 1 45%;
-    min-width: 300px;
-    padding: 1rem;
-}
+        /* ==================== Hero Section ==================== */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            min-height: 300px;
+            padding: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
 
-.hero-image {
-    flex: 1 1 45%;
-    min-width: 300px;
-    height: 400px;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    position: relative;
-    margin-right: 25px;
-}
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="islamic" patternUnits="userSpaceOnUse" width="40" height="40"><circle cx="20" cy="20" r="2" fill="rgba(102,126,234,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23islamic)"/></svg>');
+            opacity: 0.3;
+        }
 
-.hero-content h2 {
-    font-size: 2.5rem;
-    line-height: 1.3;
-    margin-bottom: 1.5rem;
-    color: #2c3e50;
-    font-weight: 700;
-}
+        .hero-content {
+            flex: 1;
+            padding-right: 40px;
+            z-index: 2;
+            position: relative;
+            animation: fadeInLeft 1s ease-out;
+        }
 
-.hero-content p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
-    color: #4a5568;
-}
+        .hero-content h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.3;
+            text-shadow: none;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-/* Button Styles */
-.buttons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #495057;
+            margin-bottom: 30px;
+            text-shadow: none;
+            text-align: justify;
+            line-height: 1.8;
+        }
 
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.8rem 1.8rem;
-    border-radius: 50px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-    border: 2px solid transparent;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+        /* ==================== Buttons ==================== */
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
 
-.btn-primary1 {
-    background: linear-gradient(135deg, #3498db, #2c3e50);
-    color: white;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
 
-.btn-primary1:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
-}
+        .btn-primary1 {
+            background: #28a745;
+            color: white;
+        }
 
-.btn-primary1::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #2c3e50, #3498db);
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+        .btn-primary1:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
 
-.btn-primary1:hover::before {
-    opacity: 1;
-}
+        .btn-secondary1 {
+            background: #667eea;
+            color: white;
+        }
 
-.btn-secondary1 {
-    background-color: white;
-    color: #2c3e50;
-    border-color: #3498db;
-}
+        .btn-secondary1:hover {
+            background: #5a6ec7;
+            transform: translateY(-2px);
+        }
 
-.btn-secondary1:hover {
-    background-color: #f8f9fa;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(108, 117, 125, 0.1);
-}
+        /* ==================== Hero Image & Slider ==================== */
+        .hero-image {
+            flex: 1;
+            height: 300px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: fadeInRight 1s ease-out;
+        }
 
-.btn i {
-    margin-left: 8px;
-    transition: transform 0.3s ease;
-}
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
 
-.btn:hover i {
-    transform: translateY(2px);
-}
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: flex-end;
+        }
 
-/* Slider Styles */
-.slider-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-}
+        .slide.active {
+            opacity: 1;
+        }
 
-.slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-}
+        .slide-content {
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            width: 100%;
+            padding: 40px 30px 30px;
+            color: white;
+            transform: translateY(20px);
+            animation: slideUp 0.8s ease-out 0.5s both;
+        }
 
-.slide.active {
-    opacity: 1;
-}
+        .slide-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
 
-.slide-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 2rem;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-    color: white;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-}
+        .slide-content p {
+            font-size: 1rem;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            text-align: justify;
+        }
 
-.slide-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
+        /* ==================== Animations ==================== */
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
 
-.slide-content p {
-    font-size: 1rem;
-    line-height: 1.5;
-}
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .hero-section {
-        flex-direction: column;
-        padding: 1rem;
-    }
-    
-    .hero-content, .hero-image {
-        flex: 1 1 100%;
-        min-width: auto;
-    }
-    
-    .hero-content h2 {
-        font-size: 2rem;
-    }
-    
-    .hero-image {
-        height: 350px;
-    }
-    
-    .btn {
-        padding: 0.7rem 1.5rem;
-        font-size: 0.9rem;
-    }
-}
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-@media (max-width: 480px) {
-    .hero-content h2 {
-        font-size: 1.8rem;
-    }
-    
-    .hero-content p {
-        font-size: 1rem;
-    }
-    
-    .buttons {
-        flex-direction: column;
-        gap: 0.8rem;
-    }
-    
-    .btn {
-        width: 100%;
-        text-align: center;
-    }
-    
-    .slide-content {
-        padding: 1.5rem;
-    }
-    
-    .slide-content h3 {
-        font-size: 1.3rem;
-    }
-    
-    .slide-content p {
-        font-size: 0.9rem;
-    }
-}
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
 
+        /* ==================== Islamic Decorative Elements ==================== */
+        .hero-section::after {
+            content: '☪';
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            font-size: 3rem;
+            color: rgba(102, 126, 234, 0.2);
+            animation: pulse 4s infinite;
+        }
 
-/* Ultra-Compact Hero Slider */
-.hero-image {
-    flex: 1 1 45%;
-    min-width: 280px;
-    height: 280px;  /* Significantly reduced height */
-    border-radius: 8px;  /* Tighter corners */
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    position: relative;
-}
+        /* ==================== Responsive Design ==================== */
+        @media (max-width: 1024px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 0;
+            }
+            
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+            
+            .hero-content h2 {
+                font-size: 2.4rem;
+            }
+            
+            .hero-image {
+                width: 100%;
+                max-width: 500px;
+                height: 400px;
+            }
+        }
 
-.slider-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
+        @media (max-width: 768px) {
+            .container12 {
+                padding: 0 15px;
+            }
+            
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .buttons {
+                flex-direction: row;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: auto;
+                flex: 1;
+                min-width: 120px;
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+            
+            .hero-image {
+                height: 350px;
+            }
+            
+            .slide-content {
+                padding: 30px 20px 20px;
+            }
+            
+            .slide-content h3 {
+                font-size: 1.3rem;
+            }
+            
+            .slide-content p {
+                font-size: 0.95rem;
+            }
+        }
 
-.slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 0.6s ease;
-}
+        @media (max-width: 480px) {
+            .hero-section {
+                min-height: 90vh;
+                padding: 30px 0;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.8rem;
+                line-height: 1.4;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+                margin-bottom: 25px;
+            }
+            
+            .hero-image {
+                height: 300px;
+            }
+            
+            .slide-content h3 {
+                font-size: 1.2rem;
+            }
+            
+            .slide-content p {
+                font-size: 0.9rem;
+            }
+            
+            .buttons {
+                gap: 8px;
+            }
+            
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
 
-.slide.active {
-    opacity: 1;
-}
+        /* ==================== Additional Enhancements ==================== */
+        .btn i {
+            transition: transform 0.3s ease;
+        }
 
-.slide::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.7) 90%);
-}
+        .btn:hover i {
+            transform: translateY(2px);
+        }
 
-.slide-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem;  /* Minimal padding */
-    color: white;
-    z-index: 2;
-}
+        /* Loading animation for images */
+        .slide {
+            background-color: #f8f9fa;
+        }
 
-.slide-content h3 {
-    font-size: 1.2rem;  /* Very compact heading */
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    line-height: 1.3;
-}
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
 
-.slide-content p {
-    font-size: 0.85rem;  /* Tiny but readable text */
-    line-height: 1.4;
-    margin-bottom: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;  /* Limit to 2 lines */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
+        /* Selection color */
+        ::selection {
+            background-color: rgba(40, 167, 69, 0.3);
+            color: white;
+        }
 
-/* Micro Navigation Dots */
-.slider-nav {
-    position: absolute;
-    bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 6px;
-    z-index: 20;
-}
+        /* Focus states for accessibility */
+        .btn:focus {
+            outline: 2px solid rgba(102, 126, 234, 0.5);
+            outline-offset: 2px;
+        }
 
-.slider-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-    transition: all 0.15s ease;
-}
-
-.slider-dot.active {
-    background: #fff;
-    width: 8px;
-}
-
-/* Remove hover effects to save space */
-/* Responsive Adjustments */
-@media (max-width: 1200px) {
-    .hero-image {
-        height: 350px;
-    }
-}
-
-@media (max-width: 992px) {
-    .hero-image {
-        height: 320px;
-    }
-    
-    .slide-content {
-        padding: 1.2rem;
-    }
-    
-    .slide-content h3 {
-        font-size: 1.3rem;
-    }
-}
-
-</style> 
+        /* Improved text rendering */
+        .hero-content h2,
+        .slide-content h3 {
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+</style>
 <div class="container12">
-    <section class="hero-section">
-        <div class="hero-content">
-            <h2>সর্বাধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষা গ্রহন করুন অনলাইনে </h2>
-            <p>দ্বীনি ইলম; এটি এমন এক উত্তম ও উপকারী বিদ্যা, যাকে জ্ঞানী আর সাহসী মানুষরা ভালোবাসে। প্রকৃত বিজ্ঞজনেরা একে গুরুত্ব দিয়ে শেখে ও চর্চা করে। আর শুধু নিকৃষ্ট ও নিচু শ্রেণির লোকেরা একে অপছন্দ করে।</p>
-            <!-- <p>তালিমুল ইসলাম একাডেমি সব ধরনের মাদ্রাসার সবচেয়ে সমৃদ্ধ প্লাটফর্ম এখানে সব জামাতের রেকর্ডেড ও লাইভ ক্লাস পাবেন।</p> -->
-            <div class="buttons">
-                <a href="0FreeCourse.html" class="btn btn-secondary1">ফ্রি কোর্স</a>
-                <a href="#" class="btn btn-primary1">পেইড কোর্স <i class="fa-solid fa-arrow-down"></i></a>
-            </div>
-        </div>
-        <div class="hero-image">
-            <div class="slider-container">
-                <div class="slide active" style="background-image: url('img/al-quran-7741928_1280.jpg')">
-                    <div class="slide-content">
-                        <h3>কুরআন বুঝলে জীবনের মানে বদলে যায়</h3>
-                        <p>আপনি হয়তো কুরআন পড়েন, কিন্তু বুঝেন না। আজ থেকে প্রতিটি আয়াত বোঝার চেষ্টা করুন। কারণ, কুরআন শুধু তিলাওয়াতের জন্য নয়, বাঁচার পথ শেখার জন্য।</p>
-                    </div>
-                </div>
-                <div class="slide" style="background-image: url('img/al-quran-7737560_1280.jpg')">
-                    <div class="slide-content">
-                        <h3>কুরআন না শিখে বেঁচে থাকা মানে, অন্ধকারে হাঁটা</h3>
-                        <p>যেমন একজন পথিক মানচিত্র ছাড়া পথ হারায়, তেমনই কুরআন ছাড়া মানুষ জীবনের মূল উদ্দেশ্য হারিয়ে ফেলে। কুরআন জানলে আপনি জানবেন—কেন আপনি এই পৃথিবীতে?</p>
-                    </div>
-                </div>
-                <div class="slide" style="background-image: url('img/Darul_Uloom_Deoband.jpg')">
-                    <div class="slide-content">
-                        <h3>ইন্টারনেটের মাধ্যমে হোক দীনের আলো ঘরে ঘরে</h3>
-                        <p>যেখানে আপনি আছেন, সেখান থেকেই শুরু হোক কুরআন শেখার যাত্রা—ঘরে বসেই অনলাইন মাদ্রাসায়।</p>
-                    </div>
-                </div>
-                <div class="slide" style="background-image: url('img/man-7757211_1280.png')">
-                    <div class="slide-content">
-                        <h3>সেজদার এই মুহূর্তেই আল্লাহর নিকট সবচেয়ে কাছাকাছি</h3>
-                        <p>যে মাথা আল্লাহর সামনে ঝুকে যায়, সেই হৃদয় কখনো ভেঙে যায় না।</p>
-                    </div>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2>সর্বাধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষা গ্রহণ করুন অনলাইনে</h2>
+                <p>দ্বীনি ইলম; এটি এমন এক উত্তম ও উপকারী বিদ্যা, যাকে জ্ঞানী আর সাহসী মানুষরা ভালোবাসে। প্রকৃত বিজ্ঞজনেরা একে গুরুত্ব দিয়ে শেখে ও চর্চা করে। আর শুধু নিকৃষ্ট ও নিচু শ্রেণির লোকেরা একে অপছন্দ করে।</p>
+                <div class="buttons">
+                    <a href="0FreeCourse.html" class="btn btn-secondary1">ফ্রি কোর্স</a>
+                    <a href="#" class="btn btn-primary1">পেইড কোর্স <i class="fa-solid fa-arrow-down"></i></a>
                 </div>
             </div>
-        </div>
-    </section>
+            <div class="hero-image">
+                <div class="slider-container">
+                    <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1542816417-0983c9c9ad53?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')">
+                        <div class="slide-content">
+                            <h3>কুরআন বুঝলে জীবনের মানে বদলে যায়</h3>
+                            <p>আপনি হয়তো কুরআন পড়েন, কিন্তু বুঝেন না। আজ থেকে প্রতিটি আয়াত বোঝার চেষ্টা করুন। কারণ, কুরআন শুধু তিলাওয়াতের জন্য নয়, বাঁচার পথ শেখার জন্য।</p>
+                        </div>
+                    </div>
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1591604021695-0c69b7c05981?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')">
+                        <div class="slide-content">
+                            <h3>কুরআন না শিখে বেঁচে থাকা মানে, অন্ধকারে হাঁটা</h3>
+                            <p>যেমন একজন পথিক মানচিত্র ছাড়া পথ হারায়, তেমনই কুরআন ছাড়া মানুষ জীবনের মূল উদ্দেশ্য হারিয়ে ফেলে। কুরআন জানলে আপনি জানবেন—কেন আপনি এই পৃথিবীতে?</p>
+                        </div>
+                    </div>
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1609599006353-e629aaabfeae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')">
+                        <div class="slide-content">
+                            <h3>ইন্টারনেটের মাধ্যমে হোক দীনের আলো ঘরে ঘরে</h3>
+                            <p>যেখানে আপনি আছেন, সেখান থেকেই শুরু হোক কুরআন শেখার যাত্রা—ঘরে বসেই অনলাইন মাদ্রাসায়।</p>
+                        </div>
+                    </div>
+                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1584543004874-b2dfc4b27b23?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')">
+                        <div class="slide-content">
+                            <h3>সেজদার এই মুহূর্তেই আল্লাহর নিকট সবচেয়ে কাছাকাছি</h3>
+                            <p>যে মাথা আল্লাহর সামনে ঝুকে যায়, সেই হৃদয় কখনো ভেঙে যায় না।</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 </div>
- <!-- হোভার থেকে মাউস সরালে আবার স্লাইডশো শুরু হয় -->
 <script>
-       document.addEventListener('DOMContentLoaded', function() {
-    let slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
-    let slideInterval;
-    const heroImage = document.querySelector('.hero-image');
-    
-    function nextSlide() {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }
-    
-    function startSlideshow() {
-        // Change slide every 6 seconds
-        slideInterval = setInterval(nextSlide, 6000);
-    }
-    
-    function stopSlideshow() {
-        clearInterval(slideInterval);
-    }
-    
-    // Add hover event listeners to the hero image
-    heroImage.addEventListener('mouseenter', stopSlideshow);
-    heroImage.addEventListener('mouseleave', startSlideshow);
-    
-    // Start the slideshow initially
-    startSlideshow();
-});
+        document.addEventListener('DOMContentLoaded', function() {
+            let slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+            let slideInterval;
+            const heroImage = document.querySelector('.hero-image');
+            
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+            
+            function startSlideshow() {
+                slideInterval = setInterval(nextSlide, 6000);
+            }
+            
+            function stopSlideshow() {
+                clearInterval(slideInterval);
+            }
+            
+            heroImage.addEventListener('mouseenter', stopSlideshow);
+            heroImage.addEventListener('mouseleave', startSlideshow);
+            
+            startSlideshow();
+        });
 
- // রেসপন্সিভ স্মুথ স্ক্রল - মোবাইল এবং ডেস্কটপের জন্য আলাদা সেটিংস
-document.addEventListener('DOMContentLoaded', function() {
-    // পেইড কোর্স বাটন সিলেক্ট করি
-    const paidCourseButton = document.querySelector('.btn.btn-primary1');
-    
-    if (paidCourseButton) {
-        paidCourseButton.addEventListener('click', function(e) {
-            e.preventDefault(); // ডিফল্ট অ্যাকশন বন্ধ করি
+        // রেসপন্সিভ স্মুথ স্ক্রল
+        document.addEventListener('DOMContentLoaded', function() {
+            const paidCourseButton = document.querySelector('.btn.btn-primary1');
             
-            // ডিভাইস টাইপ চেক করি
-            const isMobile = window.innerWidth <= 768;
-            const isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
-            const isDesktop = window.innerWidth > 1024;
-            
-            // টার্গেট সেকশন খুঁজে বের করি
-            const targetSection = document.querySelector('.section-header');
-            
-            if (targetSection) {
-                let customOffset, extraScroll;
-                
-                // ডিভাইস অনুযায়ী আলাদা ভ্যালু সেট করি
-                if (isMobile) {
-                    // মোবাইল সেটিংস
-                    customOffset = 900;
-                    extraScroll = 800;
-                } else if (isTablet) {
-                    // ট্যাবলেট সেটিংস
-                    customOffset = 600;
-                    extraScroll = 2500;
-                } else if (isDesktop) {
-                    // ডেস্কটপ সেটিংস - এই ভ্যালুগুলো আপনার প্রয়োজন অনুযায়ী পরিবর্তন করুন
-                    customOffset = 400;
-                    extraScroll = 360;
-                }
-                
-                // এলিমেন্টের বর্তমান পজিশন বের করি
-                const elementPosition = targetSection.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - customOffset + extraScroll;
-                
-                // স্মুথ স্ক্রল করি
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
+            if (paidCourseButton) {
+                paidCourseButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const isMobile = window.innerWidth <= 768;
+                    const isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+                    const isDesktop = window.innerWidth > 1024;
+                    
+                    const targetSection = document.querySelector('.section-header');
+                    
+                    if (targetSection) {
+                        let customOffset, extraScroll;
+                        
+                        if (isMobile) {
+                            customOffset = 900;
+                            extraScroll = 800;
+                        } else if (isTablet) {
+                            customOffset = 600;
+                            extraScroll = 2500;
+                        } else if (isDesktop) {
+                            customOffset = 400;
+                            extraScroll = 360;
+                        }
+                        
+                        const elementPosition = targetSection.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - customOffset + extraScroll;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
             }
         });
-    }
-});
-
-// আরো নির্দিষ্ট কন্ট্রোলের জন্য বিকল্প ফাংশন
-function getResponsiveScrollValues() {
-    const screenWidth = window.innerWidth;
-    
-    if (screenWidth <= 480) {
-        // ছোট মোবাইল
-        return { offset: 950, extra: 3600 };
-    } else if (screenWidth <= 768) {
-        // বড় মোবাইল
-        return { offset: 900, extra: 3500 };
-    } else if (screenWidth <= 1024) {
-        // ট্যাবলেট
-        return { offset: 600, extra: 2500 };
-    } else if (screenWidth <= 1440) {
-        // ছোট ডেস্কটপ
-        return { offset: 400, extra: 1800 };
-    } else {
-        // বড় ডেস্কটপ
-        return { offset: 300, extra: 1500 };
-    }
-}
-
-// উইন্ডো রিসাইজ হলে রিফ্রেশ করার জন্য
-window.addEventListener('resize', function() {
-    // যদি প্রয়োজন হয় তাহলে এখানে কোড যোগ করুন
-});
-
-// ম্যানুয়াল স্ক্রল ফাংশন - টেস্টিং এর জন্য
-function testScroll() {
-    const values = getResponsiveScrollValues();
-    const targetSection = document.querySelector('.section-header');
-    
-    if (targetSection) {
-        const elementPosition = targetSection.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - values.offset + values.extra;
-        
-        window.scrollTo({
-            top: offsetPosition,
-            behavior: 'smooth'
-        });
-    }
-}
-
-// কনসোলে ডিভাইস ইনফো দেখার জন্য
-function showDeviceInfo() {
-    const width = window.innerWidth;
-    const values = getResponsiveScrollValues();
-    
-    console.log(`Screen Width: ${width}px`);
-    console.log(`Device Type: ${width <= 768 ? 'Mobile' : width <= 1024 ? 'Tablet' : 'Desktop'}`);
-    console.log(`Offset: ${values.offset}px, Extra: ${values.extra}px`);
-}
 </script>
 
 
@@ -3793,7 +3744,7 @@ function showDeviceInfo() {
     
 
 <!--* আমাদের বিভাগ সমূহ -->
-    <style>
+<style>
         .containeraTA {
             max-width: 1200px;
             margin: 0 auto;
@@ -4129,9 +4080,9 @@ function showDeviceInfo() {
                 0 0 0 1px rgba(255,255,255,0.5),
                 inset 0 1px 0 rgba(255,255,255,0.6);
         }
-    </style>
+</style>
 <!-- আমাদের বিভাগ সমূহ -->
-    <div class="containeraTA" id="container">
+<div class="containeraTA" id="container">
         <div class="headeraTA">
             <h2>আমাদের বিভাগ সমূহ</h2>
         </div>
@@ -4173,9 +4124,9 @@ function showDeviceInfo() {
                 <button class="btnaTA">বিস্তারিত দেখুন</button>
             </div>
         </div>
-    </div>
+</div>
 <!-- আমাদের বিভাগ সমূহ -->
-    <script>
+<script>
         // Particle System JavaScript
         class ParticleSystem {
             constructor() {
@@ -4309,7 +4260,7 @@ function showDeviceInfo() {
         function showDetails(subject) {
             alert('বিস্তারিত তথ্য শীঘ্রই যোগ করা হবে: ' + subject);
         }
-    </script>
+</script>
 
 
 
@@ -6540,14 +6491,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-<!--* আপনি কি শিখতে চান? -->
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap'); 
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
     .containerAB {
-        /* background: rgba(255, 255, 255, 0.95); */
         border-radius: 16px;
         padding: 1rem;
-        /* box-shadow: 0 20px 40px rgba(0,0,0,0.1); */
         max-width: 1200px;
         width: 100%;
         margin: 0 auto;
@@ -6572,7 +6520,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     .courses-gridAB {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 1rem;
         margin-bottom: 2rem;
     }
@@ -6582,9 +6530,7 @@ document.addEventListener('DOMContentLoaded', function() {
         border-radius: 12px;
         padding: 1.5rem;
         text-align: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-
         border: 2px solid transparent;
         position: relative;
         overflow: hidden;
@@ -6598,7 +6544,6 @@ document.addEventListener('DOMContentLoaded', function() {
         border-color: #4a69bd;
     }
     
-    /* Content positioning */
     .course-contentAB {
         position: relative;
         z-index: 2;
@@ -6639,7 +6584,6 @@ document.addEventListener('DOMContentLoaded', function() {
         color: #5D4037;
     }
     
-    /* Pulse animation for special cards */
     .course-cardAB:nth-child(3n+1):hover {
         animation: colorPulse 2s infinite;
     }
@@ -6659,7 +6603,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    /* Shimmer effect for alternate cards */
     .course-cardAB:nth-child(even):hover::before {
         background: linear-gradient(90deg, 
             transparent 0%, 
@@ -6673,75 +6616,6 @@ document.addEventListener('DOMContentLoaded', function() {
         100% { transform: translateX(100%); }
     }
     
-    .total-sectionAB {
-        background: linear-gradient(135deg, #4CAF50, #45a049);
-        color: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        text-align: center;
-        margin-top: 1rem;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .total-sectionAB::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, 
-            transparent 0%, 
-            rgba(255, 255, 255, 0.2) 50%, 
-            transparent 100%);
-        transition: left 0.8s ease;
-    }
-    
-    .total-sectionAB:hover::before {
-        left: 100%;
-    }
-    
-    .total-countAB {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 0.25rem;
-        position: relative;
-        z-index: 2;
-    }
-    
-    .total-labelAB {
-        font-size: 1rem;
-        opacity: 0.9;
-        position: relative;
-        z-index: 2;
-    }
-    
-    @media (max-width: 600px) {            
-        .courses-gridAB {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-        }
-        
-        .course-cardAB {
-            padding: 1rem;
-        }
-        
-        .course-titleAB {
-            font-size: 1rem;
-        }
-        
-        .course-countAB {
-            font-size: 1.5rem;
-        }
-        
-        .headerAB h1 {
-            font-size: 1.5rem;
-        }
-    }
-</style>
-<!-- আপনি কি শিখতে চান? -->
-<style>
     .show-more-container {
         text-align: center;
         margin-top: 30px;
@@ -6791,163 +6665,131 @@ document.addEventListener('DOMContentLoaded', function() {
     .show-more-btn:not(.expanded) .btn-text::after {
         content: "";
     }
-</style>
-<!-- কুরআন ও তাজবিদ -->
-<style>
-    /* Features section styles */
+
     .container019{
         max-width: 1200px;     
-            margin: 0 auto;     
-            /* margin-top: 20px;   */
-            /* padding: 24px;    */
-            text-align: center;     
-            /* background: rgba(255, 255, 255, 0.95); */
+        margin: 0 auto;     
+        text-align: center;     
     }
 
-.features-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-@media (min-width: 768px) {
     .features-grid {
-        grid-template-columns: repeat(2, 1fr);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
-}
 
-@media (min-width: 992px) {
-    .features-grid {
-        grid-template-columns: repeat(3, 1fr);
+    @media (min-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
-}
 
-.feature-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(15px);
-    /* border-radius: 25px; */
-    padding: 40px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    height: 100%;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-.feature-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
-    background-size: 200% 100%;
-    animation: gradientShift 3s ease-in-out infinite;
-}
-
-.feature-card::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
-    border-radius: 50%;
-    transition: all 0.4s ease;
-    transform: translate(-50%, -50%);
-}
-
-.feature-card:hover::after {
-    width: 300px;
-    height: 300px;
-}
-
-
-.feature-card h2 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #333;
-    position: relative;
-    padding-bottom: 15px;
-    z-index: 2;
-}
-
-.feature-card h2::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    border-radius: 2px;
-    transition: width 0.3s ease;
-}
-
-.feature-card:hover h2::after {
-    width: 80px;
-}
-
-.feature-card span {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: #555;
-    z-index: 2;
-    position: relative;
-}
-
-/* Responsive Design for Features */
-@media (max-width: 768px) {
-    .features {
-        padding: 10px 0;
+    @media (min-width: 992px) {
+        .features-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 
     .feature-card {
-        padding: 30px 20px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        padding: 40px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        border: 2px solid rgba(255, 255, 255, 0.3);
     }
-    
+
+    .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+        background-size: 200% 100%;
+        animation: gradientShift 3s ease-in-out infinite;
+    }
+
     .feature-card h2 {
-        font-size: 1.4rem;
+        font-size: 1.6rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #333;
+        position: relative;
+        padding-bottom: 15px;
+    }
+
+    .feature-card h2::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        border-radius: 2px;
+        transition: width 0.3s ease;
+    }
+
+    .feature-card:hover h2::after {
+        width: 80px;
     }
 
     .feature-card span {
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .features {
-        padding: 10px 0;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #555;
     }
 
-    .feature-card {
-        padding: 25px 15px;
-        border-radius: 20px;
-    }
-    
-    .feature-card h2 {
-        font-size: 1.3rem;
-        margin-bottom: 15px;
+    @media (max-width: 768px) {
+        .feature-card {
+            padding: 30px 20px;
+        }
+        
+        .feature-card h2 {
+            font-size: 1.4rem;
+        }
+
+        .feature-card span {
+            font-size: 1rem;
+        }
     }
 
-    .feature-card span {
-        font-size: 0.95rem;
-        line-height: 1.6;
+    @media (max-width: 600px) {            
+        .courses-gridAB {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+        
+        .course-cardAB {
+            padding: 1rem;
+        }
+        
+        .course-titleAB {
+            font-size: 1rem;
+        }
+        
+        .course-countAB {
+            font-size: 1.5rem;
+        }
+        
+        .headerAB h1 {
+            font-size: 1.5rem;
+        }
     }
-}
 
-/* Required animation keyframes */
-@keyframes gradientShift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
+    @keyframes gradientShift {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
 </style>
+
 <div class="containerAB">
     <div class="headerAB">
         <h1>আপনি কি শিখতে চান?</h1>
@@ -6987,7 +6829,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
         
-        <div class="course-cardAB">
+        <div class="course-cardAB" style="display: none;">
             <div class="course-contentAB">
                 <div class="course-titleAB">তাফসির</div>
                 <div class="course-countAB">৫৩</div>
@@ -6995,7 +6837,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
         
-        <div class="course-cardAB">
+        <div class="course-cardAB" style="display: none;">
             <div class="course-contentAB">
                 <div class="course-titleAB">ইসলামিক স্টাডিজ</div>
                 <div class="course-countAB">৭৮</div>
@@ -7003,7 +6845,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
         
-        <div class="course-cardAB">
+        <div class="course-cardAB" style="display: none;">
             <div class="course-contentAB">
                 <div class="course-titleAB">সিরাত</div>
                 <div class="course-countAB">৩৬</div>
@@ -7011,7 +6853,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
         
-        <div class="course-cardAB">
+        <div class="course-cardAB" style="display: none;">
             <div class="course-contentAB">
                 <div class="course-titleAB">ইতিহাস</div>
                 <div class="course-countAB">২৯</div>
@@ -7019,7 +6861,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
         
-        <div class="course-cardAB">
+        <div class="course-cardAB" style="display: none;">
             <div class="course-contentAB">
                 <div class="course-titleAB">মাসাইল ও গবেষণা</div>
                 <div class="course-countAB">৪৭</div>
@@ -7027,16 +6869,13 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
     </div>
-<!-- বাটনের HTML কোড -->
-<div class="show-more-container">
-    <button id="showMoreBtn" class="show-more-btn">
-        <span class="btn-text">আরও দেখুন</span>
-        <span class="btn-icon">▼</span>
-    </button>
-</div>
 
-
-
+    <div class="show-more-container">
+        <button id="showMoreBtn" class="show-more-btn">
+            <span class="btn-text">আরও দেখুন</span>
+            <span class="btn-icon">▼</span>
+        </button>
+    </div>
 
     <div class="container019">
         <section class="features">
@@ -7055,77 +6894,76 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
         </section>
-        </div>
-        
-</div>  
-<!-- আপনি কি শিখতে চান? -->
+    </div>
+</div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    const showMoreBtn = document.getElementById('showMoreBtn');
-    const courseCards = document.querySelectorAll('.course-cardAB');
-    let isExpanded = false;
+        const showMoreBtn = document.getElementById('showMoreBtn');
+        const courseCards = document.querySelectorAll('.course-cardAB');
+        let isExpanded = false;
 
-    // প্রথমে শুধু প্রথম ৩টি কোর্স (কুরআন, হাদিস, ফিকহ) দেখাবো
-    function initializeCourses() {
-        courseCards.forEach((card, index) => {
-            if (index >= 3) {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    // বাটন ক্লিক ইভেন্ট
-    showMoreBtn.addEventListener('click', function() {
-        if (!isExpanded) {
-            // সব কোর্স দেখাও
+        // প্রথমে শুধু প্রথম ৪টি কোর্স (কুরআন, হাদিস, ফিকহ, আরবি) দেখাবে
+        function initializeCourses() {
             courseCards.forEach((card, index) => {
-                if (index >= 3) {
+                if (index < 4) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // বাটন ক্লিক ইভেন্ট
+        showMoreBtn.addEventListener('click', function() {
+            if (!isExpanded) {
+                // সব কোর্স দেখাবে
+                courseCards.forEach(card => {
                     card.style.display = 'block';
                     card.style.animation = 'fadeIn 0.5s ease-in-out';
-                }
-            });
-            
-            // বাটন টেক্সট এবং আইকন পরিবর্তন
-            showMoreBtn.querySelector('.btn-text').textContent = 'কম দেখুন';
-            showMoreBtn.classList.add('expanded');
-            isExpanded = true;
-            
-        } else {
-            // প্রথম ৩টি ছাড়া বাকি সব লুকাও
-            courseCards.forEach((card, index) => {
-                if (index >= 3) {
-                    card.style.animation = 'fadeOut 0.3s ease-in-out';
-                    setTimeout(() => {
-                        card.style.display = 'none';
-                    }, 300);
-                }
-            });
-            
-            // বাটন টেক্সট এবং আইকন পরিবর্তন
-            showMoreBtn.querySelector('.btn-text').textContent = 'আরও দেখুন';
-            showMoreBtn.classList.remove('expanded');
-            isExpanded = false;
-        }
+                });
+                
+                // বাটন টেক্সট এবং আইকন পরিবর্তন
+                showMoreBtn.querySelector('.btn-text').textContent = 'কম দেখুন';
+                showMoreBtn.classList.add('expanded');
+                isExpanded = true;
+                
+            } else {
+                // প্রথম ৪টি ছাড়া বাকি সব লুকাবে
+                courseCards.forEach((card, index) => {
+                    if (index >= 4) {
+                        card.style.animation = 'fadeOut 0.3s ease-in-out';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+                
+                // বাটন টেক্সট এবং আইকন পরিবর্তন
+                showMoreBtn.querySelector('.btn-text').textContent = 'আরও দেখুন';
+                showMoreBtn.classList.remove('expanded');
+                isExpanded = false;
+            }
+        });
+
+        // প্রাথমিক সেটআপ
+        initializeCourses();
     });
 
-    // প্রাথমিক সেটআপ
-    initializeCourses();
-});
-
-// CSS Animation যোগ করার জন্য (যদি আপনার স্টাইলশিটে না থাকে)
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes fadeOut {
-        from { opacity: 1; transform: translateY(0); }
-        to { opacity: 0; transform: translateY(-20px); }
-    }
-`;
-document.head.appendChild(style);
+    // CSS Animation যোগ করার জন্য
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+    `;
+    document.head.appendChild(style);
 </script>
 
 
