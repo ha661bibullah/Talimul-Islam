@@ -5,9 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<title>Talimul-Islam-Course</title>
+    <!-- Socket.IO CDN -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<title>কোরআন শিক্ষা </title>
 </head>
 <body>
+
+
+
+
 
 
 
@@ -3475,99 +3481,7 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <style>
+<style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
         * {
             margin: 0;
@@ -3588,13 +3502,14 @@ window.addEventListener('popstate', setActiveNavLink);
         }
         
         body {
+            font-family: 'Hind Siliguri', 'Bangla', sans-serif; 
             background-color: var(--light-bg);
             color: var(--text-color);
             line-height: 1.6;
             font-size: 16px;
         }
         
-        .container {
+        .container2 {
             max-width: 1200px;
             margin: 0 auto;
             padding: 25px;
@@ -4451,10 +4366,277 @@ window.addEventListener('popstate', setActiveNavLink);
   transform: scale(0.9);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-    </style> 
-    <div class="container">
+
+
+
+   /* পপআপ নোটিফিকেশন স্টাইল */
+    .custom-popup {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 99999;
+        max-width: 350px;
+        width: 90%;
+        animation: slideIn 0.3s ease-out forwards;
+    }
+    
+    .custom-popup.hide {
+        animation: slideOut 0.3s ease-in forwards;
+    }
+    
+    .popup-content {
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .popup-success {
+        background: #d4edda;
+        color: #155724;
+        border-left: 4px solid #28a745;
+    }
+    
+    .popup-error {
+        background: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid #dc3545;
+    }
+    
+    .popup-warning {
+        background: #fff3cd;
+        color: #856404;
+        border-left: 4px solid #ffc107;
+    }
+    
+    .popup-info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border-left: 4px solid #17a2b8;
+    }
+    
+    .popup-icon {
+        margin-right: 15px;
+        font-size: 24px;
+    }
+    
+    .popup-close {
+        margin-left: auto;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-size: 20px;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+    }
+    
+    .popup-close:hover {
+        opacity: 1;
+    }
+    
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+
+
+
+    /* রিভিউ ফর্ম স্টাইল */
+.review-form {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 25px;
+    margin-top: 25px;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.review-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--gradient-bg);
+}
+
+.review-form h3 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    font-size: 22px;
+}
+
+.rating-select {
+    margin-bottom: 20px;
+}
+
+.rating-select select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(94, 53, 177, 0.2);
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.review-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 1px solid rgba(94, 53, 177, 0.2);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.3s;
+}
+
+.review-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.1);
+}
+
+.submit-review {
+    background: var(--gradient-bg);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(94, 53, 177, 0.3);
+}
+
+.submit-review:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(94, 53, 177, 0.5);
+}
+
+
+
+
+/* Add to existing styles */
+.payment-method {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f9f9f9;
+    border-left: 4px solid var(--primary-color);
+}
+
+.payment-method h4 {
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.payment-method-details {
+    font-size: 14px;
+    color: #555;
+}
+
+.payment-method-details strong {
+    color: var(--text-color);
+}
+
+.active-course-badge {
+    background: var(--secondary-color);
+    color: white;
+    padding: 12px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(67, 160, 71, 0.3);
+}
+
+.active-course-badge i {
+    margin-right: 8px;
+}
+
+.active-course-btn {
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 14px;
+    width: 100%;
+    border-radius: var(--border-radius);
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(67, 160, 71, 0.3);
+    letter-spacing: 0.5px;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+}
+
+.active-course-btn i {
+    margin-right: 8px;
+}
+
+
+.course-unlocked {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .unlocked-content {
+            opacity: 1 !important;
+            pointer-events: all !important;
+            cursor: pointer !important;
+        }
+        
+        .locked-overlay {
+            display: none !important;
+        }
+
+        /* Dynamic reviews styling */
+.review.dynamic-review {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Make sure static reviews are distinct */
+.review.static-review {
+    background-color: rgba(94, 53, 177, 0.05);
+    border-left: 3px solid var(--primary-color);
+}
+
+.modal-video {
+    width: 100%;
+    height: 80vh;   /* viewport height এর 80% */
+    display: block;
+    margin: 0 auto; /* horizontally center */
+    border-radius: 10px;
+}
+
+</style>        
+<div class="container2">
         <header>
-            <h1>তালিমুল-ইসলাম-কোর্স</h1>
+            <h1>কোরআন শিক্ষা </h1>
         </header>
         
         <div class="tab-container">
@@ -4469,7 +4651,7 @@ window.addEventListener('popstate', setActiveNavLink);
                 <div id="details" class="tab-content active">
                     <div class="content-box">
                         <div class="course-instructor">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="মাওলানা মুনতাহা আহমদ" class="instructor-image">
+                            <img src="#" alt="মাওলানা মুনতাহা আহমদ" class="instructor-image">
                             <div class="instructor-details">
                                 <h3>মাওলানা মুনতাহা আহমদ</h3>
                                 <p>ইবারত বিশেষজ্ঞ, আল-আজহার বিশ্ববিদ্যালয়</p>
@@ -4662,120 +4844,50 @@ window.addEventListener('popstate', setActiveNavLink);
                         </div>
                     </div>
                     
-                    <div class="review-form hidden" id="reviewForm">
-                        <h3>আপনার রিভিউ লিখুন</h3>
-                        <div class="rating-select">
-                            <select id="rating">
-                                <option value="">রেটিং নির্বাচন করুন</option>
-                                <option value="5">⭐⭐⭐⭐⭐ (৫ স্টার)</option>
-                                <option value="4">⭐⭐⭐⭐ (৪ স্টার)</option>
-                                <option value="3">⭐⭐⭐ (৩ স্টার)</option>
-                                <option value="2">⭐⭐ (২ স্টার)</option>
-                                <option value="1">⭐ (১ স্টার)</option>
-                            </select>
-                        </div>
-                        <textarea class="review-textarea" id="reviewText" placeholder="আপনার অভিজ্ঞতা লিখুন..."></textarea>
-                        <button class="submit-review" onclick="submitReview()">রিভিউ জমা দিন</button>
-                    </div>
+<div class="review-form" id="reviewForm">
+    <h3>আপনার রিভিউ লিখুন</h3>
+       <!-- সাকসেস মেসেজ যোগ করুন -->
+    <div id="reviewSuccessMessage" style="display: none; background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+        আপনার রিভিউ সফলভাবে জমা দেওয়া হয়েছে! আপনি চাইলে আরও রিভিউ দিতে পারেন।
+    </div>
+    
+    <div class="rating-select">
+        <select id="rating">
+            <option value="">রেটিং নির্বাচন করুন</option>
+            <option value="5">⭐⭐⭐⭐⭐ (৫ স্টার)</option>
+            <option value="4">⭐⭐⭐⭐ (৪ স্টার)</option>
+            <option value="3">⭐⭐⭐ (৩ স্টার)</option>
+            <option value="2">⭐⭐ (২ স্টার)</option>
+            <option value="1">⭐ (১ স্টার)</option>
+        </select>
+    </div>
+    <div id="reviewerInfo" style="margin-bottom: 15px;">
+        <div style="display: flex; align-items: center; gap: 10px; background: #f5f5f5; padding: 10px; border-radius: 8px;">
+            <div id="reviewerAvatar" style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;"></div>
+            <div>
+                <div id="reviewerName" style="font-weight: bold;"></div>
+                <div id="reviewDate" style="font-size: 12px; color: #666;"></div>
+            </div>
+        </div>
+    </div>
+    <textarea class="review-textarea" id="reviewText" placeholder="আপনার অভিজ্ঞতা লিখুন..."></textarea>
+    <button class="submit-review" onclick="submitReview()">রিভিউ জমা দিন</button>
+    <p style="font-size: 13px; color: #666; margin-top: 10px;">
+        আপনি এই কোর্সের জন্য একাধিক রিভিউ দিতে পারেন। প্রতিটি রিভিউ আমাদের জন্য গুরুত্বপূর্ণ।
+    </p>
+</div>
                 </div>
             </div>
             
             <div class="sidebar">
-                <img src="/TalimulFcopy/img/al-quran-7737590_1280.jpg" alt="কোর্স ইমেজ" class="course-image">
+                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=250&fit=crop" alt="কোর্স ইমেজ" class="course-image">
                 
                 <div id="pricing-section" class="course-pricing">
                     <div class="price">
-                        <span class="current-price">৳ ১০০০</span>
-                        <span class="original-price">৳২,০০০</span>
+                        <span class="current-price">৳ ১,৫০০</span>
+                        <span class="original-price">৳ ৩,০০০</span>
                     </div>
                     <button class="buy-now-btn" onclick="showLoginAlert()">এখনই কিনুন</button>
-                    <script>
-                    function showLoginAlert() {
-                        // Remove any existing alert
-                        const oldAlert = document.getElementById('loginAlertPopup');
-                        if (oldAlert) oldAlert.remove();
-
-                        // Create overlay
-                        const overlay = document.createElement('div');
-                        overlay.id = 'loginAlertPopup';
-                        overlay.style.position = 'fixed';
-                        overlay.style.top = 0;
-                        overlay.style.left = 0;
-                        overlay.style.width = '100vw';
-                        overlay.style.height = '100vh';
-                        overlay.style.background = 'rgba(0,0,0,0.35)';
-                        overlay.style.display = 'flex';
-                        overlay.style.alignItems = 'center';
-                        overlay.style.justifyContent = 'center';
-                        overlay.style.zIndex = 99999;
-
-                        // Create popup box
-                        const box = document.createElement('div');
-                        box.style.background = '#fff';
-                        box.style.borderRadius = '12px';
-                        box.style.boxShadow = '0 8px 32px rgba(0,0,0,0.18)';
-                        box.style.padding = '32px 24px 20px 24px';
-                        box.style.maxWidth = '350px';
-                        box.style.textAlign = 'center';
-                        box.style.position = 'relative';
-
-                        // Close button
-                        const closeBtn = document.createElement('button');
-                        closeBtn.innerHTML = '&times;';
-                        closeBtn.style.position = 'absolute';
-                        closeBtn.style.top = '10px';
-                        closeBtn.style.right = '15px';
-                        closeBtn.style.background = 'none';
-                        closeBtn.style.border = 'none';
-                        closeBtn.style.fontSize = '26px';
-                        closeBtn.style.color = '#888';
-                        closeBtn.style.cursor = 'pointer';
-                        closeBtn.onclick = () => overlay.remove();
-
-                        // Icon
-                        const icon = document.createElement('div');
-                        icon.innerHTML = '<i class="fas fa-lock" style="font-size:38px;color:#6A35F2;margin-bottom:10px;"></i>';
-
-                        // Message
-                        const msg = document.createElement('div');
-                        msg.style.fontSize = '18px';
-                        msg.style.color = '#333';
-                        msg.style.margin = '10px 0 18px 0';
-                        msg.textContent = 'কোর্সটি ক্রয় করার জন্য প্রথমে লগইন করুন';
-
-                        // Login button
-                        const loginBtn = document.createElement('button');
-                        loginBtn.textContent = 'লগইন করুন';
-                        loginBtn.style.background = 'linear-gradient(135deg, #6A35F2 0%, #2575fc 100%)';
-                        loginBtn.style.color = '#fff';
-                        loginBtn.style.border = 'none';
-                        loginBtn.style.borderRadius = '6px';
-                        loginBtn.style.padding = '10px 28px';
-                        loginBtn.style.fontSize = '16px';
-                        loginBtn.style.fontWeight = 'bold';
-                        loginBtn.style.cursor = 'pointer';
-                        loginBtn.style.marginTop = '10px';
-                        loginBtn.onclick = function() {
-                            overlay.remove();
-                            if (typeof LoginModule !== 'undefined' && LoginModule.handleLogin) {
-                                LoginModule.handleLogin();
-                            } else {
-                                // fallback: scroll to login section if exists
-                                const loginPopup = document.querySelector('.login-popup');
-                                if (loginPopup) loginPopup.classList.add('active');
-                                const blur = document.querySelector('.blur-overlay');
-                                if (blur) blur.classList.add('active');
-                            }
-                        };
-
-                        box.appendChild(closeBtn);
-                        box.appendChild(icon);
-                        box.appendChild(msg);
-                        box.appendChild(loginBtn);
-                        overlay.appendChild(box);
-                        document.body.appendChild(overlay);
-                    }
-                    </script>
                     <div class="course-stats">
                         <div class="stat-item">
                             <span class="stat-icon">👥</span>
@@ -4831,10 +4943,10 @@ window.addEventListener('popstate', setActiveNavLink);
                 </div>
             </div>
         </div>
-    </div>
+</div>
     
-    <!-- Modal for Videos -->
-    <div id="videoModal" class="modal">
+<!-- Modal for Videos -->
+<div id="videoModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
             <h2 class="modal-title" id="videoTitle">ভিডিও লেসন</h2>
@@ -4845,10 +4957,9 @@ window.addEventListener('popstate', setActiveNavLink);
                 </video>
             </div>
         </div>
-    </div>
-    
-    <!-- Modal for Notes -->
-    <div id="noteModal" class="modal">
+</div>
+<!-- Modal for Notes -->
+<div id="noteModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('noteModal')">&times;</span>
             <h2 class="modal-title" id="noteTitle">নোট</h2>
@@ -4856,9 +4967,8 @@ window.addEventListener('popstate', setActiveNavLink);
                 <iframe class="modal-pdf" src=""></iframe>
             </div>
         </div>
-    </div>
-    
-    <!-- Modal for Locked Content -->
+</div>
+<!-- Payment Form Section in your HTML -->
 <div id="lockedModal" class="modal">
     <div class="modal-content" style="max-width: 500px;">
         <span class="close-modal" onclick="closeModal('lockedModal')">&times;</span>
@@ -4867,11 +4977,12 @@ window.addEventListener('popstate', setActiveNavLink);
             <p id="courseLockedMessage">এই কন্টেন্টটি দেখতে হলে আপনাকে কোর্সটি ক্রয় করতে হবে।</p>
             
             <div class="payment-section" style="margin-top: 20px;">
+                <!-- Payment methods display -->
                 <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
                     <!-- Bkash Payment -->
                     <div style="flex: 1; min-width: 140px; background: #f0f5ff; padding: 12px; border-radius: 8px; border-left: 4px solid #e2136e;">
                         <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                            <img src="https://seeklogo.com/images/B/bkash-logo-C3C6720A31-seeklogo.com.png" alt="বিকাশ" style="width: 24px; height: 24px; margin-right: 8px;">
+                            <img src="/TalimulFcopy/img/bkash.png" alt="বিকাশ" style="width: 24px; height: 24px; margin-right: 8px;">
                             <strong style="font-size: 14px;">বিকাশ</strong>
                         </div>
                         <div style="font-size: 13px;">
@@ -4883,7 +4994,7 @@ window.addEventListener('popstate', setActiveNavLink);
                     <!-- Nagad Payment -->
                     <div style="flex: 1; min-width: 140px; background: #f0fff5; padding: 12px; border-radius: 8px; border-left: 4px solid #29a335;">
                         <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                            <img src="https://seeklogo.com/images/N/nagad-logo-8E7CC87C6B-seeklogo.com.png" alt="নগদ" style="width: 24px; height: 24px; margin-right: 8px;">
+                            <img src="/TalimulFcopy/img/Nagad.jpeg" alt="নগদ" style="width: 24px; height: 24px; margin-right: 8px;">
                             <strong style="font-size: 14px;">নগদ</strong>
                         </div>
                         <div style="font-size: 13px;">
@@ -4891,11 +5002,12 @@ window.addEventListener('popstate', setActiveNavLink);
                             <div style="color: #666;">(Personal - আব্দুল্লাহ আল মামুন)</div>
                         </div>
                     </div>
-                    
-                    <!-- Bank Payment -->
+                </div>
+
+                <!-- Bank Payment -->
                     <div style="flex: 1; min-width: 140px; background: #fff9f0; padding: 12px; border-radius: 8px; border-left: 4px solid #5e35b1;">
                         <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                            <img src="https://seeklogo.com/images/B/bank-logo-6F7A266D5D-seeklogo.com.png" alt="ব্যাংক" style="width: 24px; height: 24px; margin-right: 8px;">
+                            <img src="/TalimulFcopy/img/islami-bank.png" alt="ব্যাংক" style="width: 24px; height: 24px; margin-right: 8px;">
                             <strong style="font-size: 14px;">ব্যাংক</strong>
                         </div>
                         <div style="font-size: 13px;">
@@ -4905,7 +5017,7 @@ window.addEventListener('popstate', setActiveNavLink);
                     </div>
                 </div>
                 
-                <!-- Simplified Payment Form -->
+                <!-- Payment Form -->
                 <form id="manualPaymentForm" style="background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                     <div style="margin-bottom: 15px;">
                         <label style="display: block; margin-bottom: 5px; font-size: 14px; color: #555;">মোবাইল নাম্বার</label>
@@ -4930,9 +5042,9 @@ window.addEventListener('popstate', setActiveNavLink);
                         </select>
                     </div>
                     
-                    <input type="hidden" name="courseId" id="courseIdInput" value="Talimul-Islam-Course">
+                    <input type="hidden" name="courseId" id="courseIdInput" value="Fiqh-course">
                     
-                    <button type="submit" 
+                    <button type="submit" id="submitPaymentBtn"
                             style="background: var(--gradient-bg); color: white; border: none; padding: 12px; 
                                    width: 100%; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 15px;">
                         পেমেন্ট নিশ্চিত করুন
@@ -4941,6 +5053,22 @@ window.addEventListener('popstate', setActiveNavLink);
                     <p id="paymentMessage" style="margin-top: 15px; text-align: center; font-size: 13px;"></p>
                 </form>
             </div>
+        </div>
+</div>
+</div>
+<!-- Success Message Modal (hidden by default) -->
+<div id="successModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 400px; text-align: center;">
+        <div style="margin: 20px 0;">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" fill="#4CAF50"/>
+                <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3 style="color: #4CAF50; margin: 15px 0 10px;">পেমেন্ট সফল হয়েছে!</h3>
+            <p style="color: #555; margin-bottom: 20px;">আপনার পেমেন্ট সফলভাবে জমা হয়েছে। অ্যাডমিন অনুমোদনের জন্য অপেক্ষা করুন।</p>
+            <button onclick="closeModal('successModal')" 
+                    style="background: #4CAF50; color: white; border: none; padding: 10px 20px; 
+                           border-radius: 5px; cursor: pointer;">ঠিক আছে</button>
         </div>
     </div>
 </div>
@@ -4968,8 +5096,8 @@ const paymentAccounts = {
 
 // Current course information
 const currentCourse = {
-    id: "Talimul-Islam-Course",
-    name: "তালিমুল ইসলাম কোর্স"
+    id: "Quran-Education",
+    name: "কোরআন শিক্ষা "
 };
 
 // Function to update payment info in modal
@@ -5030,10 +5158,7 @@ async function fetchPaymentInfo() {
         console.error('Error fetching payment info:', error);
     }
 }
-</script>
 
-<!-- Lockal way -->
-<script>
     // Current payment being viewed in modal
 let currentPaymentId = null;
 
@@ -5129,59 +5254,31 @@ function openVideoModal(videoId) {
     const videos = {
         'lesson-1': {
             title: 'ইবারত শিক্ষার গুরুত্ব ও প্রয়োজনীয়তা',
-            url: 'https://res.cloudinary.com/ddtfpqimk/video/upload/v1753088101/video_esq7dv.mp4'
+            url: 'https://www.youtube.com/embed/VEBtNGm_ym8?si=l_dyR8FlPPd7TsDb'
         },
         'lesson-2': {
             title: 'আরবি বর্ণমালা ও উচ্চারণ',
-            url: 'https://res.cloudinary.com/ddtfpqimk/video/upload/v1753088101/video_esq7dv.mp4'
+            url: 'https://www.youtube.com/embed/VEBtNGm_ym8?si=l_dyR8FlPPd7TsDb'
         },
         'lesson-3': {
             title: 'নাহু (ব্যাকরণ) এর মৌলিক ধারণা',
-            url: 'https://res.cloudinary.com/ddtfpqimk/video/upload/v1753088101/video_esq7dv.mp4'
+            url: 'https://www.youtube.com/embed/VEBtNGm_ym8?si=l_dyR8FlPPd7TsDb'
         },
-        'lesson-4': {
-            title: 'সরফ (শব্দতত্ত্ব) এর মৌলিক ধারণা',
-            url: 'https://res.cloudinary.com/ddtfpqimk/video/upload/v1753088101/video_esq7dv.mp4'
-        },
-        'lesson-5': {
-            title: 'বাক্য গঠন ও বিশ্লেষণ',
-            url: 'https://res.cloudinary.com/ddtfpqimk/video/upload/v1753088101/video_esq7dv.mp4'
-        },
-        'lesson-6': {
-            title: 'ইবারত পড়ার কৌশল',
-            url: 'https://res.cloudinary.com/ddtfpqimk/video/upload/v1753088101/video_esq7dv.mp4'
-        },
-        'lesson-7': {
-            title: 'ইবারত অনুবাদের নিয়মকানুন',
-            url: 'https://res.cloudinary.com/ddtfpqimk/video/upload/v1753088101/video_esq7dv.mp4'
-        },
-        'lesson-8': {
-            title: 'কুরআনের ইবারত বিশ্লেষণ',
-            url: 'https://res.cloudinary.com/ddtfpqimk/video/upload/v1753088101/video_esq7dv.mp4'
-        },
-        'lesson-9': {
-            title: 'হাদিসের ইবারত বিশ্লেষণ',
-            url: 'https://res.cloudinary.com/ddtfpqimk/video/upload/v1753088101/video_esq7dv.mp4'
-        },
-        'lesson-10': {
-            title: 'ইবারত শিক্ষার প্রায়োগিক কৌশল',
-            url: 'https://res.cloudinary.com/ddtfpqimk/video/upload/v1753088101/video_esq7dv.mp4'
-        }
+        // ... বাকি লেসন গুলো একইভাবে
     };
 
     if (videos[videoId]) {
         const video = videos[videoId];
         document.getElementById('videoTitle').textContent = video.title;
         document.getElementById('videoContent').innerHTML = `
-            <video class="modal-video" controls controlsList="nodownload">
-                <source src="${video.url}" type="video/mp4">
-                আপনার ব্রাউজার ভিডিও সাপোর্ট করে না।
-            </video>
+            <iframe class="modal-video"
+                src="${video.url}"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
         `;
         document.getElementById('videoModal').style.display = 'block';
-        
-        // Setup protection for the new video element
-        setupVideoProtection();
     }
 }
 
@@ -5329,7 +5426,7 @@ async function renderPaymentRequests() {
         const result = await response.json();
         
         if (!response.ok) {
-            throw new Error(result.message || 'Failed to fetch payments');
+            throw new Error(result.message || 'আপনার পেমেন্টটি সফল হয়েছে অনুগ্রহ করে অপেক্ষা করুন fetch payments');
         }
 
         const payments = result.payments || result;
@@ -5458,142 +5555,107 @@ function formatDateTime(dateStr) {
     return date.toLocaleDateString('bn-BD', options);
 }
 
+
 // Update payment status
-async function updatePaymentStatus(status) {
-    if (!currentPaymentId) {
-        alert('কোন পেমেন্ট নির্বাচন করা হয়নি');
-        return;
-    }
+// Update UI after payment submission
+function updatePaymentStatus(status) {
+    const buyBtn = document.querySelector('.buy-now-btn');
     
-    if (!confirm(`আপনি কি নিশ্চিতভাবে এই পেমেন্ট ${status === 'approved' ? 'অনুমোদন' : 'প্রত্যাখ্যান'} করতে চান?`)) {
-        return;
-    }
-    
-    try {
-        // Update payment status
-        const response = await fetch(`http://localhost:5000/api/admin/payments/${currentPaymentId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ status })
-        });
-        
-        const result = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(result.message || 'Failed to update status');
+    if (status === 'submitted') {
+        if (buyBtn) {
+        buyBtn.textContent = '⏳ আগামী ২৪ ঘন্টার মধ্যে আপনার কোর্সটি একটিভ করা হবে';
+        buyBtn.style.backgroundColor = '#FF9800'; // Orange color
+        buyBtn.style.cursor = 'not-allowed';
+        buyBtn.style.pointerEvents = 'none'; // Prevent click
+        buyBtn.style.border = 'none';
+        buyBtn.style.color = '#fff';
+        buyBtn.style.padding = '12px 20px';
+        buyBtn.style.fontSize = '16px';
+        buyBtn.style.fontWeight = '600';
+        buyBtn.style.borderRadius = '8px';
+        buyBtn.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+        buyBtn.style.transition = 'all 0.3s ease';
         }
         
-        // If approved, unlock the course
-        if (status === 'approved') {
-            try {
-                const unlockResponse = await fetch(`http://localhost:5000/api/courses/unlock/${currentPaymentId}`, {
-                    method: 'POST'
-                });
-                
-                if (!unlockResponse.ok) {
-                    throw new Error('Failed to unlock course');
-                }
-            } catch (unlockError) {
-                console.error('Error unlocking course:', unlockError);
-                alert('পেমেন্ট অনুমোদিত হয়েছে কিন্তু কোর্স আনলক করতে সমস্যা হয়েছে: ' + unlockError.message);
-            }
+        // Save to localStorage to remember the state
+        localStorage.setItem('paymentStatus', 'submitted');
+    } else if (status === 'approved') {
+        if (buyBtn) {
+            buyBtn.textContent = 'কোর্সটি একটিভ হয়েছে';
+            buyBtn.style.backgroundColor = '#4CAF50'; // Green color
+            buyBtn.style.cursor = 'default';
+            buyBtn.onclick = null;
         }
         
-        // Show success message
-        const statusMessage = status === 'approved' ? 'অনুমোদন' : 'প্রত্যাখ্যান';
-        alert(`পেমেন্ট সফলভাবে ${statusMessage} করা হয়েছে`);
+        // Unlock course content
+        unlockCourseContent();
         
-        // Close the modal and refresh list
-        closeModal('paymentDetailsModal');
-        renderPaymentRequests();
-        
-    } catch (error) {
-        console.error('Error updating payment status:', error);
-        alert(`স্ট্যাটাস আপডেট করতে সমস্যা হয়েছে: ${error.message}`);
+        // Update localStorage
+        localStorage.setItem('paymentStatus', 'approved');
     }
 }
 
 // Handle payment form submission with button state management
+// Handle payment form submission
 document.getElementById('manualPaymentForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const messageEl = document.getElementById('paymentMessage');
-    const buyBtn = document.querySelector('.buy-btn');
     
+    const form = e.target;
+    const submitBtn = document.getElementById('submitPaymentBtn');
+    const messageEl = document.getElementById('paymentMessage');
+    
+    // Disable button and show loading
     submitBtn.disabled = true;
-    submitBtn.textContent = 'প্রসেসিং...';
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> প্রসেসিং...';
     messageEl.textContent = '';
     messageEl.style.color = '';
     
     try {
-        const requiredFields = ['name', 'email', 'phone', 'txnId', 'paymentMethod', 'courseId'];
-        const missingFields = requiredFields.filter(field => !formData.get(field));
+        // Simulate API call (replace with actual fetch call)
+        await new Promise(resolve => setTimeout(resolve, 1500));
         
-        if (missingFields.length > 0) {
-            throw new Error(`অনুগ্রহ করে প্রয়োজনীয় তথ্য পূরণ করুন: ${missingFields.join(', ')}`);
-        }
-
-        const data = {
-            name: formData.get('name'),
-            email: formData.get('email'),
+        // Get form data
+        const formData = new FormData(form);
+        const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+        
+        // Create payment record
+        const payment = {
+            id: 'pay_' + Date.now(),
+            userId: currentUser.id || 'guest',
+            name: currentUser.name || 'Guest',
+            email: currentUser.email || '',
             phone: formData.get('phone'),
             txnId: formData.get('txnId'),
             paymentMethod: formData.get('paymentMethod'),
             courseId: formData.get('courseId'),
             amount: 900,
-            currency: 'BDT'
+            status: 'pending',
+            date: new Date().toISOString()
         };
         
-        const response = await fetch('http://localhost:5000/api/payments', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
+        // Save to localStorage (replace with actual API call)
+        let payments = JSON.parse(localStorage.getItem('coursePayments') || '[]');
+        payments.push(payment);
+        localStorage.setItem('coursePayments', JSON.stringify(payments));
         
-        const result = await response.json();
+        // Update UI
+        updatePaymentStatus('submitted');
         
-        if (!response.ok) {
-            throw new Error(result.message || 'Payment submission failed');
-        }
-        
-        messageEl.textContent = 'পেমেন্ট সফলভাবে জমা হয়েছে! অ্যাডমিন অনুমোদনের জন্য অপেক্ষা করুন।';
-        messageEl.style.color = 'green';
-        
-        form.reset();
-        
-        localStorage.setItem('course_payment_id', result.paymentId);
-        
-        // Keep the buy button in waiting state
-        if (buyBtn) {
-            buyBtn.textContent = 'অপেক্ষা করুন...';
-            buyBtn.style.backgroundColor = '#6c757d';
-            buyBtn.style.cursor = 'not-allowed';
-        }
-        
-        checkPaymentStatus(result.paymentId);
+        // Show success modal
+        document.getElementById('lockedModal').style.display = 'none';
+        document.getElementById('successModal').style.display = 'block';
         
     } catch (error) {
-        messageEl.textContent = error.message || 'একটি ত্রুটি ঘটেছে। অনুগ্রহ করে আবার চেষ্টা করুন।';
+        messageEl.textContent = 'পেমেন্ট জমা দিতে সমস্যা হয়েছে: ' + error.message;
         messageEl.style.color = 'red';
-        
-        // Reset the buy button if error occurs
-        if (buyBtn) {
-            buyBtn.textContent = 'এখনই কিনুন';
-            buyBtn.style.backgroundColor = '';
-            buyBtn.style.cursor = '';
-            buyBtn.onclick = purchaseCourse;
-        }
     } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'সাবমিট করুন';
+        submitBtn.textContent = 'পেমেন্ট নিশ্চিত করুন';
     }
 });
+
+
+
 
 // Function to check payment status periodically
 async function checkPaymentStatus(paymentId) {
@@ -5602,7 +5664,7 @@ async function checkPaymentStatus(paymentId) {
         const result = await response.json();
         
         if (!response.ok) {
-            throw new Error(result.message || 'Failed to check payment status');
+            throw new Error(result.message || 'আপনার পেমেন্টটি সফল হয়েছে অনুগ্রহ করে অপেক্ষা করুন check payment status');
         }
         
         if (result.status === 'approved') {
@@ -5637,7 +5699,7 @@ async function checkPaymentStatus(paymentId) {
 
 // In CourseDetails.html, add this function
 async function checkAndUpdateCourseAccess() {
-    const paymentId = localStorage.getItem('course_payment_id');
+    const paymentId = localStorage.getItem('course_payment.id');
     if (!paymentId) return;
     
     try {
@@ -5646,7 +5708,7 @@ async function checkAndUpdateCourseAccess() {
         const statusResult = await statusResponse.json();
         
         if (!statusResponse.ok) {
-            throw new Error(statusResult.message || 'Failed to check payment status');
+            throw new Error(statusResult.message || 'আপনার পেমেন্টটি সফল হয়েছে অনুগ্রহ করে অপেক্ষা করুন check payment status');
         }
         
         // If approved, check if course is unlocked
@@ -5655,7 +5717,7 @@ async function checkAndUpdateCourseAccess() {
             const accessResult = await accessResponse.json();
             
             if (!accessResponse.ok) {
-                throw new Error('Failed to check course access');
+                throw new Error('আপনার পেমেন্টটি সফল হয়েছে অনুগ্রহ করে অপেক্ষা করুন check course access');
             }
             
             if (accessResult.access) {
@@ -5669,7 +5731,7 @@ async function checkAndUpdateCourseAccess() {
                 const unlockResult = await unlockResponse.json();
                 
                 if (!unlockResponse.ok) {
-                    throw new Error(unlockResult.message || 'Failed to unlock course');
+                    throw new Error(unlockResult.message || 'আপনার পেমেন্টটি সফল হয়েছে অনুগ্রহ করে অপেক্ষা করুন unlock course');
                 }
                 
                 activateCourse();
@@ -5769,69 +5831,190 @@ function activateCourse() {
 }
 
 // Show notification
-function showNotification(type, message) {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.classList.add('fade-out');
-        setTimeout(() => notification.remove(), 500);
-    }, 3000);
-}
 
-// Submit review to backend
-async function submitReview() {
+// Submit review function - একাধিক রিভিউ সাপোর্ট সহ
+function submitReview() {
     const rating = document.getElementById('rating').value;
     const reviewText = document.getElementById('reviewText').value;
-    const paymentId = localStorage.getItem('course_payment_id');
     
-    if (!paymentId) {
-        showNotification('error', 'কোর্স ক্রয় না করা অবস্থায় রিভিউ দেওয়া যাবে না।');
+    // Get current user from localStorage
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    if (!currentUser) {
+        showLoginAlert();
         return;
     }
     
-    if (!rating || !reviewText.trim()) {
-        showNotification('error', 'অনুগ্রহ করে রেটিং এবং রিভিউ টেক্সট পূরণ করুন।');
+    if (!rating || !reviewText) {
+        showNotification('অনুগ্রহ করে রেটিং এবং রিভিউ টেক্সট পূরণ করুন', 'অনুগ্রহ করে রেটিং এবং রিভিউ টেক্সট পূরণ করুন');
         return;
     }
     
-    try {
-        const response = await fetch('http://localhost:5000/api/reviews', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                paymentId,
-                rating: parseInt(rating),
-                text: reviewText,
-                courseId: 'Talimul-Islam-Course',
-            })
+    const reviewData = {
+        courseId: 'practical-ibarat',
+        reviewerName: currentUser.name,
+        reviewerEmail: currentUser.email,
+        rating: rating,
+        reviewText: reviewText
+    };
+    
+    fetch('https://t-islamacademy.onrender.com/api/reviews', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify(reviewData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('আপনার রিভিউ সফলভাবে জমা দেওয়া হয়েছে!', 'আপনার রিভিউ সফলভাবে জমা দেওয়া হয়েছে!');
+            
+            // Add the new review to the UI dynamically
+            const newReview = createReviewElement({
+                reviewerName: currentUser.name,
+                reviewerEmail: currentUser.email,
+                rating: rating,
+                reviewText: reviewText,
+                date: new Date().toISOString(),
+                isApproved: true
+            });
+            
+            const reviewsContainer = document.querySelector('.reviews-container');
+            if (reviewsContainer) {
+                reviewsContainer.insertBefore(newReview, reviewsContainer.firstChild);
+            }
+            
+            // Clear the form (কিন্তু রেটিং রিসেট করবেন না)
+            document.getElementById('reviewText').value = '';
+            
+            // সফলতা মেসেজ দেখান
+            document.getElementById('reviewSuccessMessage').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('reviewSuccessMessage').style.display = 'none';
+            }, 3000);
+        } else {
+            showNotification(data.message || 'রিভিউ জমা দিতে সমস্যা হয়েছে', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error submitting review:', error);
+        showNotification('রিভিউ জমা দিতে সমস্যা হয়েছে', 'error');
+    });
+}
+
+
+// UI-তে রিভিউ যোগ করুন
+
+// UI-তে রিভিউ যোগ করুন
+function addReviewToUI(review) {
+    const reviewsContainer = document.querySelector('.reviews-container');
+    
+    // তারিখ ফরম্যাট করুন
+    const reviewDate = new Date(review.date);
+    const formattedDate = reviewDate.toLocaleDateString('bn-BD', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    }) + ' ' + reviewDate.toLocaleTimeString('bn-BD', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    // রিভিউ এলিমেন্ট তৈরি করুন
+    const reviewElement = document.createElement('div');
+    reviewElement.className = 'review';
+    reviewElement.innerHTML = `
+        <div class="review-header">
+            <div class="reviewer-avatar">${review.name.charAt(0).toUpperCase()}</div>
+            <div>
+                <div class="reviewer-name">${review.name}</div>
+                <div class="star-rating">${'⭐'.repeat(review.rating)}</div>
+            </div>
+            <div class="review-date">${formattedDate}</div>
+        </div>
+        <div class="review-text">${review.text}</div>
+    `;
+    
+    // রিভিউ কন্টেইনারে যোগ করুন
+    reviewsContainer.insertBefore(reviewElement, reviewsContainer.firstChild);
+}
+// রিভিউ ফর্ম সেটআপ ফাংশন
+// রিভিউ ফর্ম সেটআপ ফাংশন
+function setupReviewForm() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const reviewForm = document.getElementById('reviewForm');
+    const reviewerInfo = document.getElementById('reviewerInfo');
+    
+    if (!currentUser) {
+        reviewForm.style.display = 'none';
+        return;
+    }
+    
+    // চেক করুন ব্যবহারকারীর কোর্স অ্যাক্সেস আছে কিনা
+    const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
+    const hasAccess = userAccess[currentUser.email]?.['Quran-Education']?.accessGranted;
+    
+    if (hasAccess) {
+        // কোর্স অ্যাক্সেস থাকলে ফর্ম দেখান
+        reviewForm.style.display = 'block';
+        
+        // ব্যবহারকারীর তথ্য দেখান
+        reviewerInfo.style.display = 'block';
+        document.getElementById('reviewerAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+        document.getElementById('reviewerName').textContent = currentUser.name;
+        
+        // বর্তমান তারিখ সেট করুন
+        const currentDate = new Date();
+        document.getElementById('reviewDate').textContent = currentDate.toLocaleDateString('bn-BD', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
         });
         
-        const result = await response.json();
-        
-        if (!response.ok) {
-            throw new Error(result.message || 'Review submission failed');
-        }
-        
-        showNotification('success', 'আপনার রিভিউটি সফলভাবে জমা দেওয়া হয়েছে। ধন্যবাদ!');
-        document.getElementById('rating').value = '';
-        document.getElementById('reviewText').value = '';
-        
-    } catch (error) {
-        showNotification('error', error.message || 'রিভিউ জমা দিতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+        // পূর্বের রিভিউ লোড করুন
+        loadExistingReviews();
+    } else {
+        // কোর্স অ্যাক্সেস না থাকলে ফর্ম লুকান
+        reviewForm.style.display = 'none';
     }
 }
+// পূর্বের রিভিউ লোড করুন
+// পূর্বের রিভিউ লোড করুন
+function loadExistingReviews() {
+    const reviews = JSON.parse(localStorage.getItem('courseReviews')) || [];
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
+    // শুধুমাত্র বর্তমান কোর্স এবং ব্যবহারকারীর রিভিউ ফিল্টার করুন
+    const userReviews = reviews.filter(review => 
+        review.courseId === 'Quran-Education' && 
+        review.userId === currentUser.id
+    );
+    
+    // যদি পূর্বের রিভিউ থাকে, ফর্মে সেট করুন
+    if (userReviews.length > 0) {
+        const latestReview = userReviews[userReviews.length - 1];
+        document.getElementById('rating').value = latestReview.rating;
+        document.getElementById('reviewText').value = latestReview.text;
+    }
+}
+// পেজ লোড হলে রিভিউ সিস্টেম ইনিশিয়ালাইজ করুন
+document.addEventListener('DOMContentLoaded', function() {
+    setupReviewForm();
+    
+    // কোর্স আনলক হলে রিভিউ ফর্ম সক্রিয় করুন
+    if (document.querySelector('.active-course-badge')) {
+        setupReviewForm();
+    }
+});
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
     checkAndUpdateCourseAccess();
     
     // Set up periodic checking (every 5 seconds) if not already activated
-    const paymentId = localStorage.getItem('course_payment_id');
+    const paymentId = localStorage.getItem('course_payment.id');
     if (paymentId && !document.querySelector('.active-course-badge')) {
         setInterval(checkAndUpdateCourseAccess, 5000);
     }
@@ -5863,10 +6046,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-  
-</script>
 
-<script>
+
+
 // লগইন স্ট্যাটাস চেক করার ফাংশন (আপডেটেড)
 function checkLoginStatus() {
     const token = localStorage.getItem('authToken');
@@ -5995,91 +6177,59 @@ function showLoginAlert() {
 }
 
 // পেমেন্ট ফর্ম সাবমিশন হ্যান্ডলার
+// Handle payment form submission
+// পেমেন্ট ফর্ম সাবমিশন
+// Practical-Ibarat.html ফাইলের script অংশে নিচের কোড যোগ করুন
+
+// পেমেন্ট ফর্ম সাবমিশন হ্যান্ডলার
+// Practical-Ibarat.html-এ পেমেন্ট ফর্ম সাবমিশন আপডেট করুন
+// Practical-Ibarat.html-এ পেমেন্ট ফর্ম সাবমিশন আপডেট করুন
 document.getElementById('manualPaymentForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    const form = e.target;
-    const formData = new FormData(form);
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const messageEl = document.getElementById('paymentMessage');
-    
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'প্রসেসিং...';
-    messageEl.textContent = '';
-    messageEl.style.color = '';
-    
-    try {
-        // ভ্যালিডেশন চেক
-        const requiredFields = ['phone', 'txnId', 'paymentMethod'];
-        const missingFields = requiredFields.filter(field => !formData.get(field));
-        
-        if (missingFields.length > 0) {
-            throw new Error(`অনুগ্রহ করে প্রয়োজনীয় তথ্য পূরণ করুন: ${missingFields.join(', ')}`);
-        }
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        showLoginAlert();
+        return;
+    }
 
-        // পেমেন্ট ডেটা প্রস্তুত করুন
-        const user = JSON.parse(localStorage.getItem('currentUser'));
-        const paymentData = {
-            userId: user.id,
-            name: user.name,
-            email: user.email,
-            phone: formData.get('phone'),
-            txnId: formData.get('txnId'),
-            paymentMethod: formData.get('paymentMethod'),
-            courseId: formData.get('courseId'),
-            amount: 900, // কোর্স প্রাইস
-            currency: 'BDT'
-        };
-        
-        // পেমেন্ট সাবমিট করুন (এখানে আপনার API এন্ডপয়েন্ট ব্যবহার করুন)
-        const response = await fetch('/api/payments', {
+    const formData = {
+        userId: currentUser.id,
+        name: currentUser.name,
+        email: currentUser.email,
+        phone: this.phone.value,
+        courseId: this.courseId.value,
+        courseName: "কোরআন শিক্ষা ",
+        paymentMethod: this.paymentMethod.value,
+        txnId: this.txnId.value,
+        amount: 900,
+        status: 'pending'
+    };
+
+    try {
+        const response = await fetch('https://t-islamacademy.onrender.com/api/payments', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`
             },
-            body: JSON.stringify(paymentData)
+            body: JSON.stringify(formData)
         });
-        
-        const result = await response.json();
-        
+
         if (!response.ok) {
-            throw new Error(result.message || 'Payment submission failed');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Payment submission failed');
         }
+
+        const result = await response.json();
+        showSuccessMessage();
+        closeModal('lockedModal');
         
-        messageEl.textContent = 'পেমেন্ট সফলভাবে জমা হয়েছে! অ্যাডমিন অনুমোদনের জন্য অপেক্ষা করুন।';
-        messageEl.style.color = 'green';
-        
-        // পেমেন্ট ID স্টোর করুন
-        localStorage.setItem('course_payment_id', result.paymentId);
-        
-        // বাটন স্টেট আপডেট করুন
-        const buyBtn = document.querySelector('.buy-now-btn');
-        if (buyBtn) {
-            buyBtn.textContent = 'অপেক্ষা করুন...';
-            buyBtn.style.backgroundColor = '#6c757d';
-            buyBtn.style.cursor = 'not-allowed';
-            buyBtn.onclick = null;
-        }
-        
-        // পেমেন্ট স্ট্যাটাস চেক শুরু করুন
-        checkPaymentStatus(result.paymentId);
+        // Store payment ID to check status later
+        localStorage.setItem('currentPaymentId', result.id);
         
     } catch (error) {
-        messageEl.textContent = error.message || 'একটি ত্রুটি ঘটেছে। অনুগ্রহ করে আবার চেষ্টা করুন।';
-        messageEl.style.color = 'red';
-        
-        // বাটন স্টেট রিসেট করুন
-        const buyBtn = document.querySelector('.buy-now-btn');
-        if (buyBtn) {
-            buyBtn.textContent = 'এখনই কিনুন';
-            buyBtn.style.backgroundColor = '';
-            buyBtn.style.cursor = '';
-            buyBtn.onclick = handleBuyNow;
-        }
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'সাবমিট করুন';
+        showErrorMessage(error.message);
     }
 });
 
@@ -6095,7 +6245,7 @@ async function checkPaymentStatus(paymentId) {
         const result = await response.json();
         
         if (!response.ok) {
-            throw new Error(result.message || 'Failed to check payment status');
+            throw new Error(result.message || 'আপনার পেমেন্টটি সফল হয়েছে অনুগ্রহ করে অপেক্ষা করুন check payment status');
         }
         
         if (result.status === 'approved') {
@@ -6125,6 +6275,26 @@ async function checkPaymentStatus(paymentId) {
     }
 }
 
+
+
+// কোর্স অ্যাক্সেস চেক করা
+// Function to check course access
+// Check course access on page load
+function checkCourseAccess() {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    if (!user) return;
+
+    const userCourses = user.courses || [];
+    if (userCourses.includes('Quran-Education')) {
+        unlockCourseContent();
+    }
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    checkCourseAccess();
+    setupCourseAccessListener();
+});
 // কোর্স আনলক করার ফাংশন
 async function unlockCourse(paymentId) {
     try {
@@ -6136,14 +6306,14 @@ async function unlockCourse(paymentId) {
             },
             body: JSON.stringify({
                 paymentId,
-                courseId: 'Talimul-Islam-Course'
+                courseId: 'Quran-Education'
             })
         });
 
         const result = await response.json();
         
         if (!response.ok) {
-            throw new Error(result.message || 'Failed to unlock course');
+            throw new Error(result.message || 'আপনার পেমেন্টটি সফল হয়েছে অনুগ্রহ করে অপেক্ষা করুন unlock course');
         }
         
         // UI আপডেট করুন
@@ -6159,6 +6329,31 @@ async function unlockCourse(paymentId) {
         console.error('Error unlocking course:', error);
         showNotification('error', 'কোর্স আনলক করতে সমস্যা হয়েছে: ' + error.message);
     }
+}
+
+
+
+// Function to handle locked content clicks
+function handleLockedContentClick(contentType, contentId) {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    
+    if (!user) {
+        showLoginAlert();
+        return;
+    }
+    
+    checkCourseAccess().then(hasAccess => {
+        if (hasAccess) {
+            if (contentType === 'video') {
+                openVideoModal(contentId);
+            } else if (contentType === 'note') {
+                openNoteModal(contentId);
+            }
+        } else {
+            document.getElementById('lockedModal').style.display = 'flex';
+            updatePaymentInfo();
+        }
+    });
 }
 
 // কোর্স সক্রিয় করার UI আপডেট ফাংশন
@@ -6234,16 +6429,28 @@ function activateCourse() {
 
 // নোটিফিকেশন ফাংশন
 function showNotification(type, message) {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
+    const popup = document.createElement('div');
+    popup.className = `custom-popup`;
     
+    popup.innerHTML = `
+        <div class="popup-content popup-${type}">
+            <div class="popup-icon">
+                ${type === 'success' ? '✓' : '⚠️'}
+            </div>
+            <div class="popup-message">${message}</div>
+            <button class="popup-close" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+    `;
+    
+    document.body.appendChild(popup);
+    
+    // Auto remove after 5 seconds
     setTimeout(() => {
-        notification.classList.add('fade-out');
-        setTimeout(() => notification.remove(), 500);
-    }, 3000);
+        popup.classList.add('hide');
+        setTimeout(() => popup.remove(), 300);
+    }, 5000);
 }
+
 
 // পেজ লোড হলে চেক করুন
 document.addEventListener('DOMContentLoaded', function() {
@@ -6257,7 +6464,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // যদি পূর্বে পেমেন্ট করা থাকে, স্ট্যাটাস চেক করুন
-    const paymentId = localStorage.getItem('course_payment_id');
+    const paymentId = localStorage.getItem('course_payment.id');
     if (paymentId) {
         checkPaymentStatus(paymentId);
     }
@@ -6268,36 +6475,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Payment Form Submission
+// In the course page JavaScript
 document.getElementById('manualPaymentForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const phone = this.querySelector('[name="phone"]').value;
-    const txnId = this.querySelector('[name="txnId"]').value;
-    const paymentMethod = this.querySelector('[name="paymentMethod"]').value;
-    const courseId = this.querySelector('[name="courseId"]').value;
-    
-    // Get current user from localStorage
+    const formData = new FormData(this);
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    
     if (!currentUser) {
         showLoginAlert();
         return;
     }
-    
+
     // Create payment object
     const payment = {
         _id: 'pay' + Date.now(),
         name: currentUser.name,
         email: currentUser.email,
-        phone: phone,
-        courseName: document.querySelector('header h1').textContent,
-        courseId: courseId,
-        paymentMethod: paymentMethod,
-        txnId: txnId,
-        amount: parseInt(document.querySelector('.current-price').textContent.replace(/[^\d]/g, '')),
+        phone: formData.get('phone'),
+        courseName: "কোরআন শিক্ষা ", // Course title
+        courseId: formData.get('courseId'),
+        paymentMethod: formData.get('paymentMethod'),
+        txnId: formData.get('txnId'),
+        amount: 900, // Fixed amount for this course
         status: 'pending',
         date: new Date().toISOString()
     };
-    
+
     // Save to localStorage
     let payments = JSON.parse(localStorage.getItem('pendingPayments')) || [];
     payments.push(payment);
@@ -6310,10 +6514,10 @@ document.getElementById('manualPaymentForm').addEventListener('submit', function
     // Reset form
     this.reset();
     
-    // Close modal after 3 seconds
-    setTimeout(() => {
-        closeModal('lockedModal');
-    }, 3000);
+    // Trigger event to notify admin panel
+    localStorage.setItem('newPaymentAdded', JSON.stringify({
+        timestamp: new Date().getTime()
+    }));
 });
 
 // Helper function to show login alert
@@ -6333,33 +6537,30 @@ function showLoginAlert() {
 
 
 // কোর্স আনলক ফাংশন
+// Unlock course content function
 function unlockCourseContent() {
-    // 1. সকল লকড ভিডিও আনলক
+    // Unlock videos
     document.querySelectorAll('.video-item.locked').forEach(item => {
         item.classList.remove('locked');
         const videoId = item.getAttribute('data-video-id');
         item.onclick = () => openVideoModal(videoId);
-        item.querySelector('.video-lock').remove();
+        const lockIcon = item.querySelector('.video-lock');
+        if (lockIcon) lockIcon.remove();
     });
 
-    // 2. সকল লকড নোট আনলক
+    // Unlock notes
     document.querySelectorAll('.note-item.locked').forEach(item => {
         item.classList.remove('locked');
         const noteId = item.getAttribute('data-note-id');
         item.onclick = () => openNoteModal(noteId);
-        item.querySelector('.note-lock').remove();
+        const lockIcon = item.querySelector('.note-lock');
+        if (lockIcon) lockIcon.remove();
     });
 
-    // 3. রিভিউ ফর্ম দেখান
-    document.getElementById('reviewForm')?.classList.remove('hidden');
-
-    // 4. "কিনুন" বাটন পরিবর্তন
-    const buyBtn = document.querySelector('.buy-now-btn');
-    if (buyBtn) {
-        buyBtn.textContent = 'কোর্সটি একটিভ হয়েছে';
-        buyBtn.style.backgroundColor = '#43a047';
-        buyBtn.onclick = null;
-        buyBtn.style.cursor = 'default';
+    // Enable review form
+    const reviewForm = document.getElementById('reviewForm');
+    if (reviewForm) {
+        reviewForm.classList.remove('hidden');
     }
 }
 
@@ -6369,7 +6570,7 @@ function checkAccess() {
     if (!currentUser) return;
 
     const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    const courseId = 'Talimul-Islam-Course'; // আপনার কোর্স আইডি
+    const courseId = 'Quran-Education'; // আপনার কোর্স আইডি
 
     if (userAccess[currentUser.email]?.includes(courseId)) {
         unlockCourseContent();
@@ -6425,8 +6626,82 @@ function checkAndUnlockCourse() {
     if (!currentUser) return;
 
     const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    const courseAccess = userAccess[currentUser.email]?.['Talimul-Islam-Course']; // Replace with your course ID
+    const courseAccess = userAccess[currentUser.email]?.['Quran-Education']; // Replace with your course ID
+    
+    if (courseAccess?.accessGranted) {
+        unlockCourseContent();
+    }
+}
 
+// Unlock all course content
+// Unlock course content function
+function unlockCourseContent() {
+    // Unlock videos
+    document.querySelectorAll('.video-item.locked').forEach(item => {
+        item.classList.remove('locked');
+        const videoId = item.getAttribute('data-video-id');
+        item.onclick = () => openVideoModal(videoId);
+        const lockIcon = item.querySelector('.video-lock');
+        if (lockIcon) lockIcon.remove();
+    });
+
+    // Unlock notes
+    document.querySelectorAll('.note-item.locked').forEach(item => {
+        item.classList.remove('locked');
+        const noteId = item.getAttribute('data-note-id');
+        item.onclick = () => openNoteModal(noteId);
+        const lockIcon = item.querySelector('.note-lock');
+        if (lockIcon) lockIcon.remove();
+    });
+
+    // Enable review form
+    const reviewForm = document.getElementById('reviewForm');
+    if (reviewForm) {
+        reviewForm.classList.remove('hidden');
+    }
+}
+
+// Listen for storage events (when admin approves from another tab)
+window.addEventListener('storage', (e) => {
+    if (e.key === 'refreshCourseAccess') {
+        const data = JSON.parse(e.newValue);
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (currentUser && currentUser.email === data.email && data.courseId === 'Quran-Education') {
+            unlockCourseContent();
+        }
+    }
+});
+
+// Also check periodically in case the event listener doesn't work
+setInterval(() => {
+    const refreshData = JSON.parse(localStorage.getItem('refreshCourseAccess') || 'null');
+    if (refreshData) {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'Quran-Education') {
+            unlockCourseContent();
+            localStorage.removeItem('refreshCourseAccess');
+        }
+    }
+}, 1000);
+
+// Initial check when page loads
+document.addEventListener('DOMContentLoaded', checkAndUnlockCourse);
+
+
+
+
+
+
+// Check and unlock course content
+function checkAndUnlockCourse() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return;
+
+    const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
+    const courseAccess = userAccess[currentUser.email]?.['Quran-Education'];
+    
     if (courseAccess?.accessGranted) {
         unlockCourseContent();
     }
@@ -6472,8 +6747,8 @@ window.addEventListener('storage', (e) => {
     if (e.key === 'refreshCourseAccess') {
         const data = JSON.parse(e.newValue);
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-        if (currentUser && currentUser.email === data.email && data.courseId === 'Talimul-Islam-Course') {
+        
+        if (currentUser && currentUser.email === data.email && data.courseId === 'Quran-Education') {
             unlockCourseContent();
         }
     }
@@ -6484,8 +6759,8 @@ setInterval(() => {
     const refreshData = JSON.parse(localStorage.getItem('refreshCourseAccess') || 'null');
     if (refreshData) {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'Talimul-Islam-Course') {
+        
+        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'Quran-Education') {
             unlockCourseContent();
             localStorage.removeItem('refreshCourseAccess');
         }
@@ -6494,9 +6769,1030 @@ setInterval(() => {
 
 // Initial check when page loads
 document.addEventListener('DOMContentLoaded', checkAndUnlockCourse);
-</script>     
 
 
 
-    </body>
-    </html>
+
+
+
+// পপআপ নোটিফিকেশন সিস্টেম
+function showPopup(type, message, duration = 5000) {
+    // Remove any existing popup
+    const oldPopup = document.getElementById('customPopup');
+    if (oldPopup) oldPopup.remove();
+    
+    // Create popup element
+    const popup = document.createElement('div');
+    popup.id = 'customPopup';
+    popup.className = `custom-popup`;
+    
+    // Set icon based on type
+    let icon, popupClass;
+    switch(type) {
+        case 'success':
+            icon = '<i class="fas fa-check-circle"></i>';
+            popupClass = 'popup-success';
+            break;
+        case 'error':
+            icon = '<i class="fas fa-exclamation-circle"></i>';
+            popupClass = 'popup-error';
+            break;
+        case 'warning':
+            icon = '<i class="fas fa-exclamation-triangle"></i>';
+            popupClass = 'popup-warning';
+            break;
+        case 'info':
+            icon = '<i class="fas fa-info-circle"></i>';
+            popupClass = 'popup-info';
+            break;
+        default:
+            icon = '<i class="fas fa-info-circle"></i>';
+            popupClass = 'popup-info';
+    }
+    
+    popup.innerHTML = `
+        <div class="popup-content ${popupClass}">
+            <div class="popup-icon">${icon}</div>
+            <div class="popup-message">${message}</div>
+            <button class="popup-close" onclick="this.parentElement.parentElement.remove()">&times;</button>
+        </div>
+    `;
+    
+    document.body.appendChild(popup);
+    
+    // Auto-close after duration
+    if (duration > 0) {
+        setTimeout(() => {
+            popup.classList.add('hide');
+            setTimeout(() => popup.remove(), 300);
+        }, duration);
+    }
+    
+    return popup;
+}
+
+// সকল এলার্ট মেসেজকে পপআপে কনভার্ট করার ফাংশন
+function convertAlertsToPopups() {
+    // 1. লগইন এলার্ট
+    window.showLoginAlert = function() {
+        showPopup('info', 'কোর্সটি ক্রয় করার জন্য প্রথমে লগইন করুন', 0);
+        
+        // Create login button in popup
+        const popup = document.getElementById('customPopup');
+        if (popup) {
+            const loginBtn = document.createElement('button');
+            loginBtn.textContent = 'লগইন করুন';
+            loginBtn.style.marginTop = '10px';
+            loginBtn.style.padding = '5px 15px';
+            loginBtn.style.background = 'var(--primary-color)';
+            loginBtn.style.color = 'white';
+            loginBtn.style.border = 'none';
+            loginBtn.style.borderRadius = '4px';
+            loginBtn.style.cursor = 'pointer';
+            loginBtn.onclick = function() {
+                if (typeof LoginModule !== 'undefined' && LoginModule.handleLogin) {
+                    LoginModule.handleLogin();
+                } else {
+                    const loginPopup = document.querySelector('.login-popup');
+                    if (loginPopup) loginPopup.classList.add('active');
+                    const blur = document.querySelector('.blur-overlay');
+                    if (blur) blur.classList.add('active');
+                }
+                popup.remove();
+            };
+            
+            const messageDiv = popup.querySelector('.popup-message');
+            if (messageDiv) {
+                messageDiv.appendChild(document.createElement('br'));
+                messageDiv.appendChild(loginBtn);
+            }
+        }
+    };
+    
+    // 2. পেমেন্ট সাকসেস মেসেজ
+    window.showPaymentSuccess = function(message) {
+        showPopup('success', message);
+    };
+    
+    // 3. এরর মেসেজ
+    window.showErrorPopup = function(message) {
+        showPopup('error', message);
+    };
+    
+    // 4. ওয়ার্নিং মেসেজ
+    window.showWarningPopup = function(message) {
+        showPopup('warning', message);
+    };
+    
+    // 5. ইনফো মেসেজ
+    window.showInfoPopup = function(message) {
+        showPopup('info', message);
+    };
+    
+    // 6. কনফার্মেশন মেসেজ (কাস্টম ইমপ্লিমেন্টেশন)
+    window.showConfirmPopup = function(message, confirmCallback, cancelCallback) {
+        const popup = showPopup('info', message, 0);
+        
+        if (popup) {
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.style.display = 'flex';
+            buttonsDiv.style.gap = '10px';
+            buttonsDiv.style.marginTop = '10px';
+            
+            const confirmBtn = document.createElement('button');
+            confirmBtn.textContent = 'হ্যাঁ';
+            confirmBtn.style.padding = '5px 15px';
+            confirmBtn.style.background = 'var(--primary-color)';
+            confirmBtn.style.color = 'white';
+            confirmBtn.style.border = 'none';
+            confirmBtn.style.borderRadius = '4px';
+            confirmBtn.style.cursor = 'pointer';
+            confirmBtn.onclick = function() {
+                if (typeof confirmCallback === 'function') confirmCallback();
+                popup.remove();
+            };
+            
+            const cancelBtn = document.createElement('button');
+            cancelBtn.textContent = 'না';
+            cancelBtn.style.padding = '5px 15px';
+            cancelBtn.style.background = '#6c757d';
+            cancelBtn.style.color = 'white';
+            cancelBtn.style.border = 'none';
+            cancelBtn.style.borderRadius = '4px';
+            cancelBtn.style.cursor = 'pointer';
+            cancelBtn.onclick = function() {
+                if (typeof cancelCallback === 'function') cancelCallback();
+                popup.remove();
+            };
+            
+            buttonsDiv.appendChild(confirmBtn);
+            buttonsDiv.appendChild(cancelBtn);
+            
+            const messageDiv = popup.querySelector('.popup-message');
+            if (messageDiv) {
+                messageDiv.appendChild(document.createElement('br'));
+                messageDiv.appendChild(buttonsDiv);
+            }
+        }
+    };
+}
+
+// পেজ লোড হলে পপআপ সিস্টেম ইনিশিয়ালাইজ করুন
+document.addEventListener('DOMContentLoaded', function() {
+    convertAlertsToPopups();
+    
+    // সকল alert() কে রিপ্লেস করুন
+    window.alert = function(message) {
+        showPopup('info', message);
+    };
+    
+    // সকল console.error কে ও পপআপে শো করুন
+    const originalConsoleError = console.error;
+    console.error = function() {
+        showPopup('error', Array.from(arguments).join(' '));
+        originalConsoleError.apply(console, arguments);
+    };
+});
+
+
+// কোর্স স্ট্যাটাস চেক করার ফাংশন
+// Function to check course access status
+function checkCourseAccess(courseId) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return false;
+    
+    const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
+    const userEmail = currentUser.email;
+    
+    // Check if user has access to the specified course
+    return userAccess[userEmail] &&
+           userAccess[userEmail][courseId] &&
+           userAccess[userEmail][courseId].accessGranted;
+}
+
+// ব্যবহার: Quran-Education কোর্স চেক করতে:
+if (checkCourseAccess('Quran-Education')) {
+    // কোর্স অ্যাক্সেস দেওয়া আছে
+}
+
+// ব্যবহার: fiqh-course কোর্স চেক করতে:
+if (checkCourseAccess('fiqh-course')) {
+    // কোর্স অ্যাক্সেস দেওয়া আছে
+}
+
+// কোর্স আনলক ফাংশন
+// Function to unlock course content
+function unlockCourseContent() {
+    // Unlock videos
+    document.querySelectorAll('.video-item.locked').forEach(item => {
+        item.classList.remove('locked');
+        const videoId = item.getAttribute('data-video-id');
+        item.onclick = () => openVideoModal(videoId);
+        const lockIcon = item.querySelector('.video-lock');
+        if (lockIcon) lockIcon.remove();
+    });
+
+    // Unlock notes
+    document.querySelectorAll('.note-item.locked').forEach(item => {
+        item.classList.remove('locked');
+        const noteId = item.getAttribute('data-note-id');
+        item.onclick = () => openNoteModal(noteId);
+        const lockIcon = item.querySelector('.note-lock');
+        if (lockIcon) lockIcon.remove();
+    });
+
+    // Enable review form
+    const reviewForm = document.getElementById('reviewForm');
+    if (reviewForm) {
+        reviewForm.classList.remove('hidden');
+    }
+
+    // Update pricing section
+    const pricingSection = document.getElementById('pricing-section');
+    if (pricingSection) {
+        pricingSection.innerHTML = `
+            <div class="active-course-badge">
+                <h3>আপনার কোর্সটি সক্রিয় হয়েছে!</h3>
+                <p>এখন আপনি সকল ভিডিও ও নোট এক্সেস করতে পারবেন</p>
+            </div>
+            <div class="course-stats">
+                <div class="stat-item">
+                    <span class="stat-icon">👥</span>
+                    <span>১২,৫০০+ শিক্ষার্থী</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">📺</span>
+                    <span>১০টি ভিডিও লেসন</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">⏱️</span>
+                    <span>মোট ৮ ঘন্টা</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">📄</span>
+                    <span>৮টি পিডিএফ নোট</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">🏆</span>
+                    <span>সার্টিফিকেট</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">♾️</span>
+                    <span>আজীবন এক্সেস</span>
+                </div>
+            </div>
+        `;
+    }
+}
+
+// Listen for course access updates
+window.addEventListener('storage', function(e) {
+    if (e.key === 'courseAccessUpdated') {
+        const data = JSON.parse(e.newValue);
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (user && user.email === data.email && data.courseId === currentCourse.id) {
+            // Reload the page to reflect access changes
+            location.reload();
+        }
+    }
+});
+
+
+// Check course access on page load
+window.addEventListener('DOMContentLoaded', function() {
+    checkCourseAccess().then(hasAccess => {
+        if (hasAccess) {
+            // Change "Buy Now" button to "Access Course" button
+            const pricingSection = document.getElementById('pricing-section');
+            if (pricingSection) {
+                pricingSection.innerHTML = `
+                    <div class="active-course-badge">
+                        <i class="fas fa-check-circle"></i> কোর্স সক্রিয় হয়েছে
+                    </div>
+                `;
+            }
+            
+            // Unlock all content
+            document.querySelectorAll('.locked').forEach(item => {
+                item.classList.remove('locked');
+                item.querySelector('.video-lock, .note-lock')?.remove();
+            });
+        }
+    });
+});
+
+
+
+
+
+// Listen for course access updates
+// ক্লায়েন্ট সাইড (Practical-Ibarat.html)
+if (typeof io !== 'undefined') {
+    const socket = io('https://t-islamacademy.onrender.com');
+
+    socket.on('courseAccessUpdated', (data) => {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        if (user && user.email === data.email && data.courseId === 'Quran-Education') {
+            unlockCourseContent();
+            showPopup('আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য', 'success');
+        }
+    });
+} else {
+    // Fallback for same-origin tabs using localStorage event
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'courseAccessUpdated') {
+            const data = JSON.parse(e.newValue);
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (user && user.email === data.email && data.courseId === 'Quran-Education') {
+                unlockCourseContent();
+                showPopup('আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য', 'success');
+            }
+        }
+    });
+}
+
+
+
+
+// কোর্স ক্রয় ফাংশনে এই কোড যোগ করুন
+const user = JSON.parse(localStorage.getItem('currentUser'));
+if (user) {
+    if (!user.courses) user.courses = [];
+    if (!user.courses.includes('Quran-Education')) {
+        user.courses.push('Quran-Education');
+        localStorage.setItem('currentUser', JSON.stringify(user));
+    }
+}
+
+
+
+
+
+// Practical-Ibarat.html ফাইলে
+function showSuccessMessage() {
+    const successModal = document.getElementById('successModal');
+    successModal.style.display = 'block';
+    
+    // 3 সেকেন্ড পর অটোমেটিক বন্ধ
+    setTimeout(() => {
+        successModal.style.display = 'none';
+    }, 3000);
+}
+
+function showErrorMessage(message) {
+    const errorElement = document.createElement('div');
+    errorElement.className = 'error-message';
+    errorElement.textContent = message;
+    
+    const form = document.getElementById('manualPaymentForm');
+    form.insertBefore(errorElement, form.firstChild);
+    
+    // 5 সেকেন্ড পর মেসেজ অটোমেটিক মুছে ফেলুন
+    setTimeout(() => {
+        errorElement.remove();
+    }, 5000);
+}
+
+
+
+
+
+
+
+// সকেট.io বা localStorage ইভেন্ট লিসেনার আপডেট করুন
+// Listen for course access updates
+function setupCourseAccessListener() {
+    // WebSocket connection
+    if (typeof io !== 'undefined') {
+        const socket = io('https://t-islamacademy.onrender.comm');
+        
+        socket.on('courseAccessUpdated', (data) => {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user && user.email === data.email && data.courseId === 'Quran-Education') {
+                unlockCourseContent();
+                showPopup('success', 'আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য');
+            }
+        });
+    }
+    
+    // localStorage event fallback
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'courseAccessUpdated') {
+            const data = JSON.parse(e.newValue);
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (user && user.email === data.email && data.courseId === 'Quran-Education') {
+                unlockCourseContent();
+                showPopup('success', 'আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য');
+            }
+        }
+    });
+}
+
+
+
+let socket;
+        let currentUser = null;
+        let courseUnlocked = false;
+
+        // Initialize Socket.IO connection
+        function initializeSocket() {
+            try {
+                socket = io('https://t-islamacademy.onrender.com', {
+                    transports: ['websocket', 'polling'],
+                    timeout: 20000,
+                    reconnection: true,
+                    reconnectionAttempts: 5,
+                    reconnectionDelay: 1000
+                });
+
+                socket.on('connect', () => {
+                    console.log('Socket connected successfully');
+                    
+                    // Join user-specific room if logged in
+                    if (currentUser && currentUser.email) {
+                        socket.emit('joinUserRoom', currentUser.email);
+                    }
+                });
+
+                socket.on('disconnect', () => {
+                    console.log('Socket disconnected');
+                });
+
+                socket.on('courseAccessUpdated', (data) => {
+                    console.log('Course access update received:', data);
+                    
+                    if (currentUser && data.email === currentUser.email && data.courseId === 'Quran-Education') {
+                        console.log('Course unlocked for current user!');
+                        unlockCourseContent();
+                        showCourseUnlockedNotification(data);
+                    }
+                });
+
+                socket.on('connect_error', (error) => {
+                    console.error('Socket connection error:', error);
+                });
+
+            } catch (error) {
+                console.error('Socket initialization error:', error);
+            }
+        }
+
+        async function checkCourseAccess() {
+            currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!currentUser || !currentUser.email) {
+                console.log('No user logged in');
+                return false;
+            }
+
+            try {
+                // Check user's courses from server
+                const response = await fetch(`https://t-islamacademy.onrender.com/api/users/${currentUser.email}/courses`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user courses');
+                }
+                
+                const data = await response.json();
+                const userCourses = data.courses || [];
+                
+                console.log('User courses:', userCourses);
+                
+                if (userCourses.includes('Quran-Education')) {
+                    console.log('User has access to Quran-Education course');
+                    unlockCourseContent();
+                    return true;
+                } else {
+                    console.log('User does not have access to Quran-Education course');
+                    return false;
+                }
+                
+            } catch (error) {
+                console.error('Error checking course access:', error);
+                
+                // Fallback: check localStorage
+                const localUser = JSON.parse(localStorage.getItem('currentUser'));
+                if (localUser && localUser.courses && localUser.courses.includes('Quran-Education')) {
+                    unlockCourseContent();
+                    return true;
+                }
+                
+                return false;
+            }
+        }
+
+        function unlockCourseContent() {
+            courseUnlocked = true;
+            
+            // Unlock videos
+            const videoItems = document.querySelectorAll('.video-item.locked');
+            videoItems.forEach(item => {
+                item.classList.remove('locked');
+                item.classList.add('unlocked-content');
+                
+                // Remove lock icon and add click handler
+                const lockIcon = item.querySelector('.video-lock');
+                if (lockIcon) lockIcon.remove();
+                
+                // Add click handler for video
+                const videoId = item.getAttribute('data-video-id');
+                if (videoId) {
+                    item.onclick = () => openVideoModal(videoId);
+                }
+            });
+
+            // Unlock PDFs
+            const pdfItems = document.querySelectorAll('.note-item.locked');
+            pdfItems.forEach(item => {
+                item.classList.remove('locked');
+                item.classList.add('unlocked-content');
+                
+                const lockIcon = item.querySelector('.note-lock');
+                if (lockIcon) lockIcon.remove();
+                
+                // Add click handler for PDF
+                const pdfUrl = item.getAttribute('data-pdf-url');
+                if (pdfUrl) {
+                    item.onclick = () => openPdfModal(pdfUrl);
+                }
+            });
+
+            // Unlock review section
+            const reviewForm = document.getElementById('reviewForm');
+            if (reviewForm) {
+                reviewForm.classList.remove('hidden');
+                reviewForm.style.display = 'block';
+            }
+
+            // Update buy now button
+            const buyBtn = document.querySelector('.buy-now-btn');
+            if (buyBtn) {
+                buyBtn.style.backgroundColor = '#4CAF50';
+                buyBtn.style.cursor = 'default';
+                buyBtn.style.pointerEvents = 'none';
+            }
+
+            // Show success message
+            showCourseUnlockedBanner();
+            
+            console.log('Course content unlocked successfully');
+        }
+
+        function showCourseUnlockedNotification(data) {
+            const notification = document.createElement('div');
+            notification.className = 'custom-popup';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 99999;
+                max-width: 350px;
+                animation: slideInRight 0.5s ease-out;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <span style="font-size: 24px; margin-right: 10px;">🎉</span>
+                    <strong>কোর্স সক্রিয় হয়েছে!</strong>
+                </div>
+                <p style="margin: 0; font-size: 14px;">
+                    "${data.courseName || 'প্র্যাকটিক্যাল ইবারত'}" কোর্সে আপনার অ্যাক্সেস চালু করা হয়েছে।
+                    এখন সমস্ত ভিডিও ও নোট দেখতে পারবেন।
+                </p>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function showCourseUnlockedBanner() {
+            const existingBanner = document.querySelector('.course-unlocked');
+            if (existingBanner) return;
+            
+            const banner = document.createElement('div');
+            banner.className = 'course-unlocked';
+            banner.innerHTML = `
+                <h3>🎉 অভিনন্দন! আপনার কোর্স সক্রিয় হয়েছে</h3>
+                <p>এখন আপনি সমস্ত ভিডিও, নোট এবং অন্যান্য কন্টেন্ট অ্যাক্সেস করতে পারবেন</p>
+            `;
+            
+            const mainContent = document.querySelector('.course-content') || document.querySelector('main');
+            if (mainContent) {
+                mainContent.insertBefore(banner, mainContent.firstChild);
+            }
+        }
+
+        function openPdfModal(pdfUrl) {
+            if (!courseUnlocked) {
+                showLockedContentAlert('পিডিএফ দেখার জন্য কোর্সটি ক্রয় করুন');
+                return;
+            }
+            
+            const modal = document.getElementById('pdfModal');
+            const modalPdf = modal.querySelector('.modal-pdf');
+            
+            modalPdf.src = pdfUrl;
+            modal.style.display = 'block';
+        }
+
+        function showLockedContentAlert(message) {
+            const alert = document.createElement('div');
+            alert.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                z-index: 99999;
+                text-align: center;
+                max-width: 400px;
+            `;
+            
+            alert.innerHTML = `
+                <div style="font-size: 48px; margin-bottom: 15px;">🔒</div>
+                <h3 style="margin-bottom: 15px; color: #333;">${message}</h3>
+                <button onclick="this.parentElement.remove(); handleBuyNow();" 
+                        style="background: #4CAF50; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                    এখনই কিনুন
+                </button>
+                <button onclick="this.parentElement.remove();" 
+                        style="background: #ccc; color: #333; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px; margin-left: 10px;">
+                    বন্ধ করুন
+                </button>
+            `;
+            
+            document.body.appendChild(alert);
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('Page loaded, initializing...');
+            
+            // Initialize socket connection
+            initializeSocket();
+            
+            // Check course access
+            await checkCourseAccess();
+            
+            // Set up periodic access checking (every 30 seconds)
+            setInterval(checkCourseAccess, 30000);
+            
+            console.log('Initialization complete');
+        });
+
+        function handleBuyNow() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            
+            if (!user) {
+                showLoginAlert();
+                return;
+            }
+            
+            // Show payment modal
+            document.getElementById('lockedModal').style.display = 'block';
+        }
+
+
+        
+const apiHelper = {
+    baseURL: 'https://t-islamacademy.onrender.com/api',
+    
+    async makeRequest(endpoint, options = {}) {
+        const url = `${this.baseURL}${endpoint}`;
+        const defaultOptions = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        };
+        
+        const finalOptions = { ...defaultOptions, ...options };
+        
+        try {
+            console.log(`Making request to: ${url}`, finalOptions);
+            
+            const response = await fetch(url, finalOptions);
+            
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error(`Server returned non-JSON response: ${contentType}`);
+            }
+            
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.message || `HTTP error! status: ${response.status}`);
+            }
+            
+            return data;
+        } catch (error) {
+            console.error(`API Error for ${endpoint}:`, error);
+            
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                throw new Error('নেটওয়ার্ক সংযোগে সমস্যা। ইন্টারনেট সংযোগ চেক করুন।');
+            } else if (error.message.includes('non-JSON response')) {
+                throw new Error('সার্ভার থেকে ভুল ধরনের রেসপন্স এসেছে। পেইজ রিফ্রেশ করে আবার চেষ্টা করুন।');
+            } else {
+                throw error;
+            }
+        }
+    }
+};
+
+const ReviewSystem = {
+    async loadReviews(courseId) {
+        try {
+            console.log(`Loading reviews for course: ${courseId}`);
+            
+            const data = await apiHelper.makeRequest(`/reviews/${courseId}`);
+            
+            if (data.success && Array.isArray(data.reviews)) {
+                this.displayReviews(data.reviews);
+                return data.reviews;
+            } else {
+                throw new Error('রিভিউ ডেটা সঠিক ফরম্যাটে নেই');
+            }
+        } catch (error) {
+            console.error('Error loading reviews:', error);
+            this.showReviewError('রিভিউ লোড করতে সমস্যা হয়েছে: ' + error.message);
+            return [];
+        }
+    },
+    
+    async submitReview(reviewData) {
+        try {
+            console.log('Submitting review:', reviewData);
+            
+            if (!reviewData.courseId || !reviewData.reviewerName || !reviewData.reviewerEmail || 
+                !reviewData.rating || !reviewData.reviewText) {
+                throw new Error('সমস্ত প্রয়োজনীয় ফিল্ড পূরণ করুন');
+            }
+            
+            if (reviewData.rating < 1 || reviewData.rating > 5) {
+                throw new Error('রেটিং ১ থেকে ৫ এর মধ্যে হতে হবে');
+            }
+            
+            const data = await apiHelper.makeRequest('/reviews', {
+                method: 'POST',
+                body: JSON.stringify(reviewData)
+            });
+            
+            if (data.success) {
+                this.showReviewSuccess(data.message);
+                this.clearReviewForm();
+                // Reload reviews after successful submission
+                setTimeout(() => {
+                    this.loadReviews(reviewData.courseId);
+                }, 1000);
+                return true;
+            } else {
+                throw new Error(data.message || 'রিভিউ জমা দিতে সমস্যা হয়েছে');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            this.showReviewError('রিভিউ জমা দিতে সমস্যা হয়েছে: ' + error.message);
+            return false;
+        }
+    },
+    
+    displayReviews(reviews) {
+        const reviewsContainer = document.getElementById('reviewsContainer');
+        if (!reviewsContainer) return;
+        
+        if (reviews.length === 0) {
+            reviewsContainer.innerHTML = '<p class="no-reviews">এখনো কোন রিভিউ নেই। প্রথম রিভিউ দিন!</p>';
+            return;
+        }
+        
+        const reviewsHTML = reviews.map(review => `
+            <div class="review-item">
+                <div class="review-header">
+                    <h4>${this.escapeHtml(review.reviewerName)}</h4>
+                    <div class="rating">
+                        ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                    </div>
+                    <span class="review-date">${new Date(review.date).toLocaleDateString('bn-BD')}</span>
+                </div>
+                <p class="review-text">${this.escapeHtml(review.reviewText)}</p>
+            </div>
+        `).join('');
+        
+        reviewsContainer.innerHTML = reviewsHTML;
+    },
+    
+    showReviewError(message) {
+        const errorContainer = document.getElementById('reviewError');
+        if (errorContainer) {
+            errorContainer.textContent = message;
+            errorContainer.style.display = 'block';
+            errorContainer.style.color = '#dc3545';
+            errorContainer.style.padding = '10px';
+            errorContainer.style.backgroundColor = '#f8d7da';
+            errorContainer.style.border = '1px solid #f5c6cb';
+            errorContainer.style.borderRadius = '4px';
+            errorContainer.style.marginBottom = '15px';
+        } else {
+            alert(message);
+        }
+    },
+    
+    showReviewSuccess(message) {
+        const successContainer = document.getElementById('reviewSuccess');
+        if (successContainer) {
+            successContainer.textContent = message;
+            successContainer.style.display = 'block';
+            successContainer.style.color = '#155724';
+            successContainer.style.padding = '10px';
+            successContainer.style.backgroundColor = '#d4edda';
+            successContainer.style.border = '1px solid #c3e6cb';
+            successContainer.style.borderRadius = '4px';
+            successContainer.style.marginBottom = '15px';
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successContainer.style.display = 'none';
+            }, 5000);
+        } else {
+            alert(message);
+        }
+    },
+    
+    clearReviewForm() {
+        const form = document.getElementById('reviewForm');
+        if (form) {
+            form.reset();
+            // Clear any error messages
+            const errorContainer = document.getElementById('reviewError');
+            if (errorContainer) {
+                errorContainer.style.display = 'none';
+            }
+        }
+    },
+    
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    loadReviews();
+    // Initialize review system
+    const courseId = 'practical-ibarat'; // Replace with actual course ID
+    ReviewSystem.loadReviews(courseId);
+    
+    const reviewForm = document.getElementById('reviewForm');
+    if (reviewForm) {
+        reviewForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Hide previous messages
+            const errorContainer = document.getElementById('reviewError');
+            const successContainer = document.getElementById('reviewSuccess');
+            if (errorContainer) errorContainer.style.display = 'none';
+            if (successContainer) successContainer.style.display = 'none';
+            
+            // Get form data
+            const formData = new FormData(this);
+            const reviewData = {
+                courseId: courseId,
+                reviewerName: formData.get('reviewerName')?.trim(),
+                reviewerEmail: formData.get('reviewerEmail')?.trim(),
+                rating: parseInt(formData.get('rating')),
+                reviewText: formData.get('reviewText')?.trim()
+            };
+            
+            // Submit review
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'জমা দেওয়া হচ্ছে...';
+            submitButton.disabled = true;
+            
+            try {
+                await ReviewSystem.submitReview(reviewData);
+            } finally {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }
+        });
+    }
+});
+
+
+// Load reviews for the course
+function loadReviews() {
+    fetch(`https://t-islamacademy.onrender.com/api/reviews/practical-ibarat`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const reviewsContainer = document.querySelector('.reviews-container');
+            reviewsContainer.innerHTML = ''; // ক্লিয়ার করবেন না, শুধু নতুনগুলো যোগ করুন
+            
+            // সব রিভিউ যোগ করুন (পুরানো এবং নতুন উভয়ই)
+            data.reviews.forEach(review => {
+                const reviewElement = createReviewElement(review);
+                reviewsContainer.appendChild(reviewElement);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error loading reviews:', error);
+    });
+}
+// Helper function to check if a review exists in static content
+function isStaticReview(review) {
+    const staticReviewers = ['আবু বকর সিদ্দিক', 'মুহাম্মদ কাসেম', 'ফাতিমা খাতুন', 'আব্দুল্লাহ আল মামুন'];
+    return staticReviewers.includes(review.reviewerName);
+}
+
+// Helper function to format date
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'আজ';
+    if (diffDays === 1) return 'গতকাল';
+    if (diffDays < 7) return `${diffDays} দিন আগে`;
+    if (diffDays < 30) return `${Math.floor(diffDays/7)} সপ্তাহ আগে`;
+    return `${Math.floor(diffDays/30)} মাস আগে`;
+}
+// Load reviews when page loads
+document.addEventListener('DOMContentLoaded', loadReviews);
+
+
+
+function checkReviewFormVisibility() {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    const reviewForm = document.getElementById('reviewForm');
+    
+    if (user) {
+        reviewForm.classList.remove('hidden');
+        document.getElementById('reviewerName').textContent = user.name;
+        document.getElementById('reviewerEmail').textContent = user.email;
+        document.getElementById('reviewerAvatar').textContent = user.name.charAt(0).toUpperCase();
+        document.getElementById('reviewDate').textContent = new Date().toLocaleDateString();
+    } else {
+        reviewForm.classList.add('hidden');
+    }
+}
+
+// Call this function when page loads and after login
+document.addEventListener('DOMContentLoaded', checkReviewFormVisibility);
+
+
+
+// Helper function to create review element
+// UI-তে নতুন রিভিউ এলিমেন্ট তৈরি করার ফাংশন
+function createReviewElement(review) {
+    const reviewElement = document.createElement('div');
+    reviewElement.className = 'review dynamic-review';
+    
+    const reviewDate = new Date(review.date);
+    const formattedDate = reviewDate.toLocaleDateString('bn-BD', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    }) + ' ' + reviewDate.toLocaleTimeString('bn-BD', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    reviewElement.innerHTML = `
+        <div class="review-header">
+            <div class="reviewer-avatar">${review.reviewerName.charAt(0).toUpperCase()}</div>
+            <div>
+                <div class="reviewer-name">${review.reviewerName}</div>
+                <div class="star-rating">${'⭐'.repeat(review.rating)}</div>
+            </div>
+            <div class="review-date">${formattedDate}</div>
+        </div>
+        <div class="review-text">${review.reviewText}</div>
+    `;
+    
+    return reviewElement;
+}
+</script>        
+
+
+
+
+</body>
+</html>

@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="তালিমুল ইসলাম একাডেমি একটি ইসলামিক শিক্ষা ভিত্তিক ওয়েবসাইট, যেখানে কুরআন, হাদিস, আরবি ও ইসলামিক ফ্রি, কোর্স জনপ্রিয় কোর্স শেখানো হয়।">
-    <meta name="keywords" content="ইসলামিক শিক্ষা, কুরআন শিক্ষা, তালিমুল ইসলাম একাডেমি, অনলাইন ইসলামিক কোর্স">
-    <meta name="google-site-verification" content="mEIlxIInNpeRDyE-PMUqNjK2hTFb8LUB8jiewuZb-Pg" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <!-- Socket.IO CDN -->
-    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <!-- How many people visited? -->
-    <!-- Google tag (gtag.js) -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="তালিমুল ইসলাম একাডেমি একটি ইসলামিক শিক্ষা ভিত্তিক ওয়েবসাইট, যেখানে কুরআন, হাদিস, আরবি ও ইসলামিক ফ্রি, কোর্স জনপ্রিয় কোর্স শেখানো হয়।">
+<meta name="keywords" content="ইসলামিক শিক্ষা, কুরআন শিক্ষা, তালিমুল ইসলাম একাডেমি, অনলাইন ইসলামিক কোর্স">
+<meta name="google-site-verification" content="mEIlxIInNpeRDyE-PMUqNjK2hTFb8LUB8jiewuZb-Pg" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<!-- ════⚡ Socket.IO CDN ════ -->
+<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+<!-- ════👥 How many people visited? ════ -->
+<!-- ════📈 Google tag (gtag.js) ════ -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TJNPXFQ953"></script>
+<!-- ════📊 Google Analytics 4 (GA4) ════ -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-TJNPXFQ953');
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-TJNPXFQ953');
 </script>
-    <title>তালিমুল ইসলাম একাডেমি - অনলাইন ইসলামিক শিক্ষা প্ল্যাটফর্ম</title>
-    <link rel="icon" href="img/favicon-v2.png" type="image/png">
+<title>তালিমুল ইসলাম একাডেমি - অনলাইন ইসলামিক শিক্ষা প্ল্যাটফর্ম</title>
+<link rel="icon" href="img/favicon-v2.png" type="image/png">
 </head>
 <body>
 
@@ -39,7 +40,8 @@
 
 
 
-<!--* Header Section -->
+<!-- ════🧭 নেভিগেশন বার ════ -->
+
 <style>
 
      @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
@@ -1438,8 +1440,149 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-</style> 
-<!-- Header Section -->
+
+
+                /* মোবাইলের জন্য ড্রপডাউন স্টাইল */
+        @media (max-width: 1080px) {
+            .mobile-nav-links {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                gap: 8px;
+            }
+            
+            .mobile-dropdown {
+                position: relative;
+            }
+            
+            .mobile-dropdown-content {
+                display: none;
+                padding-left: 20px;
+                margin-top: 5px;
+            }
+            
+            .mobile-dropdown.active .mobile-dropdown-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 5px;
+            }
+            
+            .mobile-dropdown-content a {
+                padding: 8px 12px;
+                background: rgba(0,0,0,0.05);
+                border-radius: 6px;
+                font-size: 12px;
+            }
+        }
+         @media (max-width: 500px){
+             .mobile-nav-links {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 8px;
+            }
+         }
+
+
+          /* মোবাইল ড্রপডাউন স্টাইল */
+.mobile-dropdown {
+    position: relative;
+    grid-column: 1 / -1; /* পুরো প্রস্থ জুড়ে নেবে */
+}
+
+.mobile-dropdown-content {
+    display: none;
+    grid-template-columns: 1fr; /* ডিফল্ট মোবাইলে এক কলাম */
+    gap: 8px;
+    padding: 10px;
+    background-color: var(--hover-bg);
+    border-radius: 8px;
+    margin-top: 5px;
+    animation: fadeIn 0.3s ease;
+}
+
+.mobile-dropdown.active .mobile-dropdown-content {
+    display: grid;
+}
+
+.mobile-dropdown-content a {
+    padding: 10px 12px;
+    background: var(--bg-color);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: var(--transition);
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.mobile-dropdown-content a:hover {
+    background: var(--primary-color);
+    color: var(--light-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+/* মোবাইল ড্রপডাউন টগল বাটন */
+.mobile-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: var(--hover-bg);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.mobile-dropdown-toggle:hover,
+.mobile-dropdown-toggle.active {
+    background: var(--primary-color);
+    color: var(--light-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+.mobile-dropdown-toggle i:last-child {
+    transition: transform 0.3s ease;
+    font-size: 10px;
+}
+
+.mobile-dropdown.active .mobile-dropdown-toggle i:last-child {
+    transform: rotate(180deg);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ✅ রেসপন্সিভ ব্রেকপয়েন্ট */
+@media (min-width: 576px) {
+    .mobile-dropdown-content {
+        grid-template-columns: 1fr 1fr; /* ছোট ট্যাবলেটে ২ কলাম */
+    }
+}
+
+@media (min-width: 768px) {
+    .mobile-dropdown-content {
+        grid-template-columns: 1fr 1fr 1fr; /* বড় ট্যাবলেটে ৩ কলাম */
+    }
+}
+
+@media (min-width: 1024px) {
+    .mobile-dropdown-content {
+        grid-template-columns: 1fr 1fr 1fr 1fr; /* ডেস্কটপে ৪ কলাম */
+    }
+}
+
+</style>   
 <section class="header">
     <!-- Top Bar - Mobile Only -->
     <div class="top-bar" id="topBar">
@@ -1568,7 +1711,7 @@
             <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="মোবাইল মেনু">
                 <i class="fas fa-bars"></i>
             </button>
-            <a href="#" class="logo">
+            <a href="Talimul Islam Academi.html" class="logo">
                 <img src="img/talimul islam academy logo.png" alt="তালিমুল ইসলাম একাডেমি">
             </a>
         </div>
@@ -1620,10 +1763,23 @@
                 <i class="fas fa-home"></i>
                 হোম
             </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-book-open"></i>
-                কোর্স
-            </a>
+            <div class="mobile-dropdown" id="mobileCoursesDropdown">
+            <button class="mobile-dropdown-toggle" onclick="toggleMobileDropdown('mobileCoursesDropdown')">
+                <span>
+                    <i class="fas fa-book-open"></i>
+                    কোর্স
+                </span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="mobile-dropdown-content">
+                <a href="#">সকল কোর্স</a>
+                <a href="Live course.html">লাইভ কোর্স</a>
+                <a href="#">ইসলামিক আইন</a>
+                <a href="#">আরবি ভাষা</a>
+                <a href="#">ইসলামিক ইতিহাস</a>
+                <a href="#">ফিকহ শাস্ত্র</a>
+            </div>
+        </div>
             <a href="Book.html" class="nav-link">
                 <i class="fas fa-book"></i>
                 বই
@@ -1651,7 +1807,6 @@
         </div>
     </div>
 </section>
-<!-- Header Section -->
 <div class="blur-overlay" id="mainBlurOverlay"></div>
 <div class="login-popup" id="loginPopup">
     <button class="close-login" onclick="closeLoginPopup()">
@@ -1841,7 +1996,6 @@
         </div>
     </div>
 </div>
-<!-- Header Section -->
 <script>
     // ====================
     // Language Toggle Module
@@ -3201,7 +3355,143 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
         }
     }
 };
-</script>  
+
+
+// নেভিগেশন বারে সক্রিয় লিঙ্ক ব্যবস্থাপনা
+function setActiveNavLink() {
+    // বর্তমান URL পান
+    const currentUrl = window.location.href;
+    
+    // সকল নেভিগেশন লিঙ্ক পান
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // প্রতিটি লিঙ্ক চেক করুন
+    navLinks.forEach(link => {
+        // লিঙ্কের URL পান
+        const linkUrl = link.href;
+        
+        // URL তুলনা করুন (হোমপেজের জন্য বিশেষ ব্যবস্থা)
+        if (currentUrl === linkUrl || 
+            (currentUrl.endsWith('/') && linkUrl.endsWith('Talimul Islam Academi.html')) ||
+            (currentUrl.endsWith('index.html') && linkUrl.endsWith('Talimul Islam Academi.html'))) {
+            // সক্রিয় ক্লাস যোগ করুন
+            link.classList.add('active');
+        } else {
+            // সক্রিয় ক্লাস সরান
+            link.classList.remove('active');
+        }
+    });
+    
+    // মোবাইল নেভিগেশন লিঙ্কগুলোর জন্যও একই কাজ করুন
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-links .nav-link');
+    mobileNavLinks.forEach(link => {
+        const linkUrl = link.href;
+        
+        if (currentUrl === linkUrl || 
+            (currentUrl.endsWith('/') && linkUrl.endsWith('Talimul Islam Academi.html')) ||
+            (currentUrl.endsWith('index.html') && linkUrl.endsWith('Talimul Islam Academi.html'))) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+// পৃষ্ঠা লোড হলে সক্রিয় লিঙ্ক সেট করুন
+document.addEventListener('DOMContentLoaded', function() {
+    setActiveNavLink();
+});
+
+// যদি AJAX নেভিগেশন ব্যবহার করা হয় তবে নেভিগেশন ইভেন্টেও কল করুন
+window.addEventListener('popstate', setActiveNavLink);
+
+
+ // ডেস্কটপ ড্রপডাউন টগল ফাংশন
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('active');
+            
+            // অন্যান্য ড্রপডাউন বন্ধ করুন
+            document.querySelectorAll('.dropdown').forEach(item => {
+                if (item.id !== dropdownId) {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        // মোবাইল ড্রপডাউন টগল ফাংশন
+        function toggleMobileDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('active');
+            
+            // অন্যান্য মোবাইল ড্রপডাউন বন্ধ করুন
+            document.querySelectorAll('.mobile-dropdown').forEach(item => {
+                if (item.id !== dropdownId) {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        // ডকুমেন্টে ক্লিক করলে ড্রপডাউন বন্ধ হবে
+        document.addEventListener('click', function(event) {
+            // ডেস্কটপ ড্রপডাউন
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+            
+            // মোবাইল ড্রপডাউন
+            if (!event.target.closest('.mobile-dropdown')) {
+                document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+        
+        // স্ক্রিন রিসাইজ হলে ড্রপডাউন বন্ধ করুন
+        window.addEventListener('resize', function() {
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        });
+
+
+
+        // মোবাইল ড্রপডাউন টগল ফাংশন
+    function toggleMobileDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        dropdown.classList.toggle('active');
+        
+        // অন্যান্য মোবাইল ড্রপডাউন বন্ধ করুন
+        document.querySelectorAll('.mobile-dropdown').forEach(item => {
+            if (item.id !== dropdownId) {
+                item.classList.remove('active');
+            }
+        });
+    }
+    
+    // ডকুমেন্টে ক্লিক করলে ড্রপডাউন বন্ধ হবে
+    document.addEventListener('click', function(event) {
+        // মোবাইল ড্রপডাউন
+        if (!event.target.closest('.mobile-dropdown')) {
+            document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
+    
+    // স্ক্রিন রিসাইজ হলে ড্রপডাউন বন্ধ করুন
+    window.addEventListener('resize', function() {
+        document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+            dropdown.classList.remove('active');
+        });
+    });
+</script>   
 
 
 
@@ -3241,10 +3531,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
 
 
 
-
-
-
-
+<!-- ════⚡ সর্বাধুনিক পদ্ধতিতে ════ -->
 <style>
         /* ==================== Container ==================== */
         .container12 {
@@ -3469,7 +3756,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             
             .hero-content {
                 padding-right: 0;
-                margin-bottom: 40px;
+                /* margin-bottom: 40px; */
             }
             
             .hero-content h2 {
@@ -3490,16 +3777,18 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             
             .hero-content h2 {
                 font-size: 2rem;
+                margin-bottom: 15px;
             }
             
             .hero-content p {
-                font-size: 1.1rem;
+                display: none; /* Hide paragraph in mobile */
             }
             
             .buttons {
                 flex-direction: row;
                 justify-content: center;
                 gap: 10px;
+                margin-top: 20px;
             }
             
             .btn {
@@ -3511,7 +3800,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             }
             
             .hero-image {
-                height: 350px;
+                display: none; /* Hide hero image in mobile */
             }
             
             .slide-content {
@@ -3527,9 +3816,19 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             }
         }
 
+        @media (min-width: 769px) {
+            .hero-content p {
+                display: block !important; /* Ensure paragraph shows on desktop */
+            }
+            
+            .hero-image {
+                display: block !important; /* Ensure hero image shows on desktop */
+            }
+        }
+
         @media (max-width: 480px) {
             .hero-section {
-                min-height: 90vh;
+                min-height: auto;
                 padding: 30px 0;
             }
             
@@ -3541,18 +3840,6 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             .hero-content p {
                 font-size: 1rem;
                 margin-bottom: 25px;
-            }
-            
-            .hero-image {
-                height: 300px;
-            }
-            
-            .slide-content h3 {
-                font-size: 1.2rem;
-            }
-            
-            .slide-content p {
-                font-size: 0.9rem;
             }
             
             .buttons {
@@ -3622,7 +3909,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
                             <p>আপনি হয়তো কুরআন পড়েন, কিন্তু বুঝেন না। আজ থেকে প্রতিটি আয়াত বোঝার চেষ্টা করুন। কারণ, কুরআন শুধু তিলাওয়াতের জন্য নয়, বাঁচার পথ শেখার জন্য।</p>
                         </div>
                     </div>
-                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1591604021695-0c69b7c05981?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')">
+                    <div class="slide" style="background-image: url('img/al-quran-7737560_1280.jpg')">
                         <div class="slide-content">
                             <h3>কুরআন না শিখে বেঁচে থাকা মানে, অন্ধকারে হাঁটা</h3>
                             <p>যেমন একজন পথিক মানচিত্র ছাড়া পথ হারায়, তেমনই কুরআন ছাড়া মানুষ জীবনের মূল উদ্দেশ্য হারিয়ে ফেলে। কুরআন জানলে আপনি জানবেন—কেন আপনি এই পৃথিবীতে?</p>
@@ -3634,7 +3921,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
                             <p>যেখানে আপনি আছেন, সেখান থেকেই শুরু হোক কুরআন শেখার যাত্রা—ঘরে বসেই অনলাইন মাদ্রাসায়।</p>
                         </div>
                     </div>
-                    <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1584543004874-b2dfc4b27b23?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')">
+                    <div class="slide" style="background-image: url('img/holy-quran-1528446_1280.jpg')">
                         <div class="slide-content">
                             <h3>সেজদার এই মুহূর্তেই আল্লাহর নিকট সবচেয়ে কাছাকাছি</h3>
                             <p>যে মাথা আল্লাহর সামনে ঝুকে যায়, সেই হৃদয় কখনো ভেঙে যায় না।</p>
@@ -3665,8 +3952,10 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
                 clearInterval(slideInterval);
             }
             
-            heroImage.addEventListener('mouseenter', stopSlideshow);
-            heroImage.addEventListener('mouseleave', startSlideshow);
+            if (heroImage) {
+                heroImage.addEventListener('mouseenter', stopSlideshow);
+                heroImage.addEventListener('mouseleave', startSlideshow);
+            }
             
             startSlideshow();
         });
@@ -3729,21 +4018,9 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     
     
-
-<!--* আমাদের বিভাগ সমূহ -->
+<!-- ════📂 আমাদের বিভাগ সমূহ ════ -->
 <style>
         .containeraTA {
             max-width: 1200px;
@@ -4081,7 +4358,6 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
                 inset 0 1px 0 rgba(255,255,255,0.6);
         }
 </style>
-<!-- আমাদের বিভাগ সমূহ -->
 <div class="containeraTA" id="container">
         <div class="headeraTA">
             <h2>আমাদের বিভাগ সমূহ</h2>
@@ -4125,7 +4401,6 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
             </div>
         </div>
 </div>
-<!-- আমাদের বিভাগ সমূহ -->
 <script>
         // Particle System JavaScript
         class ParticleSystem {
@@ -4266,11 +4541,7 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
 
 
   
-
-
-
-
-
+<!-- ════📚 জনপ্রিয় কোর্স + বিশেষ কোর্স ════ -->
 <style>
             @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
             .additional-sectionsD {
@@ -4685,53 +4956,90 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
                     padding: 12px 8px;
                 }
             }
-</style>
-<div class="additional-sectionsD">
-            <div class="course-sections-containerD">
-                <div class="sectionD">
-                    <h2 class="section-headerD">জনপ্রিয় কোর্স</h2>
-                    <div class="course-listD">
-                        <div class="course-itemD">
-                            <h3 class="course-item-titleD">কুরআন তিলাওয়াত</h3>
-                            <p class="course-item-descD">সহীহ উচ্চারণে কুরআন পড়া শিখুন</p>
-                        </div>
-                        <div class="course-itemD">
-                            <h3 class="course-item-titleD">হাদিস অধ্যয়ন</h3>
-                            <p class="course-item-descD">রাসূলের সুন্নাহ জানুন ও বুঝুন</p>
-                        </div>
-                        <div class="course-itemD">
-                            <h3 class="course-item-titleD">ইসলামিক ইতিহাস</h3>
-                            <p class="course-item-descD">ইসলামের গৌরবময় ইতিহাস জানুন</p>
-                        </div>
-                        <div class="course-itemD">
-                            <h3 class="course-item-titleD">আরবি ভাষা</h3>
-                            <p class="course-item-descD">কুরআনের ভাষা শিখুন সহজে</p>
-                        </div>
-                    </div>
-                </div>
+
+            .course-linkD {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* মোবাইল ডিভাইসে হোভার ইফেক্ট ঠিক রাখার জন্য */
+@media (max-width: 768px) {
+    .course-linkD {
+        -webkit-tap-highlight-color: transparent;
+    }
     
-                <div class="sectionDE">
-                    <h2 class="section-headerD">বিশেষ কোর্স</h2>
-                    <div class="course-listD">
-                        <div class="course-itemD">
-                            <h3 class="course-item-titleD">তাজভীদ শিক্ষা</h3>
-                            <p class="course-item-descD">কুরআন তিলাওয়াতের নিয়মকানুন</p>
-                        </div>
-                        <div class="course-itemD">
-                            <h3 class="course-item-titleD">ফিকহ শাস্ত্র</h3>
-                            <p class="course-item-descD">ইসলামি জীবনবিধান শিখুন</p>
-                        </div>
-                        <div class="course-itemD">
-                            <h3 class="course-item-titleD">আকীদা বিশ্বাস</h3>
-                            <p class="course-item-descD">সঠিক ইসলামি বিশ্বাস জানুন</p>
-                        </div>
-                        <div class="course-itemD">
-                            <h3 class="course-item-titleD">দাওয়াত ও তাবলীগ</h3>
-                            <p class="course-item-descD">ইসলাম প্রচারের পদ্ধতি শিখুন</p>
-                        </div>
+    .course-linkD:active .course-itemD {
+        transform: translateY(-5px) scale(1.03);
+        border-color: #667eea;
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.25),
+                   0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+}
+</style> 
+<div class="additional-sectionsD">
+    <div class="course-sections-containerD">
+        <div class="sectionD">
+            <h2 class="section-headerD">জনপ্রিয় কোর্স</h2>
+            <div class="course-listD">
+                <a href="Quran-Education.html" class="course-linkD">
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">কোরআন শিক্ষা</h3>
+                        <p class="course-item-descD">সহীহ উচ্চারণে কুরআন পড়া শিখুন</p>
                     </div>
-                </div>
-            </div>   
+                </a>
+                <a href="Urdu-kayada.html" class="course-linkD">
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">উর্দু কায়দা</h3>
+                        <p class="course-item-descD">সহজ ভাষায় উর্দু শিখুন</p>
+                    </div>
+                </a>
+                <a href="TalimulIslamVolume-1.html" class="course-linkD">
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">তালিমুল ইসলাম ১ম খন্ড</h3>
+                        <p class="course-item-descD">সহজ ভাষায় শিখুন</p>
+                        
+                    </div>
+                </a>
+                <a href="Urdu-Paheli.html" class="course-linkD">
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">উর্দু কি পেহেলি কিতাব</h3>
+                        <p class="course-item-descD">সহজ ভাষায় শিখুন</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="sectionDE">
+            <h2 class="section-headerD">বিশেষ কোর্স</h2>
+            <div class="course-listD">
+                <a href="Quran-Education.html" class="course-linkD">
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">কোরআন শিক্ষা </h3>
+                        <p class="course-item-descD">কুরআন তিলাওয়াতের নিয়মকানুন</p>
+                    </div>
+                </a>
+                <a href="TalimulIslamVolume-2.html" class="course-linkD">
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">তালিমুল ইসলাম ২য় খন্ড </h3>
+                        <p class="course-item-descD">সহজ ভাষায় শিখুন</p>
+                    </div>
+                </a>
+                <a href="TalimulIslamVolume-3.html" class="course-linkD">
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">তালিমুল ইসলাম ৩য় খন্ড</h3>
+                        <p class="course-item-descD">সহজ ভাষায় শিখুন</p>
+                    </div>
+                </a>
+                <a href="Urdu-kayada.html" class="course-linkD">
+                    <div class="course-itemD">
+                        <h3 class="course-item-titleD">উর্দু কায়দা</h3>
+                        <p class="course-item-descD">সহজ উর্দু শিখুন</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>   
 </div>
 
 
@@ -4750,7 +5058,7 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
 
 
 
-
+<!-- ════📘 আমাদের কোর্সসমূহ ════ -->
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
         * {
@@ -4826,7 +5134,7 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
           
           .course-title {
             font-size: 14px !important;
-            min-height: 40px !important;
+            /* min-height: 40px !important; */
           }
           
           .course-meta {
@@ -4867,10 +5175,10 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
             gap: 10px;
           }
           
-          .course-title {
+          /* .course-title {
             font-size: 13px !important;
           }
-          
+           */
           .meta-item {
             font-size: 10px !important;
           }
@@ -4964,7 +5272,7 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
           line-height: 1.4;
           margin-bottom: 12px;
           color: #333;
-          min-height: 44px;
+          /* min-height: 44px; */
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
@@ -5190,7 +5498,6 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
     }
 
 </style> 
-<!-- Our Courses -->
 <div class="container1">
         <div class="section-header">
             <h2>আমাদের কোর্সসমূহ</h2>
@@ -5199,13 +5506,13 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
         <div class="course-grid" id="courseGrid">
             <!-- কোর্স কার্ড 1 (সবসময় শো) -->
             <div class="course-card">
-    <a href="#" class="course-card-link" aria-label="প্রাকটিকাল ইবারত শিক্ষা"></a>
+    <a href="#" class="course-card-link" aria-label="কোরআন শিক্ষা "></a>
     <div class="course-thumbnail">
-        <img src="img/al-quran-7737560_1280.jpg" alt="প্রাকটিকাল ইবারত শিক্ষা">
+        <img src="img/al-quran-7737560_1280.jpg" alt="কোরআন শিক্ষা ">
         <div class="level-badge beginner">বেসিক</div>
     </div>
     <div class="course-info">
-        <h3 class="course-title">প্রাকটিকাল ইবারত শিক্ষা</h3>
+        <h3 class="course-title">কোরআন শিক্ষা</h3>
         <div class="course-meta">
             <div class="meta-item">
                 <i class="fas fa-video"></i>
@@ -5222,24 +5529,24 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
         </div>
         <div class="course-footer">
             <div class="price" id="practical-ibarot-price">
-                <span class="current-price">৳ ১,৫০০</span>
-                <span class="original-price">৳ ৩,০০০</span>
+                <span class="current-price">৳ ৯০০</span>
+                <span class="original-price">৳ ১,২০০</span>
             </div>
             <div class="action-buttons">
-                <a href="Practical-Ibarat.html" class="buy-now-btn" id="practical-ibarot-btn">দেখুন</a>
+                <a href="Quran-Education.html" class="buy-now-btn" id="practical-ibarot-btn">দেখুন</a>
             </div>
         </div>
     </div>
              </div>
             <!-- কোর্স কার্ড 2 (সবসময় শো) -->
             <div class="course-card">
-                <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম কোর্স"></a>
+                <a href="#" class="course-card-link" aria-label="উর্দু কায়দা"></a>
                 <div class="course-thumbnail">
-                    <img src="img/al-quran-7741928_1280.jpg" alt="তালিমুল ইসলাম কোর্স">
+                    <img src="img/al-quran-7741928_1280.jpg" alt="উর্দু কায়দা কোর্স">
                     <div class="level-badge intermediate">মধ্যবর্তী</div>
                 </div>
                 <div class="course-info">
-                    <h3 class="course-title">তালিমুল ইসলাম কোর্স</h3>
+                    <h3 class="course-title">উর্দু কায়দা</h3>
                     <div class="course-meta">
                         <div class="meta-item">
                             <i class="fas fa-video"></i>
@@ -5256,11 +5563,11 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
                     </div>
                     <div class="course-footer">
                         <div class="price">
-                            <span class="current-price">৳২,৮০০</span>
-                            <span class="original-price">৳৩,৫০০</span>
+                            <span class="current-price">৳৮০০</span>
+                            <span class="original-price">৳১.১০০</span>
                         </div>
                         <div class="action-buttons">
-                            <a href="Talimul-Islam-Course.html" class="buy-now-btn">দেখুন</a>
+                            <a href="Urdu-kayada.html" class="buy-now-btn">দেখুন</a>
                         </div>
                     </div>
                 </div>
@@ -5268,13 +5575,13 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
 
 
             <div class="course-card">
-                <a href="#" class="course-card-link" aria-label="ফিকাহ কোর্স বিস্তারিত"></a>
+                <a href="#" class="course-card-link" aria-label="উর্দু কি পেহেলি কিতাব"></a>
                 <div class="course-thumbnail">
-                    <img src="img/al-quran-7737590_1280.jpg" alt="ফিকাহ কোর্স">
+                    <img src="img/al-quran-7737590_1280.jpg" alt="উর্দু কি পেহেলি কিতাব">
                     <div class="level-badge advanced">অ্যাডভান্সড</div>
                 </div>
                 <div class="course-info">
-                    <h3 class="course-title">ফিকাহ কোর্স</h3>
+                    <h3 class="course-title">উর্দু কি পেহেলি কিতাব</h3>
                     <div class="course-meta">
                         <div class="meta-item">
                             <i class="fas fa-video"></i>
@@ -5291,11 +5598,11 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
                     </div>
                     <div class="course-footer">
                         <div class="price">
-                            <span class="current-price">৳৪,৮০০</span>
-                            <span class="original-price">৳৫,৫০০</span>
+                            <span class="current-price">৳৯০০</span>
+                            <span class="original-price">৳১,২০০</span>
                         </div>
                         <div class="action-buttons">
-                            <a href="/TalimulFcopy/Fiqh-course.html" class="buy-now-btn">দেখুন</a>
+                            <a href="Urdu-Paheli.html" class="buy-now-btn">দেখুন</a>
                         </div>
                     </div>
                 </div>
@@ -5303,13 +5610,13 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
 
             <!-- কোর্স কার্ড 3 (সবসময় শো) -->
             <div class="course-card">
-                <a href="#" class="course-card-link" aria-label="ইসলামী আইন ও জীবন বিধান"></a>
+                <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ১ম খন্ড"></a>
                 <div class="course-thumbnail">
-                    <img src="img/holy-quran-1528446_1280.jpg" alt="ইসলামী আইন ও জীবন বিধান">
+                    <img src="img/holy-quran-1528446_1280.jpg" alt="তালিমুল ইসলাম ১ম খন্ড">
                     <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
-                    <h3 class="course-title">ইসলামী আইন ও জীবন বিধান</h3>
+                    <h3 class="course-title">তালিমুল ইসলাম ১ম খন্ড</h3>
                     <div class="course-meta">
                         <div class="meta-item">
                             <i class="fas fa-video"></i>
@@ -5326,11 +5633,11 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
                     </div>
                     <div class="course-footer">
                         <div class="price">
-                            <span class="current-price">৳৪,২০০</span>
-                            <span class="original-price">৳৫,০০০</span>
+                            <span class="current-price">৳৯০০</span>
+                            <span class="original-price">৳১,২০০</span>
                         </div>
                         <div class="action-buttons">
-                            <a href="/TalimulFcopy/Islamic-Law.html" class="buy-now-btn">দেখুন</a>
+                            <a href="TalimulIslamVolume-1.html" class="buy-now-btn">দেখুন</a>
                         </div>
                     </div>
                 </div>
@@ -5341,13 +5648,13 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
 
             <!-- কোর্স কার্ড 5 (ডেস্কটপে শো, মোবাইলে হাইড) -->
             <div class="course-card desktop-only">
-                <a href="Course-Details.html?id=5" class="course-card-link" aria-label="কুরআনের তাফসির শিক্ষা"></a>
+                <a href="Course-Details.html?id=5" class="course-card-link" aria-label="তালিমুল ইসলাম ২য় খন্ড"></a>
                 <div class="course-thumbnail">
-                    <img src="img/man-7757211_1280.png" alt="কুরআনের তাফসির শিক্ষা">
+                    <img src="img/man-7757211_1280.png" alt="তালিমুল ইসলাম ২য় খন্ড">
                     <div class="level-badge intermediate">মধ্যবর্তী</div>
                 </div>
                 <div class="course-info">
-                    <h3 class="course-title">কুরআনের তাফসির শিক্ষা</h3>
+                    <h3 class="course-title">তালিমুল ইসলাম ২য় খন্ড</h3>
                     <div class="course-meta">
                         <div class="meta-item">
                             <i class="fas fa-video"></i>
@@ -5364,11 +5671,11 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
                     </div>
                     <div class="course-footer">
                         <div class="price">
-                            <span class="current-price">৳৩,৮০০</span>
-                            <span class="original-price">৳৪,৫০০</span>
+                            <span class="current-price">৳৯০০</span>
+                            <span class="original-price">৳১,২০০</span>
                         </div>
                         <div class="action-buttons">
-                            <a href="course-checkout.html?id=5" class="buy-now-btn">দেখুন</a>
+                            <a href="TalimulIslamVolume-2.html" class="buy-now-btn">দেখুন</a>
                         </div>
                     </div>
                 </div>
@@ -5376,13 +5683,13 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
             
             <!-- কোর্স কার্ড 6 (হিডেন) -->
             <div class="course-card hidden-course">
-                <a href="course-details.html?id=6" class="course-card-link" aria-label="ইসলামী ইতিহাস ও সংস্কৃতি"></a>
+                <a href="course-details.html?id=6" class="course-card-link" aria-label="তালিমুল ইসলাম ৩য় খন্ড"></a>
                 <div class="course-thumbnail">
                     <img src="img/al-quran-7737560_1280.jpg" alt="ইসলামী ইতিহাস ও সংস্কৃতি">
                     <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
-                    <h3 class="course-title">ইসলামী ইতিহাস ও সংস্কৃতি</h3>
+                    <h3 class="course-title">তালিমুল ইসলাম ৩য় খন্ড</h3>
                     <div class="course-meta">
                         <div class="meta-item">
                             <i class="fas fa-video"></i>
@@ -5399,11 +5706,11 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
                     </div>
                     <div class="course-footer">
                         <div class="price">
-                            <span class="current-price">৳৩,৬০০</span>
-                            <span class="original-price">৳৪,২০০</span>
+                            <span class="current-price">৳৯০০</span>
+                            <span class="original-price">৳১,২০০</span>
                         </div>
                         <div class="action-buttons">
-                            <a href="course-checkout.html?id=6" class="buy-now-btn">দেখুন</a>
+                            <a href="TalimulIslamVolume-3.html" class="buy-now-btn">দেখুন</a>
                         </div>
                     </div>
                 </div>
@@ -5452,7 +5759,7 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
                     <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
-                    <h3 class="course-title">প্রিয় নবী মুহাম্মাদ (সা.)-এর জীবনী</h3>
+                    <h3 class="course-title">প্রিয় নবী (সা.)-এর জীবনী</h3>
                     <div class="course-meta">
                         <div class="meta-item">
                             <i class="fas fa-video"></i>
@@ -5487,7 +5794,7 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
                     <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
-                    <h3 class="course-title">নৈতিকতা গঠনে ইসলামী শিক্ষা।</h3>
+                    <h3 class="course-title">নৈতিকতা গঠনে ইসলামী।</h3>
                     <div class="course-meta">
                         <div class="meta-item">
                             <i class="fas fa-video"></i>
@@ -5556,7 +5863,6 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
             <span id="buttonText">আরো দেখুন</span>
         </button>
 </div>
-<!-- Our Courses -->
 <script>
         // Function to check course access status
         function checkCourseAccess(courseId) {
@@ -5789,24 +6095,24 @@ function checkIbarotCourseAccess() {
 }
 
 // Update course card UI based on access status
-function updateIbarotCourseCard() {
-    const hasAccess = checkIbarotCourseAccess();
-    const priceContainer = document.getElementById('practical-ibarot-price');
-    const actionButton = document.getElementById('practical-ibarot-btn');
+// function updateIbarotCourseCard() {
+//     const hasAccess = checkIbarotCourseAccess();
+//     const priceContainer = document.getElementById('practical-ibarot-price');
+//     const actionButton = document.getElementById('practical-ibarot-btn');
     
-    if (hasAccess) {
-        priceContainer.innerHTML = '<span class="current-price" style="color:#43a047;">একটিভ</span>';
-        actionButton.textContent = 'এন্ট্রি করুন';
-        actionButton.style.backgroundColor = '#43a047';
-        actionButton.href = 'Practical-Ibarat.html?id=practical-ibarot';
-    } else {
-        // Default state (no changes needed)
-        priceContainer.innerHTML = '<span class="current-price">৳ ১,৫০০</span><span class="original-price">৳ ৩,০০০</span>';
-        actionButton.textContent = 'দেখুন';
-        actionButton.style.backgroundColor = '#6A35F2';
-        actionButton.href = 'Practical-Ibarat.html';
-    }
-}
+//     if (hasAccess) {
+//         priceContainer.innerHTML = '<span class="current-price" style="color:#43a047;">একটিভ</span>';
+//         actionButton.textContent = 'এন্ট্রি করুন';
+//         actionButton.style.backgroundColor = '#43a047';
+//         actionButton.href = 'Practical-Ibarat.html?id=practical-ibarot';
+//     } else {
+//         // Default state (no changes needed)
+//         priceContainer.innerHTML = '<span class="current-price">৳ ১,৫০০</span><span class="original-price">৳ ৩,০০০</span>';
+//         actionButton.textContent = 'দেখুন';
+//         actionButton.style.backgroundColor = '#6A35F2';
+//         actionButton.href = 'Practical-Ibarat.html';
+//     }
+// }
 
 
 // Check and update on page load
@@ -6024,21 +6330,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!-- ════🧮 মূল কাউন্টার সেকশন ════ -->
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
     .counter-sectionST {
@@ -6364,7 +6656,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 </style>
-<!--* মূল কাউন্টার সেকশন -->
 <section class="counter-sectionST">
     <div class="containerST">
         <div class="stats-gridST" id="statsGridST">
@@ -6490,7 +6781,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
+<!-- ════❓ আপনি কি শিখতে চান? ════ -->
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
     .containerAB {
@@ -6666,101 +6957,6 @@ document.addEventListener('DOMContentLoaded', function() {
         content: "";
     }
 
-    .container019{
-        max-width: 1200px;     
-        margin: 0 auto;     
-        text-align: center;     
-    }
-
-    .features-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    @media (min-width: 768px) {
-        .features-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-
-    @media (min-width: 992px) {
-        .features-grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-
-    .feature-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(15px);
-        padding: 40px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        height: 100%;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .feature-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
-        background-size: 200% 100%;
-        animation: gradientShift 3s ease-in-out infinite;
-    }
-
-    .feature-card h2 {
-        font-size: 1.6rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-        color: #333;
-        position: relative;
-        padding-bottom: 15px;
-    }
-
-    .feature-card h2::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 3px;
-        background: linear-gradient(90deg, #667eea, #764ba2);
-        border-radius: 2px;
-        transition: width 0.3s ease;
-    }
-
-    .feature-card:hover h2::after {
-        width: 80px;
-    }
-
-    .feature-card span {
-        font-size: 1.1rem;
-        line-height: 1.7;
-        color: #555;
-    }
-
-    @media (max-width: 768px) {
-        .feature-card {
-            padding: 30px 20px;
-        }
-        
-        .feature-card h2 {
-            font-size: 1.4rem;
-        }
-
-        .feature-card span {
-            font-size: 1rem;
-        }
-    }
-
     @media (max-width: 600px) {            
         .courses-gridAB {
             grid-template-columns: repeat(2, 1fr);
@@ -6783,13 +6979,7 @@ document.addEventListener('DOMContentLoaded', function() {
             font-size: 1.5rem;
         }
     }
-
-    @keyframes gradientShift {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-    }
 </style>
-
 <div class="containerAB">
     <div class="headerAB">
         <h1>আপনি কি শিখতে চান?</h1>
@@ -6876,27 +7066,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <span class="btn-icon">▼</span>
         </button>
     </div>
-
-    <div class="container019">
-        <section class="features">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h2>কুরআন ও তাজবিদ</h2>
-                    <span>বিশ্বস্ত ক্বারিদের তত্ত্বাবধানে শুদ্ধ তাজবিদসহ কুরআন শিখুন সহজে ও সঠিকভাবে।</span>
-                </div>
-                <div class="feature-card">
-                    <h2>দাওয়াহমুখী প্ল্যাটফর্ম</h2>
-                    <span>দ্বীনের দাওয়াহ ও জ্ঞানের সমন্বয়ে গড়ে উঠুক আপনার সচেতন ঈমানি পরিচয়।</span>
-                </div>
-                <div class="feature-card">
-                    <h2>তালিমুল ইসলাম একাডেমী</h2>
-                    <span>বিশুদ্ধ দ্বীনি শিক্ষায় জীবন আলোকিত করতে তালিমুল ইসলাম একাডেমীর কোর্সে ভর্তি হন।</span>
-                </div>
-            </div>
-        </section>
-    </div>
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const showMoreBtn = document.getElementById('showMoreBtn');
@@ -6975,7 +7145,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-<!--* কেন মাদ্রাসা অনলাইন বেছে নিবেন -->
+<!-- ════📖 কেন মাদ্রাসা অনলাইন বেছে নিবেন ════ -->
 <style>
 .container6 {
     max-width: 1200px;
@@ -7257,7 +7427,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-<!--* আমাদের শিক্ষার্থীরা কী বলেন? -->
+<!-- ════🗣️ আমাদের শিক্ষার্থীরা কী বলেন? ════ -->
 <style>
             @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');            
             .testimonials {
@@ -7663,7 +7833,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-<!-- videos -->
+<!-- ════🎬 কিভাবে কোর্স কিনবেন ভিডিও ════ -->
 <style>
        .container11{
             width: 100%;
@@ -7901,7 +8071,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
         </div>
 </div>
-
 <script>
         function playVideo(container, videoId) {
             const thumbnail = container.querySelector('.video-thumbnail');
@@ -7935,86 +8104,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-<!-- ফুটার সেকশন -->
-<footer class="footer">
-    <div class="footer-gradient"></div>
-    <div class="container5">
-        <div class="footer-content">
-            <!-- লোগো এবং সংক্ষিপ্ত বিবরণ -->
-            <div class="footer-about">
-                <h2 class="footer-logo"><img src="img/talimul islam academy logo.png" alt="img" max-width="100px" width="150px" ></h2>
-                <p class="footer-about-text">আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা এবং আরবি ভাষা শেখার জন্য আমাদের কোর্সগুলোতে আপনাকে স্বাগতম।</p>
-                <div class="social-icons">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>                    
-                </div>
-            </div>
-            
-            <!-- দ্রুত লিংক -->
-            <div class="footer-section">
-                <div class="footer-dropdown">
-                    <h3 class="footer-title">দ্রুত লিংক <span class="toggle-icon">+</span></h3>
-                    <ul class="footer-list">
-                        <li><a href="Talimul Islam Academi.htmll">হোম</a></li>
-                        <li><a href="About us.html">আমাদের সম্পর্কে</a></li>
-                        <li><a href="#">সকল কোর্স</a></li>
-                        <li><a href="#">শিক্ষকমণ্ডলী</a></li>
-                        <li><a href="#">ক্লাস সময়সূচি</a></li>
-                        <li><a href="Contact.html">যোগাযোগ</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- জনপ্রিয় বিভাগ -->
-            <div class="footer-section">
-                <div class="footer-dropdown">
-                    <h3 class="footer-title">জনপ্রিয় কোর্স <span class="toggle-icon">+</span></h3>
-                    <ul class="footer-list">
-                        <li><a href="#">কোরআন তেলাওয়াত</a></li>
-                        <li><a href="#">হাদিস শিক্ষা</a></li>
-                        <li><a href="#">আরবি ভাষা</a></li>
-                        <li><a href="#">ফিকাহ শিক্ষা</a></li>
-                        <li><a href="#">তাজবিদ</a></li>
-                        <li><a href="#">ইসলামিক ইতিহাস</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- নিউজলেটার -->
-            <div class="footer-section">
-                <div class="footer-dropdown">
-                    <h3 class="footer-title">নিউজলেটার <span class="toggle-icon">+</span></h3>
-                    <div class="footer-list">
-                        <p>নিউজলেটার সাবস্ক্রাইব করুন</p>
-                        <form class="footer-subscribe-form">
-                            <input class="forLanguage" type="email" placeholder="আপনার ইমেইল" required>
-                            <button type="submit">সাবস্ক্রাইব</button>
-                        </form>
-                        <div class="contact-info">
-                            <p>ঠিকানা: আজিমপুর, ঢাকা-১২০৫</p> 
-                            <p>ফোন: +৮৮০১৯১১-৫৬৭৮৯০</p>
-                            <p>ইমেইল: billaharif661@gmail.com</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- কপিরাইট সেকশন -->
-        <div class="footer-bottom">
-            <p class="copyright">© ২০২৫ মাদ্রাসা শিক্ষা। সমস্ত অধিকার সংরক্ষিত।</p>
-            <div class="footer-bottom-links">
-                <a href="PrivacyPolicy.html">প্রাইভেসি পলিসি</a>
-                <a href="TermsConditions.html">টার্মস অফ সার্ভিস</a>
-                <a href="RefundReturn.html">কোর্স নীতিমালা</a>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<style>
+<!-- ════⚓ ফুটার সেকশন ════ -->
+ <style>
     /* ফুটার স্টাইল */
     .footer {
         background-color: #222;
@@ -8316,7 +8407,83 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 </style>
-
+<footer class="footer">
+    <div class="footer-gradient"></div>
+    <div class="container5">
+        <div class="footer-content">
+            <!-- লোগো এবং সংক্ষিপ্ত বিবরণ -->
+            <div class="footer-about">
+                <h2 class="footer-logo"><img src="img/talimul islam academy logo.png" alt="img" max-width="100px" width="150px" ></h2>
+                <p class="footer-about-text">আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা এবং আরবি ভাষা শেখার জন্য আমাদের কোর্সগুলোতে আপনাকে স্বাগতম।</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>                    
+                </div>
+            </div>
+            
+            <!-- দ্রুত লিংক -->
+            <div class="footer-section">
+                <div class="footer-dropdown">
+                    <h3 class="footer-title">দ্রুত লিংক <span class="toggle-icon">+</span></h3>
+                    <ul class="footer-list">
+                        <li><a href="Talimul Islam Academi.htmll">হোম</a></li>
+                        <li><a href="About us.html">আমাদের সম্পর্কে</a></li>
+                        <li><a href="#">সকল কোর্স</a></li>
+                        <li><a href="#">শিক্ষকমণ্ডলী</a></li>
+                        <li><a href="#">ক্লাস সময়সূচি</a></li>
+                        <li><a href="Contact.html">যোগাযোগ</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- জনপ্রিয় বিভাগ -->
+            <div class="footer-section">
+                <div class="footer-dropdown">
+                    <h3 class="footer-title">জনপ্রিয় কোর্স <span class="toggle-icon">+</span></h3>
+                    <ul class="footer-list">
+                        <li><a href="#">কোরআন তেলাওয়াত</a></li>
+                        <li><a href="#">হাদিস শিক্ষা</a></li>
+                        <li><a href="#">আরবি ভাষা</a></li>
+                        <li><a href="#">ফিকাহ শিক্ষা</a></li>
+                        <li><a href="#">তাজবিদ</a></li>
+                        <li><a href="#">ইসলামিক ইতিহাস</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- নিউজলেটার -->
+            <div class="footer-section">
+                <div class="footer-dropdown">
+                    <h3 class="footer-title">নিউজলেটার <span class="toggle-icon">+</span></h3>
+                    <div class="footer-list">
+                        <p>নিউজলেটার সাবস্ক্রাইব করুন</p>
+                        <form class="footer-subscribe-form">
+                            <input class="forLanguage" type="email" placeholder="আপনার ইমেইল" required>
+                            <button type="submit">সাবস্ক্রাইব</button>
+                        </form>
+                        <div class="contact-info">
+                            <p>ঠিকানা: আজিমপুর, ঢাকা-১২০৫</p> 
+                            <p>ফোন: +৮৮০১৯১১-৫৬৭৮৯০</p>
+                            <p>ইমেইল: billaharif661@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- কপিরাইট সেকশন -->
+        <div class="footer-bottom">
+            <p class="copyright">© ২০২৫ মাদ্রাসা শিক্ষা। সমস্ত অধিকার সংরক্ষিত।</p>
+            <div class="footer-bottom-links">
+                <a href="PrivacyPolicy.html">প্রাইভেসি পলিসি</a>
+                <a href="TermsConditions.html">টার্মস অফ সার্ভিস</a>
+                <a href="RefundReturn.html">কোর্স নীতিমালা</a>
+            </div>
+        </div>
+    </div>
+</footer>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const footerTitles = document.querySelectorAll('.footer-title');
@@ -8339,20 +8506,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
      
 
-
+<!-- ════📊 প্রগ্রেস ইন্ডিকেটর ════ -->
 <style>
         /* প্রগ্রেস ইন্ডিকেটর */
         .progress-container {
             position: fixed;
             top: 94%;
-            right: 10px;
+            left: 10px;
             transform: translateY(-50%);
             z-index: 1000;
         }
 
         .progress-circle {
-            width: 60px;
-            height: 60px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.2);
             /* background: black; */
@@ -8399,12 +8566,12 @@ document.addEventListener('DOMContentLoaded', function() {
         /* মোবাইল রেসপন্সিভ */
         @media (max-width: 768px) {
             .progress-container {
-                right: 10px;
+                left: 10px;
             }
             
             .progress-circle {
-                width: 50px;
-                height: 50px;
+                width: 40px;
+                height: 40px;
             }
             
             .arrow {
@@ -8419,74 +8586,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 padding: 40px 20px;
             }
         }
-</style>
-<!-- প্রগ্রেস ইন্ডিকেটর -->
-<div class="progress-container">
-        <div class="progress-circle">
-            <div class="progress-fill" id="progressFill"></div>
-            <div class="arrow"><i class="fas fa-chevron-up"></i></div>
-        </div>
-</div>
-<script>
-        // স্ক্রল প্রগ্রেস ক্যালকুলেট করার ফাংশন
-        function updateScrollProgress() {
-            const progressFill = document.getElementById('progressFill');
-            
-            // মোট স্ক্রল করা যাবে এমন উচ্চতা
-            const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            
-            // বর্তমান স্ক্রল পজিশন
-            const currentScroll = window.pageYOffset;
-            
-            // প্রগ্রেস পার্সেন্টেজ ক্যালকুলেট করা
-            const scrollProgress = (currentScroll / totalScrollHeight) * 100;
-            
-            // সার্কুলার প্রগ্রেস এর জন্য ডিগ্রি ক্যালকুলেট করা
-            const progressDegree = (scrollProgress / 100) * 360;
-            
-            // প্রগ্রেস ফিল এর conic-gradient আপডেট করা
-            progressFill.style.background = `conic-gradient(
-                #5628d8 0deg,
-                #6A35F2 ${progressDegree}deg,
-                transparent ${progressDegree}deg
-            )`;
-        }
-
-        // স্ক্রল ইভেন্ট লিসেনার
-        window.addEventListener('scroll', updateScrollProgress);
-        
-        // পেজ লোডের সময় প্রাথমিক প্রগ্রেস সেট করা
-        window.addEventListener('load', updateScrollProgress);
-        
-        // রিসাইজ ইভেন্টের সময় প্রগ্রেস আপডেট করা
-        window.addEventListener('resize', updateScrollProgress);
-        
-        // প্রগ্রেস সার্কেলে ক্লিক করলে টপে যাওয়ার ফিচার
-        document.querySelector('.progress-circle').addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-</script>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-<style>
-  /* Base Button Styles with Islamic Design */
+          /* Base Button Styles with Islamic Design */
   .btn {
     position: relative;
     padding: 14px 28px;
@@ -8670,7 +8773,118 @@ document.addEventListener('DOMContentLoaded', function() {
     background: #f5f5f5;
     border-radius: 12px;
   }
+</style>  
+<div class="progress-container">
+        <div class="progress-circle">
+            <div class="progress-fill" id="progressFill"></div>
+            <div class="arrow"><i class="fas fa-chevron-up"></i></div>
+        </div>
+</div>
+<script>
+        // স্ক্রল প্রগ্রেস ক্যালকুলেট করার ফাংশন
+        function updateScrollProgress() {
+            const progressFill = document.getElementById('progressFill');
+            
+            // মোট স্ক্রল করা যাবে এমন উচ্চতা
+            const totalScrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            
+            // বর্তমান স্ক্রল পজিশন
+            const currentScroll = window.pageYOffset;
+            
+            // প্রগ্রেস পার্সেন্টেজ ক্যালকুলেট করা
+            const scrollProgress = (currentScroll / totalScrollHeight) * 100;
+            
+            // সার্কুলার প্রগ্রেস এর জন্য ডিগ্রি ক্যালকুলেট করা
+            const progressDegree = (scrollProgress / 100) * 360;
+            
+            // প্রগ্রেস ফিল এর conic-gradient আপডেট করা
+            progressFill.style.background = `conic-gradient(
+                #5628d8 0deg,
+                #6A35F2 ${progressDegree}deg,
+                transparent ${progressDegree}deg
+            )`;
+        }
+
+        // স্ক্রল ইভেন্ট লিসেনার
+        window.addEventListener('scroll', updateScrollProgress);
+        
+        // পেজ লোডের সময় প্রাথমিক প্রগ্রেস সেট করা
+        window.addEventListener('load', updateScrollProgress);
+        
+        // রিসাইজ ইভেন্টের সময় প্রগ্রেস আপডেট করা
+        window.addEventListener('resize', updateScrollProgress);
+        
+        // প্রগ্রেস সার্কেলে ক্লিক করলে টপে যাওয়ার ফিচার
+        document.querySelector('.progress-circle').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+</script>
+
+
+
+
+<!-- ════💬 WhatsApp Chat Button ════ -->
+<style>
+    .whatsapp-chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 999;
+        background-color: #25D366;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 30px;
+        animation: pulse1 2s infinite;
+    }
+    
+    .whatsapp-chat-button:hover {
+        background-color: #128C7E;
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+    
+    @keyframes pulse1 {
+        0% {
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+        }
+    }
+    
+    /* For mobile devices */
+    @media (max-width: 768px) {
+        .whatsapp-chat-button {
+            width: 40px;
+            height: 40px;
+            font-size: 25px;
+            bottom: 15px;
+            right: 15px;
+        }
+    }
 </style>
+<a href="https://wa.me/8801747476689" class="whatsapp-chat-button" target="_blank">
+<i class="fab fa-whatsapp"></i>
+</a>
+
+
+
+
+
 
 
 

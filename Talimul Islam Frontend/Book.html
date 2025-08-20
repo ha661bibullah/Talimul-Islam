@@ -17,7 +17,8 @@
 
     
 
-<!--* Header Section -->
+<!-- ════🧭 নেভিগেশন বার ════ -->
+
 <style>
 
      @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
@@ -1416,8 +1417,149 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-</style> 
-<!-- Header Section -->
+
+
+                /* মোবাইলের জন্য ড্রপডাউন স্টাইল */
+        @media (max-width: 1080px) {
+            .mobile-nav-links {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                gap: 8px;
+            }
+            
+            .mobile-dropdown {
+                position: relative;
+            }
+            
+            .mobile-dropdown-content {
+                display: none;
+                padding-left: 20px;
+                margin-top: 5px;
+            }
+            
+            .mobile-dropdown.active .mobile-dropdown-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 5px;
+            }
+            
+            .mobile-dropdown-content a {
+                padding: 8px 12px;
+                background: rgba(0,0,0,0.05);
+                border-radius: 6px;
+                font-size: 12px;
+            }
+        }
+         @media (max-width: 500px){
+             .mobile-nav-links {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 8px;
+            }
+         }
+
+
+          /* মোবাইল ড্রপডাউন স্টাইল */
+.mobile-dropdown {
+    position: relative;
+    grid-column: 1 / -1; /* পুরো প্রস্থ জুড়ে নেবে */
+}
+
+.mobile-dropdown-content {
+    display: none;
+    grid-template-columns: 1fr; /* ডিফল্ট মোবাইলে এক কলাম */
+    gap: 8px;
+    padding: 10px;
+    background-color: var(--hover-bg);
+    border-radius: 8px;
+    margin-top: 5px;
+    animation: fadeIn 0.3s ease;
+}
+
+.mobile-dropdown.active .mobile-dropdown-content {
+    display: grid;
+}
+
+.mobile-dropdown-content a {
+    padding: 10px 12px;
+    background: var(--bg-color);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: var(--transition);
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.mobile-dropdown-content a:hover {
+    background: var(--primary-color);
+    color: var(--light-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+/* মোবাইল ড্রপডাউন টগল বাটন */
+.mobile-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: var(--hover-bg);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.mobile-dropdown-toggle:hover,
+.mobile-dropdown-toggle.active {
+    background: var(--primary-color);
+    color: var(--light-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+}
+
+.mobile-dropdown-toggle i:last-child {
+    transition: transform 0.3s ease;
+    font-size: 10px;
+}
+
+.mobile-dropdown.active .mobile-dropdown-toggle i:last-child {
+    transform: rotate(180deg);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ✅ রেসপন্সিভ ব্রেকপয়েন্ট */
+@media (min-width: 576px) {
+    .mobile-dropdown-content {
+        grid-template-columns: 1fr 1fr; /* ছোট ট্যাবলেটে ২ কলাম */
+    }
+}
+
+@media (min-width: 768px) {
+    .mobile-dropdown-content {
+        grid-template-columns: 1fr 1fr 1fr; /* বড় ট্যাবলেটে ৩ কলাম */
+    }
+}
+
+@media (min-width: 1024px) {
+    .mobile-dropdown-content {
+        grid-template-columns: 1fr 1fr 1fr 1fr; /* ডেস্কটপে ৪ কলাম */
+    }
+}
+
+</style>   
 <section class="header">
     <!-- Top Bar - Mobile Only -->
     <div class="top-bar" id="topBar">
@@ -1546,7 +1688,7 @@
             <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="মোবাইল মেনু">
                 <i class="fas fa-bars"></i>
             </button>
-            <a href="#" class="logo">
+            <a href="Talimul Islam Academi.html" class="logo">
                 <img src="img/talimul islam academy logo.png" alt="তালিমুল ইসলাম একাডেমি">
             </a>
         </div>
@@ -1598,10 +1740,23 @@
                 <i class="fas fa-home"></i>
                 হোম
             </a>
-            <a href="#" class="nav-link">
-                <i class="fas fa-book-open"></i>
-                কোর্স
-            </a>
+            <div class="mobile-dropdown" id="mobileCoursesDropdown">
+            <button class="mobile-dropdown-toggle" onclick="toggleMobileDropdown('mobileCoursesDropdown')">
+                <span>
+                    <i class="fas fa-book-open"></i>
+                    কোর্স
+                </span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="mobile-dropdown-content">
+                <a href="#">সকল কোর্স</a>
+                <a href="Live course.html">লাইভ কোর্স</a>
+                <a href="#">ইসলামিক আইন</a>
+                <a href="#">আরবি ভাষা</a>
+                <a href="#">ইসলামিক ইতিহাস</a>
+                <a href="#">ফিকহ শাস্ত্র</a>
+            </div>
+        </div>
             <a href="Book.html" class="nav-link">
                 <i class="fas fa-book"></i>
                 বই
@@ -1629,7 +1784,6 @@
         </div>
     </div>
 </section>
-<!-- Header Section -->
 <div class="blur-overlay" id="mainBlurOverlay"></div>
 <div class="login-popup" id="loginPopup">
     <button class="close-login" onclick="closeLoginPopup()">
@@ -1819,7 +1973,6 @@
         </div>
     </div>
 </div>
-<!-- Header Section -->
 <script>
     // ====================
     // Language Toggle Module
@@ -3179,7 +3332,143 @@ window.togglePasswordVisibility = function(inputId, toggleId) {
         }
     }
 };
-</script>
+
+
+// নেভিগেশন বারে সক্রিয় লিঙ্ক ব্যবস্থাপনা
+function setActiveNavLink() {
+    // বর্তমান URL পান
+    const currentUrl = window.location.href;
+    
+    // সকল নেভিগেশন লিঙ্ক পান
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // প্রতিটি লিঙ্ক চেক করুন
+    navLinks.forEach(link => {
+        // লিঙ্কের URL পান
+        const linkUrl = link.href;
+        
+        // URL তুলনা করুন (হোমপেজের জন্য বিশেষ ব্যবস্থা)
+        if (currentUrl === linkUrl || 
+            (currentUrl.endsWith('/') && linkUrl.endsWith('Talimul Islam Academi.html')) ||
+            (currentUrl.endsWith('index.html') && linkUrl.endsWith('Talimul Islam Academi.html'))) {
+            // সক্রিয় ক্লাস যোগ করুন
+            link.classList.add('active');
+        } else {
+            // সক্রিয় ক্লাস সরান
+            link.classList.remove('active');
+        }
+    });
+    
+    // মোবাইল নেভিগেশন লিঙ্কগুলোর জন্যও একই কাজ করুন
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-links .nav-link');
+    mobileNavLinks.forEach(link => {
+        const linkUrl = link.href;
+        
+        if (currentUrl === linkUrl || 
+            (currentUrl.endsWith('/') && linkUrl.endsWith('Talimul Islam Academi.html')) ||
+            (currentUrl.endsWith('index.html') && linkUrl.endsWith('Talimul Islam Academi.html'))) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
+// পৃষ্ঠা লোড হলে সক্রিয় লিঙ্ক সেট করুন
+document.addEventListener('DOMContentLoaded', function() {
+    setActiveNavLink();
+});
+
+// যদি AJAX নেভিগেশন ব্যবহার করা হয় তবে নেভিগেশন ইভেন্টেও কল করুন
+window.addEventListener('popstate', setActiveNavLink);
+
+
+ // ডেস্কটপ ড্রপডাউন টগল ফাংশন
+        function toggleDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('active');
+            
+            // অন্যান্য ড্রপডাউন বন্ধ করুন
+            document.querySelectorAll('.dropdown').forEach(item => {
+                if (item.id !== dropdownId) {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        // মোবাইল ড্রপডাউন টগল ফাংশন
+        function toggleMobileDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('active');
+            
+            // অন্যান্য মোবাইল ড্রপডাউন বন্ধ করুন
+            document.querySelectorAll('.mobile-dropdown').forEach(item => {
+                if (item.id !== dropdownId) {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        // ডকুমেন্টে ক্লিক করলে ড্রপডাউন বন্ধ হবে
+        document.addEventListener('click', function(event) {
+            // ডেস্কটপ ড্রপডাউন
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+            
+            // মোবাইল ড্রপডাউন
+            if (!event.target.closest('.mobile-dropdown')) {
+                document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+        
+        // স্ক্রিন রিসাইজ হলে ড্রপডাউন বন্ধ করুন
+        window.addEventListener('resize', function() {
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        });
+
+
+
+        // মোবাইল ড্রপডাউন টগল ফাংশন
+    function toggleMobileDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        dropdown.classList.toggle('active');
+        
+        // অন্যান্য মোবাইল ড্রপডাউন বন্ধ করুন
+        document.querySelectorAll('.mobile-dropdown').forEach(item => {
+            if (item.id !== dropdownId) {
+                item.classList.remove('active');
+            }
+        });
+    }
+    
+    // ডকুমেন্টে ক্লিক করলে ড্রপডাউন বন্ধ হবে
+    document.addEventListener('click', function(event) {
+        // মোবাইল ড্রপডাউন
+        if (!event.target.closest('.mobile-dropdown')) {
+            document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
+    
+    // স্ক্রিন রিসাইজ হলে ড্রপডাউন বন্ধ করুন
+    window.addEventListener('resize', function() {
+        document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+            dropdown.classList.remove('active');
+        });
+    });
+</script>   
 
     
 
