@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Socket.IO CDN -->
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<title>তালিমুল ইসলাম ২ম খন্ড </title>
+<title>তালিমুল ইসলাম ২য় খন্ড </title>
 </head>
 <body>
 
@@ -3481,7 +3481,6 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 
-
 <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
         * {
@@ -4637,7 +4636,7 @@ window.addEventListener('popstate', setActiveNavLink);
 </style>        
 <div class="container2">
         <header>
-            <h1>তালিমুল ইসলাম ২ম খন্ড </h1>
+            <h1>তালিমুল ইসলাম ২য় খন্ড </h1>
         </header>
         
         <div class="tab-container">
@@ -5098,7 +5097,7 @@ const paymentAccounts = {
 // Current course information
 const currentCourse = {
     id: "TalimulIslamVolume-2",
-    name: "তালিমুল ইসলাম ২ম খন্ড "
+    name: "তালিমুল ইসলাম ২য় খন্ড "
 };
 
 // Function to update payment info in modal
@@ -5847,12 +5846,12 @@ function submitReview() {
     }
     
     if (!rating || !reviewText) {
-        showNotification('অনুগ্রহ করে রেটিং এবং রিভিউ টেক্সট পূরণ করুন', 'অনুগ্রহ করে রেটিং এবং রিভিউ টেক্সট পূরণ করুন');
+        showNotification('অনুগ্রহ করে রেটিং এবং রিভিউ টেক্সট পূরণ করুন', 'error');
         return;
     }
     
     const reviewData = {
-        courseId: 'practical-ibarat',
+        courseId: 'TalimulIslamVolume-2', // কোর্স আইডি যোগ করা হয়েছে
         reviewerName: currentUser.name,
         reviewerEmail: currentUser.email,
         rating: rating,
@@ -5870,7 +5869,7 @@ function submitReview() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showNotification('আপনার রিভিউ সফলভাবে জমা দেওয়া হয়েছে!', 'আপনার রিভিউ সফলভাবে জমা দেওয়া হয়েছে!');
+            showNotification('আপনার রিভিউ সফলভাবে জমা দেওয়া হয়েছে!', 'success');
             
             // Add the new review to the UI dynamically
             const newReview = createReviewElement({
@@ -5887,10 +5886,10 @@ function submitReview() {
                 reviewsContainer.insertBefore(newReview, reviewsContainer.firstChild);
             }
             
-            // Clear the form (কিন্তু রেটিং রিসেট করবেন না)
+            // Clear the form
             document.getElementById('reviewText').value = '';
             
-            // সফলতা মেসেজ দেখান
+            // Show success message
             document.getElementById('reviewSuccessMessage').style.display = 'block';
             setTimeout(() => {
                 document.getElementById('reviewSuccessMessage').style.display = 'none';
@@ -5904,7 +5903,6 @@ function submitReview() {
         showNotification('রিভিউ জমা দিতে সমস্যা হয়েছে', 'error');
     });
 }
-
 
 // UI-তে রিভিউ যোগ করুন
 
@@ -5955,7 +5953,7 @@ function setupReviewForm() {
     
     // চেক করুন ব্যবহারকারীর কোর্স অ্যাক্সেস আছে কিনা
     const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    const hasAccess = userAccess[currentUser.email]?.['TalimulIslamVolume-2']?.accessGranted;
+    const hasAccess = userAccess[currentUser.email]?.['TalimulIslamVolume-21']?.accessGranted;
     
     if (hasAccess) {
         // কোর্স অ্যাক্সেস থাকলে ফর্ম দেখান
@@ -6180,11 +6178,11 @@ function showLoginAlert() {
 // পেমেন্ট ফর্ম সাবমিশন হ্যান্ডলার
 // Handle payment form submission
 // পেমেন্ট ফর্ম সাবমিশন
-// Practical-Ibarat.html ফাইলের script অংশে নিচের কোড যোগ করুন
+// TalimulIslamVolume-2.html ফাইলের script অংশে নিচের কোড যোগ করুন
 
 // পেমেন্ট ফর্ম সাবমিশন হ্যান্ডলার
-// Practical-Ibarat.html-এ পেমেন্ট ফর্ম সাবমিশন আপডেট করুন
-// Practical-Ibarat.html-এ পেমেন্ট ফর্ম সাবমিশন আপডেট করুন
+// TalimulIslamVolume-2.html-এ পেমেন্ট ফর্ম সাবমিশন আপডেট করুন
+// TalimulIslamVolume-2.html-এ পেমেন্ট ফর্ম সাবমিশন আপডেট করুন
 document.getElementById('manualPaymentForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -6200,7 +6198,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', async fu
         email: currentUser.email,
         phone: this.phone.value,
         courseId: this.courseId.value,
-        courseName: "তালিমুল ইসলাম ২ম খন্ড ",
+        courseName: "তালিমুল ইসলাম ২য় খন্ড ",
         paymentMethod: this.paymentMethod.value,
         txnId: this.txnId.value,
         amount: 900,
@@ -6494,7 +6492,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', function
         name: currentUser.name,
         email: currentUser.email,
         phone: formData.get('phone'),
-        courseName: "তালিমুল ইসলাম ২ম খন্ড ", // Course title
+        courseName: "তালিমুল ইসলাম ২য় খন্ড ", // Course title
         courseId: formData.get('courseId'),
         paymentMethod: formData.get('paymentMethod'),
         txnId: formData.get('txnId'),
@@ -6761,7 +6759,7 @@ setInterval(() => {
     if (refreshData) {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         
-        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'TalimulIslamVolume-2') {
+        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'TalimulIslamVolume-2t') {
             unlockCourseContent();
             localStorage.removeItem('refreshCourseAccess');
         }
@@ -7088,7 +7086,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
 // Listen for course access updates
-// ক্লায়েন্ট সাইড (Practical-Ibarat.html)
+// ক্লায়েন্ট সাইড (TalimulIslamVolume-2.html)
 if (typeof io !== 'undefined') {
     const socket = io('https://t-islamacademy.onrender.com');
 
@@ -7131,7 +7129,7 @@ if (user) {
 
 
 
-// Practical-Ibarat.html ফাইলে
+// TalimulIslamVolume-2.html ফাইলে
 function showSuccessMessage() {
     const successModal = document.getElementById('successModal');
     successModal.style.display = 'block';
@@ -7656,7 +7654,7 @@ const ReviewSystem = {
 document.addEventListener('DOMContentLoaded', function() {
     loadReviews();
     // Initialize review system
-    const courseId = 'practical-ibarat'; // Replace with actual course ID
+    const courseId = 'TalimulIslamVolume-2'; // Replace with actual course ID
     ReviewSystem.loadReviews(courseId);
     
     const reviewForm = document.getElementById('reviewForm');
@@ -7698,25 +7696,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Load reviews for the course
+// পেজ লোড হলে রিভিউ লোড করুন
 function loadReviews() {
-    fetch(`https://t-islamacademy.onrender.com/api/reviews/practical-ibarat`)
+    fetch('https://t-islamacademy.onrender.com/api/reviews/TalimulIslamVolume-2')
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
+        if (data.success && data.reviews) {
             const reviewsContainer = document.querySelector('.reviews-container');
-            reviewsContainer.innerHTML = ''; // ক্লিয়ার করবেন না, শুধু নতুনগুলো যোগ করুন
-            
-            // সব রিভিউ যোগ করুন (পুরানো এবং নতুন উভয়ই)
-            data.reviews.forEach(review => {
-                const reviewElement = createReviewElement(review);
-                reviewsContainer.appendChild(reviewElement);
-            });
+            if (reviewsContainer) {
+                // আগের রিভিউগুলি মুছে ফেলুন (স্ট্যাটিক রিভিউগুলি বাদে)
+                const staticReviews = reviewsContainer.querySelectorAll('.review:not(.dynamic-review)');
+                reviewsContainer.innerHTML = '';
+                staticReviews.forEach(review => reviewsContainer.appendChild(review));
+                
+                // নতুন রিভিউগুলি যোগ করুন
+                data.reviews.forEach(review => {
+                    const reviewElement = createReviewElement(review);
+                    reviewsContainer.appendChild(reviewElement);
+                });
+            }
         }
     })
     .catch(error => {
         console.error('Error loading reviews:', error);
     });
 }
+
+// DOM লোড হলে রিভিউ লোড করুন
+document.addEventListener('DOMContentLoaded', function() {
+    loadReviews();
+    // অন্যান্য ইনিশিয়ালাইজেশন কোড...
+});
+
 // Helper function to check if a review exists in static content
 function isStaticReview(review) {
     const staticReviewers = ['আবু বকর সিদ্দিক', 'মুহাম্মদ কাসেম', 'ফাতিমা খাতুন', 'আব্দুল্লাহ আল মামুন'];
@@ -7762,6 +7773,7 @@ document.addEventListener('DOMContentLoaded', checkReviewFormVisibility);
 
 // Helper function to create review element
 // UI-তে নতুন রিভিউ এলিমেন্ট তৈরি করার ফাংশন
+// রিভিউ এলিমেন্ট তৈরি করার ফাংশন
 function createReviewElement(review) {
     const reviewElement = document.createElement('div');
     reviewElement.className = 'review dynamic-review';

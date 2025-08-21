@@ -3736,15 +3736,18 @@ window.addEventListener('popstate', setActiveNavLink);
         }
 
         /* ==================== Islamic Decorative Elements ==================== */
-        .hero-section::after {
-            content: '☪';
-            position: absolute;
-            top: 10%;
-            right: 10%;
-            font-size: 3rem;
-            color: rgba(102, 126, 234, 0.2);
-            animation: pulse 4s infinite;
-        }
+.hero-section::after {
+    content: '\f678'; /* Mosque icon */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900; /* Solid style */
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    font-size: 3rem;
+    color: rgba(102, 126, 234, 0.2);
+    animation: pulse 4s infinite;
+}
+
 
         /* ==================== Responsive Design ==================== */
         @media (max-width: 1024px) {
@@ -6315,7 +6318,61 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-</script>    
+
+
+// Function to check Urdu-kayada course access status
+function checkUrduKayadaCourseAccess() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return false; // User not logged in
+    
+    const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
+    const userEmail = currentUser.email;
+    
+    // Check if user has access to this course
+    if (userAccess[userEmail] && userAccess[userEmail]['Urdu-kayada']) {
+        return userAccess[userEmail]['Urdu-kayada'].accessGranted;
+    }
+    
+    return false; // No access record found
+}
+
+// Function to update Urdu-kayada course card UI
+function updateUrduKayadaCourseCard() {
+    const hasAccess = checkUrduKayadaCourseAccess();
+    const courseCard = document.querySelector('.course-card a[href="Urdu-kayada.html"]')?.closest('.course-card');
+    
+    if (!courseCard) return;
+    
+    const priceContainer = courseCard.querySelector('.price');
+    const actionButton = courseCard.querySelector('.buy-now-btn');
+    
+    if (hasAccess) {
+        priceContainer.innerHTML = '<span class="current-price" style="color:#43a047;">একটিভ</span>';
+        actionButton.textContent = 'এন্ট্রি করুন';
+        actionButton.style.backgroundColor = '#43a047';
+        actionButton.href = 'Urdu-kayada.html';
+    } else {
+        // Default state
+        priceContainer.innerHTML = '<span class="current-price">৳৮০০</span><span class="original-price">৳১.১০০</span>';
+        actionButton.textContent = 'দেখুন';
+        actionButton.style.backgroundColor = '#6A35F2';
+        actionButton.href = 'Urdu-kayada.html';
+    }
+}
+
+// Check and update on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateUrduKayadaCourseCard();
+    
+    // Also update when login status changes
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'currentUser' || e.key === 'userCourseAccess') {
+            updateUrduKayadaCourseCard();
+        }
+    });
+});
+
+</script>     
 
 
 
