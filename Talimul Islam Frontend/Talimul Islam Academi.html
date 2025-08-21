@@ -6369,58 +6369,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Quran-Education.html পেইজে পেমেন্ট সফল হলে এই ফাংশন কল করুন
-function activateQuranCourse() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser) return;
-    
-    const userEmail = currentUser.email;
-    let userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    
-    if (!userAccess[userEmail]) {
-        userAccess[userEmail] = {};
-    }
-    
-    userAccess[userEmail]['Quran-Education'] = {
-        accessGranted: true,
-        activatedAt: new Date().toISOString(),
-        courseId: 'Quran-Education'
-    };
-    
-    localStorage.setItem('userCourseAccess', JSON.stringify(userAccess));
-    
-    // Show success message
-    showPopup('success', 'কোরআন শিক্ষা কোর্সটি সফলভাবে একটিভ হয়েছে!');
-    
-    // Update the course card in Talimul Islam Academi.html if it's open
-    if (typeof updateQuranCourseCard === 'function') {
-        updateQuranCourseCard();
-    }
-}
 
-// Quran-Education.html পেইজে পেমেন্ট সফল হওয়ার পর এই ফাংশন কল করুন
-// উদাহরণ: activateQuranCourse();
-
-
-// Quran-Education.html পেইজে পেমেন্ট সফল হলে
-
-
-
-function deactivateQuranCourse() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser) return;
-    
-    const userEmail = currentUser.email;
-    let userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    
-    if (userAccess[userEmail] && userAccess[userEmail]['Quran-Education']) {
-        delete userAccess[userEmail]['Quran-Education'];
-        localStorage.setItem('userCourseAccess', JSON.stringify(userAccess));
-        
-        // Update UI
-        updateQuranCourseCard();
-    }
-}
 </script>
 
 
