@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Socket.IO CDN -->
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<title>তালিমুল ইসলাম ১ম খন্ড </title>
+<title>তালিমুল ইসলাম ১য় খন্ড </title>
 </head>
 <body>
 
@@ -4636,7 +4636,7 @@ window.addEventListener('popstate', setActiveNavLink);
 </style>        
 <div class="container2">
         <header>
-            <h1>তালিমুল ইসলাম ১ম খন্ড </h1>
+            <h1>তালিমুল ইসলাম ১য় খন্ড </h1>
         </header>
         
         <div class="tab-container">
@@ -4877,6 +4877,8 @@ window.addEventListener('popstate', setActiveNavLink);
                         </div>
                     </div>
                 </div>
+
+
                 
                 <div id="notes" class="tab-content">
                     <div class="content-box">
@@ -5025,8 +5027,8 @@ window.addEventListener('popstate', setActiveNavLink);
                 
                 <div id="pricing-section" class="course-pricing">
                     <div class="price">
-                        <span class="current-price">৳ ৯০০</span>
-                        <span class="original-price">৳ ১,২০০</span>
+                        <span class="current-price">৳ ১,৫০০</span>
+                        <span class="original-price">৳ ৩,০০০</span>
                     </div>
                     <button class="buy-now-btn" onclick="showLoginAlert()">এখনই কিনুন</button>
                     <div class="course-stats">
@@ -5057,7 +5059,7 @@ window.addEventListener('popstate', setActiveNavLink);
                     </div>
                 </div>
                 
-                <div id="what-you-learn" class="content-box">
+               <div id="what-you-learn" class="content-box">
                     <h2 class="content-title">👨‍👩‍👧‍👦 এই কোর্সটি উপযুক্ত:</h2>
                     <ul style="list-style: none; padding: 0;">
                         <li style="margin-bottom: 10px; padding-left: 25px; position: relative;">
@@ -5082,6 +5084,7 @@ window.addEventListener('popstate', setActiveNavLink);
                         </li>
                     </ul>
                 </div>
+
             </div>
         </div>
 </div>
@@ -5238,7 +5241,7 @@ const paymentAccounts = {
 // Current course information
 const currentCourse = {
     id: "TalimulIslamVolume-1",
-    name: "তালিমুল ইসলাম ১ম খন্ড "
+    name: "তালিমুল ইসলাম ১য় খন্ড "
 };
 
 // Function to update payment info in modal
@@ -6422,7 +6425,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', async fu
         email: currentUser.email,
         phone: this.phone.value,
         courseId: this.courseId.value,
-        courseName: "তালিমুল ইসলাম ১ম খন্ড ",
+        courseName: "তালিমুল ইসলাম ১য় খন্ড ",
         paymentMethod: this.paymentMethod.value,
         txnId: this.txnId.value,
         amount: 900,
@@ -6716,7 +6719,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', function
         name: currentUser.name,
         email: currentUser.email,
         phone: formData.get('phone'),
-        courseName: "তালিমুল ইসলাম ১ম খন্ড ", // Course title
+        courseName: "তালিমুল ইসলাম ১য় খন্ড ", // Course title
         courseId: formData.get('courseId'),
         paymentMethod: formData.get('paymentMethod'),
         txnId: formData.get('txnId'),
@@ -6923,7 +6926,7 @@ function checkAndUnlockCourse() {
     if (!currentUser) return;
 
     const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    const courseAccess = userAccess[currentUser.email]?.['TalimulIslamVolume-1'];
+    const courseAccess = userAccess[currentUser.email]?.['TalimulIslamVolume-1ume-3'];
     
     if (courseAccess?.accessGranted) {
         unlockCourseContent();
@@ -7406,7 +7409,7 @@ function setupCourseAccessListener() {
             const data = JSON.parse(e.newValue);
             const user = JSON.parse(localStorage.getItem('currentUser'));
             
-            if (user && user.email === data.email && data.courseId === 'TalimulIslamVolume-1') {
+            if (user && user.email === data.email && data.courseId === 'TalimulIslamVolume-1ume-3') {
                 unlockCourseContent();
                 showPopup('success', 'আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য');
             }

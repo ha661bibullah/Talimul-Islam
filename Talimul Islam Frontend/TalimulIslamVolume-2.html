@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Socket.IO CDN -->
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<title>তালিমুল ইসলাম ২য় খন্ড </title>
+<title>তালিমুল ইসলাম ২য় খন্ড </title>
 </head>
 <body>
 
@@ -4636,7 +4636,7 @@ window.addEventListener('popstate', setActiveNavLink);
 </style>        
 <div class="container2">
         <header>
-            <h1>তালিমুল ইসলাম ২য় খন্ড </h1>
+            <h1>তালিমুল ইসলাম ২য় খন্ড </h1>
         </header>
         
         <div class="tab-container">
@@ -5097,7 +5097,7 @@ const paymentAccounts = {
 // Current course information
 const currentCourse = {
     id: "TalimulIslamVolume-2",
-    name: "তালিমুল ইসলাম ২য় খন্ড "
+    name: "তালিমুল ইসলাম ২য় খন্ড "
 };
 
 // Function to update payment info in modal
@@ -6198,7 +6198,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', async fu
         email: currentUser.email,
         phone: this.phone.value,
         courseId: this.courseId.value,
-        courseName: "তালিমুল ইসলাম ২য় খন্ড ",
+        courseName: "তালিমুল ইসলাম ২য় খন্ড ",
         paymentMethod: this.paymentMethod.value,
         txnId: this.txnId.value,
         amount: 900,
@@ -6492,7 +6492,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', function
         name: currentUser.name,
         email: currentUser.email,
         phone: formData.get('phone'),
-        courseName: "তালিমুল ইসলাম ২য় খন্ড ", // Course title
+        courseName: "তালিমুল ইসলাম ২য় খন্ড ", // Course title
         courseId: formData.get('courseId'),
         paymentMethod: formData.get('paymentMethod'),
         txnId: formData.get('txnId'),
@@ -6699,7 +6699,7 @@ function checkAndUnlockCourse() {
     if (!currentUser) return;
 
     const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    const courseAccess = userAccess[currentUser.email]?.['TalimulIslamVolume-2'];
+    const courseAccess = userAccess[currentUser.email]?.['TalimulIslamVolume-2ume-3'];
     
     if (courseAccess?.accessGranted) {
         unlockCourseContent();
@@ -7182,7 +7182,7 @@ function setupCourseAccessListener() {
             const data = JSON.parse(e.newValue);
             const user = JSON.parse(localStorage.getItem('currentUser'));
             
-            if (user && user.email === data.email && data.courseId === 'TalimulIslamVolume-2') {
+            if (user && user.email === data.email && data.courseId === 'TalimulIslamVolume-2ume-3') {
                 unlockCourseContent();
                 showPopup('success', 'আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য');
             }

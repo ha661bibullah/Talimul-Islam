@@ -3782,10 +3782,10 @@ window.addEventListener('popstate', setActiveNavLink);
                 font-size: 2rem;
                 margin-bottom: 15px;
             }
-            
-            .hero-content p {
-                display: none; /* Hide paragraph in mobile */
-            }
+            /* Hide paragraph in mobile */
+            /* .hero-content p {
+                display: none; 
+            } */
             
             .buttons {
                 flex-direction: row;
@@ -5501,6 +5501,7 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
     }
 
 </style> 
+
 <div class="container1">
         <div class="section-header">
             <h2>আমাদের কোর্সসমূহ</h2>
@@ -6318,63 +6319,115 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+</script>     
 
 
-// Function to check Urdu-kayada course access status
-function checkUrduKayadaCourseAccess() {
+<script>
+// Function to check if user has purchased Quran-Education course
+function checkQuranCourseAccess() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser) return false; // User not logged in
+    if (!currentUser) return false;
     
     const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
     const userEmail = currentUser.email;
     
-    // Check if user has access to this course
-    if (userAccess[userEmail] && userAccess[userEmail]['Urdu-kayada']) {
-        return userAccess[userEmail]['Urdu-kayada'].accessGranted;
+    if (userAccess[userEmail] && userAccess[userEmail]['Quran-Education']) {
+        return userAccess[userEmail]['Quran-Education'].accessGranted;
     }
     
-    return false; // No access record found
+    return false;
 }
 
-// Function to update Urdu-kayada course card UI
-function updateUrduKayadaCourseCard() {
-    const hasAccess = checkUrduKayadaCourseAccess();
-    const courseCard = document.querySelector('.course-card a[href="Urdu-kayada.html"]')?.closest('.course-card');
-    
-    if (!courseCard) return;
-    
-    const priceContainer = courseCard.querySelector('.price');
-    const actionButton = courseCard.querySelector('.buy-now-btn');
+// Update Quran course card UI based on access status
+function updateQuranCourseCard() {
+    const hasAccess = checkQuranCourseAccess();
+    const priceContainer = document.getElementById('practical-ibarot-price');
+    const actionButton = document.getElementById('practical-ibarot-btn');
     
     if (hasAccess) {
         priceContainer.innerHTML = '<span class="current-price" style="color:#43a047;">একটিভ</span>';
         actionButton.textContent = 'এন্ট্রি করুন';
         actionButton.style.backgroundColor = '#43a047';
-        actionButton.href = 'Urdu-kayada.html';
+        actionButton.href = 'Quran-Education.html';
     } else {
-        // Default state
-        priceContainer.innerHTML = '<span class="current-price">৳৮০০</span><span class="original-price">৳১.১০০</span>';
+        priceContainer.innerHTML = '<span class="current-price">৳ ৯০০</span><span class="original-price">৳ ১,২০০</span>';
         actionButton.textContent = 'দেখুন';
         actionButton.style.backgroundColor = '#6A35F2';
-        actionButton.href = 'Urdu-kayada.html';
+        actionButton.href = 'Quran-Education.html';
     }
 }
 
 // Check and update on page load
 document.addEventListener('DOMContentLoaded', function() {
-    updateUrduKayadaCourseCard();
+    updateQuranCourseCard();
     
     // Also update when login status changes
     window.addEventListener('storage', function(e) {
         if (e.key === 'currentUser' || e.key === 'userCourseAccess') {
-            updateUrduKayadaCourseCard();
+            updateQuranCourseCard();
         }
     });
 });
 
-</script>     
+// Quran-Education.html পেইজে পেমেন্ট সফল হলে এই ফাংশন কল করুন
+function activateQuranCourse() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return;
+    
+    const userEmail = currentUser.email;
+    let userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
+    
+    if (!userAccess[userEmail]) {
+        userAccess[userEmail] = {};
+    }
+    
+    userAccess[userEmail]['Quran-Education'] = {
+        accessGranted: true,
+        activatedAt: new Date().toISOString(),
+        courseId: 'Quran-Education'
+    };
+    
+    localStorage.setItem('userCourseAccess', JSON.stringify(userAccess));
+    
+    // Show success message
+    showPopup('success', 'কোরআন শিক্ষা কোর্সটি সফলভাবে একটিভ হয়েছে!');
+    
+    // Update the course card in Talimul Islam Academi.html if it's open
+    if (typeof updateQuranCourseCard === 'function') {
+        updateQuranCourseCard();
+    }
+}
+
+// Quran-Education.html পেইজে পেমেন্ট সফল হওয়ার পর এই ফাংশন কল করুন
+// উদাহরণ: activateQuranCourse();
 
 
+// Quran-Education.html পেইজে পেমেন্ট সফল হলে
+function handlePaymentSuccess() {
+    // আপনার বর্তমান পেমেন্ট সাকসেস লজিক
+    // ...
+    
+    // কোর্স একটিভেশন ফাংশন কল করুন
+    activateQuranCourse();
+}
+
+
+function deactivateQuranCourse() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return;
+    
+    const userEmail = currentUser.email;
+    let userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
+    
+    if (userAccess[userEmail] && userAccess[userEmail]['Quran-Education']) {
+        delete userAccess[userEmail]['Quran-Education'];
+        localStorage.setItem('userCourseAccess', JSON.stringify(userAccess));
+        
+        // Update UI
+        updateQuranCourseCard();
+    }
+}
+</script>
 
 
 
