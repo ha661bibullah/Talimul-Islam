@@ -6344,6 +6344,8 @@ function updateQuranCourseCard() {
     const priceContainer = document.getElementById('practical-ibarot-price');
     const actionButton = document.getElementById('practical-ibarot-btn');
     
+    if (!priceContainer || !actionButton) return;
+    
     if (hasAccess) {
         priceContainer.innerHTML = '<span class="current-price" style="color:#43a047;">একটিভ</span>';
         actionButton.textContent = 'এন্ট্রি করুন';
@@ -6368,10 +6370,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-
 </script>
-
 
 
 
