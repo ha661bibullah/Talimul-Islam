@@ -8028,7 +8028,10 @@ function createReviewElement(review) {
 // Quran-Education.html পেইজে পেমেন্ট সফল হলে এই ফাংশন কল করুন
 function activateQuranCourse() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser) return;
+    if (!currentUser) {
+        alert('দুঃখিত, আপনি লগইন করেননি। প্রথমে লগইন করুন।');
+        return;
+    }
     
     const userEmail = currentUser.email;
     let userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
@@ -8046,15 +8049,13 @@ function activateQuranCourse() {
     localStorage.setItem('userCourseAccess', JSON.stringify(userAccess));
     
     // Show success message
-    showPopup('success', 'কোরআন শিক্ষা কোর্সটি সফলভাবে একটিভ হয়েছে!');
+    alert('কোরআন শিক্ষা কোর্সটি সফলভাবে একটিভ হয়েছে!');
     
-    // Update the course card in Talimul Islam Academi.html if it's open
-    if (typeof updateQuranCourseCard === 'function') {
-        updateQuranCourseCard();
-    }
+    // পেইজ রিলোড করলে কার্ড আপডেট হবে
+    window.location.reload();
 }
 
-// Quran-Education.html পেইজে পেমেন্ট সফল হওয়ার পর এই ফাংশন কল করুন
+// পেমেন্ট সফল হলে এই ফাংশন কল করুন
 // উদাহরণ: 
 function handlePaymentSuccess() {
     // আপনার বর্তমান পেমেন্ট সাকসেস লজিক
@@ -8064,24 +8065,29 @@ function handlePaymentSuccess() {
     activateQuranCourse();
 }
 
-// কোর্স ডিএকটিভ করার ফাংশন (প্রয়োজন হলে)
-function deactivateQuranCourse() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser) return;
-    
-    const userEmail = currentUser.email;
-    let userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    
-    if (userAccess[userEmail] && userAccess[userEmail]['Quran-Education']) {
-        delete userAccess[userEmail]['Quran-Education'];
-        localStorage.setItem('userCourseAccess', JSON.stringify(userAccess));
-        
-        // Update UI
-        if (typeof updateQuranCourseCard === 'function') {
-            updateQuranCourseCard();
-        }
+// টেস্ট করার জন্য - সরাসরি কল করুন (পরবর্তীতে মুছে ফেলুন)
+// activateQuranCourse();
+</script>
+
+<script>
+// খুব সহজ ভার্সন - শুধু Quran-Education.html এ
+function activateQuranCourse() {
+    localStorage.setItem('quran_course_active', 'true');
+    alert('কোর্স একটিভ হয়েছে!');
+    window.location.href = 'Talimul Islam Academi.html';
+}
+
+// এবং Talimul Islam Academi.html এ
+function checkQuranCourse() {
+    if (localStorage.getItem('quran_course_active') === 'true') {
+        document.getElementById('practical-ibarot-price').innerHTML = 
+            '<span class="current-price" style="color:#43a047;">একটিভ</span>';
+        document.getElementById('practical-ibarot-btn').textContent = 'এন্ট্রি করুন';
+        document.getElementById('practical-ibarot-btn').style.backgroundColor = '#43a047';
     }
 }
+// পেইজ লোড হলে কল করুন
+checkQuranCourse();
 </script>
 
 

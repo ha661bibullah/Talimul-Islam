@@ -6362,14 +6362,10 @@ function updateQuranCourseCard() {
 // Check and update on page load
 document.addEventListener('DOMContentLoaded', function() {
     updateQuranCourseCard();
-    
-    // Also update when login status changes
-    window.addEventListener('storage', function(e) {
-        if (e.key === 'currentUser' || e.key === 'userCourseAccess') {
-            updateQuranCourseCard();
-        }
-    });
 });
+
+// প্রতি ২ সেকেন্ডে চেক করে (যদি অন্য ট্যাব থেকে একটিভ হয়)
+setInterval(updateQuranCourseCard, 2000);
 </script>
 
 
