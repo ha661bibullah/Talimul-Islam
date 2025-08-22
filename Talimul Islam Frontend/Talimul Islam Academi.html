@@ -3898,7 +3898,7 @@ window.addEventListener('popstate', setActiveNavLink);
         <section class="hero-section">
             <div class="hero-content">
                 <h2>সর্বাধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষা গ্রহণ করুন অনলাইনে</h2>
-                <p>দ্বীনি ইলম; এটি এমন এক উত্তম ও উপকারী বিদ্যা, যাকে জ্ঞানী আর সাহসী মানুষরা ভালোবাসে। প্রকৃত বিজ্ঞজনেরা একে গুরুত্ব দিয়ে শেখে ও চর্চা করে। আর শুধু নিকৃষ্ট ও নিচু শ্রেণির লোকেরা একে অপছন্দ করে।</p>
+                <p>ঘরে বসেই ইসলামের বিষয়ভিত্তিক কোর্সে অংশ নিতে পারবেন সকল শ্রেণির পেশাজীবি। তালিমুল ইসলাম একাডেমি নিয়ে এসেছে সহজ, নিরাপদ ও মানসম্মত শিক্ষণ পদ্ধতি, যোগ্য উস্তাদদের তত্ত্বাবধানে।</p>
                 <div class="buttons">
                     <a href="0FreeCourse.html" class="btn btn-secondary1">ফ্রি কোর্স</a>
                     <a href="#" class="btn btn-primary1">পেইড কোর্স <i class="fa-solid fa-arrow-down"></i></a>
@@ -5533,8 +5533,8 @@ border: 1px solid #ced4da; /* আরও গাঢ় গ্রে বর্ডা�
         </div>
         <div class="course-footer">
             <div class="price" id="practical-ibarot-price">
-                <span class="current-price">৳ ৯০০</span>
-                <span class="original-price">৳ ১,২০০</span>
+                <span class="current-price">৳ ৯৯</span>                
+                <span class="original-price">৳ ১২০</span>
             </div>
             <div class="action-buttons">
                 <a href="Quran-Education.html" class="buy-now-btn" id="practical-ibarot-btn">দেখুন</a>
@@ -6322,51 +6322,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>     
 
 
-<script>
-// Function to check if user has purchased Quran-Education course
-function checkQuranCourseAccess() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser) return false;
-    
-    const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    const userEmail = currentUser.email;
-    
-    if (userAccess[userEmail] && userAccess[userEmail]['Quran-Education']) {
-        return userAccess[userEmail]['Quran-Education'].accessGranted;
-    }
-    
-    return false;
-}
 
-// Update Quran course card UI based on access status
-function updateQuranCourseCard() {
-    const hasAccess = checkQuranCourseAccess();
-    const priceContainer = document.getElementById('practical-ibarot-price');
-    const actionButton = document.getElementById('practical-ibarot-btn');
-    
-    if (!priceContainer || !actionButton) return;
-    
-    if (hasAccess) {
-        priceContainer.innerHTML = '<span class="current-price" style="color:#43a047;">একটিভ</span>';
-        actionButton.textContent = 'এন্ট্রি করুন';
-        actionButton.style.backgroundColor = '#43a047';
-        actionButton.href = 'Quran-Education.html';
-    } else {
-        priceContainer.innerHTML = '<span class="current-price">৳ ৯০০</span><span class="original-price">৳ ১,২০০</span>';
-        actionButton.textContent = 'দেখুন';
-        actionButton.style.backgroundColor = '#6A35F2';
-        actionButton.href = 'Quran-Education.html';
-    }
-}
-
-// Check and update on page load
-document.addEventListener('DOMContentLoaded', function() {
-    updateQuranCourseCard();
-});
-
-// প্রতি ২ সেকেন্ডে চেক করে (যদি অন্য ট্যাব থেকে একটিভ হয়)
-setInterval(updateQuranCourseCard, 2000);
-</script>
 
 
 
@@ -7111,7 +7067,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="show-more-container">
         <button id="showMoreBtn" class="show-more-btn">
             <span class="btn-text">আরও দেখুন</span>
-            <span class="btn-icon">▼</span>
+            <span class="btn-icon"><i class="fa-solid fa-chevron-down"></i></span>
         </button>
     </div>
 </div>

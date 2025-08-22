@@ -5015,8 +5015,8 @@ window.addEventListener('popstate', setActiveNavLink);
                 
                 <div id="pricing-section" class="course-pricing">
                     <div class="price">
-                        <span class="current-price">৳ ১,৫০০</span>
-                        <span class="original-price">৳ ৩,০০০</span>
+                        <span class="current-price">৳ ৯৯</span>
+                        <span class="original-price">৳ ১২০</span>
                     </div>
                     <button class="buy-now-btn" onclick="showLoginAlert()">এখনই কিনুন</button>
                     <div class="course-stats">
@@ -5848,7 +5848,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', async fu
             txnId: formData.get('txnId'),
             paymentMethod: formData.get('paymentMethod'),
             courseId: formData.get('courseId'),
-            amount: 900,
+            amount: 99,
             status: 'pending',
             date: new Date().toISOString()
         };
@@ -6421,7 +6421,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', async fu
         courseName: "কোরআন শিক্ষা ",
         paymentMethod: this.paymentMethod.value,
         txnId: this.txnId.value,
-        amount: 900,
+        amount: 99,
         status: 'pending'
     };
 
@@ -6716,7 +6716,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', function
         courseId: formData.get('courseId'),
         paymentMethod: formData.get('paymentMethod'),
         txnId: formData.get('txnId'),
-        amount: 900, // Fixed amount for this course
+        amount: 99, // Fixed amount for this course
         status: 'pending',
         date: new Date().toISOString()
     };
@@ -6979,7 +6979,7 @@ setInterval(() => {
     if (refreshData) {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         
-        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'Quran-Educationt') {
+        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'Quran-Education') {
             unlockCourseContent();
             localStorage.removeItem('refreshCourseAccess');
         }
@@ -7312,7 +7312,7 @@ if (typeof io !== 'undefined') {
 
     socket.on('courseAccessUpdated', (data) => {
         const user = JSON.parse(localStorage.getItem('currentUser'));
-        if (user && user.email === data.email && data.courseId === 'Quran-Educationtion') {
+        if (user && user.email === data.email && data.courseId === 'Quran-Education') {
             unlockCourseContent();
             showPopup('আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য', 'success');
         }
@@ -7402,7 +7402,7 @@ function setupCourseAccessListener() {
             const data = JSON.parse(e.newValue);
             const user = JSON.parse(localStorage.getItem('currentUser'));
             
-            if (user && user.email === data.email && data.courseId === 'Quran-Educationume-3') {
+            if (user && user.email === data.email && data.courseId === 'Quran-Education') {
                 unlockCourseContent();
                 showPopup('success', 'আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য');
             }
@@ -8024,71 +8024,7 @@ function createReviewElement(review) {
 }
 
 </script>        
- <script>
-// Quran-Education.html পেইজে পেমেন্ট সফল হলে এই ফাংশন কল করুন
-function activateQuranCourse() {
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser) {
-        alert('দুঃখিত, আপনি লগইন করেননি। প্রথমে লগইন করুন।');
-        return;
-    }
-    
-    const userEmail = currentUser.email;
-    let userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    
-    if (!userAccess[userEmail]) {
-        userAccess[userEmail] = {};
-    }
-    
-    userAccess[userEmail]['Quran-Education'] = {
-        accessGranted: true,
-        activatedAt: new Date().toISOString(),
-        courseId: 'Quran-Education'
-    };
-    
-    localStorage.setItem('userCourseAccess', JSON.stringify(userAccess));
-    
-    // Show success message
-    alert('কোরআন শিক্ষা কোর্সটি সফলভাবে একটিভ হয়েছে!');
-    
-    // পেইজ রিলোড করলে কার্ড আপডেট হবে
-    window.location.reload();
-}
-
-// পেমেন্ট সফল হলে এই ফাংশন কল করুন
-// উদাহরণ: 
-function handlePaymentSuccess() {
-    // আপনার বর্তমান পেমেন্ট সাকসেস লজিক
-    // ...
-    
-    // কোর্স একটিভেশন ফাংশন কল করুন
-    activateQuranCourse();
-}
-
-// টেস্ট করার জন্য - সরাসরি কল করুন (পরবর্তীতে মুছে ফেলুন)
-// activateQuranCourse();
-</script>
-
-<script>
-// খুব সহজ ভার্সন - শুধু Quran-Education.html এ
-function activateQuranCourse() {
-    localStorage.setItem('quran_course_active', 'true');
-    alert('কোর্স একটিভ হয়েছে!');
-    window.location.href = 'Talimul Islam Academi.html';
-}
-
-// এবং Talimul Islam Academi.html এ
-function checkQuranCourse() {
-    if (localStorage.getItem('quran_course_active') === 'true') {
-        document.getElementById('practical-ibarot-price').innerHTML = 
-            '<span class="current-price" style="color:#43a047;">একটিভ</span>';
-        document.getElementById('practical-ibarot-btn').textContent = 'এন্ট্রি করুন';
-        document.getElementById('practical-ibarot-btn').style.backgroundColor = '#43a047';
-    }
-}
-// পেইজ লোড হলে কল করুন
-checkQuranCourse();
-</script>
+ 
 
 
 
