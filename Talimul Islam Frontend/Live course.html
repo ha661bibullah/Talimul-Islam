@@ -6,6 +6,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
         <title>মাদ্রাসা লাইভ কোর্স</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali&display=swap" rel="stylesheet">
+
     </head>
 <body>
 
@@ -30,6 +32,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Hind Siliguri', 'Bangla', sans-serif;
+            font-family: "Noto Serif Bengali", serif;
         }
         
     :root {
@@ -64,6 +67,7 @@
 
     body {
         font-family: 'Hind Siliguri', 'Bangla', sans-serif;
+        font-family: "Noto Serif Bengali", serif;
         background-color: var(--bg-color);
         color: var(--text-color);
         line-height: 1.6;
@@ -3505,9 +3509,16 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 
-<style>
+
+    <style>
+        /* ====================
+           CSS STYLES
+           ==================== */
+        
+        /* Google Font Import */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap');
         
+        /* CSS Variables */
         :root {
             --primary-color: #0F4C75;
             --secondary-color: #3282B8;
@@ -3516,6 +3527,7 @@ window.addEventListener('popstate', setActiveNavLink);
             --dark-color: #1B262C;
         }
         
+        /* Container Styles */
         .containerL {
             max-width: 1200px;
             margin: 0 auto;
@@ -3530,7 +3542,6 @@ window.addEventListener('popstate', setActiveNavLink);
             padding: 30px 0;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
@@ -3712,7 +3723,7 @@ window.addEventListener('popstate', setActiveNavLink);
         
         .course-imageL {
             height: 200px;
-            background-color: var(--secondary-color);
+            /* background-color: var(--secondary-color); */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -3894,7 +3905,8 @@ window.addEventListener('popstate', setActiveNavLink);
 
         .form-groupL {
             margin-bottom: 25px;
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: "Noto Serif Bengali", serif;
+
         }
         
         .form-groupL label {
@@ -3902,12 +3914,13 @@ window.addEventListener('popstate', setActiveNavLink);
             margin-bottom: 8px;
             font-weight: 500;
             color: var(--primary-color);
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: "Noto Serif Bengali", serif;
         }
-    .form-groupL input{
-        font-family: 'Hind Siliguri', sans-serif;
-        font-size: 1rem;
-    }
+        
+        .form-groupL input{
+            font-family: "Noto Serif Bengali", serif;
+            font-size: 1rem;
+        }
         
         .form-controlL {
             width: 100%;
@@ -3915,7 +3928,7 @@ window.addEventListener('popstate', setActiveNavLink);
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: "Noto Serif Bengali", serif;
         }
         
         .form-controlL:focus {
@@ -4167,17 +4180,16 @@ window.addEventListener('popstate', setActiveNavLink);
             }
         }
     </style>
-    <!-- Header Section -->
     <header class="headerL">
         <div class="containerL">
             <h1>মাদ্রাসা লাইভ কোর্স</h1>
             <p>ইসলামিক জ্ঞান অর্জনের জন্য আমাদের অনলাইন লাইভ কোর্সে যোগ দিন</p>
         </div>
     </header>
-
-    <!-- Main Content -->
     <main class="containerL">
-        <!-- Hero Section -->
+        <!-- ====================
+             HERO SECTION
+             ==================== -->
         <section class="heroL">
             <div class="hero-contentL">
                 <div class="hero-textL">
@@ -4186,14 +4198,15 @@ window.addEventListener('popstate', setActiveNavLink);
                     <a href="#enrollment" class="cta-btnL">এখনই ভর্তি হোন</a>
                 </div>
                 <div class="hero-imageL">
-                    <div style="width: 100%; height: 300px; background-color: var(--secondary-color); border-radius: 15px; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.5rem; font-weight: bold;">
-                        ছবি: অনলাইন মাদ্রাসা শিক্ষা
-                    </div>
-                </div>
+                    <div style="width: 100%; height: 300px; border-radius: 15px; display: flex; justify-content: center; align-items: center; color: white; font-size: 1.5rem; font-weight: bold;">
+                        <img src="img/converted (1).png" alt="">
+  </div>
             </div>
         </section>
 
-        <!-- Course Features -->
+        <!-- ====================
+             COURSE FEATURES
+             ==================== -->
         <section class="featuresL">
             <div class="features-headingL">
                 <h2>আমাদের কোর্সের বৈশিষ্ট্য</h2>
@@ -4217,7 +4230,9 @@ window.addEventListener('popstate', setActiveNavLink);
             </div>
         </section>
 
-        <!-- Course List -->
+        <!-- ====================
+             COURSE LIST
+             ==================== -->
         <section class="coursesL" id="courses">
             <div class="courses-headingL">
                 <h2>আমাদের কোর্সসমূহ</h2>
@@ -4238,7 +4253,7 @@ window.addEventListener('popstate', setActiveNavLink);
                     <div class="course-imageL">হাদিস শিক্ষা</div>
                     <div class="course-contentL">
                         <h3>হাদিস শরীফ অধ্যয়ন</h3>
-                        <p>মহানবী (সাঃ) এর হাদিস অধ্যয়ন করুন এবং এর অর্থ ও প্রয়োগ শিখুন। বিশেষ হাদিস সংকলন নিয়ে আলোচনা করা হবে।</p>
+                        <p>মহানবী (সাঃ) এর হাদিস অধ্যয়ন করুন এবং এর অর্থ ও প্রয়োগ শিখুন। বিশেষ হাদিস সংকলন নিয়ে আলোচনা করা হবে。</p>
                         <div class="course-infoL">
                             <span>সময়কাল: ৮ মাস</span>
                             <span>ক্লাস: সপ্তাহে ২ দিন</span>
@@ -4252,21 +4267,25 @@ window.addEventListener('popstate', setActiveNavLink);
                         <p>ইসলামিক আইন এবং নীতিমালা সম্পর্কে জানুন। দৈনন্দিন জীবনে ইসলামিক বিধি-বিধান প্রয়োগের পদ্ধতি শিখুন।</p>
                         <div class="course-infoL">
                             <span>সময়কাল: ১০ মাস</span>
-                            <span>ক্লাস: সপ্তাহে ২ দিন</span>
+                            <span>ক্লاس: সপ্তাহে ২ দিন</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA Section -->
+        <!-- ====================
+             CTA SECTION
+             ==================== -->
         <section class="ctaL">
             <h2>আজই আমাদের সাথে যোগ দিন</h2>
             <p>অনলাইন লাইভ কোর্সের মাধ্যমে আপনার ইসলামিক জ্ঞান বৃদ্ধি করুন। সীমিত আসন সংখ্যা - আজই রেজিস্ট্রেশন করুন!</p>
             <a href="#enrollment" class="cta-btnL">রেজিস্ট্রেশন করুন</a>
         </section>
 
-        <!-- Teacher Section -->
+        <!-- ====================
+             TEACHER SECTION
+             ==================== -->
         <section class="teachersL">
             <div class="teachers-headingL">
                 <h2>আমাদের শিক্ষকগণ</h2>
@@ -4295,7 +4314,9 @@ window.addEventListener('popstate', setActiveNavLink);
             </div>
         </section>
 
-        <!-- Enrollment Form -->
+        <!-- ====================
+             ENROLLMENT FORM
+             ==================== -->
         <section class="enrollmentL" id="enrollment">
             <div class="enrollment-headingL">
                 <h2>রেজিস্ট্রেশন ফরম</h2>
@@ -4335,7 +4356,9 @@ window.addEventListener('popstate', setActiveNavLink);
             </form>
         </section>
 
-        <!-- Testimonials -->
+        <!-- ====================
+             TESTIMONIALS
+             ==================== -->
         <section class="testimonialsL">
             <div class="testimonials-headingL">
                 <h2>শিক্ষার্থীদের মতামত</h2>
@@ -4380,7 +4403,9 @@ window.addEventListener('popstate', setActiveNavLink);
             </div>
         </section>
 
-        <!-- FAQ Section -->
+        <!-- ====================
+             FAQ SECTION
+             ==================== -->
         <section class="faqL">
             <div class="faq-headingL">
                 <h2>সাধারণ জিজ্ঞাসা</h2>
@@ -4434,9 +4459,10 @@ window.addEventListener('popstate', setActiveNavLink);
             </div>
         </section>
     </main>
-
     <script>
-        // Accordion functionality
+        // ====================
+        // ACCORDION FUNCTIONALITY
+        // ====================
         document.querySelectorAll('.accordion-headerL').forEach(button => {
             button.addEventListener('click', () => {
                 const content = button.nextElementSibling;
@@ -4448,6 +4474,7 @@ window.addEventListener('popstate', setActiveNavLink);
             });
         });
     </script>
+
 
 
 

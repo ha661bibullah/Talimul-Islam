@@ -6,6 +6,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
         <title>উপদেষ্টা - ইসলামিক চিন্তাশীল</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali&display=swap" rel="stylesheet">
+
     </head>
 <body>
 
@@ -25,6 +27,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Hind Siliguri', 'Bangla', sans-serif;
+            font-family: "Noto Serif Bengali", serif;
         }
         
     :root {
@@ -59,6 +62,7 @@
 
     body {
         font-family: 'Hind Siliguri', 'Bangla', sans-serif;
+        font-family: "Noto Serif Bengali", serif;
         background-color: var(--bg-color);
         color: var(--text-color);
         line-height: 1.6;
@@ -3497,7 +3501,11 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 
+    
     <style>
+        /* ====================
+        CSS VARIABLES
+        ==================== */
         :root {
             --primary: #0c4e41;
             --secondary: #1a8870;
@@ -3509,6 +3517,9 @@ window.addEventListener('popstate', setActiveNavLink);
             --shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
         
+        /* ====================
+        BASE STYLES
+        ==================== */
         * {
             margin: 0;
             padding: 0;
@@ -3523,6 +3534,48 @@ window.addEventListener('popstate', setActiveNavLink);
             overflow-x: hidden;
         }
         
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-heading {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .section-description {
+            font-size: 1.2rem;
+            color: var(--dark);
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .section-divider {
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
+            margin: 1.5rem auto;
+            border-radius: 2px;
+        }
+        
+        /* ====================
+        HERO SECTION
+        ==================== */
         .hero {
             background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
             min-height: 45vh;
@@ -3534,10 +3587,10 @@ window.addEventListener('popstate', setActiveNavLink);
             z-index: 1;
             width: 100%;
             max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
         }
         
         .hero::before {
@@ -3622,160 +3675,20 @@ window.addEventListener('popstate', setActiveNavLink);
             right: -6px;
         }
         
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .flex {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        /* .logo {
-            display: flex;
-            align-items: center;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: var(--primary);
-            text-decoration: none;
-        } */
-        
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary);
-            color: var(--white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 1.5rem;
-        }
-        
-        .nav-links a {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            padding: 5px 0;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: var(--secondary);
-        }
-        
-        .nav-links a::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--secondary);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 30px;
-            height: 21px;
-            cursor: pointer;
-        }
-        
-        .menu-toggle span {
-            height: 3px;
-            width: 100%;
-            background-color: var(--primary);
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
-            color: var(--white);
-            padding: 12px 28px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(26, 136, 112, 0.3);
-            font-family: 'Hind Siliguri', sans-serif;
-            font-size: 1rem;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(26, 136, 112, 0.4);
-        }
-        
-        .section {
-            padding: 100px 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-        
-        .section-heading {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        .section-description {
-            font-size: 1.2rem;
-            color: var(--dark);
-            opacity: 0.8;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .section-divider {
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
-            margin: 1.5rem auto;
-            border-radius: 2px;
-        }
-        
+        /* ====================
+        QUOTE SECTION
+        ==================== */
         .quote-section {
             background-color: var(--cream);
             position: relative;
             padding: 120px 0;
             overflow: hidden;
-
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background-color: white;
-            border-radius: 10px
+            border-radius: 10px;
         }
         
         .quote-section::before {
@@ -3821,6 +3734,9 @@ window.addEventListener('popstate', setActiveNavLink);
             font-weight: 600;
         }
         
+        /* ====================
+        CARDS SECTION
+        ==================== */
         .cards-section {
             background-color: var(--white);
             width: 100%;
@@ -3828,7 +3744,7 @@ window.addEventListener('popstate', setActiveNavLink);
             margin: 0 auto;
             padding: 20px;
             background-color: white;
-            border-radius: 10px
+            border-radius: 10px;
         }
         
         .cards-grid {
@@ -3908,46 +3824,9 @@ window.addEventListener('popstate', setActiveNavLink);
             transform: translateX(5px);
         }
         
-        .geometric-section {
-            background-color: var(--primary);
-            padding: 60px 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .geometric-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-        }
-        
-        .geometric-shape {
-            width: 80px;
-            height: 80px;
-            background-color: var(--white);
-            opacity: 0.2;
-            transition: all 0.5s ease;
-            position: relative;
-        }
-        
-        .shape-1 {
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-        }
-        
-        .shape-2 {
-            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-        }
-        
-        .shape-3 {
-            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-        }
-        
-        .geometric-shape:hover {
-            transform: rotate(45deg) scale(1.2);
-            opacity: 0.4;
-        }
-        
+        /* ====================
+        CONTACT SECTION
+        ==================== */
         .contact-section {
             background-color: var(--cream);
             padding: 100px 0;
@@ -3957,7 +3836,7 @@ window.addEventListener('popstate', setActiveNavLink);
             margin: 0 auto;
             padding: 20px;
             background-color: white;
-            border-radius: 10px
+            border-radius: 10px;
         }
         
         .contact-pattern {
@@ -4081,103 +3960,33 @@ window.addEventListener('popstate', setActiveNavLink);
             box-shadow: 0 5px 15px rgba(26, 136, 112, 0.3);
         }
         
-        .footer {
-            background-color: var(--primary);
+        /* ====================
+        BUTTON STYLES
+        ==================== */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(130deg, var(--primary) 0%, var(--secondary) 100%);
             color: var(--white);
-            padding: 60px 0 30px;
-        }
-        
-        .footer-logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        
-        .footer-text {
-            opacity: 0.8;
-            margin-bottom: 2rem;
-            max-width: 400px;
-        }
-        
-        .footer-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 40px;
-        }
-        
-        .footer-column {
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .footer-heading {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 10px;
-        }
-        
-        .footer-heading::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background-color: var(--accent);
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-        
-        .footer-links a {
-            color: var(--white);
-            opacity: 0.8;
+            padding: 12px 28px;
+            border-radius: 30px;
             text-decoration: none;
-            transition: opacity 0.3s;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(26, 136, 112, 0.3);
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 1rem;
         }
         
-        .footer-links a:hover {
-            opacity: 1;
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(26, 136, 112, 0.4);
         }
         
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 1.5rem;
-        }
-        
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            transition: background-color 0.3s;
-        }
-        
-        .social-link:hover {
-            background-color: var(--accent);
-        }
-        
-        .copyright {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-        
+        /* ====================
+        ANIMATIONS
+        ==================== */
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -4209,7 +4018,9 @@ window.addEventListener('popstate', setActiveNavLink);
             }
         }
         
-        /* Responsive styles */
+        /* ====================
+        RESPONSIVE STYLES
+        ==================== */
         @media screen and (max-width: 992px) {
             .hero-title {
                 font-size: 3.5rem;
@@ -4230,15 +4041,6 @@ window.addEventListener('popstate', setActiveNavLink);
             .quote-text {
                 font-size: 1.3rem;
             }
-            
-            .geometric-container {
-                gap: 20px;
-            }
-            
-            .geometric-shape {
-                width: 70px;
-                height: 70px;
-            }
         }
         
         @media screen and (max-width: 768px) {
@@ -4248,32 +4050,6 @@ window.addEventListener('popstate', setActiveNavLink);
             
             .hero-subtitle {
                 font-size: 1.3rem;
-            }
-            
-            .menu-toggle {
-                display: flex;
-            }
-            
-            .nav-links {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                flex-direction: column;
-                background-color: var(--white);
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                padding: 20px 0;
-                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-                transition: all 0.4s ease;
-            }
-            
-            .nav-links.active {
-                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-            }
-            
-            .nav-links li {
-                margin: 15px 0;
-                text-align: center;
             }
             
             .section {
@@ -4298,11 +4074,6 @@ window.addEventListener('popstate', setActiveNavLink);
             
             .cards-grid {
                 grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            }
-            
-            .geometric-container {
-                flex-wrap: wrap;
-                justify-content: center;
             }
         }
         
@@ -4338,14 +4109,11 @@ window.addEventListener('popstate', setActiveNavLink);
             .contact-container {
                 flex-direction: column;
             }
-            
-            .footer-container {
-                flex-direction: column;
-            }
         }
     </style>
-
-    <!-- হিরো সেকশন -->
+    <!-- ====================
+    HERO SECTION
+    ==================== -->
     <section class="hero">
         <div class="hero-content">
             <h1 class="hero-title">ইসলামিক পরামর্শ ও মার্গদর্শন</h1>
@@ -4353,12 +4121,13 @@ window.addEventListener('popstate', setActiveNavLink);
             <p class="hero-subtitle">আধুনিক জীবনের চ্যালেঞ্জ মোকাবেলায় ইসলামিক দৃষ্টিকোণ থেকে পরামর্শ</p>
             <a href="#contact" class="cta-button">আমাদের সাথে যোগাযোগ করুন</a>
         </div>
-       
     </section>
 
-    <!-- উদ্ধৃতি সেকশন -->
+    <!-- ====================
+    QUOTE SECTION
+    ==================== -->
     <section class="quote-section">
-        <div class="container#">
+        <div class="container">
             <div class="quote-card">
                 <div class="quote-icon">
                     <i class="fas fa-quote-right"></i>
@@ -4369,7 +4138,9 @@ window.addEventListener('popstate', setActiveNavLink);
         </div>
     </section>
 
-    <!-- সেবাসমূহ সেকশন -->
+    <!-- ====================
+    SERVICES SECTION
+    ==================== -->
     <section class="cards-section section" id="services">
         <div class="container">
             <div class="section-title">
@@ -4440,7 +4211,7 @@ window.addEventListener('popstate', setActiveNavLink);
                             <i class="fas fa-graduation-cap"></i>
                         </div>
                         <h3 class="card-title">ইসলামিক শিক্ষা</h3>
-                        <p class="card-text">শিশু, কিশোর ও প্রাপ্তবয়স্কদের জন্য বিভিন্ন বয়স উপযোগী ইসলামিক শিক্ষা কার্যক্রম।</p>
+                        <p class="card-text">শিশু, কিশোর ও প্রাপ্তবয়স্কদের জন্য বিভিন্ন বয়স উপযোগী ইসলামিক 교육 কার্যক্রম।</p>
                         <a href="#" class="card-link">আরো জানুন <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
@@ -4448,9 +4219,9 @@ window.addEventListener('popstate', setActiveNavLink);
         </div>
     </section>
 
-
-
-    <!-- যোগাযোগ সেকশন -->
+    <!-- ====================
+    CONTACT SECTION
+    ==================== -->
     <section class="contact-section" id="contact">
         <div class="contact-pattern"></div>
         <div class="container">
@@ -4509,10 +4280,13 @@ window.addEventListener('popstate', setActiveNavLink);
         </div>
     </section>
 
-
-
+    <!-- ====================
+    JAVASCRIPT
+    ==================== -->
     <script>
-        // মেনু টগল ফাংশন
+        // ====================
+        // MENU TOGGLE FUNCTIONALITY
+        // ====================
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
         
@@ -4520,7 +4294,9 @@ window.addEventListener('popstate', setActiveNavLink);
             navLinks.classList.toggle('active');
         });
         
-        // স্ক্রল করার সময় নেভিগেশন বারের স্টাইল পরিবর্তন
+        // ====================
+        // NAVBAR SCROLL EFFECT
+        // ====================
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 50) {
@@ -4532,7 +4308,9 @@ window.addEventListener('popstate', setActiveNavLink);
             }
         });
         
-        // নেভিগেশন লিঙ্কে স্মুথ স্ক্রল
+        // ====================
+        // SMOOTH SCROLLING
+        // ====================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();

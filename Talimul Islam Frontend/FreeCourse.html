@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="bn">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-        <title>মাদ্রাসা কোর্স বই</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="তালিমুল ইসলাম একাডেমি একটি ইসলামিক শিক্ষা ভিত্তিক ওয়েবসাইট, যেখানে কুরআন, হাদিস, আরবি ও ইসলামিক ফ্রি, কোর্স জনপ্রিয় কোর্স শেখানো হয়।">
+    <meta name="keywords" content="ইসলামিক শিক্ষা, কুরআন শিক্ষা, তালিমুল ইসলাম একাডেমি, অনলাইন ইসলামিক কোর্স">
+    <meta name="google-site-verification" content="mEIlxIInNpeRDyE-PMUqNjK2hTFb8LUB8jiewuZb-Pg" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali&display=swap" rel="stylesheet">
 
-    </head>
+    <title>তালিমুল ইসলাম একাডেমি - অনলাইন ইসলামিক শিক্ষা প্ল্যাটফর্ম</title>
+    <link rel="icon" href="img/favicon-v2.png" type="image/png">
+</head>
 <body>
-
-
-
-
 
 
 
     
 
+    
 <!-- ════🧭 নেভিগেশন বার ════ -->
 
 <style>
@@ -3474,7 +3476,6 @@ window.addEventListener('popstate', setActiveNavLink);
     });
 </script>   
 
-    
 
 
 
@@ -3482,27 +3483,8 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
     
-
-
-
-
-
-
 
 
 
@@ -3511,813 +3493,899 @@ window.addEventListener('popstate', setActiveNavLink);
         /* ====================
            GLOBAL STYLES
         ==================== */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap');
+        
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
         
-        .bodyB {
+        body {
             font-family: 'Noto Sans Bengali', sans-serif;
-            background-color: #f8f5f0;
+            background-color: #f8f9fa;
             color: #333;
-            line-height: 1.6;
         }
         
-        .containerB {
+        /* ====================
+           CONTAINER STYLES
+        ==================== */
+        .container1 {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* ====================
-           HEADER STYLES
-        ==================== */
-        .headerB {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #086e38 0%, #054d27 100%);
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .headerB h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        
-        .headerB p {
-            font-size: 18px;
-            opacity: 0.9;
-        }
-        
-        /* ====================
-           FEATURED BOOK STYLES
-        ==================== */
-        .featured-bookB {
-            display: flex;
-            margin: 30px 0;
+            margin: 15px auto;
+            padding: 0 10px;
             background-color: white;
             border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding-bottom: 2px;
         }
         
-        .book-imageB {
-            width: 40%;
-            background-color: #e9edf0;
+        /* ====================
+           SECTION HEADER STYLES
+        ==================== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+            padding-top: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header p {
+            font-size: 16px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+            display: none;
+        }
+        
+        /* ====================
+           COURSE GRID STYLES
+        ==================== */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+        
+        /* ====================
+           COURSE CARD STYLES
+        ==================== */
+        .course-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .course-card:hover {
+            box-shadow: 0 8px 20px rgba(106, 53, 242, 0.15);
+            border-color: rgba(106, 53, 242, 0.1);
+        }
+        
+        .course-card-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        /* ====================
+           COURSE THUMBNAIL STYLES
+        ==================== */
+        .course-thumbnail {
+            position: relative;
+            overflow: hidden;
+            height: 160px;
+        }
+        
+        .course-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .course-card:hover .course-thumbnail img {
+            transform: scale(1.05);
+        }
+        
+        /* ====================
+           LEVEL BADGE STYLES
+        ==================== */
+        .level-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .beginner {
+            background-color: #4CAF50;
+        }
+        
+        .intermediate {
+            background-color: #FFC107;
+        }
+        
+        .advanced {
+            background-color: #FF5722;
+        }
+        
+        /* ====================
+           COURSE INFO STYLES
+        ==================== */
+        .course-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .instructor {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
         }
         
-        .book-imageB img {
-            max-width: 100%;
-            height: auto;
+        .instructor-img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
         }
         
-        .book-infoB {
-            width: 60%;
-            padding: 30px;
-        }
-        
-        .book-titleB {
-            font-size: 28px;
-            color: #086e38;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-        
-        .book-descriptionB {
-            margin-bottom: 20px;
-            font-size: 16px;
-        }
-        
-        .book-detailsB {
-            margin-bottom: 20px;
-        }
-        
-        .book-detailB {
-            display: flex;
-            margin-bottom: 10px;
-        }
-        
-        .detail-labelB {
-            width: 120px;
-            font-weight: 500;
+        .instructor span {
+            font-size: 13px;
             color: #555;
         }
         
-        .buy-buttonB {
-            display: inline-block;
-            background-color: #086e38;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 18px;
-            transition: all 0.3s ease;
-        }
-        
-        .buy-buttonB:hover {
-            background-color: #054d27;
-            transform: translateY(-2px);
+        .course-title {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: #333;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
         
         /* ====================
-           BOOK GRID STYLES
+           COURSE META STYLES
         ==================== */
-        .book-gridB {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin: 40px 0;
+        .course-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 12px;
         }
         
-        .book-cardB {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
         
-        .book-cardB:hover {
-            transform: translateY(-5px);
+        .meta-item i {
+            font-size: 12px;
+            color: #6A35F2;
         }
         
-        .card-imageB {
-            height: 200px;
-            background-color: #e9edf0;
+        /* ====================
+           COURSE FOOTER STYLES
+        ==================== */
+        .course-footer {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid #f0f0f0;
+            margin-top: auto;
+        }
+        
+        .price {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .current-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #6A35F2;
+        }
+        
+        .original-price {
+            font-size: 14px;
+            color: #999;
+            text-decoration: line-through;
+        }
+        
+        /* ====================
+           ACTION BUTTONS STYLES
+        ==================== */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+        
+        .add-to-cart-btn, .buy-now-btn {
+            padding: 8px 12px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 5px;
         }
         
-        .card-contentB {
-            padding: 20px;
+        .add-to-cart-btn {
+            background-color: #fff;
+            color: #6A35F2;
+            border: 1px solid #6A35F2;
         }
         
-        .card-titleB {
-            font-size: 18px;
-            color: #086e38;
-            margin-bottom: 10px;
-            font-weight: 600;
+        .add-to-cart-btn:hover {
+            background-color: #f5f0ff;
         }
         
-        .card-detailB {
-            display: flex;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        
-        .card-buttonB {
-            display: block;
-            background-color: #086e38;
+        .buy-now-btn {
+            background-color: #6A35F2;
             color: white;
-            padding: 8px 0;
-            border-radius: 5px;
-            text-align: center;
-            text-decoration: none;
-            font-weight: 500;
-            margin-top: 15px;
+            border: 1px solid #6A35F2;
+        }
+        
+        .buy-now-btn:hover {
+            background-color: #5628d8;
+        }
+        
+        /* ====================
+           TOGGLE BUTTON STYLES
+        ==================== */
+        .toggle-button {
+            background: #6A35F2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s ease;
-        }
-        
-        .card-buttonB:hover {
-            background-color: #054d27;
-        }
-        
-        /* ====================
-           SECTION TITLE STYLES
-        ==================== */
-        .section-titleB {
-            font-size: 24px;
-            color: #086e38;
-            margin: 40px 0 20px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .section-titleB::after {
-            content: '';
+            margin: 20px auto;
             display: block;
-            width: 80px;
-            height: 3px;
-            background-color: #086e38;
-            margin: 10px auto;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .toggle-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .toggle-button:active {
+            transform: translateY(0);
+        }
+        
+        .toggle-button i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
         }
         
         /* ====================
-           TESTIMONIAL STYLES
+           HIDDEN COURSE STYLES
         ==================== */
-        .testimonialB {
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .hidden-course {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
         }
         
-        .testimonial-textB {
-            font-style: normal;
-            margin-bottom: 15px;
-        }
-        
-        .testimonial-authorB {
-            font-weight: 500;
-            color: #086e38;
+        .hidden-course.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
         
         /* ====================
            RESPONSIVE STYLES
         ==================== */
+        @media (max-width: 1200px) {
+            .course-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .section-header h2 {
+                text-align: center;
+                margin-bottom: 10px;
+                margin-top: 20px;
+                padding-top: 40px;
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .course-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
         @media (max-width: 768px) {
-            .featured-bookB {
+            .course-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .course-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .course-title {
+                font-size: 14px !important;
+            }
+            
+            .course-meta {
+                flex-wrap: wrap;
+                gap: 8px !important;
+            }
+            
+            .action-buttons {
                 flex-direction: column;
             }
             
-            .book-imageB, .book-infoB {
-                width: 100%;
+            .add-to-cart-btn, .buy-now-btn {
+                padding: 6px 10px !important;
+                font-size: 12px !important;
             }
             
-            .book-gridB {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            .course-thumbnail {
+                height: 130px !important;
+            }
+            
+            .current-price {
+                font-size: 16px !important;
+            }
+            
+            .original-price {
+                font-size: 12px !important;
+            }
+            
+            .course-info {
+                padding: 12px !important;
+            }
+            
+            .instructor span {
+                font-size: 11px !important;
+            }
+            
+            .instructor-img {
+                width: 25px !important;
+                height: 25px !important;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .course-grid {
+                gap: 10px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .course-title {
+                font-size: 13px !important;
+            }
+            
+            .meta-item {
+                font-size: 10px !important;
+            }
+            
+            .current-price {
+                font-size: 15px !important;
             }
         }
     </style>
-    <div class="containerB">
+    <div class="container1">
         <!-- ====================
-             HEADER SECTION
+             SECTION HEADER
         ==================== -->
-        <div class="headerB">
-            <h1>মাদ্রাসা শিক্ষা সামগ্রী</h1>
-            <p>উচ্চমানের ইসলামিক শিক্ষার জন্য নির্বাচিত বই সমূহ</p>
-        </div>
-        
-        <!-- ====================
-             FEATURED BOOK SECTION
-        ==================== -->
-        <div class="featured-bookB">
-            <div class="book-imageB">
-                <img src="/api/placeholder/300/400" alt="আল-ফিকহুল আকবার">
-            </div>
-            <div class="book-infoB">
-                <h2 class="book-titleB">আল-ফিকহুল আকবার</h2>
-                <p class="book-descriptionB">
-                    ইমাম আবু হানিফা (রহ.) রচিত এই বইটি ইসলামিক আকিদা ও তাওহিদের মৌলিক বিষয়গুলো নিয়ে আলোচনা করে। এটি মাদ্রাসা শিক্ষার্থীদের জন্য একটি অপরিহার্য পাঠ্য বই যা আকিদা বিষয়ক জ্ঞানের ভিত্তি গঠন করে।
-                </p>
-                <div class="book-detailsB">
-                    <div class="book-detailB">
-                        <span class="detail-labelB">লেখক:</span>
-                        <span>ইমাম আবু হানিফা (রহ.)</span>
-                    </div>
-                    <div class="book-detailB">
-                        <span class="detail-labelB">প্রকাশনী:</span>
-                        <span>আল-হেদায়া প্রকাশনী</span>
-                    </div>
-                    <div class="book-detailB">
-                        <span class="detail-labelB">পৃষ্ঠা:</span>
-                        <span>১৮০</span>
-                    </div>
-                    <div class="book-detailB">
-                        <span class="detail-labelB">মূল্য:</span>
-                        <span>৩৫০ টাকা</span>
-                    </div>
-                </div>
-                <a href="#" class="buy-buttonB">ক্রয় করুন</a>
-            </div>
+        <div class="section-header">
+            <h2>আমাদের ফ্রি কোর্সসমূহ</h2>
+            <p>সর্বাধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষা গ্রহণ করুন অনলাইনে</p>
         </div>
         
         <!-- ====================
-             COURSE BOOKS SECTION
+             COURSE GRID
         ==================== -->
-        <h2 class="section-titleB">নির্বাচিত কোর্স বইসমূহ</h2>
-        
-        <div class="book-gridB">
-            <!-- Book Card 1 -->
-            <div class="book-cardB">
-                <div class="card-imageB">
-                    <img src="/api/placeholder/200/200" alt="সহীহ বুখারী শরীফ">
+        <div class="course-grid" id="courseGrid">
+            <!-- কোর্স কার্ড 1 -->
+            <div class="course-card">
+                <div class="course-thumbnail">
+                    <img src="img/কোরআন শিক্ষা কোর্স.gif" alt="হিফজুল কুরআন কোর্স">
+                    <div class="level-badge beginner">বেসিক</div>
                 </div>
-                <div class="card-contentB">
-                    <h3 class="card-titleB">সহীহ বুখারী শরীফ</h3>
-                    <div class="card-detailB">
-                        <span class="detail-labelB">লেখক:</span>
-                        <span>ইমাম বুখারী (রহ.)</span>
+                <div class="course-info">
+                    <div class="instructor">
+                        <img src="img/holy-quran-1528446_1280.jpg" alt="শিক্ষক" class="instructor-img">
+                        <span>মুফতি ইউসুফ কাসেমী</span>
                     </div>
-                    <div class="card-detailB">
-                        <span class="detail-labelB">মূল্য:</span>
-                        <span>১২০০ টাকা</span>
+                    <h3 class="course-title">সহজ কোরআন শিক্ষা কোর্স</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>২৪ ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>৭ ঘন্টা</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>নোট ১ টি</span>
+                        </div>
                     </div>
-                    <a href="#" class="card-buttonB">বিস্তারিত দেখুন</a>
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">ফ্রি</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="1FreeCourse.html" class="buy-now-btn">দেখুন</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- কোর্স কার্ড 2 -->
+            <div class="course-card">
+                <div class="course-thumbnail">
+                    <img src="img/al-quran-7741928_1280.jpg" alt="তাজবীদ কোর্স">
+                    <div class="level-badge intermediate">মধ্যবর্তী</div>
+                </div>
+                <div class="course-info">
+                    <div class="instructor">
+                        <img src="img/Darul_Uloom_Deoband.jpg" alt="শিক্ষক" class="instructor-img">
+                        <span>মাওলানা ইব্রাহিম</span>
+                    </div>
+                    <h3 class="course-title">হাদিসের সঠিক ব্যাখ্যা শিখুন।</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>২৪ ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>৭ ঘন্টা</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>নোট ১ টি</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">ফ্রি</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="buy-now-btn">দেখুন</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- কোর্স কার্ড 3 -->
+            <div class="course-card">
+                <div class="course-thumbnail">
+                    <img src="img/holy-quran-1528446_1280.jpg" alt="আরবি ভাষা কোর্স">
+                    <div class="level-badge beginner">বেসিক</div>
+                </div>
+                <div class="course-info">
+                    <div class="instructor">
+                        <img src="img/80px.png" alt="শিক্ষক" class="instructor-img">
+                        <span>মাওলানা জাকির</span>
+                    </div>
+                    <h3 class="course-title">ইসলামী আইন ও জীবন বিধান।</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>২৪ ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>৭ ঘন্টা</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>নোট ১ টি</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">ফ্রি</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="buy-now-btn">দেখুন</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- কোর্স কার্ড 4 -->
+            <div class="course-card">
+                <div class="course-thumbnail">
+                    <img src="img/al-quran-7737590_1280.jpg" alt="ফিকাহ কোর্স">
+                    <div class="level-badge advanced">অ্যাডভান্সড</div>
+                </div>
+                <div class="course-info">
+                    <div class="instructor">
+                        <img src="img/pexels-648298123-28872754.jpg" alt="শিক্ষক" class="instructor-img">
+                        <span>মাওলানা রফিক</span>
+                    </div>
+                    <h3 class="course-title">হাদিস বুঝতে পারদর্শী হন।</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>২৪ ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>৭ ঘন্টা</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>নোট ১ টি</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">ফ্রি</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="buy-now-btn">দেখুন</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- কোর্স কার্ড 5 -->
+            <div class="course-card">
+                <div class="course-thumbnail">
+                    <img src="img/man-7757211_1280.png" alt="হাদিস কোর্স">
+                    <div class="level-badge intermediate">মধ্যবর্তী</div>
+                </div>
+                <div class="course-info">
+                    <div class="instructor">
+                        <img src="img/al-quran-7741928_1280.jpg" alt="শিক্ষক" class="instructor-img">
+                        <span>মাওলানা সালেহ</span>
+                    </div>
+                    <h3 class="course-title">কুরআনের তাফসির শিখুন।</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>২৪ ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>৭ ঘন্টা</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>নোট ১ টি</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">ফ্রি</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="buy-now-btn">দেখুন</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- Book Card 2 -->
-            <div class="book-cardB">
-                <div class="card-imageB">
-                    <img src="/api/placeholder/200/200" alt="মিশকাতুল মাসাবিহ">
+            <!-- কোর্স কার্ড 6 (হিডেন) -->
+            <div class="course-card hidden-course">
+                <div class="course-thumbnail">
+                    <img src="img/al-quran-7737560_1280.jpg" alt="সীরাত কোর্স">
+                    <div class="level-badge beginner">বেসিক</div>
                 </div>
-                <div class="card-contentB">
-                    <h3 class="card-titleB">মিশকাতুল মাসাবিহ</h3>
-                    <div class="card-detailB">
-                        <span class="detail-labelB">লেখক:</span>
-                        <span>খতিব তিবরিজি (রহ.)</span>
+                <div class="course-info">
+                    <div class="instructor">
+                        <img src="img/holy-quran-1528446_1280.jpg" alt="শিক্ষক" class="instructor-img">
+                        <span>মাওলানা আতিকুল্লাহ</span>
                     </div>
-                    <div class="card-detailB">
-                        <span class="detail-labelB">মূল্য:</span>
-                        <span>৮৫০ টাকা</span>
+                    <h3 class="course-title">ইসলামী ইতিহাস ও সংস্কৃতি।</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>২৪ ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>৭ ঘন্টা</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>নোট ১ টি</span>
+                        </div>
                     </div>
-                    <a href="#" class="card-buttonB">বিস্তারিত দেখুন</a>
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">ফ্রি</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="buy-now-btn">দেখুন</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- Book Card 3 -->
-            <div class="book-cardB">
-                <div class="card-imageB">
-                    <img src="/api/placeholder/200/200" alt="নূরুল ইজাহ">
+            <!-- কোর্স কার্ড 7 (হিডেন) -->
+            <div class="course-card hidden-course">
+                <div class="course-thumbnail">
+                    <img src="img/al-quran-7737590_1280.jpg" alt="ইসলামিক আখলাক ও আদব কোর্স">
+                    <div class="level-badge beginner">বেসিক</div>
                 </div>
-                <div class="card-contentB">
-                    <h3 class="card-titleB">নূরুল ইজাহ</h3>
-                    <div class="card-detailB">
-                        <span class="detail-labelB">লেখক:</span>
-                        <span>শেখ হাসান শুরুনবুলালী (রহ.)</span>
+                <div class="course-info">
+                    <div class="instructor">
+                        <img src="img/al-quran-7741928_1280.jpg" alt="শিক্ষক" class="instructor-img">
+                        <span>মাওলানা হাসান</span>
                     </div>
-                    <div class="card-detailB">
-                        <span class="detail-labelB">মূল্য:</span>
-                        <span>৩০০ টাকা</span>
+                    <h3 class="course-title">তাওহিদের মৌলিক শিক্ষা।</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>২৪ ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>৭ ঘন্টা</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>নোট ১ টি</span>
+                        </div>
                     </div>
-                    <a href="#" class="card-buttonB">বিস্তারিত দেখুন</a>
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">ফ্রি</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="buy-now-btn">দেখুন</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- Book Card 4 -->
-            <div class="book-cardB">
-                <div class="card-imageB">
-                    <img src="/api/placeholder/200/200" alt="সরফ মীর">
+            <!-- কোর্স কার্ড 8 (হিডেন) -->
+            <div class="course-card hidden-course">
+                <div class="course-thumbnail">
+                    <img src="img/Darul_Uloom_Deoband.jpg" alt="ইসলামিক আখলাক ও আদব কোর্স">
+                    <div class="level-badge beginner">বেসিক</div>
                 </div>
-                <div class="card-contentB">
-                    <h3 class="card-titleB">সরফ মীর</h3>
-                    <div class="card-detailB">
-                        <span class="detail-labelB">লেখক:</span>
-                        <span>মীর সাইয়্যেদ শরীফ (রহ.)</span>
+                <div class="course-info">
+                    <div class="instructor">
+                        <img src="img/al-quran-7737560_1280.jpg" alt="শিক্ষক" class="instructor-img">
+                        <span>মাওলানা হাসান</span>
                     </div>
-                    <div class="card-detailB">
-                        <span class="detail-labelB">মূল্য:</span>
-                        <span>২২০ টাকা</span>
+                    <h3 class="course-title">প্রিয় নবী (সা.)-এর জীবনচরিত।</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>২৪ ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>৭ ঘন্টা</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>নোট ১ টি</span>
+                        </div>
                     </div>
-                    <a href="#" class="card-buttonB">বিস্তারিত দেখুন</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- ====================
-             TESTIMONIALS SECTION
-        ==================== -->
-        <h2 class="section-titleB">শিক্ষার্থীদের অভিমত</h2>
-        
-        <!-- Testimonial 1 -->
-        <div class="testimonialB">
-            <p class="testimonial-textB">
-                "আল-ফিকহুল আকবার" বইটি আমার আকিদা বিষয়ক জ্ঞানকে নতুন মাত্রা দিয়েছে। এই বইয়ের ব্যাখ্যাগুলো খুব সহজবোধ্য এবং গভীর চিন্তার জন্ম দেয়।
-            </p>
-            <p class="testimonial-authorB">— মোহাম্মদ আবদুল্লাহ, দাওরায়ে হাদীস শিক্ষার্থী</p>
-        </div>
-        
-        <!-- Testimonial 2 -->
-        <div class="testimonialB">
-            <p class="testimonial-textB">
-                মাদ্রাসার কোর্সে "নূরুল ইজাহ" বইটি ফিকহ শিক্ষার জন্য অপরিহার্য। এই সাইট থেকে কেনা বইয়ের মানপ্রযুক্তিগত দিক থেকে অসাধারণ এবং দাম সাশ্রয়ী।
-            </p>
-            <p class="testimonial-authorB">— আবু বকর সিদ্দিক, জামিয়া ইসলামিয়া</p>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- ফুটার সেকশন -->
-<footer class="footer">
-    <div class="footer-gradient"></div>
-    <div class="container5">
-        <div class="footer-content">
-            <!-- লোগো এবং সংক্ষিপ্ত বিবরণ -->
-            <div class="footer-about">
-                <h2 class="footer-logo"><img src="img/talimul islam academy logo.png" alt="img" max-width="100px" width="150px" ></h2>
-                <p class="footer-about-text">আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা এবং আরবি ভাষা শেখার জন্য আমাদের কোর্সগুলোতে আপনাকে স্বাগতম।</p>
-                <div class="social-icons">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>                    
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">ফ্রি</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="buy-now-btn">দেখুন</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- দ্রুত লিংক -->
-            <div class="footer-section">
-                <div class="footer-dropdown">
-                    <h3 class="footer-title">দ্রুত লিংক <span class="toggle-icon">+</span></h3>
-                    <ul class="footer-list">
-                        <li><a href="Talimul Islam Academi.html">হোম</a></li>
-                        <li><a href="About us.html">আমাদের সম্পর্কে</a></li>
-                        <li><a href="#">সকল কোর্স</a></li>
-                        <li><a href="#">শিক্ষকমণ্ডলী</a></li>
-                        <li><a href="#">ক্লাস সময়সূচি</a></li>
-                        <li><a href="Contact.html">যোগাযোগ</a></li>
-                    </ul>
+            <!-- কোর্স কার্ড 9 (হিডেন) -->
+            <div class="course-card hidden-course">
+                <div class="course-thumbnail">
+                    <img src="img/mardin-3551714_1280.jpg" alt="ইসলামিক আখলাক ও আদব কোর্স">
+                    <div class="level-badge beginner">বেসিক</div>
+                </div>
+                <div class="course-info">
+                    <div class="instructor">
+                        <img src="img/al-quran-7737560_1280.jpg" alt="শিক্ষক" class="instructor-img">
+                        <span>মাওলানা হাসান</span>
+                    </div>
+                    <h3 class="course-title">নৈতিকতা ও চরিত্র গঠন।</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>২৪ ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>৭ ঘন্টা</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>নোট ১ টি</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">ফ্রি</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="buy-now-btn">দেখুন</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <!-- জনপ্রিয় বিভাগ -->
-            <div class="footer-section">
-                <div class="footer-dropdown">
-                    <h3 class="footer-title">জনপ্রিয় কোর্স <span class="toggle-icon">+</span></h3>
-                    <ul class="footer-list">
-                        <li><a href="#">কোরআন তেলাওয়াত</a></li>
-                        <li><a href="#">হাদিস শিক্ষা</a></li>
-                        <li><a href="#">আরবি ভাষা</a></li>
-                        <li><a href="#">ফিকাহ শিক্ষা</a></li>
-                        <li><a href="#">তাজবিদ</a></li>
-                        <li><a href="#">ইসলামিক ইতিহাস</a></li>
-                    </ul>
+            <!-- কোর্স কার্ড 10 (হিডেন) -->
+            <div class="course-card hidden-course">
+                <div class="course-thumbnail">
+                    <img src="img/al-quran-7737590_1280.jpg" alt="ইসলামিক আখলাক ও আদব কোর্স">
+                    <div class="level-badge beginner">বেসিক</div>
                 </div>
-            </div>
-            
-            <!-- নিউজলেটার -->
-            <div class="footer-section">
-                <div class="footer-dropdown">
-                    <h3 class="footer-title">নিউজলেটার <span class="toggle-icon">+</span></h3>
-                    <div class="footer-list">
-                        <p>নিউজলেটার সাবস্ক্রাইব করুন</p>
-                        <form class="footer-subscribe-form">
-                            <input class="forLanguage" type="email" placeholder="আপনার ইমেইল" required>
-                            <button type="submit">সাবস্ক্রাইব</button>
-                        </form>
-                        <div class="contact-info">
-                            <p>ঠিকানা: আজিমপুর, ঢাকা-১২০৫</p>
-                            <p>ফোন: +৮৮০১৯১১-৫৬৭৮৯০</p>
-                            <p>ইমেইল: billaharif661@gmail.com</p>
+                <div class="course-info">
+                    <div class="instructor">
+                        <img src="img/Darul_Uloom_Deoband.jpg" alt="শিক্ষক" class="instructor-img">
+                        <span>মাওলানা হাসান</span>
+                    </div>
+                    <h3 class="course-title">দাওয়াহর সঠিক পদ্ধতি।</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            <span>২৪ ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>৭ ঘন্টা</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>নোট ১ টি</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">ফ্রি</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="#" class="buy-now-btn">দেখুন</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- কপিরাইট সেকশন -->
-        <div class="footer-bottom">
-            <p class="copyright">© ২০২৫ মাদ্রাসা শিক্ষা। সমস্ত অধিকার সংরক্ষিত।</p>
-            <div class="footer-bottom-links">
-                <a href="PrivacyPolicy.html">প্রাইভেসি পলিসি</a>
-                <a href="TermsConditions.html">টার্মস অফ সার্ভিস</a>
-                <a href="RefundReturn.html">কোর্স নীতিমালা</a>
-            </div>
-        </div>
+
+        <!-- ====================
+             TOGGLE BUTTON
+        ==================== -->
+        <button class="toggle-button" id="toggleCoursesBtn" onclick="toggleCourses()">
+            <i class="fas fa-plus"></i>
+            <span id="buttonText">আরো দেখুন</span>
+        </button>
     </div>
-</footer>
-
-<style>
-    /* ফুটার স্টাইল */
-    .footer {
-        background-color: #222;
-        color: #fff;
-        position: relative;
-        margin-top: 50px;
-        padding-top: 60px;
-    }
-    
-    /* কন্টেইনার স্টাইল */
-    .container5 {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding-left: 15px;
-        padding-right: 15px;
-        box-sizing: border-box;
-    }
-    
-    .footer-gradient {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 5px;
-        background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-    }
-    
-    .footer-content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        /* margin-bottom: 40px; */
-    }
-    
-    .footer-about {
-        flex-basis: 30%;
-        margin-bottom: 20px;
-    }
-    
-    .footer-logo {
-        font-size: 28px;
-        margin-bottom: 15px;
-        font-weight: 700;
-        color: #fff;
-    }
-    
-    .footer-logo span {
-        color: #2575fc;
-    }
-    
-    .footer-about p {
-        color: #bbb;
-        margin-bottom: 20px;
-        line-height: 1.6;
-    }
-    
-    .social-icons {
-        display: flex;
-    }
-    
-    .social-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background-color: #333;
-        color: #fff;
-        margin-right: 10px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-    
-    .social-icon:hover {
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        transform: translateY(-3px);
-    }
-    
-    .footer-section {
-        flex-basis: 15%;
-        margin-bottom: 20px;
-    }
-    
-    .footer-title {
-        font-size: 18px;
-        margin-bottom: 20px;
-        position: relative;
-        padding-bottom: 10px;
-        cursor: pointer;
-    }
-    
-    .footer-title::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 50px;
-        height: 2px;
-        background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-    }
-    
-    .toggle-icon {
-        float: right;
-        transition: transform 0.3s ease;
-    }
-    
-    .footer-list {
-        list-style: none;
-        max-height: 1000px;
-        overflow: hidden;
-        transition: max-height 0.5s ease;
-        padding: 0;
-        margin: 0;
-    }
-    
-    .footer-list li {
-        margin-bottom: 10px;
-    }
-    
-    .footer-list a {
-        color: #bbb;
-        text-decoration: none;
-        transition: color 0.3s ease, transform 0.3s ease;
-        display: block;
-        position: relative;
-        padding-left: 15px;
-    }
-    
-    .footer-list a::before {
-        content: '›';
-        position: absolute;
-        left: 0;
-        color: #2575fc;
-    }
-    
-    .footer-list a:hover {
-        color: #2575fc;
-        transform: translateX(5px);
-    }
-
-
-    .footer-subscribe-form {
-        display: flex;
-        margin-bottom: 20px;
-    }
-    
-    .footer-subscribe-form input {
-        flex-grow: 1;
-        padding: 10px 15px;
-        border: none;
-        background-color: #333;
-        color: #fff;
-        border-radius: 4px 0 0 4px;
-        font-size: 13px;
-    }
-    
-    .footer-subscribe-form button {
-        padding: 5px 8px;
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        color: #fff;
-        border: none;
-        border-radius: 0 4px 4px 0;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    
-    .footer-subscribe-form button:hover {
-        opacity: 0.9;
-    }
-    
-    
-
-
-    
-    .contact-info {
-        color: #bbb;
-        /* margin-top: 20px; */
-    }
-    
-    .contact-info p {
-        margin-bottom: 8px;
-        font-size: 13px;
-    }
-    
-    .footer-bottom {
-        border-top: 1px solid #333;
-        /* padding: 20px 0; */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-    
-    .copyright {
-        color: #999;
-        font-size: 14px;
-        margin: 0;
-    }
-    
-    .footer-bottom-links a {
-        color: #999;
-        text-decoration: none;
-        margin-left: 20px;
-        font-size: 14px;
-        transition: color 0.3s ease;
-    }
-    
-    .footer-bottom-links a:hover {
-        color: #2575fc;
-    }
-    
-    @media (max-width: 768px) {
-        .container5 {
-            padding-left: 10px;
-            padding-right: 10px;
+    <script>
+        // ====================
+        // GLOBAL VARIABLES
+        // ====================
+        let isCoursesVisible = false;
+        
+        // ====================
+        // TOGGLE COURSES FUNCTION
+        // ====================
+        function toggleCourses() {
+            const hiddenCourses = document.querySelectorAll('.hidden-course');
+            const toggleBtn = document.getElementById('toggleCoursesBtn');
+            const buttonText = document.getElementById('buttonText');
+            const buttonIcon = toggleBtn.querySelector('i');
+            
+            if (!isCoursesVisible) {
+                // ====================
+                // SHOW HIDDEN COURSES
+                // ====================
+                hiddenCourses.forEach((course, index) => {
+                    setTimeout(() => {
+                        course.style.display = 'block';
+                        setTimeout(() => {
+                            course.style.opacity = '1';
+                            course.style.transform = 'translateY(0)';
+                        }, 50);
+                    }, index * 100);
+                });
+                
+                // ====================
+                // UPDATE BUTTON TEXT AND ICON
+                // ====================
+                buttonText.textContent = 'সংকুচিত করুন';
+                buttonIcon.className = 'fas fa-minus';
+                isCoursesVisible = true;
+                
+            } else {
+                // ====================
+                // HIDE COURSES
+                // ====================
+                hiddenCourses.forEach((course, index) => {
+                    setTimeout(() => {
+                        course.style.opacity = '0';
+                        course.style.transform = 'translateY(20px)';
+                        
+                        setTimeout(() => {
+                            course.style.display = 'none';
+                        }, 300);
+                    }, index * 50);
+                });
+                
+                // ====================
+                // UPDATE BUTTON TEXT AND ICON
+                // ====================
+                buttonText.textContent = 'আরো দেখুন';
+                buttonIcon.className = 'fas fa-plus';
+                isCoursesVisible = false;
+            }
         }
         
-        .footer {
-            padding-top: 40px;
-        }
-        
-        .footer-content {
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
-        
-        .footer-about, .footer-section {
-            flex-basis: 100%;
-            margin-bottom: 15px;
-        }
-        
-        .footer-logo {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        
-        .footer-about-text {
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-        
-        .footer-title {
-            font-size: 16px;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-        }
-        
-        .footer-dropdown.active .toggle-icon {
-            transform: rotate(45deg);
-        }
-        
-        .footer-dropdown .footer-list {
-            max-height: 0;
-            overflow: hidden;
-        }
-        
-        .footer-dropdown.active .footer-list {
-            max-height: 1000px;
-        }
-        
-        .footer-list li {
-            margin-bottom: 8px;
-        }
-        
-        .footer-list a {
-            font-size: 14px;
-        }
-        
-
-        
-        .contact-info {
-            font-size: 14px;
-        }
-        
-        .contact-info p {
-            margin-bottom: 5px;
-        }
-        
-        .footer-bottom {
-            flex-direction: column;
-            text-align: center;
-            padding: 15px 0;
-        }
-        
-        .copyright {
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-        
-        .footer-bottom-links {
-            margin-top: 10px;
-        }
-        
-        .footer-bottom-links a {
-            margin: 0 8px;
-            font-size: 12px;
-        }
-    }
-</style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const footerTitles = document.querySelectorAll('.footer-title');
-        
-        footerTitles.forEach(title => {
-            title.addEventListener('click', function() {
-                // মোবাইল মোডে শুধু ড্রপডাউন কাজ করবে
-                if (window.innerWidth <= 768) {
-                    const parent = this.parentElement;
-                    parent.classList.toggle('active');
-                }
+        // ====================
+        // INITIALIZE HIDDEN COURSES ON PAGE LOAD
+        // ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            const hiddenCourses = document.querySelectorAll('.hidden-course');
+            hiddenCourses.forEach(course => {
+                course.style.display = 'none';
+                course.style.opacity = '0';
+                course.style.transform = 'translateY(20px)';
+                course.style.transition = 'all 0.3s ease';
             });
         });
-    });
-</script>
+    </script>
+
 
 
 
@@ -4333,4 +4401,3 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 </body>
-</html>

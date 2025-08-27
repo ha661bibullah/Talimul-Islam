@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali&display=swap" rel="stylesheet">
+
     <title>মাদানী নেসাব সিলেবাস</title>
 
 </head>
@@ -26,6 +28,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Hind Siliguri', 'Bangla', sans-serif;
+            font-family: "Noto Serif Bengali", serif;
         }
         
     :root {
@@ -60,6 +63,7 @@
 
     body {
         font-family: 'Hind Siliguri', 'Bangla', sans-serif;
+        font-family: "Noto Serif Bengali", serif;
         background-color: var(--bg-color);
         color: var(--text-color);
         line-height: 1.6;
@@ -3478,300 +3482,333 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 
-   
 
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
-            
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মাদানী নেসাব</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hind Siliguri', 'Bangla', Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .containerA {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .headerC {
+            font-family: 'Hind Siliguri', 'Bangla', Arial, sans-serif;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        span {
+            font-family: 'Hind Siliguri', 'Bangla', Arial, sans-serif;
+        }
+
+        .headerC h1 {
+            font-size: 2.5rem;
+            color: #2c5aa0;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .headerC p {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .faq-section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-section:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .faq-question {
+            background-color: #f8f9fa;
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #2c5aa0;
+            border: none;
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: #e9ecef;
+        }
+
+        .faq-question.active {
+            background-color: #2c5aa0;
+            color: white;
+        }
+
+        .toggle-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            color: #2c5aa0;
+        }
+
+        .faq-question.active .toggle-icon {
+            transform: rotate(45deg);
+            color: white;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            background: white;
+        }
+
+        .faq-answer.active {
+            max-height: 2000px;
+            padding: 25px;
+        }
+
+        .subject-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .subject-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 15px 20px;
+            border-radius: 6px;
+            border-left: 4px solid #28a745;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .subject-item:hover {
+            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        }
+
+        .subject-number {
+            color: #28a745;
+            font-weight: 600;
+            margin-right: 15px;
+            min-width: 25px;
+            font-size: 0.95rem;
+        }
+
+        .subject-text {
+            flex: 1;
+            line-height: 1.5;
+        }
+
+        .arabic-text {
+            direction: rtl;
+            text-align: right;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #2c5aa0;
+            margin-bottom: 5px;
+        }
+
+        .bangla-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Color variations for different years */
+        .year-1 .faq-question.active {
+            background-color: #e67e22;
+        }
+
+        .year-1 .toggle-icon {
+            color: #e67e22;
+        }
+
+        .year-1 .subject-item {
+            border-left-color: #e67e22;
+        }
+
+        .year-1 .subject-number {
+            color: #e67e22;
+        }
+
+        .year-1 .arabic-text {
+            color: #e67e22;
+        }
+
+        .year-2 .faq-question.active {
+            background-color: #9b59b6;
+        }
+
+        .year-2 .toggle-icon {
+            color: #9b59b6;
+        }
+
+        .year-2 .subject-item {
+            border-left-color: #9b59b6;
+        }
+
+        .year-2 .subject-number {
+            color: #9b59b6;
+        }
+
+        .year-2 .arabic-text {
+            color: #9b59b6;
+        }
+
+        .year-3 .faq-question.active {
+            background-color: #e74c3c;
+        }
+
+        .year-3 .toggle-icon {
+            color: #e74c3c;
+        }
+
+        .year-3 .subject-item {
+            border-left-color: #e74c3c;
+        }
+
+        .year-3 .subject-number {
+            color: #e74c3c;
+        }
+
+        .year-3 .arabic-text {
+            color: #e74c3c;
+        }
+
+        .semester-divider {
+            background: linear-gradient(90deg, #f1c40f, #f39c12);
+            color: white;
+            padding: 12px 20px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 20px 0 15px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-    
-            body {
-                font-family: 'Hind Siliguri', 'Bangla', Arial, sans-serif;
-                font-family: 'Tajawal', sans-serif;
-                background-color: #f8f9fa;
-                color: #333;
-                line-height: 1.6;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
-    
-            .containerA {
-                max-width: 900px;
-                margin: 0 auto;
-                padding: 40px 20px;
-            }
-    
-            .headerC {
-                font-family: 'Hind Siliguri', 'Bangla', Arial, sans-serif;
-                text-align: center;
-                margin-bottom: 50px;
-            }
-            
-            span{
-                font-family: 'Hind Siliguri', 'Bangla', Arial, sans-serif;
-            }
-    
+        }
+
+        .faq-answer.active .subject-item {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .faq-answer.active .subject-item:nth-child(1) { 
+            animation-delay: 0.1s; 
+        }
+        
+        .faq-answer.active .subject-item:nth-child(2) { 
+            animation-delay: 0.15s; 
+        }
+        
+        .faq-answer.active .subject-item:nth-child(3) { 
+            animation-delay: 0.2s; 
+        }
+        
+        .faq-answer.active .subject-item:nth-child(4) { 
+            animation-delay: 0.25s; 
+        }
+        
+        .faq-answer.active .subject-item:nth-child(5) { 
+            animation-delay: 0.3s; 
+        }
+        
+        .faq-answer.active .subject-item:nth-child(6) { 
+            animation-delay: 0.35s; 
+        }
+        
+        .faq-answer.active .subject-item:nth-child(7) { 
+            animation-delay: 0.4s; 
+        }
+        
+        .faq-answer.active .subject-item:nth-child(8) { 
+            animation-delay: 0.45s; 
+        }
+        
+        .faq-answer.active .subject-item:nth-child(9) { 
+            animation-delay: 0.5s; 
+        }
+        
+        .faq-answer.active .subject-item:nth-child(10) { 
+            animation-delay: 0.55s; 
+        }
+
+        @media (max-width: 1024px) {
             .headerC h1 {
-                font-size: 2.5rem;
-                color: #2c5aa0;
-                font-weight: 700;
-                margin-bottom: 15px;
+                font-size: 2rem;
+                padding-top: 60px;
             }
-    
-            .headerC p {
-                font-size: 1.2rem;
-                color: #666;
-                font-weight: 400;
-            }
-    
-            .faq-section {
-                background: white;
-                border-radius: 8px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                margin-bottom: 15px;
-                overflow: hidden;
-                transition: all 0.3s ease;
-            }
-    
-            .faq-section:hover {
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            }
-    
-            .faq-question {
-                background-color: #f8f9fa;
-                padding: 20px 25px;
-                cursor: pointer;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                font-size: 1.1rem;
-                font-weight: 500;
-                color: #2c5aa0;
-                border: none;
-                width: 100%;
-                text-align: left;
-                transition: all 0.3s ease;
-            }
-    
-            .faq-question:hover {
-                background-color: #e9ecef;
-            }
-    
-            .faq-question.active {
-                background-color: #2c5aa0;
-                color: white;
-            }
-    
-            .toggle-icon {
-                font-size: 1.2rem;
-                transition: transform 0.3s ease;
-                color: #2c5aa0;
-            }
-    
-            .faq-question.active .toggle-icon {
-                transform: rotate(45deg);
-                color: white;
-            }
-    
-            .faq-answer {
-                max-height: 0;
-                overflow: hidden;
-                transition: all 0.4s ease;
-                background: white;
-            }
-    
-            .faq-answer.active {
-                max-height: 2000px;
-                padding: 25px;
-            }
-    
-            .subject-list {
-                display: grid;
-                gap: 12px;
-            }
-    
-            .subject-item {
-                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-                padding: 15px 20px;
-                border-radius: 6px;
-                border-left: 4px solid #28a745;
-                font-size: 1rem;
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: flex-start;
-            }
-    
-            .subject-item:hover {
-                background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
-                transform: translateX(5px);
-                box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
-            }
-    
-            .subject-number {
-                color: #28a745;
-                font-weight: 600;
-                margin-right: 15px;
-                min-width: 25px;
-                font-size: 0.95rem;
-            }
-    
-            .subject-text {
-                flex: 1;
-                line-height: 1.5;
-            }
-    
-            .arabic-text {
-                direction: rtl;
-                text-align: right;
-                font-size: 1.1rem;
-                font-weight: 500;
-                color: #2c5aa0;
-                margin-bottom: 5px;
-                font-family: 'Tajawal', sans-serif;
-            }
-    
-            .bangla-subtitle {
-                font-size: 0.9rem;
-                color: #666;
-                /* font-style: italic; */
-            }
-    
-            /* Color variations for different years */
-            .year-1 .faq-question.active {
-                background-color: #e67e22;
-            }
-    
-            .year-1 .toggle-icon {
-                color: #e67e22;
-            }
-    
-            .year-1 .subject-item {
-                border-left-color: #e67e22;
-            }
-    
-            .year-1 .subject-number {
-                color: #e67e22;
-            }
-    
-            .year-1 .arabic-text {
-                color: #e67e22;
-            }
-    
-            .year-2 .faq-question.active {
-                background-color: #9b59b6;
-            }
-    
-            .year-2 .toggle-icon {
-                color: #9b59b6;
-            }
-    
-            .year-2 .subject-item {
-                border-left-color: #9b59b6;
-            }
-    
-            .year-2 .subject-number {
-                color: #9b59b6;
-            }
-    
-            .year-2 .arabic-text {
-                color: #9b59b6;
-            }
-    
-            .year-3 .faq-question.active {
-                background-color: #e74c3c;
-            }
-    
-            .year-3 .toggle-icon {
-                color: #e74c3c;
-            }
-    
-            .year-3 .subject-item {
-                border-left-color: #e74c3c;
-            }
-    
-            .year-3 .subject-number {
-                color: #e74c3c;
-            }
-    
-            .year-3 .arabic-text {
-                color: #e74c3c;
-            }
-    
-            .semester-divider {
-                background: linear-gradient(90deg, #f1c40f, #f39c12);
-                color: white;
-                padding: 12px 20px;
-                font-weight: 600;
-                font-size: 1rem;
-                margin: 20px 0 15px 0;
-                border-radius: 5px;
-                text-align: center;
-            }
-    
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-    
-            .faq-answer.active .subject-item {
-                animation: fadeInUp 0.5s ease forwards;
-            }
-    
-            .faq-answer.active .subject-item:nth-child(1) { animation-delay: 0.1s; }
-            .faq-answer.active .subject-item:nth-child(2) { animation-delay: 0.15s; }
-            .faq-answer.active .subject-item:nth-child(3) { animation-delay: 0.2s; }
-            .faq-answer.active .subject-item:nth-child(4) { animation-delay: 0.25s; }
-            .faq-answer.active .subject-item:nth-child(5) { animation-delay: 0.3s; }
-            .faq-answer.active .subject-item:nth-child(6) { animation-delay: 0.35s; }
-            .faq-answer.active .subject-item:nth-child(7) { animation-delay: 0.4s; }
-            .faq-answer.active .subject-item:nth-child(8) { animation-delay: 0.45s; }
-            .faq-answer.active .subject-item:nth-child(9) { animation-delay: 0.5s; }
-            .faq-answer.active .subject-item:nth-child(10) { animation-delay: 0.55s; }
+        }
 
-            @media (max-width: 1024px){
-                .headerC h1 {
-                    font-size: 2rem;
-                    padding-top: 60px;
-                }
+        @media (max-width: 768px) {
+            .containerA {
+                padding: 20px 15px;
             }
-    
-            @media (max-width: 768px) {
-                .containerA {
-                    padding: 20px 15px;
-                }
-                
-                .headerC h1 {
-                    font-size: 2rem;
-                }
-                
-                .faq-question {
-                    font-size: 1rem;
-                    padding: 15px 20px;
-                }
-                
-                .subject-item {
-                    font-size: 0.95rem;
-                    padding: 12px 15px;
-                }
-    
-                .subject-number {
-                    min-width: 20px;
-                    margin-right: 10px;
-                }
-    
-                .arabic-text {
-                    font-size: 1rem;
-                }
+            
+            .headerC h1 {
+                font-size: 2rem;
             }
-        </style>
+            
+            .faq-question {
+                font-size: 1rem;
+                padding: 15px 20px;
+            }
+            
+            .subject-item {
+                font-size: 0.95rem;
+                padding: 12px 15px;
+            }
+
+            .subject-number {
+                min-width: 20px;
+                margin-right: 10px;
+            }
+
+            .arabic-text {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
     <div class="containerA">
         <div class="headerC">
             <h1>মাদানী নেসাব</h1>
@@ -3781,7 +3818,7 @@ window.addEventListener('popstate', setActiveNavLink);
         <!-- প্রথম বর্ষ -->
         <div class="faq-section year-1">
             <button class="faq-question" onclick="toggleFAQ('year1-part1')">
-                <span>প্রথম বর্ষ - প্রথম পর্ব (শাওয়াল থেকে রবিউল আওয়াল)</span>
+                <span>প্রথম বর্ষ - প্রথম পর্ব<br>(শাওয়াল থেকে রবিউল আওয়াল)</span>
                 <span class="toggle-icon">+</span>
             </button>
             <div class="faq-answer" id="year1-part1">
@@ -3813,7 +3850,7 @@ window.addEventListener('popstate', setActiveNavLink);
 
         <div class="faq-section year-1">
             <button class="faq-question" onclick="toggleFAQ('year1-part2')">
-                <span>প্রথম বর্ষ - দ্বিতীয় পর্ব (রবিউস সানি থেকে শাবান)</span>
+                <span>প্রথম বর্ষ - দ্বিতীয় পর্ব<br>(রবিউস সানি থেকে শাবান)</span>
                 <span class="toggle-icon">+</span>
             </button>
             <div class="faq-answer" id="year1-part2">
@@ -3826,7 +3863,7 @@ window.addEventListener('popstate', setActiveNavLink);
                         </div>
                     </div>
                     <div class="subject-item">
-                        <span class="subject-number">২.</span>
+                        <span class="subject-number">२.</span>
                         <div class="subject-text">
                             <div class="arabic-text">التمرين الكتابي على الطريق إلى العربية</div>
                             <div class="bangla-subtitle">আরবি ভাষার পথে লিখিত অনুশীলন</div>
@@ -3860,7 +3897,7 @@ window.addEventListener('popstate', setActiveNavLink);
         <!-- দ্বিতীয় বর্ষ -->
         <div class="faq-section year-2">
             <button class="faq-question" onclick="toggleFAQ('year2-part1')">
-                <span>দ্বিতীয় বর্ষ - প্রথম পর্ব (শাওয়াল থেকে রবিউল আওয়াল)</span>
+                <span>দ্বিতীয় বর্ষ - প্রথম পর্ব<br>(শাওয়াল থেকে রবিউল আওয়াল)</span>
                 <span class="toggle-icon">+</span>
             </button>
             <div class="faq-answer" id="year2-part1">
@@ -3913,7 +3950,7 @@ window.addEventListener('popstate', setActiveNavLink);
 
         <div class="faq-section year-2">
             <button class="faq-question" onclick="toggleFAQ('year2-part2')">
-                <span>দ্বিতীয় বর্ষ - দ্বিতীয় পর্ব (রবিউস সানি থেকে শাবান)</span>
+                <span>দ্বিতীয় বর্ষ - দ্বিতীয় পর্ব<br>(রবিউস সানি থেকে শাবান)</span>
                 <span class="toggle-icon">+</span>
             </button>
             <div class="faq-answer" id="year2-part2">
@@ -3967,7 +4004,7 @@ window.addEventListener('popstate', setActiveNavLink);
         <!-- তৃতীয় বর্ষ -->
         <div class="faq-section year-3">
             <button class="faq-question" onclick="toggleFAQ('year3-part1')">
-                <span>তৃতীয় বর্ষ - প্রথম পর্ব (শাওয়াল থেকে রবিউল আওয়াল)</span>
+                <span>তৃতীয় বর্ষ - প্রথম পর্ব<br>(শাওয়াল থেকে ربيع الأول)</span>
                 <span class="toggle-icon">+</span>
             </button>
             <div class="faq-answer" id="year3-part1">
@@ -4020,7 +4057,7 @@ window.addEventListener('popstate', setActiveNavLink);
 
         <div class="faq-section year-3">
             <button class="faq-question" onclick="toggleFAQ('year3-part2')">
-                <span>তৃতীয় বর্ষ - দ্বিতীয় পর্ব (রবিউস সানি থেকে শাবান)</span>
+                <span>তৃতীয় বর্ষ - দ্বিতীয় পর্ব<br>(রবিউস সানি থেকে শাবান)</span>
                 <span class="toggle-icon">+</span>
             </button>
             <div class="faq-answer" id="year3-part2">
@@ -4038,6 +4075,9 @@ window.addEventListener('popstate', setActiveNavLink);
     </div>
 
     <script>
+        // ====================
+        // FAQ Toggle Functionality
+        // ====================
         function toggleFAQ(id) {
             const answer = document.getElementById(id);
             const question = answer.previousElementSibling;
@@ -4064,5 +4104,9 @@ window.addEventListener('popstate', setActiveNavLink);
             }
         }
     </script>
+
+   
+
+
 </body>
 </html>

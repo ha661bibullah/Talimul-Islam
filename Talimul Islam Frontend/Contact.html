@@ -6,6 +6,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
         <title>যোগাযোগ - আমাদের কোর্স সম্পর্কে জানুন</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali&display=swap" rel="stylesheet">
+
     </head>
 <body>
 
@@ -25,6 +27,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Hind Siliguri', 'Bangla', sans-serif;
+            font-family: "Noto Serif Bengali", serif;
         }
         
     :root {
@@ -59,6 +62,7 @@
 
     body {
         font-family: 'Hind Siliguri', 'Bangla', sans-serif;
+        font-family: "Noto Serif Bengali", serif;
         background-color: var(--bg-color);
         color: var(--text-color);
         line-height: 1.6;
@@ -3493,26 +3497,34 @@ window.addEventListener('popstate', setActiveNavLink);
 
  
 
- <style>
+
+    <style>
+        /* ====================
+           CSS স্টাইল
+           ==================== */
+        
+        /* বেসিক রিসেট এবং বক্স মডেল */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Hind Siliguri', Arial, sans-serif;
         }
         
+        /* বডি স্টাইল */
         body {
             background-color: #f8f9fa;
             color: #333;
             line-height: 1.6;
         }
         
+        /* কনটেইনার স্টাইল */
         .containerC {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
         
+        /* হেডার সেকশন স্টাইল */
         .contact-headerC {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             padding: 80px 0;
@@ -3520,7 +3532,6 @@ window.addEventListener('popstate', setActiveNavLink);
             text-align: center;
             border-radius: 0 0 50px 50px;
             margin-bottom: 50px;
-
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
@@ -3542,6 +3553,7 @@ window.addEventListener('popstate', setActiveNavLink);
             margin: 0 auto;
         }
         
+        /* কন্টেন্ট সেকশন স্টাইল */
         .contact-contentC {
             display: flex;
             flex-wrap: wrap;
@@ -3549,15 +3561,16 @@ window.addEventListener('popstate', setActiveNavLink);
             margin-bottom: 50px;
         }
         
+        /* যোগাযোগ তথ্য স্টাইল */
         .contact-info1C {
             flex: 1;
             min-width: 300px;
-            /* background-color: white; */
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         
+        /* ফর্ম স্টাইল */
         .contact-formC {
             flex: 2;
             min-width: 300px;
@@ -3567,6 +3580,7 @@ window.addEventListener('popstate', setActiveNavLink);
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         
+        /* তথ্য আইটেম স্টাইল */
         .info-itemC {
             margin-bottom: 25px;
             display: flex;
@@ -3602,6 +3616,7 @@ window.addEventListener('popstate', setActiveNavLink);
             color: #333;
         }
         
+        /* ফর্ম গ্রুপ স্টাইল */
         .form-groupC {
             margin-bottom: 20px;
         }
@@ -3638,6 +3653,7 @@ window.addEventListener('popstate', setActiveNavLink);
             resize: vertical;
         }
         
+        /* বাটন স্টাইল */
         button {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: white;
@@ -3655,6 +3671,7 @@ window.addEventListener('popstate', setActiveNavLink);
             box-shadow: 0 10px 20px rgba(37, 117, 252, 0.2);
         }
         
+        /* কোর্স হাইলাইট সেকশন স্টাইল */
         .course-highlightC {
             background-color: white;
             border-radius: 15px;
@@ -3685,6 +3702,7 @@ window.addEventListener('popstate', setActiveNavLink);
             justify-content: center;
         }
         
+        /* কোর্স কার্ড স্টাইল */
         .course-cardC {
             background-color: #f8f9fa;
             border-radius: 12px;
@@ -3749,7 +3767,7 @@ window.addEventListener('popstate', setActiveNavLink);
             transform: translateY(-2px);
         }
         
-        /* FAQ Section */
+        /* FAQ সেকশন স্টাইল */
         .faq-sectionC {
             margin: 50px 0;
         }
@@ -3780,7 +3798,7 @@ window.addEventListener('popstate', setActiveNavLink);
             color: #666;
         }
         
-        /* Responsive */
+        /* রেসপনসিভ ডিজাইন */
         @media (max-width: 768px) {
             .contact-headerC {
                 padding: 50px 0;
@@ -3800,15 +3818,19 @@ window.addEventListener('popstate', setActiveNavLink);
                 max-width: 350px;
             }
         }
- </style>
- <section class="contact-headerC">
+    </style>
+    <!-- হেডার সেকশন -->
+    <section class="contact-headerC">
         <div class="containerC">
             <h1>যোগাযোগ করুন</h1>
             <p>আমাদের কোর্স সম্পর্কে বিস্তারিত জানতে এবং আপনার প্রশ্নের উত্তর পেতে আমাদের সাথে যোগাযোগ করুন</p>
         </div>
- </section>
-<div class="containerC">
+    </section>
+    <!-- মূল কন্টেন্ট -->
+    <div class="containerC">
+        <!-- যোগাযোগ তথ্য এবং ফর্ম সেকশন -->
         <div class="contact-contentC">
+            <!-- যোগাযোগ তথ্য -->
             <div class="contact-info1C">
                 <h2>যোগাযোগের তথ্য</h2>
                 <div class="info-itemC">
@@ -3841,6 +3863,7 @@ window.addEventListener('popstate', setActiveNavLink);
                 </div>
             </div>
             
+            <!-- যোগাযোগ ফর্ম -->
             <div class="contact-formC">
                 <h2>আমাদের সাথে যোগাযোগ করুন</h2>
                 <form id="contactForm">
@@ -3875,11 +3898,13 @@ window.addEventListener('popstate', setActiveNavLink);
             </div>
         </div>
         
+        <!-- কোর্স হাইলাইট সেকশন -->
         <div class="course-highlightC">
             <h2>আমাদের জনপ্রিয় কোর্সসমূহ</h2>
             <p>আপনার ক্যারিয়ার উন্নয়নের জন্য আমাদের বিশেষজ্ঞ প্রশিক্ষকদের দ্বারা পরিচালিত অনলাইন কোর্সগুলি দেখুন</p>
             
             <div class="course-cardsC">
+                <!-- কোর্স কার্ড ১ -->
                 <div class="course-cardC">
                     <div class="course-imgC">
                         <img src="/api/placeholder/300/160" alt="ওয়েব ডেভেলপমেন্ট কোর্স">
@@ -3892,6 +3917,7 @@ window.addEventListener('popstate', setActiveNavLink);
                     </div>
                 </div>
                 
+                <!-- কোর্স কার্ড ২ -->
                 <div class="course-cardC">
                     <div class="course-imgC">
                         <img src="/api/placeholder/300/160" alt="মোবাইল অ্যাপ ডেভেলপমেন্ট কোর্স">
@@ -3904,6 +3930,7 @@ window.addEventListener('popstate', setActiveNavLink);
                     </div>
                 </div>
                 
+                <!-- কোর্স কার্ড ৩ -->
                 <div class="course-cardC">
                     <div class="course-imgC">
                         <img src="/api/placeholder/300/160" alt="ডিজিটাল মার্কেটিং কোর্স">
@@ -3918,42 +3945,50 @@ window.addEventListener('popstate', setActiveNavLink);
             </div>
         </div>
         
+        <!-- FAQ সেকশন -->
         <div class="faq-sectionC">
             <h2>সাধারণ জিজ্ঞাসা</h2>
             
+            <!-- FAQ আইটেম ১ -->
             <div class="faq-itemC">
                 <div class="faq-questionC">কোর্সগুলো কি পুরোপুরি অনলাইনে হয়?</div>
                 <div class="faq-answerC">হ্যাঁ, আমাদের সব কোর্স পুরোপুরি অনলাইনে হয়। আপনি যেকোনো সময়, যেকোনো স্থান থেকে অ্যাক্সেস করতে পারবেন।</div>
             </div>
             
+            <!-- FAQ আইটেম ২ -->
             <div class="faq-itemC">
                 <div class="faq-questionC">কোর্সের মেয়াদ কত দিন?</div>
                 <div class="faq-answerC">কোর্স অনুযায়ী মেয়াদ আলাদা। সাধারণত আমাদের কোর্সের মেয়াদ ৩ থেকে ৬ মাস পর্যন্ত হয়ে থাকে।</div>
             </div>
             
+            <!-- FAQ আইটেম ৩ -->
             <div class="faq-itemC">
                 <div class="faq-questionC">কোর্স ফি একবারে দিতে হবে নাকি কিস্তিতে দেওয়া যাবে?</div>
                 <div class="faq-answerC">আমরা একবারে পেমেন্ট এবং ২-৩ কিস্তিতে পেমেন্ট উভয় অপশনই প্রদান করি। কিস্তিতে পেমেন্ট করলে সামান্য অতিরিক্ত চার্জ প্রযোজ্য।</div>
             </div>
             
+            <!-- FAQ আইটেম ৪ -->
             <div class="faq-itemC">
                 <div class="faq-questionC">কোর্স শেষে কি সার্টিফিকেট দেওয়া হয়?</div>
                 <div class="faq-answerC">হ্যাঁ, সব কোর্স সফলভাবে সম্পন্ন করার পর আপনি ইন্ডাস্ট্রি স্বীকৃত সার্টিফিকেট পাবেন।</div>
             </div>
             
+            <!-- FAQ আইটেম ৫ -->
             <div class="faq-itemC">
                 <div class="faq-questionC">কোর্স থেকে কি জব প্লেসমেন্ট সাপোর্ট দেওয়া হয়?</div>
-                <div class="faq-answerC">হ্যাঁ, আমরা সেরা শিক্ষার্থীদের জন্য জব প্লেসমেন্ট সাপোর্ট প্রদান করি। আমাদের অনেক পার্টনার কোম্পানি রয়েছে যারা আমাদের গ্র্যাজুয়েটদের নিয়োগ দেয়।</div>
+                <div class="faq-answerC">হ্যাঁ, আমরা সেরা শিক্ষার্থীদের জন্য জব প্লেসমেন্ট সাপোর্ট প্রদান করি। আমাদের অনেক পার্টনার কոմ্পানি রয়েছে যারা আমাদের গ্র্যাজুয়েটদের নিয়োগ দেয়।</div>
             </div>
         </div>
-</div>
-<script>
+    </div>
+    <script>
+        // ফর্ম সাবমিশন হ্যান্ডলার
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
             alert('ধন্যবাদ! আপনার মেসেজ পাঠানো হয়েছে। আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।');
             this.reset();
         });
-</script>
+    </script>
+
 
 
 

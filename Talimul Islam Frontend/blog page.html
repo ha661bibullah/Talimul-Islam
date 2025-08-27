@@ -6,6 +6,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
         <title>EduBangla - নেভিগেশন বার</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali&display=swap" rel="stylesheet">
+
     </head>
 <body>
 
@@ -21,6 +23,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Hind Siliguri', 'Bangla', sans-serif;
+            font-family: "Noto Serif Bengali", serif;
         }
         
     :root {
@@ -55,6 +58,7 @@
 
     body {
         font-family: 'Hind Siliguri', 'Bangla', sans-serif;
+        font-family: "Noto Serif Bengali", serif;
         background-color: var(--bg-color);
         color: var(--text-color);
         line-height: 1.6;
@@ -3507,506 +3511,536 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Hind Siliguri', 'SolaimanLipi', sans-serif;
-    }
-    
-    body {
-        background-color: #f7f7f7;
-        color: #333;
-        line-height: 1.6;
-    }
-    
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-    
-    /* মেইন কনটেন্ট এরিয়া */
-    .main-content {
-        display: flex;
-        margin-top: 20px;
-    }
-    
-    /* ব্লগ পোস্ট সেকশন */
-    .blog-posts {
-        flex: 2;
-        padding-right: 30px;
-    }
-    
-    .post {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 30px;
-        overflow: hidden;
-        transition: transform 0.3s ease;
-    }
-    
-    .post:hover {
-        transform: translateY(-5px);
-    }
-    
-    .post-image {
-        height: 250px;
-        overflow: hidden;
-    }
-    
-    .post-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-    
-    .post:hover .post-image img {
-        transform: scale(1.05);
-    }
-    
-    .post-content {
-        padding: 20px;
-    }
-    
-    .post-meta {
-        display: flex;
-        justify-content: space-between;
-        color: #666;
-        font-size: 14px;
-        margin-bottom: 10px;
-    }
-    
-    .post-title {
-        font-size: 24px;
-        margin-bottom: 15px;
-        color: #222;
-    }
-    
-    .post-excerpt {
-        margin-bottom: 15px;
-        color: #555;
-    }
-    
-    .read-more {
-        display: inline-block;
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        color: #fff;
-        padding: 8px 15px;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    
-    .read-more:hover {
-        background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
-        transform: translateY(-2px);
-    }
-    
-    /* সাইডবার */
-    .sidebar {
-        flex: 1;
-    }
-    
-    .sidebar-widget {
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 30px;
-        padding: 20px;
-    }
-    
-    .widget-title {
-        font-size: 18px;
-        margin-bottom: 15px;
-        padding-bottom: 10px;
-        border-bottom: 2px solid #f0f0f0;
-        color: #333;
-    }
-    
-    .popular-posts .post-item {
-        display: flex;
-        margin-bottom: 15px;
-    }
-    
-    .post-item-image {
-        width: 80px;
-        height: 60px;
-        margin-right: 10px;
-    }
-    
-    .post-item-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 4px;
-    }
-    
-    .post-item-content h4 {
-        font-size: 14px;
-        margin-bottom: 5px;
-    }
-    
-    .post-item-content span {
-        font-size: 12px;
-        color: #888;
-    }
-    
-    .categories ul {
-        list-style: none;
-    }
-    
-    .categories li {
-        margin-bottom: 10px;
-        padding-bottom: 10px;
-        border-bottom: 1px dashed #eee;
-    }
-    
-    .categories a {
-        text-decoration: none;
-        color: #444;
-        display: flex;
-        justify-content: space-between;
-        transition: color 0.3s ease;
-    }
-    
-    .categories a:hover {
-        color: #2575fc;
-    }
-    
-    .subscribe-form input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-    
-    .subscribe-btn {
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-        color: #fff;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 4px;
-        cursor: pointer;
-        width: 100%;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    
-    .subscribe-btn:hover {
-        background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
-    }
-    
-    /* ফিচার্ড সেকশন */
-    .featured-section {
-        background: linear-gradient(135deg, rgba(106, 17, 203, 0.9) 0%, rgba(37, 117, 252, 0.9) 100%), url('/api/placeholder/1200/400') center/cover no-repeat;
-        border-radius: 8px;
-        padding: 50px;
-        color: #fff;
-        margin-bottom: 30px;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .featured-content {
-        position: relative;
-        z-index: 2;
-    }
-    
-    .featured-title {
-        font-size: 32px;
-        margin-bottom: 20px;
-    }
-    
-    .featured-description {
-        font-size: 18px;
-        margin-bottom: 25px;
-        max-width: 80%;
-    }
-    
-    .featured-btn {
-        display: inline-block;
-        background-color: #fff;
-        color: #6a11cb;
-        padding: 12px 25px;
-        border-radius: 30px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    
-    .featured-btn:hover {
-        background-color: #f0f0f0;
-        transform: translateY(-2px);
-    }
-    
-    /* ট্যাগ ক্লাউড */
-    .tag-cloud {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    
-    .tag {
-        background-color: #f0f0f0;
-        border-radius: 20px;
-        padding: 5px 12px;
-        margin-right: 8px;
-        margin-bottom: 8px;
-        font-size: 12px;
-        color: #555;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-    
-    .tag:hover {
-        background-color: #2575fc;
-        color: #fff;
-    }
-    
-    /* নিউজলেটার পপ আপ */
-    .newsletter-popup {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-        padding: 20px;
-        z-index: 999;
-        width: 300px;
-        animation: slideIn 0.5s forwards;
-    }
-    
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
+
+    <style>
+        /* ====================
+           CSS RESET & BASE STYLES
+           ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        to {
-            transform: translateX(0);
-            opacity: 1;
+        
+        body {
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
         }
-    }
-    
-    .newsletter-popup h3 {
-        margin-bottom: 10px;
-    }
-    
-    .newsletter-popup p {
-        margin-bottom: 15px;
-        font-size: 14px;
-    }
-    
-    .close-popup {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: none;
-        border: none;
-        font-size: 18px;
-        cursor: pointer;
-        color: #999;
-    }
-    
-    /* রেসপন্সিভ ডিজাইন */
-    @media (max-width: 768px) {
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* ====================
+           MAIN CONTENT AREA
+           ==================== */
         .main-content {
-            flex-direction: column;
+            display: flex;
+            margin-top: 20px;
         }
         
+        /* ====================
+           BLOG POSTS SECTION
+           ==================== */
         .blog-posts {
-            padding-right: 0;
+            flex: 2;
+            padding-right: 30px;
         }
         
+        .post {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .post:hover {
+            transform: translateY(-5px);
+        }
+        
+        .post-image {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .post:hover .post-image img {
+            transform: scale(1.05);
+        }
+        
+        .post-content {
+            padding: 20px;
+        }
+        
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .post-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #222;
+        }
+        
+        .post-excerpt {
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .read-more {
+            display: inline-block;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .read-more:hover {
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+            transform: translateY(-2px);
+        }
+        
+        /* ====================
+           SIDEBAR STYLES
+           ==================== */
+        .sidebar {
+            flex: 1;
+        }
+        
+        .sidebar-widget {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+        
+        .widget-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            color: #333;
+        }
+        
+        .popular-posts .post-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .post-item-image {
+            width: 80px;
+            height: 60px;
+            margin-right: 10px;
+        }
+        
+        .post-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .post-item-content h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .post-item-content span {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .categories ul {
+            list-style: none;
+        }
+        
+        .categories li {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .categories a {
+            text-decoration: none;
+            color: #444;
+            display: flex;
+            justify-content: space-between;
+            transition: color 0.3s ease;
+        }
+        
+        .categories a:hover {
+            color: #2575fc;
+        }
+        
+        .subscribe-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .subscribe-btn {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .subscribe-btn:hover {
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+        }
+        
+        /* ====================
+           FEATURED SECTION
+           ==================== */
         .featured-section {
-            padding: 30px;
+            background: linear-gradient(135deg, rgba(106, 17, 203, 0.9) 0%, rgba(37, 117, 252, 0.9) 100%), url('/api/placeholder/1200/400') center/cover no-repeat;
+            border-radius: 8px;
+            padding: 50px;
+            color: #fff;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .featured-content {
+            position: relative;
+            z-index: 2;
         }
         
         .featured-title {
-            font-size: 24px;
+            font-size: 32px;
+            margin-bottom: 20px;
         }
         
         .featured-description {
-            font-size: 16px;
-            max-width: 100%;
+            font-size: 18px;
+            margin-bottom: 25px;
+            max-width: 80%;
         }
-    }
-</style>
-<div class="container">
-    <!-- ফিচার্ড সেকশন -->
-    <div class="featured-section">
-        <div class="featured-content">
-            <h1 class="featured-title">আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা</h1>
-            <p class="featured-description">আমাদের মাদ্রাসার অনলাইন কোর্সগুলোর মাধ্যমে ইসলামিক শিক্ষা এবং আরবি ভাষার গভীর জ্ঞান অর্জন করুন। অভিজ্ঞ শিক্ষকমণ্ডলী এবং আধুনিক শিক্ষা পদ্ধতির মাধ্যমে আপনার জ্ঞানের পথে এগিয়ে যান।</p>
-            <a href="#" class="featured-btn">কোর্স দেখুন</a>
-        </div>
-    </div>
-    
-    <!-- মেইন কনটেন্ট এরিয়া -->
-    <div class="main-content">
-        <!-- কোর্স সেকশন -->
-        <div class="blog-posts">
-            <article class="post">
-                <div class="post-image">
-                    <img src="img/al-quran-7737590_1280.jpg" alt="কোরআন শিক্ষা কোর্স">
-                </div>
-                <div class="post-content">
-                    <div class="post-meta">
-                        <span>কোর্স ফি: ৩,৫০০ টাকা</span>
-                        <span>শিক্ষক: মাওলানা আব্দুল্লাহ</span>
-                    </div>
-                    <h2 class="post-title">কোরআন তেলাওয়াত ও তাজবিদ শিক্ষা</h2>
-                    <p class="post-excerpt">এই কোর্সে আপনি শুদ্ধ কোরআন তেলাওয়াত ও তাজবিদের নিয়মাবলী শিখবেন। অভিজ্ঞ কারী দ্বারা পরিচালিত এই কোর্সে মাখরাজ, সিফাত, মাদ্দ, গুন্নাহ, ইখফা, ইদগাম, ইকলাব, ইযহার সহ সকল বিষয় বিস্তারিতভাবে শেখানো হবে। সপ্তাহে ৩ দিন ১ ঘন্টা করে অনলাইন ক্লাস।</p>
-                    <a href="#" class="read-more">বিস্তারিত দেখুন</a>
-                </div>
-            </article>
+        
+        .featured-btn {
+            display: inline-block;
+            background-color: #fff;
+            color: #6a11cb;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .featured-btn:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        /* ====================
+           TAG CLOUD
+           ==================== */
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            padding: 5px 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .tag:hover {
+            background-color: #2575fc;
+            color: #fff;
+        }
+        
+        /* ====================
+           NEWSLETTER POPUP
+           ==================== */
+        .newsletter-popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            z-index: 999;
+            width: 300px;
+            animation: slideIn 0.5s forwards;
+            display: none;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .newsletter-popup h3 {
+            margin-bottom: 10px;
+        }
+        
+        .newsletter-popup p {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        /* ====================
+           RESPONSIVE DESIGN
+           ==================== */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
             
-            <article class="post">
-                <div class="post-image">
-                    <img src="img/al-quran-7741928_1280.jpg" alt="আরবি ভাষা শিক্ষা">
-                </div>
-                <div class="post-content">
-                    <div class="post-meta">
-                        <span>কোর্স ফি: ৪,২০০ টাকা</span>
-                        <span>শিক্ষক: ড. নুরুল ইসলাম</span>
-                    </div>
-                    <h2 class="post-title">আরবি ভাষা শিক্ষা: বেসিক থেকে এডভান্সড</h2>
-                    <p class="post-excerpt">আরবি ভাষা শিক্ষার এই বিশেষ কোর্সে আপনি বর্ণমালা থেকে শুরু করে পূর্ণ বাক্য গঠন, ব্যাকরণ এবং কথোপকথন পর্যন্ত সবকিছু শিখবেন। কোর্সটি তিন মাসব্যাপী এবং শিক্ষার্থীদের প্রতিদিন অনুশীলনের জন্য বিশেষ কাজ দেওয়া হবে। প্রতি সপ্তাহে ৪ দিন অনলাইন ক্লাস।</p>
-                    <a href="#" class="read-more">বিস্তারিত দেখুন</a>
-                </div>
-            </article>
+            .blog-posts {
+                padding-right: 0;
+            }
             
-            <article class="post">
-                <div class="post-image">
-                    <img src="img/Darul_Uloom_Deoband.jpg" alt="হাদিস শিক্ষা">
-                </div>
-                <div class="post-content">
-                    <div class="post-meta">
-                        <span>কোর্স ফি: ৫,০০০ টাকা</span>
-                        <span>শিক্ষক: মাওলানা জাহিদুল ইসলাম</span>
-                    </div>
-                    <h2 class="post-title">হাদিস শিক্ষা: সহিহ বুখারি ও মুসলিম</h2>
-                    <p class="post-excerpt">হাদিস শিক্ষার এই গভীর কোর্সে আপনি সহিহ বুখারি ও মুসলিমের নির্বাচিত হাদিস সম্পর্কে বিস্তারিত জানতে পারবেন। হাদিসের প্রেক্ষাপট, ব্যাখ্যা, এবং দৈনন্দিন জীবনে এর প্রয়োগ সম্পর্কে শিখবেন। কোর্সটি চার মাসব্যাপী এবং সপ্তাহে ৩ দিন অনলাইন ক্লাস।</p>
-                    <a href="#" class="read-more">বিস্তারিত দেখুন</a>
-                </div>
-            </article>
+            .featured-section {
+                padding: 30px;
+            }
+            
+            .featured-title {
+                font-size: 24px;
+            }
+            
+            .featured-description {
+                font-size: 16px;
+                max-width: 100%;
+            }
+        }
+    </style>
+    <!-- ====================
+         CONTAINER
+         ==================== -->
+    <div class="container">
+        <!-- ====================
+             FEATURED SECTION
+             ==================== -->
+        <div class="featured-section">
+            <div class="featured-content">
+                <h1 class="featured-title">আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা</h1>
+                <p class="featured-description">আমাদের মাদ্রাসার অনলাইন কোর্সগুলোর মাধ্যমে ইসলামিক শিক্ষা এবং আরবি ভাষার গভীর জ্ঞান অর্জন করুন। অভিজ্ঞ শিক্ষকমণ্ডলী এবং আধুনিক শিক্ষা পদ্ধতির মাধ্যমে আপনার জ্ঞানের পথে এগিয়ে যান।</p>
+                <a href="#" class="featured-btn">কোর্স দেখুন</a>
+            </div>
         </div>
         
-        <!-- সাইডবার -->
-        <div class="sidebar">
-            <div class="sidebar-widget">
-                <h3 class="widget-title">আমাদের সম্পর্কে</h3>
-                <p>মাদ্রাসা শিক্ষা একটি অনলাইন প্লাটফর্ম যেখানে আমরা আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা প্রদান করি। আমাদের লক্ষ্য হলো যেকোনো স্থান থেকে যেকোনো সময়ে সহজেই সবার জন্য উচ্চমানের ইসলামিক শিক্ষা সুলভ করা।</p>
-            </div>
-            
-            <div class="sidebar-widget">
-                <h3 class="widget-title">জনপ্রিয় কোর্স</h3>
-                <div class="popular-posts">
-                    <div class="post-item">
-                        <div class="post-item-image">
-                            <img src="img/holy-quran-1528446_1280.jpg" alt="ফিকাহ শিক্ষা">
-                        </div>
-                        <div class="post-item-content">
-                            <h4><a href="#">ইসলামিক ফিকাহ শিক্ষা</a></h4>
-                            <span>কোর্স ফি: ৪,৫০০ টাকা</span>
-                        </div>
+        <!-- ====================
+             MAIN CONTENT AREA
+             ==================== -->
+        <div class="main-content">
+            <!-- ====================
+                 COURSES SECTION
+                 ==================== -->
+            <div class="blog-posts">
+                <article class="post">
+                    <div class="post-image">
+                        <img src="img/al-quran-7737590_1280.jpg" alt="কোরআন শিক্ষা কোর্স">
                     </div>
-                    
-                    <div class="post-item">
-                        <div class="post-item-image">
-                            <img src="img/al-quran-7737590_1280.jpg" alt="সিরাত শিক্ষা">
-                        </div>
-                        <div class="post-item-content">
-                            <h4><a href="#">সিরাতুন্নবী (সা.) পরিচিতি</a></h4>
-                            <span>কোর্স ফি: ৩,৮০০ টাকা</span>
-                        </div>
-                    </div>
-                    
-                    <div class="post-item">
-                        <div class="post-item-image">
-                            <img src="img/Darul_Uloom_Deoband.jpg" alt="আকিদা শিক্ষা">
-                        </div>
-                        <div class="post-item-content">
-                            <h4><a href="#">ইসলামিক আকিদা পরিচিতি</a></h4>
+                    <div class="post-content">
+                        <div class="post-meta">
                             <span>কোর্স ফি: ৩,৫০০ টাকা</span>
+                            <span>শিক্ষক: মাওলানা আব্দুল্লাহ</span>
+                        </div>
+                        <h2 class="post-title">কোরআন তেলাওয়াত ও তাজবিদ শিক্ষা</h2>
+                        <p class="post-excerpt">এই কোর্সে আপনি শুদ্ধ কোরআন তেলাওয়াত ও তাজবিদের নিয়মাবলী শিখবেন। অভিজ্ঞ কারী দ্বারা পরিচালিত এই কোর্সে মাখরাজ, সিফাত, মাদ্দ, গুন্নাহ, ইখফা, ইদগাম, ইকলাব, ইযহার সহ সকল বিষয় বিস্তারিতভাবে শেখানো হবে। সপ্তাহে ৩ দিন ১ ঘন্টা করে অনলাইন ক্লাস।</p>
+                        <a href="#" class="read-more">বিস্তারিত দেখুন</a>
+                    </div>
+                </article>
+                
+                <article class="post">
+                    <div class="post-image">
+                        <img src="img/al-quran-7741928_1280.jpg" alt="আরবি ভাষা শিক্ষা">
+                    </div>
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <span>কোর্স ফi: ৪,২০০ টাকা</span>
+                            <span>শিক্ষক: ড. নুরুল ইসলাম</span>
+                        </div>
+                        <h2 class="post-title">আরবি ভাষা শিক্ষা: বেসিক থেকে এডভান্সড</h2>
+                        <p class="post-excerpt">আরবি ভাষা শিক্ষার এই বিশেষ কোর্সে আপনি বর্ণমালা থেকে শুরু করে পূর্ণ বাক্য গঠন, ব্যাকরণ এবং কথোপকথন পর্যন্ত সবকিছু শিখবেন। কোর্সটি তিন মাসব্যাপী এবং শিক্ষার্থীদের প্রতিদিন অনুশীলনের জন্য বিশেষ কাজ দেওয়া হবে। প্রতি সপ্তাহে ৪ দিন অনলাইন ক্লাস।</p>
+                        <a href="#" class="read-more">বিস্তারিত দেখুন</a>
+                    </div>
+                </article>
+                
+                <article class="post">
+                    <div class="post-image">
+                        <img src="img/Darul_Uloom_Deoband.jpg" alt="হাদিস শিক্ষা">
+                    </div>
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <span>কোর্স ফি: ৫,০০০ টাকা</span>
+                            <span>শিক্ষক: মাওলানা জাহিদুল ইসলাম</span>
+                        </div>
+                        <h2 class="post-title">হাদিস শিক্ষা: সহিহ বুখারি ও মুসলিম</h2>
+                        <p class="post-excerpt">হাদিস শিক্ষার এই গভীর কোর্সে আপনি সহিহ বুখারি ও মুসলিমের নির্বাচিত হাদিস সম্পর্কে বিস্তারিত জানতে পারবেন। হাদিসের প্রেক্ষাপট, ব্যাখ্যা, এবং দৈনন্দিন জীবনে এর প্রয়োগ সম্পর্কে শিখবেন। কোর্সটি চার মাসব্যাপী এবং সপ্তাহে ৩ দিন অনলাইন ক্লাস।</p>
+                        <a href="#" class="read-more">বিস্তারিত দেখুন</a>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- ====================
+                 SIDEBAR
+                 ==================== -->
+            <div class="sidebar">
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">আমাদের সম্পর্কে</h3>
+                    <p>মাদ্রাসা শিক্ষা একটি অনলাইন প্লাটফর্ম যেখানে আমরা আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা প্রদান করি। আমাদের লক্ষ্য হলো যেকোনো স্থান থেকে যেকোনো সময়ে সহজেই সবার জন্য উচ্চমানের ইসলামিক শিক্ষা সুলভ করা。</p>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">জনপ্রিয় কোর্স</h3>
+                    <div class="popular-posts">
+                        <div class="post-item">
+                            <div class="post-item-image">
+                                <img src="img/holy-quran-1528446_1280.jpg" alt="ফিকাহ শিক্ষা">
+                            </div>
+                            <div class="post-item-content">
+                                <h4><a href="#">ইসলামিক ফিকাহ শিক্ষা</a></h4>
+                                <span>কোর্স ফি: ৪,৫০০ টাকা</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-item">
+                            <div class="post-item-image">
+                                <img src="img/al-quran-7737590_1280.jpg" alt="সিরাত শিক্ষা">
+                            </div>
+                            <div class="post-item-content">
+                                <h4><a href="#">সিরাতুন্নবী (সা.) পরিচিতি</a></h4>
+                                <span>কোর্স ফি: ৩,৮০০ টাকা</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-item">
+                            <div class="post-item-image">
+                                <img src="img/Darul_Uloom_Deoband.jpg" alt="আকিদা শিক্ষা">
+                            </div>
+                            <div class="post-item-content">
+                                <h4><a href="#">ইসলামিক আকিদা পরিচিতি</a></h4>
+                                <span>কোর্স ফি: ৩,৫০০ টাকা</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="sidebar-widget categories">
-                <h3 class="widget-title">কোর্স বিভাগ</h3>
-                <ul>
-                    <li><a href="#">কোরআন শিক্ষা <span>(৫)</span></a></li>
-                    <li><a href="#">হাদিস শিক্ষা <span>(৪)</span></a></li>
-                    <li><a href="#">আরবি ভাষা <span>(৬)</span></a></li>
-                    <li><a href="#">ফিকাহ শিক্ষা <span>(৩)</span></a></li>
-                    <li><a href="#">ইসলামিক ইতিহাস <span>(৪)</span></a></li>
-                </ul>
-            </div>
-            
-            <div class="sidebar-widget">
-                <h3 class="widget-title">টপিক সমূহ</h3>
-                <div class="tag-cloud">
-                    <a href="#" class="tag">কোরআন</a>
-                    <a href="#" class="tag">হাদিস</a>
-                    <a href="#" class="tag">আরবি</a>
-                    <a href="#" class="tag">ফিকাহ</a>
-                    <a href="#" class="tag">তাফসির</a>
-                    <a href="#" class="tag">তাজবিদ</a>
-                    <a href="#" class="tag">সিরাত</a>
-                    <a href="#" class="tag">আকিদা</a>
-                    <a href="#" class="tag">ইবাদাত</a>
-                    <a href="#" class="tag">ইসলামিক স্টাডিজ</a>
+                
+                <div class="sidebar-widget categories">
+                    <h3 class="widget-title">কোর্স বিভাগ</h3>
+                    <ul>
+                        <li><a href="#">কোরআন শিক্ষা <span>(৫)</span></a></li>
+                        <li><a href="#">হাদিস শিক্ষা <span>(৪)</span></a></li>
+                        <li><a href="#">আরবি ভাষা <span>(৬)</span></a></li>
+                        <li><a href="#">ফিকাহ শিক্ষা <span>(३)</span></a></li>
+                        <li><a href="#">ইসলামিক ইতিহাস <span>(৪)</span></a></li>
+                    </ul>
                 </div>
-            </div>
-            
-            <div class="sidebar-widget">
-                <h3 class="widget-title">কোর্স রেজিস্ট্রেশন</h3>
-                <form class="subscribe-form">
-                    <input type="text" placeholder="আপনার নাম">
-                    <input type="email" placeholder="আপনার ইমেইল">
-                    <input type="tel" placeholder="আপনার মোবাইল নাম্বার">
-                    <button type="submit" class="subscribe-btn">কোর্সে ভর্তি হন</button>
-                </form>
+                
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">টপিক সমূহ</h3>
+                    <div class="tag-cloud">
+                        <a href="#" class="tag">কোরআন</a>
+                        <a href="#" class="tag">হাদিস</a>
+                        <a href="#" class="tag">আরবি</a>
+                        <a href="#" class="tag">ফিকাহ</a>
+                        <a href="#" class="tag">তাফসির</a>
+                        <a href="#" class="tag">তাজবিদ</a>
+                        <a href="#" class="tag">সিরাত</a>
+                        <a href="#" class="tag">আকিদা</a>
+                        <a href="#" class="tag">ইবাদাত</a>
+                        <a href="#" class="tag">ইসলামিক স্টাডিজ</a>
+                    </div>
+                </div>
+                
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">কোর্স রেজিস্ট্রেশন</h3>
+                    <form class="subscribe-form">
+                        <input type="text" placeholder="আপনার নাম">
+                        <input type="email" placeholder="আপনার ইমেইল">
+                        <input type="tel" placeholder="আপনার মোবাইল নাম্বার">
+                        <button type="submit" class="subscribe-btn">কোর্সে ভর্তি হন</button>
+                    </form>
+                </div>
             </div>
         </div>
+    </div> 
+
+    <!-- ====================
+         NEWSLETTER POPUP
+         ==================== -->
+    <div class="newsletter-popup">
+        <button class="close-popup">&times;</button>
+        <h3>বিশেষ ডিসকাউন্ট অফার!</h3>
+        <p>আমাদের নিউজলেটার সাবস্ক্রাইব করুন এবং যেকোনো কোর্সে ১৫% ডিসকাউন্ট পান! সীমিত সময়ের জন্য এই অফার চলবে।</p>
+        <form>
+            <input type="email" placeholder="আপনার ইমেইল" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            <button type="submit" class="subscribe-btn">ডিসকাউন্ট পান</button>
+        </form>
     </div>
-</div> 
-
-
-
-<!-- নিউজলেটার পপ আপ -->
-<div class="newsletter-popup">
-    <button class="close-popup">&times;</button>
-    <h3>বিশেষ ডিসকাউন্ট অফার!</h3>
-    <p>আমাদের নিউজলেটার সাবস্ক্রাইব করুন এবং যেকোনো কোর্সে ১৫% ডিসকাউন্ট পান! সীমিত সময়ের জন্য এই অফার চলবে।</p>
-    <form>
-        <input type="email" placeholder="আপনার ইমেইল" style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px;">
-        <button type="submit" class="subscribe-btn">ডিসকাউন্ট পান</button>
-    </form>
-</div>
-
-
-<script>
-    // পপ আপ বন্ধ করার জন্য
-    document.querySelector('.close-popup').addEventListener('click', function() {
-        document.querySelector('.newsletter-popup').style.display = 'none';
-    });
-    
-    // পপ আপ ৫ সেকেন্ড পরে দেখানোর জন্য
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            document.querySelector('.newsletter-popup').style.display = 'block';
-        }, 5000);
-    });
-</script>
-
+    <script>
+        // ====================
+        // POPUP FUNCTIONALITY
+        // ====================
+        document.querySelector('.close-popup').addEventListener('click', function() {
+            document.querySelector('.newsletter-popup').style.display = 'none';
+        });
+        
+        // ====================
+        // SHOW POPUP AFTER 5 SECONDS
+        // ====================
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.newsletter-popup').style.display = 'block';
+            }, 5000);
+        });
+    </script>
 
 
 
