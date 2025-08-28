@@ -986,583 +986,575 @@
         </button>
     </div>
 
-    <script>
-        // DOM লোড হওয়ার পর স্ক্রিপ্ট এক্সিকিউট করুন
-        document.addEventListener('DOMContentLoaded', function() {
-            // ফর্ম এবং টেবিল এলিমেন্ট সিলেক্ট করুন
-            const courseForm = document.getElementById('courseForm');
-            const courseTableBody = document.getElementById('courseTableBody');
-            const courseGrid = document.getElementById('courseGrid');
-            const deleteModal = document.getElementById('deleteModal');
-            const notification = document.getElementById('notification');
-            const toggleCoursesBtn = document.getElementById('toggleCoursesBtn');
-            const tableHeaders = document.querySelectorAll('.course-table th[data-sort]');
+ <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ফর্ম এবং টেবিল এলিমেন্ট সিলেক্ট করুন
+    const courseForm = document.getElementById('courseForm');
+    const courseTableBody = document.getElementById('courseTableBody');
+    const courseGrid = document.getElementById('courseGrid');
+    const deleteModal = document.getElementById('deleteModal');
+    const notification = document.getElementById('notification');
+    const toggleCoursesBtn = document.getElementById('toggleCoursesBtn');
+    const tableHeaders = document.querySelectorAll('.course-table th[data-sort]');
+    
+    // ডিফল্ট কোর্স ডেটা
+    const defaultCourses = [
+        {
+            id: 1,
+            title: "কোরআন শিক্ষা",
+            image: "img/al-quran-7737560_1280.jpg",
+            level: "beginner",
+            videos: 24,
+            hours: "৭ ঘন্টা",
+            notes: 1,
+            currentPrice: "৳ ৯৯",
+            originalPrice: "৳ ১২০",
+            link: "Quran-Education.html"
+        },
+        {
+            id: 2,
+            title: "উর্দু কায়দা",
+            image: "img/al-quran-7741928_1280.jpg",
+            level: "intermediate",
+            videos: 18,
+            hours: "৫ ঘন্টা",
+            notes: 2,
+            currentPrice: "৳ ৮০০",
+            originalPrice: "৳ ১,১০০",
+            link: "Urdu-kayada.html"
+        },
+        {
+            id: 3,
+            title: "উর্দু কি পেহেলি কিতাব",
+            image: "img/al-quran-7737590_1280.jpg",
+            level: "advanced",
+            videos: 20,
+            hours: "৮ ঘন্টা",
+            notes: 2,
+            currentPrice: "৳ ৯০০",
+            originalPrice: "৳ ১,২০০",
+            link: "Urdu-Paheli.html"
+        },
+        {
+            id: 4,
+            title: "তালিমুল ইসলাম ১ম খন্ড",
+            image: "img/holy-quran-1528446_1280.jpg",
+            level: "beginner",
+            videos: 30,
+            hours: "১০ ঘন্টা",
+            notes: 3,
+            currentPrice: "৳ ৯০০",
+            originalPrice: "৳ ১,２００",
+            link: "TalimulIslamVolume-1.html"
+        },
+        {
+            id: 5,
+            title: "তালিমুল ইসলাম ২য় খন্ড",
+            image: "img/man-7757211_1280.png",
+            level: "intermediate",
+            videos: 22,
+            hours: "৯ ঘন্টা",
+            notes: 1,
+            currentPrice: "৳ ９００",
+            originalPrice: "৳ １,２００",
+            link: "TalimulIslamVolume-2.html"
+        }
+    ];
+    
+    let courses = JSON.parse(localStorage.getItem('adminCourses')) || defaultCourses;
+    let currentDeleteId = null;
+    let isCoursesVisible = false;
+    let currentSort = { field: null, direction: 'asc' };
+    let draggedItem = null;
+    
+    // লোকাল স্টোরেজে ডিফল্ট কোর্স সেভ করুন (যদি না থাকে)
+    if (!localStorage.getItem('adminCourses')) {
+        localStorage.setItem('adminCourses', JSON.stringify(defaultCourses));
+    }
+    
+    // কোর্স ফর্ম সাবমিট হ্যান্ডলার
+    courseForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // ফর্ম ভ্যালিডেশন
+        if (!validateForm()) {
+            showNotification('দয়া করে সকল প্রয়োজনীয় তথ্য প্রদান করুন', 'error');
+            return;
+        }
+        
+        // ফর্ম ডেটা সংগ্রহ করুন
+        const courseData = {
+            id: Date.now(), // ইউনিক আইডি
+            title: document.getElementById('courseTitle').value,
+            image: document.getElementById('courseImage').value,
+            level: document.getElementById('courseLevel').value,
+            videos: document.getElementById('courseVideos').value,
+            hours: document.getElementById('courseHours').value,
+            notes: document.getElementById('courseNotes').value,
+            currentPrice: document.getElementById('currentPrice').value,
+            originalPrice: document.getElementById('originalPrice').value,
+            link: document.getElementById('courseLink').value
+        };
+        
+        // কোর্স যোগ করুন
+        courses.push(courseData);
+        
+        // লোকাল স্টোরেজে সেভ করুন
+        localStorage.setItem('adminCourses', JSON.stringify(courses));
+        
+        // টেবিল আপডেট করুন
+        renderCourses();
+        
+        // কোর্স গ্রিড আপডেট করুন
+        renderCourseGrid();
+        
+        // ফর্ম রিসেট করুন
+        courseForm.reset();
+        
+        // সাফল্যমূলক মেসেজ দেখান
+        showNotification('কোর্স সফলভাবে যোগ করা হয়েছে!', 'success');
+    });
+    
+    // ফর্ম ভ্যালিডেশন ফাংশন
+    function validateForm() {
+        const title = document.getElementById('courseTitle').value;
+        const image = document.getElementById('courseImage').value;
+        const level = document.getElementById('courseLevel').value;
+        
+        if (!title || !image || !level) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // নোটিফিকেশন দেখানোর ফাংশন
+    function showNotification(message, type) {
+        const notification = document.getElementById('notification');
+        const messageElement = document.getElementById('notificationMessage');
+        
+        messageElement.textContent = message;
+        notification.className = 'notification ' + type;
+        notification.classList.add('show');
+        
+        // 3 সেকেন্ড পর নোটিফিকেশন隐藏
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+    
+    // কোর্স তালিকা রেন্ডার ফাংশন
+    function renderCourses() {
+        courseTableBody.innerHTML = '';
+        
+        if (courses.length === 0) {
+            courseTableBody.innerHTML = `
+                <tr>
+                    <td colspan="8" style="text-align: center; padding: 20px;">
+                        কোন কোর্স পাওয়া যায়নি। নতুন কোর্স যোগ করুন।
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+        
+        courses.forEach((course, index) => {
+            const row = document.createElement('tr');
+            row.setAttribute('data-id', course.id);
+            row.setAttribute('draggable', 'true');
+            row.innerHTML = `
+                <td><i class="fas fa-grip-lines drag-handle"></i></td>
+                <td><img src="${course.image}" class="thumbnail-preview" alt="${course.title}" onerror="this.src='https://via.placeholder.com/60x40?text=No+Image'"></td>
+                <td>${course.title}</td>
+                <td>${getLevelText(course.level)}</td>
+                <td>${course.currentPrice}</td>
+                <td>${course.videos}</td>
+                <td class="action-buttons">
+                    <button class="btn-edit" data-id="${course.id}">
+                        <i class="fas fa-edit"></i> এডিট
+                    </button>
+                    <button class="btn-delete" data-id="${course.id}" data-title="${course.title}">
+                        <i class="fas fa-trash"></i> ডিলিট
+                    </button>
+                </td>
+            `;
+            courseTableBody.appendChild(row);
             
-            // ডিফল্ট কোর্স ডেটা
-            const defaultCourses = [
-                {
-                    id: 1,
-                    title: "কোরআন শিক্ষা",
-                    image: "img/al-quran-7737560_1280.jpg",
-                    level: "beginner",
-                    videos: 24,
-                    hours: "৭ ঘন্টা",
-                    notes: 1,
-                    currentPrice: "৳ ৯৯",
-                    originalPrice: "৳ ১২০",
-                    link: "Quran-Education.html"
-                },
-                {
-                    id: 2,
-                    title: "উর্দু কায়দa",
-                    image: "img/al-quran-7741928_1280.jpg",
-                    level: "intermediate",
-                    videos: 18,
-                    hours: "৫ ঘন্টা",
-                    notes: 2,
-                    currentPrice: "৳৮০০",
-                    originalPrice: "৳১.১০০",
-                    link: "Urdu-kayada.html"
-                },
-                {
-                    id: 3,
-                    title: "উর্দু কি পেহেলি কিতাব",
-                    image: "img/al-quran-7737590_1280.jpg",
-                    level: "advanced",
-                    videos: 20,
-                    hours: "৮ ঘন্টা",
-                    notes: 2,
-                    currentPrice: "৳৯০০",
-                    originalPrice: "৳১,২০০",
-                    link: "Urdu-Paheli.html"
-                },
-                {
-                    id: 4,
-                    title: "তালিমুল ইসলাম ১ম খন্ড",
-                    image: "img/holy-quran-1528446_1280.jpg",
-                    level: "beginner",
-                    videos: 30,
-                    hours: "১০ ঘন্টা",
-                    notes: 3,
-                    currentPrice: "৳৯০০",
-                    originalPrice: "৳১,２００",
-                    link: "TalimulIslamVolume-1.html"
-                },
-                {
-                    id: 5,
-                    title: "তালিমul ইসলাম ২য় খন্ড",
-                    image: "img/man-7757211_1280.png",
-                    level: "intermediate",
-                    videos: 22,
-                    hours: "৯ ঘন্টা",
-                    notes: 1,
-                    currentPrice: "৳９００",
-                    originalPrice: "৳１,２００",
-                    link: "TalimulIslamVolume-2.html"
-                }
-            ];
-            
-            let courses = JSON.parse(localStorage.getItem('adminCourses')) || defaultCourses;
-            let currentDeleteId = null;
-            let isCoursesVisible = false;
-            let currentSort = { field: null, direction: 'asc' };
-            let draggedItem = null;
-            
-            // লোকাল স্টোরেজে ডিফল্ট কোর্স সেভ করুন (যদি না থাকে)
-            if (!localStorage.getItem('adminCourses')) {
-                localStorage.setItem('adminCourses', JSON.stringify(defaultCourses));
-            }
-            
-            // কোর্স ফর্ম সাবমিট হ্যান্ডলার
-            courseForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // ফর্ম ভ্যালিডেশন
-                if (!validateForm()) {
-                    showNotification('দয়া করে সকল প্রয়োজনীয় তথ্য প্রদান করুন', 'error');
-                    return;
-                }
-                
-                // ফর্ম ডেটা সংগ্রহ করুন
-                const courseData = {
-                    id: Date.now(), // ইউনিক আইডি
-                    title: document.getElementById('courseTitle').value,
-                    image: document.getElementById('courseImage').value,
-                    level: document.getElementById('courseLevel').value,
-                    videos: document.getElementById('courseVideos').value,
-                    hours: document.getElementById('courseHours').value,
-                    notes: document.getElementById('courseNotes').value,
-                    currentPrice: document.getElementById('currentPrice').value,
-                    originalPrice: document.getElementById('originalPrice').value,
-                    link: document.getElementById('courseLink').value
-                };
-                
-                // কোর্স যোগ করুন
-                courses.push(courseData);
-                
-                // লোকাল স্টোরেজে সেভ করুন
-                localStorage.setItem('adminCourses', JSON.stringify(courses));
-                
-                // টেবিল আপডেট করুন
-                renderCourses();
-                
-                // কোর্স গ্রিড আপডেট করুন
-                renderCourseGrid();
-                
-                // ফর্ম রিসেট করুন
-                courseForm.reset();
-                
-                // সাফল্যমূলক মেসেজ দেখান
-                showNotification('কোর্স সফলভাবে যোগ করা হয়েছে!', 'success');
-            });
-            
-            // ফর্ম ভ্যালিডেশন ফাংশন
-            function validateForm() {
-                const title = document.getElementById('courseTitle').value;
-                const image = document.getElementById('courseImage').value;
-                const level = document.getElementById('courseLevel').value;
-                
-                if (!title || !image || !level) {
-                    return false;
-                }
-                
-                return true;
-            }
-            
-            // নোটিফিকেশন দেখানোর ফাংশন
-            function showNotification(message, type) {
-                const notification = document.getElementById('notification');
-                const messageElement = document.getElementById('notificationMessage');
-                
-                messageElement.textContent = message;
-                notification.className = 'notification ' + type;
-                notification.classList.add('show');
-                
-                // 3 সেকেন্ড পর নোটিফিকেশন隐藏
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 3000);
-            }
-            
-            // কোর্স তালিকা রেন্ডার ফাংশন
-            function renderCourses() {
-                courseTableBody.innerHTML = '';
-                
-                if (courses.length === 0) {
-                    courseTableBody.innerHTML = `
-                        <tr>
-                            <td colspan="7" style="text-align: center; padding: 20px;">
-                                কোন কোর্স পাওয়া যায়নি। নতুন কোর্স যোগ করুন।
-                            </td>
-                        </tr>
-                    `;
-                    return;
-                }
-                
-                courses.forEach((course, index) => {
-                    const row = document.createElement('tr');
-                    row.setAttribute('data-id', course.id);
-                    row.setAttribute('draggable', 'true');
-                    row.innerHTML = `
-                        <td><i class="fas fa-grip-lines drag-handle"></i></td>
-                        <td><img src="${course.image}" class="thumbnail-preview" alt="${course.title}" onerror="this.src='https://via.placeholder.com/60x40?text=No+Image'"></td>
-                        <td>${course.title}</td>
-                        <td>${getLevelText(course.level)}</td>
-                        <td>${course.currentPrice}</td>
-                        <td>${course.videos}</td>
-                        <td class="action-buttons">
-                            <button class="btn-edit" data-id="${course.id}">
-                                <i class="fas fa-edit"></i> এডিট
-                            </button>
-                            <button class="btn-delete" data-id="${course.id}" data-title="${course.title}">
-                                <i class="fas fa-trash"></i> ডিলিট
-                            </button>
-                        </td>
-                    `;
-                    courseTableBody.appendChild(row);
-                    
-                    // ড্র্যাগ এন্ড ড্রপ ইভেন্ট যোগ করুন
-                    setupDragAndDrop(row);
-                });
-                
-                // ডিলিট বাটনে ইভেন্ট লিসেনার যোগ করুন
-                document.querySelectorAll('.btn-delete').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const courseId = parseInt(this.getAttribute('data-id'));
-                        const courseTitle = this.getAttribute('data-title');
-                        showDeleteModal(courseId, courseTitle);
-                    });
-                });
-                
-                // এডিট বাটনে ইভেন্ট লিসেনার যোগ করুন
-                document.querySelectorAll('.btn-edit').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const courseId = parseInt(this.getAttribute('data-id'));
-                        editCourse(courseId);
-                    });
-                });
-                
-                // সাজানোর আইকন আপডেট করুন
-                updateSortIcons();
-            }
-            
-            // ড্র্যাগ এন্ড ড্রপ সেটআপ ফাংশন
-            function setupDragAndDrop(row) {
-                row.addEventListener('dragstart', function(e) {
-                    draggedItem = this;
-                    setTimeout(() => this.classList.add('dragging'), 0);
-                });
-                
-                row.addEventListener('dragend', function() {
-                    this.classList.remove('dragging');
-                    draggedItem = null;
-                    
-                    // ড্র্যাগ শেষ হলে লোকাল স্টোরেজ আপডেট করুন
-                    localStorage.setItem('adminCourses', JSON.stringify(courses));
-                    showNotification('কোর্সের অবস্থান সফলভাবে পরিবর্তন করা হয়েছে!', 'success');
-                });
-                
-                row.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                });
-                
-                row.addEventListener('dragenter', function(e) {
-                    e.preventDefault();
-                    this.classList.add('drag-over');
-                });
-                
-                row.addEventListener('dragleave', function() {
-                    this.classList.remove('drag-over');
-                });
-                
-                row.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    this.classList.remove('drag-over');
-                    
-                    if (draggedItem && draggedItem !== this) {
-                        const allRows = Array.from(courseTableBody.querySelectorAll('tr'));
-                        const fromIndex = allRows.indexOf(draggedItem);
-                        const toIndex = allRows.indexOf(this);
-                        
-                        // কোর্স অ্যারেতে আইটেম সরান
-                        if (fromIndex < toIndex) {
-                            courseTableBody.insertBefore(draggedItem, this.nextSibling);
-                            // ডেটা অ্যারেতে আইটেম সরান
-                            const [movedItem] = courses.splice(fromIndex, 1);
-                            courses.splice(toIndex, 0, movedItem);
-                        } else {
-                            courseTableBody.insertBefore(draggedItem, this);
-                            // ডেটা অ্যারেতে আইটেম সরান
-                            const [movedItem] = courses.splice(fromIndex, 1);
-                            courses.splice(toIndex, 0, movedItem);
-                        }
-                    }
-                });
-            }
-            
-            // কোর্স গ্রিড রেন্ডার ফাংশন
-            function renderCourseGrid() {
-                courseGrid.innerHTML = '';
-                
-                // প্রথম ৫টি কোর্স (ডিফল্টভাবে দেখা যাবে)
-                courses.slice(0, 5).forEach(course => {
-                    const courseCard = createCourseCard(course, false);
-                    courseGrid.appendChild(courseCard);
-                });
-                
-                // বাকি কোর্সগুলো (আরো দেখুন বাটনে ক্লিক করলে দেখা যাবে)
-                courses.slice(5).forEach(course => {
-                    const courseCard = createCourseCard(course, true);
-                    courseGrid.appendChild(courseCard);
-                });
-                
-                // রেসপন্সিভ ভিজিবিলিটি সেট করুন
-                updateCourseVisibility();
-            }
-            
-            // কোর্স কার্ড তৈরি করার ফাংশন
-            function createCourseCard(course, isHidden) {
-                const courseCard = document.createElement('div');
-                courseCard.className = isHidden ? 'course-card hidden-course' : 'course-card';
-                courseCard.innerHTML = `
-                    <a href="${course.link}" class="course-card-link" aria-label="${course.title}"></a>
-                    <div class="course-thumbnail">
-                        <img src="${course.image}" alt="${course.title}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
-                        <div class="level-badge ${course.level}">${getLevelText(course.level)}</div>
-                    </div>
-                    <div class="course-info">
-                        <h3 class="course-title">${course.title}</h3>
-                        <div class="course-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-video"></i>
-                                <span>${course.videos} ক্লাস</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-clock"></i>
-                                <span>${course.hours}</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-file-alt"></i>
-                                <span>${course.notes} টি নোট</span>
-                            </div>
-                        </div>
-                        <div class="course-footer">
-                            <div class="price">
-                                <span class="current-price">${course.currentPrice}</span>
-                                <span class="original-price">${course.originalPrice}</span>
-                            </div>
-                            <div class="action-buttons">
-                                <a href="${course.link}" class="buy-now-btn">দেখুন</a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                return courseCard;
-            }
-            
-            // লেভেল মান থেকে টেক্সট পেতে
-            function getLevelText(level) {
-                switch(level) {
-                    case 'beginner': return 'বেসিক';
-                    case 'intermediate': return 'মধ্যবর্তী';
-                    case 'advanced': return 'অ্যাডভান্সড';
-                    default: return level;
-                }
-            }
-            
-            // রেসপন্সিভ ভিজিবিলিটি আপডেট করুন
-            function updateCourseVisibility() {
-                const desktopOnlyCards = document.querySelectorAll('.desktop-only');
-                if (window.innerWidth > 576) {
-                    desktopOnlyCards.forEach(card => {
-                        card.style.display = 'block';
-                    });
-                } else {
-                    desktopOnlyCards.forEach(card => {
-                        card.style.display = 'none';
-                    });
-                }
-            }
-            
-            // ডিলিট মোডাল দেখান
-            function showDeleteModal(courseId, courseTitle) {
-                currentDeleteId = courseId;
-                document.getElementById('courseToDelete').textContent = courseTitle;
-                deleteModal.style.display = 'flex';
-            }
-            
-            // এডিট কোর্স ফাংশন
-            function editCourse(courseId) {
-                const course = courses.find(c => c.id === courseId);
-                if (course) {
-                    // ফর্ম পূরণ করুন
-                    document.getElementById('courseTitle').value = course.title;
-                    document.getElementById('courseImage').value = course.image;
-                    document.getElementById('courseLevel').value = course.level;
-                    document.getElementById('courseVideos').value = course.videos;
-                    document.getElementById('courseHours').value = course.hours;
-                    document.getElementById('courseNotes').value = course.notes;
-                    document.getElementById('currentPrice').value = course.currentPrice;
-                    document.getElementById('originalPrice').value = course.originalPrice;
-                    document.getElementById('courseLink').value = course.link;
-                    
-                    // পুরানো কোর্স ডিলিট করুন
-                    courses = courses.filter(c => c.id !== courseId);
-                    localStorage.setItem('adminCourses', JSON.stringify(courses));
-                    
-                    // টেবিল রিফ্রেশ করুন
-                    renderCourses();
-                    
-                    // কোর্স গ্রিড রিফ্রেশ করুন
-                    renderCourseGrid();
-                    
-                    showNotification('কোর্সটি এডিট করার জন্য প্রস্তুত। প্রয়োজনীয় পরিবর্তন করুন এবং সাবমিট করুন।', 'success');
-                }
-            }
-            
-            // টগল কোর্স ফাংশন
-            function toggleCourses() {
-                const hiddenCourses = document.querySelectorAll('.hidden-course');
-                const buttonText = document.getElementById('buttonText');
-                const buttonIcon = toggleCoursesBtn.querySelector('i');
-                
-                if (!isCoursesVisible) {
-                    // কোর্সগুলো দেখান
-                    hiddenCourses.forEach((course, index) => {
-                        setTimeout(() => {
-                            course.classList.add('show');
-                            course.style.display = 'block';
-                            setTimeout(() => {
-                                course.style.opacity = '1';
-                                course.style.transform = 'translateY(0)';
-                            }, 50);
-                        }, index * 100);
-                    });
-                    
-                    // বাটনের টেক্সট ও আইকন পরিবর্তন
-                    buttonText.textContent = 'সংকুচিত করুন';
-                    buttonIcon.className = 'fas fa-minus';
-                    isCoursesVisible = true;
-                    
-                } else {
-                    // কোর্সগুলো লুকান
-                    hiddenCourses.forEach((course, index) => {
-                        setTimeout(() => {
-                            course.style.opacity = '0';
-                            course.style.transform = 'translateY(20px)';
-                            setTimeout(() => {
-                                course.classList.remove('show');
-                                course.style.display = 'none';
-                            }, 300);
-                        }, index * 50);
-                    });
-                    
-                    // বাটনের টেক্সট ও আইকন পরিবর্তন
-                    buttonText.textContent = 'আরো দেখুন';
-                    buttonIcon.className = 'fas fa-plus';
-                    isCoursesVisible = false;
-                }
-            }
-            
-            // সাজানোর ফাংশন
-            function sortCourses(field, direction) {
-                courses.sort((a, b) => {
-                    let valueA = a[field];
-                    let valueB = b[field];
-                    
-                    // বিশেষ ক্ষেত্রে ডেটা প্রসেসিং
-                    if (field === 'currentPrice' || field === 'originalPrice') {
-                        // মূল্য থেকে সংখ্যা বের করুন
-                        valueA = parseFloat(valueA.replace(/[^\d.]/g, ''));
-                        valueB = parseFloat(valueB.replace(/[^\d.]/g, ''));
-                    } else if (field === 'videos') {
-                        valueA = parseInt(valueA);
-                        valueB = parseInt(valueB);
-                    } else if (field === 'level') {
-                        // লেভেলের জন্য বিশেষ সাজানোর ক্রম
-                        const levelOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
-                        valueA = levelOrder[a.level] || 0;
-                        valueB = levelOrder[b.level] || 0;
-                    }
-                    
-                    if (typeof valueA === 'string') {
-                        valueA = valueA.toLowerCase();
-                        valueB = valueB.toLowerCase();
-                    }
-                    
-                    if (valueA < valueB) {
-                        return direction === 'asc' ? -1 : 1;
-                    }
-                    if (valueA > valueB) {
-                        return direction === 'asc' ? 1 : -1;
-                    }
-                    return 0;
-                });
-                
-                // কোর্সগুলো রেন্ডার করুন
-                renderCourses();
-                renderCourseGrid();
-            }
-            
-            // সাজানোর আইকন আপডেট করুন
-            function updateSortIcons() {
-                // সব হেডার থেকে সক্রিয় ক্লাস সরান
-                tableHeaders.forEach(header => {
-                    header.classList.remove('sort-asc', 'sort-desc');
-                    const icon = header.querySelector('.sort-icon');
-                    if (icon) {
-                        icon.textContent = '↕';
-                    }
-                });
-                
-                // বর্তমান সাজানোর ক্ষেত্র হাইলাইট করুন
-                if (currentSort.field) {
-                    const activeHeader = document.querySelector(`th[data-sort="${currentSort.field}"]`);
-                    if (activeHeader) {
-                        activeHeader.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
-                        const icon = activeHeader.querySelector('.sort-icon');
-                        if (icon) {
-                            icon.textContent = currentSort.direction === 'asc' ? '↑' : '↓';
-                        }
-                    }
-                }
-            }
-            
-            // মোডাল বন্ধ করুন
-            document.querySelector('.close-modal').addEventListener('click', function() {
-                deleteModal.style.display = 'none';
-            });
-            
-            document.querySelector('.btn-cancel').addEventListener('click', function() {
-                deleteModal.style.display = 'none';
-            });
-            
-            // ডিলিট নিশ্চিত করুন
-            document.querySelector('.btn-confirm').addEventListener('click', function() {
-                if (currentDeleteId) {
-                    // কোর্স ডিলিট করুন
-                    courses = courses.filter(course => course.id !== currentDeleteId);
-                    localStorage.setItem('adminCourses', JSON.stringify(courses));
-                    
-                    // টেবিল আপডেট করুন
-                    renderCourses();
-                    
-                    // কোর্স গ্রিড আপডেট করুন
-                    renderCourseGrid();
-                    
-                    // মোডাল বন্ধ করুন
-                    deleteModal.style.display = 'none';
-                    
-                    showNotification('কোর্স সফলভাবে ডিলিট করা হয়েছে!', 'success');
-                }
-            });
-            
-            // টগল বাটনে ইভেন্ট লিসেনার যোগ করুন
-            toggleCoursesBtn.addEventListener('click', toggleCourses);
-            
-            // টেবিল হেডারে ক্লিক করে সাজানোর জন্য ইভেন্ট লিসেনার যোগ করুন
-            tableHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const field = header.getAttribute('data-sort');
-                    
-                    // একই ফিল্ডে ক্লিক করলে দিক পরিবর্তন করুন
-                    if (currentSort.field === field) {
-                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
-                    } else {
-                        currentSort.field = field;
-                        currentSort.direction = 'asc';
-                    }
-                    
-                    // কোর্স সাজান
-                    sortCourses(currentSort.field, currentSort.direction);
-                });
-            });
-            
-            // প্রাথমিকভাবে কোর্স তালিকা রেন্ডার করুন
-            renderCourses();
-            
-            // প্রাথমিকভাবে কোর্স গ্রিড রেন্ডার করুন
-            renderCourseGrid();
-            
-            // রেসাইজ ইভেন্ট হ্যান্ডলার
-            window.addEventListener('resize', updateCourseVisibility);
-            
-            // প্রাথমিকভাবে হিডেন কোর্সগুলো লুকানো রাখার জন্য
-            const hiddenCourses = document.querySelectorAll('.hidden-course');
-            hiddenCourses.forEach(course => {
-                course.style.display = 'none';
-                course.style.opacity = '0';
-                course.style.transform = 'translateY(20px)';
-                course.style.transition = 'all 0.3s ease';
+            // ড্র্যাগ এন্ড ড্রপ ইভেন্ট যোগ করুন
+            setupDragAndDrop(row);
+        });
+        
+        // ডিলিট বাটনে ইভেন্ট লিসেনার যোগ করুন
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const courseId = parseInt(this.getAttribute('data-id'));
+                const courseTitle = this.getAttribute('data-title');
+                showDeleteModal(courseId, courseTitle);
             });
         });
-
-        // কোর্স সেভ করার পর
-        localStorage.setItem('adminCourses', JSON.stringify(adminCourses));
-        // কোর্স লিস্ট রিফ্রেশ করুন
-        if (window.refreshCourseList) {
-            window.refreshCourseList();
+        
+        // এডিট বাটনে ইভেন্ট লিসেনার যোগ করুন
+        document.querySelectorAll('.btn-edit').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const courseId = parseInt(this.getAttribute('data-id'));
+                editCourse(courseId);
+            });
+        });
+        
+        // সাজানোর আইকন আপডেট করুন
+        updateSortIcons();
+    }
+    
+    // ড্র্যাগ এন্ড ড্রপ সেটআপ ফাংশন
+    function setupDragAndDrop(row) {
+        row.addEventListener('dragstart', function(e) {
+            draggedItem = this;
+            setTimeout(() => this.classList.add('dragging'), 0);
+        });
+        
+        row.addEventListener('dragend', function() {
+            this.classList.remove('dragging');
+            draggedItem = null;
+            
+            // ড্র্যাগ শেষ হলে লোকাল স্টোরেজ আপডেট করুন
+            localStorage.setItem('adminCourses', JSON.stringify(courses));
+            showNotification('কোর্সের অবস্থান সফলভাবে পরিবর্তন করা হয়েছে!', 'success');
+        });
+        
+        row.addEventListener('dragover', function(e) {
+            e.preventDefault();
+        });
+        
+        row.addEventListener('dragenter', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+        
+        row.addEventListener('dragleave', function() {
+            this.classList.remove('drag-over');
+        });
+        
+        row.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            if (draggedItem && draggedItem !== this) {
+                const allRows = Array.from(courseTableBody.querySelectorAll('tr'));
+                const fromIndex = allRows.indexOf(draggedItem);
+                const toIndex = allRows.indexOf(this);
+                
+                // কোর্স অ্যারেতে আইটেম সরান
+                if (fromIndex < toIndex) {
+                    courseTableBody.insertBefore(draggedItem, this.nextSibling);
+                    // ডেটা অ্যারেতে আইটেম সরান
+                    const [movedItem] = courses.splice(fromIndex, 1);
+                    courses.splice(toIndex, 0, movedItem);
+                } else {
+                    courseTableBody.insertBefore(draggedItem, this);
+                    // ডেটা অ্যারেতে আইটেম সরান
+                    const [movedItem] = courses.splice(fromIndex, 1);
+                    courses.splice(toIndex, 0, movedItem);
+                }
+            }
+        });
+    }
+    
+    // কোর্স গ্রিড রেন্ডার ফাংশন
+    function renderCourseGrid() {
+        if (!courseGrid) return;
+        
+        courseGrid.innerHTML = '';
+        
+        // সব কোর্স কার্ড তৈরি করুন
+        courses.forEach((course, index) => {
+            // ডেস্কটপে প্রথম ৫টি এবং মোবাইলে প্রথম ৪টি কার্ড ছাড়া বাকিগুলো হাইড করুন
+            const isHidden = (window.innerWidth > 576 && index >= 5) || (window.innerWidth <= 576 && index >= 4);
+            
+            const courseCard = document.createElement('div');
+            courseCard.className = isHidden ? 'course-card hidden-course' : 'course-card';
+            courseCard.innerHTML = `
+                <a href="${course.link}" class="course-card-link" aria-label="${course.title}"></a>
+                <div class="course-thumbnail">
+                    <img src="${course.image}" alt="${course.title}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
+                    <div class="level-badge ${course.level}">${getLevelText(course.level)}</div>
+                </div>
+                <div class="course-info">
+                    <h3 class="course-title">${course.title}</h3>
+                    <div class="course-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-video"></i>
+                            <span>${course.videos} ক্লাস</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>${course.hours}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-file-alt"></i>
+                            <span>${course.notes} টি নোট</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="price">
+                            <span class="current-price">${course.currentPrice}</span>
+                            <span class="original-price">${course.originalPrice}</span>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="${course.link}" class="buy-now-btn">দেখুন</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            courseGrid.appendChild(courseCard);
+        });
+        
+        // টগল বাটন ভিজিবিলিটি আপডেট করুন
+        updateToggleButtonVisibility();
+        
+        // হিডেন কোর্সগুলো লুকানো রাখুন
+        const hiddenCourses = document.querySelectorAll('.hidden-course');
+        hiddenCourses.forEach(course => {
+            course.style.display = 'none';
+            course.style.opacity = '0';
+            course.style.transform = 'translateY(20px)';
+            course.style.transition = 'all 0.3s ease';
+        });
+    }
+    
+    // লেভেল মান থেকে টেক্সট পেতে
+    function getLevelText(level) {
+        switch(level) {
+            case 'beginner': return 'বেসিক';
+            case 'intermediate': return 'মধ্যবর্তী';
+            case 'advanced': return 'অ্যাডভান্সড';
+            default: return level;
         }
-    </script>
+    }
+    
+    // টগল বাটন ভিজিবিলিটি আপডেট করুন
+    function updateToggleButtonVisibility() {
+        if (!toggleCoursesBtn) return;
+        
+        const hiddenCoursesCount = document.querySelectorAll('.hidden-course').length;
+        if (hiddenCoursesCount > 0) {
+            toggleCoursesBtn.style.display = 'block';
+        } else {
+            toggleCoursesBtn.style.display = 'none';
+        }
+    }
+    
+    // ডিলিট মোডাল দেখান
+    function showDeleteModal(courseId, courseTitle) {
+        currentDeleteId = courseId;
+        document.getElementById('courseToDelete').textContent = courseTitle;
+        deleteModal.style.display = 'flex';
+    }
+    
+    // এডিট কোর্স ফাংশন
+    function editCourse(courseId) {
+        const course = courses.find(c => c.id === courseId);
+        if (course) {
+            // ফর্ম পূরণ করুন
+            document.getElementById('courseTitle').value = course.title;
+            document.getElementById('courseImage').value = course.image;
+            document.getElementById('courseLevel').value = course.level;
+            document.getElementById('courseVideos').value = course.videos;
+            document.getElementById('courseHours').value = course.hours;
+            document.getElementById('courseNotes').value = course.notes;
+            document.getElementById('currentPrice').value = course.currentPrice;
+            document.getElementById('originalPrice').value = course.originalPrice;
+            document.getElementById('courseLink').value = course.link;
+            
+            // পুরানো কোর্স ডিলিট করুন
+            courses = courses.filter(c => c.id !== courseId);
+            localStorage.setItem('adminCourses', JSON.stringify(courses));
+            
+            // টেবিল রিফ্রেশ করুন
+            renderCourses();
+            
+            // কোর্স গ্রিড রিফ্রেশ করুন
+            renderCourseGrid();
+            
+            showNotification('কোর্সটি এডিট করার জন্য প্রস্তুত। প্রয়োজনীয় পরিবর্তন করুন এবং সাবমিট করুন।', 'success');
+        }
+    }
+    
+    // টগল কোর্স ফাংশন
+    function toggleCourses() {
+        const hiddenCourses = document.querySelectorAll('.hidden-course');
+        const buttonText = document.getElementById('buttonText');
+        const buttonIcon = toggleCoursesBtn.querySelector('i');
+        
+        if (!isCoursesVisible) {
+            // কোর্সগুলো দেখান
+            hiddenCourses.forEach((course, index) => {
+                setTimeout(() => {
+                    course.style.display = 'block';
+                    setTimeout(() => {
+                        course.style.opacity = '1';
+                        course.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 100);
+            });
+            
+            // বাটনের টেক্সট ও আইকন পরিবর্তন
+            buttonText.textContent = 'সংকুচিত করুন';
+            buttonIcon.className = 'fas fa-minus';
+            isCoursesVisible = true;
+            
+        } else {
+            // কোর্সগুলো লুকান
+            hiddenCourses.forEach((course, index) => {
+                setTimeout(() => {
+                    course.style.opacity = '0';
+                    course.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        course.style.display = 'none';
+                    }, 300);
+                }, index * 50);
+            });
+            
+            // বাটনের টেক্সট ও আইকন পরিবর্তন
+            buttonText.textContent = 'আরো দেখুন';
+            buttonIcon.className = 'fas fa-plus';
+            isCoursesVisible = false;
+        }
+    }
+    
+    // সাজানোর ফাংশন
+    function sortCourses(field, direction) {
+        courses.sort((a, b) => {
+            let valueA = a[field];
+            let valueB = b[field];
+            
+            // বিশেষ ক্ষেত্রে ডেটা প্রসেসিং
+            if (field === 'currentPrice' || field === 'originalPrice') {
+                // মূল্য থেকে সংখ্যা বের করুন
+                valueA = parseFloat(valueA.replace(/[^\d.]/g, ''));
+                valueB = parseFloat(valueB.replace(/[^\d.]/g, ''));
+            } else if (field === 'videos') {
+                valueA = parseInt(valueA);
+                valueB = parseInt(valueB);
+            } else if (field === 'level') {
+                // লেভেলের জন্য বিশেষ সাজানোর ক্রম
+                const levelOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
+                valueA = levelOrder[a.level] || 0;
+                valueB = levelOrder[b.level] || 0;
+            }
+            
+            if (typeof valueA === 'string') {
+                valueA = valueA.toLowerCase();
+                valueB = valueB.toLowerCase();
+            }
+            
+            if (valueA < valueB) {
+                return direction === 'asc' ? -1 : 1;
+            }
+            if (valueA > valueB) {
+                return direction === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+        
+        // কোর্সগুলো রেন্ডার করুন
+        renderCourses();
+        renderCourseGrid();
+    }
+    
+    // সাজানোর আইকন আপডেট করুন
+    function updateSortIcons() {
+        // সব হেডার থেকে সক্রিয় ক্লাস সরান
+        tableHeaders.forEach(header => {
+            header.classList.remove('sort-asc', 'sort-desc');
+            const icon = header.querySelector('.sort-icon');
+            if (icon) {
+                icon.textContent = '↕';
+            }
+        });
+        
+        // বর্তমান সাজানোর ক্ষেত্র হাইলাইট করুন
+        if (currentSort.field) {
+            const activeHeader = document.querySelector(`th[data-sort="${currentSort.field}"]`);
+            if (activeHeader) {
+                activeHeader.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+                const icon = activeHeader.querySelector('.sort-icon');
+                if (icon) {
+                    icon.textContent = currentSort.direction === 'asc' ? '↑' : '↓';
+                }
+            }
+        }
+    }
+    
+    // মোডাল বন্ধ করুন
+    document.querySelector('.close-modal').addEventListener('click', function() {
+        deleteModal.style.display = 'none';
+    });
+    
+    document.querySelector('.btn-cancel').addEventListener('click', function() {
+        deleteModal.style.display = 'none';
+    });
+    
+    // ডিলিট নিশ্চিত করুন
+    document.querySelector('.btn-confirm').addEventListener('click', function() {
+        if (currentDeleteId) {
+            // কোর্স ডিলিট করুন
+            courses = courses.filter(course => course.id !== currentDeleteId);
+            localStorage.setItem('adminCourses', JSON.stringify(courses));
+            
+            // টেবিল আপডেট করুন
+            renderCourses();
+            
+            // কোর্স গ্রিড আপডেট করুন
+            renderCourseGrid();
+            
+            // মোডাল বন্ধ করুন
+            deleteModal.style.display = 'none';
+            
+            showNotification('কোর্স সফলভাবে ডিলিট করা হয়েছে!', 'success');
+        }
+    });
+    
+    // টগল বাটনে ইভেন্ট লিসেনার যোগ করুন
+    if (toggleCoursesBtn) {
+        toggleCoursesBtn.addEventListener('click', toggleCourses);
+    }
+    
+    // টেবিল হেডারে ক্লিক করে সাজানোর জন্য ইভেন্ট লিসেনার যোগ করুন
+    tableHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const field = header.getAttribute('data-sort');
+            
+            // একই ফিল্ডে ক্লিক করলে দিক পরিবর্তন করুন
+            if (currentSort.field === field) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.field = field;
+                currentSort.direction = 'asc';
+            }
+            
+            // কোর্স সাজান
+            sortCourses(currentSort.field, currentSort.direction);
+        });
+    });
+    
+    // প্রাথমিকভাবে কোর্স তালিকা রেন্ডার করুন
+    renderCourses();
+    
+    // প্রাথমিকভাবে কোর্স গ্রিড রেন্ডার করুন
+    renderCourseGrid();
+    
+    // রেসাইজ ইভেন্ট হ্যান্ডলার
+    window.addEventListener('resize', function() {
+        renderCourseGrid();
+    });
+});
+
+// কোর্স সেভ করার পর
+localStorage.setItem('adminCourses', JSON.stringify(adminCourses));
+// কোর্স লিস্ট রিফ্রেশ করুন
+if (window.refreshCourseList) {
+    window.refreshCourseList();
+}
+</script>
 </body>
 </html>
