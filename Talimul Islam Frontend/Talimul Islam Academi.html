@@ -23,6 +23,12 @@ gtag('config', 'G-TJNPXFQ953');
 </script>
 <title>তালিমুল ইসলাম একাডেমি - অনলাইন ইসলামিক শিক্ষা প্ল্যাটফর্ম</title>
 <link rel="icon" href="img/favicon-v2.png" type="image/png">
+
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -52,6 +58,7 @@ gtag('config', 'G-TJNPXFQ953');
             box-sizing: border-box;
             font-family: 'Hind Siliguri', 'Bangla', sans-serif;
             font-family: "Noto Serif Bengali", serif;
+            font-family: 'Poppins', sans-serif;
         }
         
     :root {
@@ -3534,13 +3541,21 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 <!-- ════⚡ সর্বাধুনিক পদ্ধতিতে ════ -->
-<style>
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>তালিমুল ইসলাম একাডেমি</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
         }
 
         .hero-section {
@@ -4098,39 +4113,147 @@ window.addEventListener('popstate', setActiveNavLink);
                 padding: 0 25px;
             }
         }
-</style>  
-<section class="hero-section">
+
+        /* Gooey Button Styles */
+        .c-button {
+            color: #000;
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            padding: 0.9em 1.6em;
+            cursor: pointer;
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+            z-index: 1;
+            margin: 10px;
+        }
+
+        .c-button--gooey {
+            color: #2e7d32;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 4px solid #2e7d32;
+            border-radius: 0;
+            position: relative;
+            transition: all 700ms ease;
+            background: transparent;
+        }
+
+        .c-button--gooey .c-button__blobs {
+            height: 100%;
+            filter: url(#goo);
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: -3px;
+            right: -1px;
+            z-index: -1;
+        }
+
+        .c-button--gooey .c-button__blobs div {
+            background-color: #2e7d32;
+            width: 34%;
+            height: 100%;
+            border-radius: 100%;
+            position: absolute;
+            transform: scale(1.4) translateY(125%) translateZ(0);
+            transition: all 700ms ease;
+        }
+
+        .c-button--gooey .c-button__blobs div:nth-child(1) {
+            left: -5%;
+        }
+
+        .c-button--gooey .c-button__blobs div:nth-child(2) {
+            left: 30%;
+            transition-delay: 60ms;
+        }
+
+        .c-button--gooey .c-button__blobs div:nth-child(3) {
+            left: 66%;
+            transition-delay: 25ms;
+        }
+
+        .c-button--gooey:hover {
+            color: #fff;
+        }
+
+        .c-button--gooey:hover .c-button__blobs div {
+            transform: scale(1.4) translateY(0) translateZ(0);
+        }
+
+        .gooey-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- SVG for gooey effect (hidden) -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: none;">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <section class="hero-section">
         <div class="top-section">
             <div class="hero-content">
                 <h2>সর্বাধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষা গ্রহণ করুন অনলাইনে</h2>
                 <p>ঘরে বসেই ইসলামের বিষয়ভিত্তিক কোর্সে অংশ নিতে পারবেন সকল শ্রেণির পেশাজীবি। তালিমুল ইসলাম একাডেমি নিয়ে এসেছে সহজ, নিরাপদ ও মানসম্মত শিক্ষণ পদ্ধতি, যোগ্য উস্তাদদের তত্ত্বাবধানে।</p>
+                
+        
+                
                 <div class="buttons">
-                    <button class="btn">ফ্রি কোর্স</button>
-                    <button class="btn btn-primary1">পেইড কোর্স</button>
+                    <!-- <button class="btn">ফ্রি কোর্স</button> -->
+                    <button class="btn c-button c-button--gooey">ফ্রি কোর্স
+                        <div class="c-button__blobs">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </button>
+                    <!-- <button class="btn btn-primary1">পেইড কোর্স</button> -->
+
+                   <button class="btn btn-primary1 c-button c-button--gooey">পেইড কোর্স
+                        <div class="c-button__blobs">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </button>
                 </div>
             </div>
             <div class="hero-image">
                 <div class="slider-container">
-                    <div class="slide active" style="background-image: url('img/al-quran-7737560_1280.jpg')">
+                    <div class="slide active" style="background-image: url('img/converted\ \(1\).png')">
                         <div class="slide-content">
                             <h3>কুরআন বুঝলে জীবনের মানে বদলে যায়</h3>
                             <p>আপনি হয়তো কুরআন পড়েন, কিন্তু বুঝেন না। আজ থেকে প্রতিটি আয়াত বোঝার চেষ্টা করুন। কারণ, কুরআন শুধু তিলাওয়াতের জন্য নয়, বাঁচার পথ শেখার জন্য।</p>
                         </div>
                     </div>
-                   <div class="slide" style="background-image: url('img/al-quran-7737590_1280.jpg')">
-    <div class="slide-content">
-        <h3>কুরআন না শিখে বেঁচে থাকা মানে, অন্ধকারে হাঁটা</h3>
-        <p>যেমন একজন পথিক মানচিত্র ছাড়া পথ হারায়, তেমনই কুরআন ছাড়া মানুষ জীবনের মূল উদ্দেশ্য হারিয়ে ফেলে। কুরআন জানলে আপনি জানবেন—কেন আপনি এই পৃথিবীতে?</p>
-    </div>
-</div>
+                   <div class="slide" style="background-image: url('img/al-quran-7741928_1280.jpg')">
+                        <div class="slide-content">
+                            <h3>কুরআন না শিখে বেঁচে থাকা মানে, অন্ধকারে হাঁটা</h3>
+                            <p>যেমন একজন পথিক মানচিত্র ছাড়া পথ হারায়, তেমনই কুরআন ছাড়া মানুষ জীবনের মূল উদ্দেশ্য হারিয়ে ফেলে। কুরআন জানলে আপনি জানবেন—কেন আপনি এই পৃথিবীতে?</p>
+                        </div>
+                    </div>
 
-                    <div class="slide" style="background-image: url('img/al-quran-7741928_1280.jpg')">
+                    <div class="slide" style="background-image: url('img/al-quran-7737590_1280.jpg')">
                         <div class="slide-content">
                             <h3>ইন্টারনেটের মাধ্যমে হোক দীনের আলো ঘরে ঘরে</h3>
                             <p>যেখানে আপনি আছেন, সেখান থেকেই শুরু হোক কুরআন শেখার যাত্রা—ঘরে বসেই অনলাইন মাদ্রাসায়</p>
                         </div>
                     </div>
-                    <div class="slide" style="background-image: url('img/converted\ \(1\).png')">
+                    <div class="slide" style="background-image: url('img/al-quran-7737560_1280.jpg')">
                         <div class="slide-content">
                             <h3>সেজদার এই মুহূর্তেই আল্লাহর নিকট সবচেয়ে কাছাকাছি</h3>
                             <p>যে মাথা আল্লাহর সামনে ঝুকে যায়, সেই হৃদয় কখনো ভেঙে যায় না।</p>
@@ -4142,25 +4265,25 @@ window.addEventListener('popstate', setActiveNavLink);
 
         <div class="mobile-hero-image">
             <div class="mobile-slider-container">
-                <div class="mobile-slide active" style="background-image: url('img/al-quran-7737560_1280.jpg')">
+                <div class="mobile-slide active" style="background-image: url('img/converted\ \(1\).png')">
                     <div class="slide-content">
                         <h3>কুরআন বুঝলে জীবনের মানে বদলে যায়</h3>
                         <p>আপনি হয়তো কুরআন পড়েন, কিন্তু বুঝেন না। আজ থেকে প্রতিটি আয়াত বোঝার চেষ্টা করুন। কারণ, কুরআন শুধু তিলাওয়াতের জন্য নয়, বাঁচার পথ শেখার জন্য।</p>
                     </div>
                 </div>
-                <div class="mobile-slide" style="background-image: url('img/al-quran-7737590_1280.jpg')">
+                <div class="mobile-slide" style="background-image: url('img/al-quran-7741928_1280.jpg')">
                     <div class="slide-content">
                         <h3>কুরআন না শিখে বেঁচে থাকা মানে, অন্ধকারে হাঁটা</h3>
                         <p>যেমন একজন পথিক মানচিত্র ছাড়া পথ হারায়, তেমনই কুরআন ছাড়া মানুষ জীবনের মূল উদ্দেশ্য হারিয়ে ফেলে। কুরআন জানলে আপনি জানবেন—কেন আপনি এই পৃথিবীতে?</p>
                     </div>
                 </div>
-                <div class="mobile-slide" style="background-image: url('img/al-quran-7741928_1280.jpg')">
+                <div class="mobile-slide" style="background-image: url('img/al-quran-7737590_1280.jpg')">
                     <div class="slide-content">
                         <h3>ইন্টারনেটের মাধ্যমে হোক দীনের আলো ঘরে ঘরে</h3>
                         <p>যেখানে আপনি আছেন, سেখান থেকেই শুরু হোক কুরআন শেখার যাত্রা—ঘরে বসেই অনলাইন মাদ্রাসায়</p>
                     </div>
                 </div>
-                <div class="mobile-slide" style="background-image: url('img/converted\ \(1\).png')">
+                <div class="mobile-slide" style="background-image: url('img/al-quran-7737560_1280.jpg')">
                     <div class="slide-content">
                         <h3>সেজদার এই মুহূর্তেই আল্লাহর নিকট সবচেয়ে কাছাকাছি</h3>
                         <p>যে মাথা আল্লাহর সামনে ঝুকে যায়, সেই হৃদয় কখনো ভেঙে যায় না。</p>
@@ -4171,11 +4294,29 @@ window.addEventListener('popstate', setActiveNavLink);
         
         <!-- Mobile buttons container -->
         <div class="mobile-buttons-container">
-            <button class="btn">ফ্রি কোর্স</button>
-            <button class="btn btn-primary1">পেইড কোর্স</button>
+            <!-- <button class="btn">ফ্রি কোর্স</button>
+            <button class="btn btn-primary1">পেইড কোর্স</button> -->
+                    <!-- <button class="btn">ফ্রি কোর্স</button> -->
+                    <button class="btn c-button c-button--gooey">ফ্রি কোর্স
+                        <div class="c-button__blobs">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </button>
+                    <!-- <button class="btn btn-primary1">পেইড কোর্স</button> -->
+
+                   <button class="btn btn-primary1 c-button c-button--gooey">পেইড কোর্স
+                        <div class="c-button__blobs">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </button>
         </div>
-</section>
-<section class="features-section">
+    </section>
+    
+    <section class="features-section">
         <div class="title-wrap">
             <h2 class="section-title">আমাদের বিভাগ সমূহ</h2>
             <img class="title-arrow" src="https://aslafacademy.com/./assets/images/cat_down.svg" alt="arrow" loading="lazy" />
@@ -4256,8 +4397,9 @@ window.addEventListener('popstate', setActiveNavLink);
             <div class="indicator-dot" data-index="1"></div>
             <div class="indicator-dot" data-index="2"></div>
         </div>
-</section>
-<script>
+    </section>
+    
+    <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const mobileSlides = document.querySelectorAll('.mobile-slide');
@@ -4361,7 +4503,9 @@ window.addEventListener('popstate', setActiveNavLink);
                 scrollContainer.scrollTo({ left: targetScroll, behavior: 'smooth' });
             });
         });
-</script>
+    </script>
+</body>
+</html>
 
 
 
@@ -4403,7 +4547,7 @@ window.addEventListener('popstate', setActiveNavLink);
         .sectionD, .sectionDE {
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 30px;
+             padding: 0 7px 0 0;
             border: 1px solid rgba(255, 255, 255, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -4637,22 +4781,23 @@ window.addEventListener('popstate', setActiveNavLink);
             }
 
             .course-listD {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
             }
 
             .course-itemD {
                 min-height: auto;
-                padding: 1.2rem 1.5rem;
-                flex-direction: row;
-                justify-content: space-between;
+                padding: 1.2rem 1rem;
+                flex-direction: column;
+                justify-content: center;
                 align-items: center;
-                text-align: left;
+                text-align: center;
             }
 
             .course-item-titleD {
                 margin-bottom: 0;
-                font-size: 1rem;
+                font-size: 0.9rem;
+                line-height: 1.3;
             }
 
             .course-item-descD {
@@ -4660,7 +4805,7 @@ window.addEventListener('popstate', setActiveNavLink);
             }
 
             .course-itemD .arrow {
-                margin-top: 0;
+                margin-top: 0.5rem;
             }
         }
 
@@ -4680,57 +4825,187 @@ window.addEventListener('popstate', setActiveNavLink);
             }
 
             .course-listD {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
             }
 
             .course-itemD {
-                padding: 1rem;
+                padding: 0.8rem;
+                min-height: 100px;
             }
 
             .course-item-titleD {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
             }
         }
+    </style>
+    <style>
+    /* From Uiverse.io by SouravBandyopadhyay */ 
+    .card {
+      display: block;
+      position: relative;
+      max-width: 100%;
+      height: 120px;
+      background-color: #f2f8f9;
+      border-radius: 10px;
+      padding: 1em 1.2em;
+      margin: 0;
+      text-decoration: none;
+      z-index: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #c3e6ec, #a7d1d9);
+      font-family: Arial, Helvetica, sans-serif;
+      box-sizing: border-box;
+    }
+
+    .card-title {
+      color: #262626;
+      font-size: 1em;
+      line-height: 1.2;
+      font-weight: 700;
+      margin-bottom: 0.5em;
+    }
+
+    .small-desc {
+      font-size: 0.8em;
+      font-weight: 400;
+      line-height: 1.3;
+      color: #452c2c;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .go-corner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      width: 2em;
+      height: 2em;
+      overflow: hidden;
+      top: 0;
+      right: 0;
+      background: linear-gradient(135deg, #6293c8, #384c6c);
+      border-radius: 0 4px 0 32px;
+    }
+
+    .go-arrow {
+      margin-top: -4px;
+      margin-right: -4px;
+      color: white;
+      font-family: courier, sans;
+      font-size: 0.9em;
+    }
+
+    .card:before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: -16px;
+      right: -16px;
+      background: linear-gradient(135deg, #364a60, #384c6c);
+      height: 32px;
+      width: 32px;
+      border-radius: 32px;
+      transform: scale(1);
+      transform-origin: 50% 50%;
+      transition: transform 0.35s ease-out;
+    }
+
+    .card:hover:before {
+      transform: scale(28);
+    }
+
+    .card:hover .small-desc {
+      transition: all 0.5s ease-out;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .card:hover .card-title {
+      transition: all 0.5s ease-out;
+      color: #ffffff;
+    }
+
+    /* মোবাইল স্টাইল */
+    @media (max-width: 768px) {
+        .course-listD {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .card {
+            height: 110px;
+            padding: 0.8em;
+        }
+        
+        .card-title {
+            font-size: 0.9em;
+        }
+        
+        .small-desc {
+            font-size: 0.75em;
+        }
+        
+        .go-corner {
+            width: 1.8em;
+            height: 1.8em;
+        }
+    }
+
+    /* ছোট মোবাইল */
+    @media (max-width: 480px) {
+        .course-listD {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .card {
+            height: 100px;
+            padding: 0.7em;
+        }
+        
+        .card-title {
+            font-size: 0.8em;
+        }
+        
+        .small-desc {
+            font-size: 0.7em;
+        }
+    }
     </style>
     <div class="additional-sectionsD">
         <div class="course-sections-containerD">
             <div class="sectionD">
                 <h2 class="section-headerD">জনপ্রিয় কোর্স</h2>
                 <div class="course-listD">
-                    <a href="Quran-Education.html" class="course-linkD">
-                        <div class="course-itemD">
-                            <div>
-                                <h3 class="course-item-titleD">কোরআন শিক্ষা</h3>
-                                <p class="course-item-descD">সহীহ উচ্চারণে কুরআন পড়া শিখুন</p>
-                            </div>
-                            <span class="arrow"></span>
+                    <a href="Quran-Education.html" class="card">
+                        <p class="card-title">কোরআন শিক্ষা</p>
+                        <p class="small-desc">সহীহ উচ্চারণে কুরআন পড়া শিখুন</p>
+                        <div class="go-corner">
+                            <div class="go-arrow">→</div>
                         </div>
                     </a>
-                    <a href="Urdu-kayada.html" class="course-linkD">
-                        <div class="course-itemD">
-                            <div>
-                                <h3 class="course-item-titleD">উর্দু কায়দা</h3>
-                                <p class="course-item-descD">সহজ ভাষায় উর্দু শিখুন</p>
-                            </div>
-                            <span class="arrow"></span>
+                    <a href="Urdu-kayada.html" class="card">
+                        <p class="card-title">উর্দু কায়দা</p>
+                        <p class="small-desc">সহজ ভাষায় উর্দু শিখুন</p>
+                        <div class="go-corner">
+                            <div class="go-arrow">→</div>
                         </div>
                     </a>
-                    <a href="TalimulIslamVolume-1.html" class="course-linkD">
-                        <div class="course-itemD">
-                            <div>
-                                <h3 class="course-item-titleD">তালিমুল ইসলাম ১ম খন্ড</h3>
-                                <p class="course-item-descD">সহজ ভাষায় শিখুন</p>
-                            </div>
-                            <span class="arrow"></span>
+                    <a href="TalimulIslamVolume-1.html" class="card">
+                        <p class="card-title">তালিমুল ইসলাম ১ম খন্ড</p>
+                        <p class="small-desc">সহজ ভাষায় শিখুন</p>
+                        <div class="go-corner">
+                            <div class="go-arrow">→</div>
                         </div>
                     </a>
-                    <a href="Urdu-Paheli.html" class="course-linkD">
-                        <div class="course-itemD">
-                            <div>
-                                <h3 class="course-item-titleD">উর্দু কি পেহেলি কিতাব</h3>
-                                <p class="course-item-descD">সহজ ভাষায় শিখুন</p>
-                            </div>
-                            <span class="arrow"></span>
+                    <a href="Urdu-Paheli.html" class="card">
+                        <p class="card-title">উর্দু কি পেহেলি কিতাব</p>
+                        <p class="small-desc">সহজ ভাষায় শিখুন</p>
+                        <div class="go-corner">
+                            <div class="go-arrow">→</div>
                         </div>
                     </a>
                 </div>
@@ -4739,47 +5014,38 @@ window.addEventListener('popstate', setActiveNavLink);
             <div class="sectionDE">
                 <h2 class="section-headerD">বিশেষ কোর্স</h2>
                 <div class="course-listD">
-                    <a href="Quran-Education.html" class="course-linkD">
-                        <div class="course-itemD">
-                            <div>
-                                <h3 class="course-item-titleD">কোরআন শিক্ষা</h3>
-                                <p class="course-item-descD">কুরআন তিলাওয়াতের নিয়মকানুন</p>
-                            </div>
-                            <span class="arrow"></span>
+                    <a href="Quran-Education.htm" class="card">
+                        <p class="card-title">কোরআন শিক্ষা</p>
+                        <p class="small-desc">কুরআন তিলাওয়াতের নিয়মকানুন</p>
+                        <div class="go-corner">
+                            <div class="go-arrow">→</div>
                         </div>
                     </a>
-                    <a href="TalimulIslamVolume-2.html" class="course-linkD">
-                        <div class="course-itemD">
-                            <div>
-                                <h3 class="course-item-titleD">তালিমুল ইসলাম ২য় খন্ড</h3>
-                                <p class="course-item-descD">সহজ ভাষায় শিখুন</p>
-                            </div>
-                            <span class="arrow"></span>
+                    <a href="TalimulIslamVolume-2.html" class="card">
+                        <p class="card-title">তালিমুল ইসলাম ২য় খন্ড</p>
+                        <p class="small-desc">সহজ ভাষায় শিখুন</p>
+                        <div class="go-corner">
+                            <div class="go-arrow">→</div>
                         </div>
                     </a>
-                    <a href="TalimulIslamVolume-3.html" class="course-linkD">
-                        <div class="course-itemD">
-                            <div>
-                                <h3 class="course-item-titleD">তালিমুল ইসলাম ৩য় খন্ড</h3>
-                                <p class="course-item-descD">সহজ ভাষায় শিখুন</p>
-                            </div>
-                            <span class="arrow"></span>
+                    <a href="TalimulIslamVolume-3.html" class="card">
+                        <p class="card-title">তালিমুল ইসলাম ৩য় খন্ড</p>
+                        <p class="small-desc">সহজ ভাষায় শিখুন</p>
+                        <div class="go-corner">
+                            <div class="go-arrow">→</div>
                         </div>
                     </a>
-                    <a href="Urdu-kayada.html" class="course-linkD">
-                        <div class="course-itemD">
-                            <div>
-                                <h3 class="course-item-titleD">উর্দু কায়দা</h3>
-                                <p class="course-item-descD">সহজ উর্দু শিখুন</p>
-                            </div>
-                            <span class="arrow"></span>
+                    <a href="Urdu-kayada.html" class="card">
+                        <p class="card-title">উর্দু কায়দা</p>
+                        <p class="small-desc">সহজ উর্দু শিখুন</p>
+                        <div class="go-corner">
+                            <div class="go-arrow">→</div>
                         </div>
                     </a>
                 </div>
             </div>
         </div>   
     </div>
-
 
 
 
@@ -5242,8 +5508,7 @@ window.addEventListener('popstate', setActiveNavLink);
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Hind Siliguri', 'Bangla', sans-serif;
-            font-family: "Noto Serif Bengali", serif;
+            font-family: 'Poppins', 'Noto Serif Bengali', sans-serif;
         }
         
         body {
