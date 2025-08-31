@@ -4637,7 +4637,329 @@ window.addEventListener('popstate', setActiveNavLink);
     border-radius: 10px;
 }
 
-</style>        
+</style> 
+
+<style>
+ /* Modal for Videos  */
+        .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.player-wrapper {
+    position: relative;
+    width: 100%;
+    background: #000;
+}
+
+#video-container {
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    position: relative;
+}
+
+#youtube-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    opacity: 0; /* প্লেয়ার লুকানো */
+    pointer-events: none; /* ক্লিক ইভেন্ট নিষ্ক্রিয় */
+    z-index: 1;
+}
+
+/* Custom video controls overlay */
+.custom-controls-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.player-wrapper:hover .custom-controls-overlay {
+    opacity: 1;
+}
+
+.video-controls {
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%; /* Progress percentage */
+    background: #ff0000;
+    border-radius: 2px;
+    position: relative;
+}
+
+.progress-handle {
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff0000;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.progress-bar-container:hover .progress-handle {
+    opacity: 1;
+}
+
+.controls-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.left-controls, .right-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.time-display {
+    font-size: 14px;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.volume-slider {
+    width: 80px;
+    height: 4px;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+}
+
+/* Play button overlay */
+.play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.6);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 5;
+}
+
+.player-wrapper:hover .play-overlay {
+    opacity: 1;
+}
+
+/* Skip buttons */
+.skip-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background-color 0.2s;
+}
+
+.skip-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Custom context menu */
+.custom-context-menu {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 1000;
+    display: none;
+    pointer-events: none;
+}
+
+/* Modal for Videos */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 25px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+.close-modal {
+    color: #5e35b1;
+    float: right;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.close-modal:hover {
+    background: rgba(94, 53, 177, 0.1);
+    transform: rotate(90deg);
+}
+.modal-title {
+    margin-bottom: 25px;
+    color: #5e35b1;
+    font-size: 26px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(94, 53, 177, 0.2);
+}
+.modal-video {
+    width: 100%;
+    max-height: 70vh;
+    border-radius: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .volume-slider {
+        width: 60px;
+    }
+    
+    .control-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .skip-btn {
+        font-size: 12px;
+        padding: 4px 6px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+    
+    .modal-video {
+        height: 60vh;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 8px;
+    }
+    
+    .video-controls {
+        padding: 8px;
+    }
+    
+    .left-controls, .right-controls {
+        gap: 8px;
+    }
+    
+    .volume-slider {
+        width: 40px;
+    }
+    
+    .time-display {
+        font-size: 12px;
+    }
+    
+    .skip-btn {
+        display: none;
+    }
+}
+</style>
 <div class="container2">
         <header>
             <h1>তালিমুল ইসলাম ২য় খন্ড </h1>
@@ -4949,19 +5271,75 @@ window.addEventListener('popstate', setActiveNavLink);
         </div>
 </div>
     
+
 <!-- Modal for Videos -->
 <div id="videoModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
             <h2 class="modal-title" id="videoTitle">ভিডিও লেসন</h2>
             <div id="videoContent">
-                <video class="modal-video" controls>
-                    <source src="" type="video/mp4">
-                    আপনার ব্রাউজার ভিডিও সাপোর্ট করে না।
-                </video>
+                <div class="container">
+                    <div class="player-wrapper">
+                        <div id="video-container">
+                            <!-- লুকানো YouTube Player -->
+                            <div id="youtube-player"></div>
+                            
+                            <!-- Custom Controls Overlay -->
+                            <div class="custom-controls-overlay">
+                                <div class="video-controls">
+                                    <div class="progress-bar-container" id="progress-container">
+                                        <div class="progress-bar" id="progress-bar">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="controls-container">
+                                        <div class="left-controls">
+                                            <button class="control-btn" id="play-pause">
+                                                <i class="fas fa-play"></i>
+                                            </button>
+                                            <button class="skip-btn" id="skip-backward">
+                                                <i class="fas fa-backward-step"></i> ৩০সে
+                                            </button>
+                                            <button class="skip-btn" id="skip-forward">
+                                                ৩০সে <i class="fas fa-forward-step"></i>
+                                            </button>
+                                            <button class="control-btn" id="mute-unmute">
+                                                <i class="fas fa-volume-high"></i>
+                                            </button>
+                                            <div class="volume-container">
+                                                <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="100">
+                                            </div>
+                                            <div class="time-display">
+                                                <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="right-controls">
+                                            <button class="control-btn" id="fullscreen-btn">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Play overlay button -->
+                            <div class="play-overlay" id="play-overlay">
+                                <i class="fas fa-play"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 </div>
+<!-- Custom context menu -->
+<div class="custom-context-menu" id="custom-context-menu">
+রাইট ক্লিক ডিসেবল করা হয়েছে
+</div>
+
+
 <!-- Modal for Notes -->
 <div id="noteModal" class="modal">
         <div class="modal-content">
@@ -5254,37 +5632,6 @@ function toggleContent() {
 }
 
 // Video modal functionality
-function openVideoModal(videoId) {
-    const videos = {
-        'lesson-1': {
-            title: 'ইবারত শিক্ষার গুরুত্ব ও প্রয়োজনীয়তা',
-            url: 'https://www.youtube.com/embed/VEBtNGm_ym8?si=l_dyR8FlPPd7TsDb'
-        },
-        'lesson-2': {
-            title: 'আরবি বর্ণমালা ও উচ্চারণ',
-            url: 'https://www.youtube.com/embed/VEBtNGm_ym8?si=l_dyR8FlPPd7TsDb'
-        },
-        'lesson-3': {
-            title: 'নাহু (ব্যাকরণ) এর মৌলিক ধারণা',
-            url: 'https://www.youtube.com/embed/VEBtNGm_ym8?si=l_dyR8FlPPd7TsDb'
-        },
-        // ... বাকি লেসন গুলো একইভাবে
-    };
-
-    if (videos[videoId]) {
-        const video = videos[videoId];
-        document.getElementById('videoTitle').textContent = video.title;
-        document.getElementById('videoContent').innerHTML = `
-            <iframe class="modal-video"
-                src="${video.url}"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-            </iframe>
-        `;
-        document.getElementById('videoModal').style.display = 'block';
-    }
-}
 
 // Rest of your existing code remains the same...
 // Note modal functionality
@@ -7808,6 +8155,358 @@ function createReviewElement(review) {
 }
 </script>        
 
+
+<!-- / YouTube IFrame API প্লেয়ার তৈরি -->
+<script>
+        // ===============================
+        // YouTube IFrame API প্লেয়ার তৈরি
+        // ===============================
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        
+        // ভিডিও প্লেয়ার ভেরিয়েবল
+        var player;
+        var isPlaying = false;
+        var isMuted = false;
+        var updateInterval;
+        var currentVideoId = '';
+        
+        // DOM elements
+        const playPauseBtn = document.getElementById('play-pause');
+        const muteUnmuteBtn = document.getElementById('mute-unmute');
+        const volumeSlider = document.getElementById('volume-slider');
+        const currentTimeEl = document.getElementById('current-time');
+        const durationEl = document.getElementById('duration');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const playOverlay = document.getElementById('play-overlay');
+        const skipForwardBtn = document.getElementById('skip-forward');
+        const skipBackwardBtn = document.getElementById('skip-backward');
+        const customContextMenu = document.getElementById('custom-context-menu');
+        
+        // Video modal functionality
+        function openVideoModal(videoId) {
+           const videos = {
+    'lesson-1': {
+        title: 'ইবারত শিক্ষার গুরুত্ব ও প্রয়োজনীয়তা',
+        videoId: 'VEBtNGm_ym8'
+    },
+    'lesson-2': {
+        title: 'আরবি বর্ণমালা ও উচ্চারণ',
+        videoId: 'VEBtNGm_ym8'
+    },
+    'lesson-3': {
+        title: 'নাহু (ব্যাকরণ) এর মৌলিক ধারণা',
+        videoId: 'VEBtNGm_ym8'
+    },
+    // ... বাকি লেসনগুলোও একইভাবে videoId ব্যবহার করে যোগ করতে পারবেন
+};
+
+
+            if (videos[videoId]) {
+                const video = videos[videoId];
+                document.getElementById('videoTitle').textContent = video.title;
+                currentVideoId = video.videoId;
+                
+                // YouTube প্লেয়ার লোড করুন
+                if (player) {
+                    player.loadVideoById(video.videoId);
+                } else {
+                    // প্লেয়ার এখনও লোড হয়নি, API রেডি হলে এটি লোড হবে
+                }
+                
+                document.getElementById('videoModal').style.display = 'block';
+            }
+        }
+
+        // Close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            if (player) {
+                player.pauseVideo();
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            var modals = document.getElementsByClassName('modal');
+            for (var i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = 'none';
+                    if (player) {
+                        player.pauseVideo();
+                    }
+                }
+            }
+        }
+        
+        // কনটেক্সট মেনু (রাইট ক্লিক) ডিসেবল করুন
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            
+            // কাস্টম মেসেজ দেখান
+            customContextMenu.style.display = 'block';
+            customContextMenu.style.left = e.pageX + 'px';
+            customContextMenu.style.top = e.pageY + 'px';
+            
+            // 2 সেকেন্ড পর মেসেজ লুকিয়ে দিন
+            setTimeout(function() {
+                customContextMenu.style.display = 'none';
+            }, 2000);
+        });
+        
+        // YouTube Player API রেডি হলে এই ফাংশন কল হবে
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '100%',
+                width: '100%',
+                videoId: currentVideoId || 'VEBtNGm_ym8',
+                playerVars: {
+                    'playsinline': 1,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'controls': 0,
+                    'showinfo': 0,
+                    'enablejsapi': 1 // JavaScript API সক্ষম করা হয়েছে
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+        
+        // প্লেয়ার রেডি হলে
+        function onPlayerReady(event) {
+            // ভিডিওর দৈর্ঘ্য সেট করুন
+            const duration = player.getDuration();
+            durationEl.textContent = formatTime(duration);
+            
+            // ভলিউম স্লাইডার সেট করুন
+            volumeSlider.value = player.getVolume();
+            
+            // নিয়মিতভাবে প্রোগ্রেস আপডেট করুন
+            updateInterval = setInterval(updateProgress, 100);
+            
+            // YouTube প্লেয়ারকে দৃশ্যমান করুন
+            document.getElementById('youtube-player').style.opacity = 1;
+            document.getElementById('youtube-player').style.pointerEvents = 'auto';
+            
+            // ডিফল্টভাবে প্লে বাটন দেখান
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            playOverlay.innerHTML = '<i class="fas fa-play"></i>';
+        }
+        
+        // প্লেয়ার স্টেট পরিবর্তন হলে
+        function onPlayerStateChange(event) {
+            // ভিডিও প্লে হচ্ছে
+            if (event.data == YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                playOverlay.innerHTML = '<i class="fas fa-pause"></i>';
+            } 
+            // ভিডিও পজ হয়েছে
+            else if (event.data == YT.PlayerState.PAUSED) {
+                isPlaying = false;
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                playOverlay.innerHTML = '<i class="fas fa-play"></i>';
+            } 
+            // ভিডিও শেষ হয়েছে
+            else if (event.data == YT.PlayerState.ENDED) {
+                isPlaying = false;
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                playOverlay.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        }
+        
+        // সময় ফরম্যাট ফাংশন
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return minutes + ':' + (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
+        }
+        
+        // প্রোগ্রেস বার আপডেট
+        function updateProgress() {
+            if (player && player.getCurrentTime) {
+                const currentTime = player.getCurrentTime();
+                const duration = player.getDuration();
+                
+                if (duration > 0) {
+                    const percent = (currentTime / duration) * 100;
+                    progressBar.style.width = percent + '%';
+                    currentTimeEl.textContent = formatTime(currentTime);
+                }
+            }
+        }
+        
+        // ভিডিও প্লে/পজ
+        function togglePlayPause() {
+            if (!player) return;
+            
+            if (isPlaying) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        }
+        
+        // ৩০ সেকেন্ড এগিয়ে যাওয়ার ফাংশন
+        function skipForward() {
+            if (!player) return;
+            
+            const currentTime = player.getCurrentTime();
+            const duration = player.getDuration();
+            const newTime = Math.min(currentTime + 30, duration);
+            
+            player.seekTo(newTime, true);
+            updateProgress();
+        }
+        
+        // ৩০ সেকেন্ড পিছিয়ে যাওয়ার ফাংশন
+        function skipBackward() {
+            if (!player) return;
+            
+            const currentTime = player.getCurrentTime();
+            const newTime = Math.max(currentTime - 30, 0);
+            
+            player.seekTo(newTime, true);
+            updateProgress();
+        }
+        
+        // ভলিউম কন্ট্রোল
+        function toggleMute() {
+            if (!player) return;
+            
+            if (isMuted) {
+                player.unMute();
+                muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
+                volumeSlider.value = player.getVolume();
+            } else {
+                player.mute();
+                muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                volumeSlider.value = 0;
+            }
+            
+            isMuted = !isMuted;
+        }
+        
+        // প্রোগ্রেস বার ক্লিক হ্যান্ডলার
+        function seekVideo(e) {
+            if (!player) return;
+            
+            const rect = progressContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const width = rect.width;
+            const percent = x / width;
+            const newTime = player.getDuration() * percent;
+            
+            player.seekTo(newTime, true);
+            updateProgress();
+        }
+        
+        // ফুলস্ক্রিন মোড
+        function toggleFullscreen() {
+            const playerWrapper = document.querySelector('.player-wrapper');
+            
+            if (!document.fullscreenElement) {
+                if (playerWrapper.requestFullscreen) {
+                    playerWrapper.requestFullscreen();
+                } else if (playerWrapper.webkitRequestFullscreen) {
+                    playerWrapper.webkitRequestFullscreen();
+                } else if (playerWrapper.msRequestFullscreen) {
+                    playerWrapper.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+        
+        // ইভেন্ট লিসেনার
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        muteUnmuteBtn.addEventListener('click', toggleMute);
+        playOverlay.addEventListener('click', togglePlayPause);
+        skipForwardBtn.addEventListener('click', skipForward);
+        skipBackwardBtn.addEventListener('click', skipBackward);
+        
+        volumeSlider.addEventListener('input', function() {
+            if (!player) return;
+            
+            player.setVolume(this.value);
+            
+            if (this.value == 0) {
+                muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                isMuted = true;
+            } else {
+                muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
+                isMuted = false;
+            }
+        });
+        
+        progressContainer.addEventListener('click', seekVideo);
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        
+        // কীবোর্ড শর্টকাট
+        document.addEventListener('keydown', function(e) {
+            // শুধুমাত্র মডাল খোলা থাকলে শর্টকাট কাজ করবে
+            if (document.getElementById('videoModal').style.display !== 'block') return;
+            
+            if (e.key === ' ' || e.key === 'k') {
+                e.preventDefault();
+                togglePlayPause();
+            } else if (e.key === 'm') {
+                e.preventDefault();
+                toggleMute();
+            } else if (e.key === 'f') {
+                e.preventDefault();
+                toggleFullscreen();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                if (player) {
+                    const newTime = player.getCurrentTime() + 5;
+                    player.seekTo(newTime, true);
+                }
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (player) {
+                    const newTime = Math.max(player.getCurrentTime() - 5, 0);
+                    player.seekTo(newTime, true);
+                }
+            } else if (e.key === 'l' || e.key === 'L') {
+                e.preventDefault();
+                skipForward();
+            } else if (e.key === 'j' || e.key === 'J') {
+                e.preventDefault();
+                skipBackward();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                closeModal('videoModal');
+            }
+        });
+        
+        // রেস্পন্সিভ ভলিউম স্লাইডার
+        function handleVolumeSlider() {
+            if (window.innerWidth < 768) {
+                volumeSlider.style.width = '60px';
+            } else {
+                volumeSlider.style.width = '80px';
+            }
+        }
+        
+        window.addEventListener('resize', handleVolumeSlider);
+        handleVolumeSlider();
+</script>
 
 
 
