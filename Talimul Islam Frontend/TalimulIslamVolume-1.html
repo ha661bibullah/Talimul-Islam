@@ -4637,9 +4637,7 @@ window.addEventListener('popstate', setActiveNavLink);
     border-radius: 10px;
 }
 
-</style>
-
-
+</style>        
 <div class="container2">
         <header>
             <h1>তালিমুল ইসলাম ১য় খন্ড </h1>
@@ -5096,8 +5094,7 @@ window.addEventListener('popstate', setActiveNavLink);
 </div>
     
 
-
-    <style>
+   <style>
         /* Modal for Videos  */
         .container {
             max-width: 1000px;
@@ -5641,13 +5638,8 @@ window.addEventListener('popstate', setActiveNavLink);
     <div class="custom-context-menu" id="custom-context-menu">
         রাইট ক্লিক ডিসেবল করা হয়েছে
     </div>
-    
-    <!-- Lesson buttons for testing -->
-    <div style="padding: 20px; text-align: center;">
-        <h2>ভিডিও লেসন নির্বাচন করুন</h2>
-        <button onclick="openVideoModal('lesson-1')">লেসন 1</button>
-        <button onclick="openVideoModal('lesson-2')">লেসন 2</button>
-    </div>
+
+
 
 
 
@@ -5943,7 +5935,7 @@ function toggleContent() {
 }
 
 // Video modal functionality
-{
+function openVideoModal(videoId) {
   const videos = {
     'lesson-1': {
         title: 'তালিমুল ইসলাম ১ম খন্ড',
@@ -8578,10 +8570,13 @@ function createReviewElement(review) {
     
     return reviewElement;
 }
-</script>  
+</script>        
 
 
-<!-- /YouTube IFrame API প্লেয়ার তৈরি -->
+
+
+
+<!-- / YouTube IFrame API প্লেয়ার তৈরি -->
 <script>
         // ===============================
         // YouTube IFrame API প্লেয়ার তৈরি
@@ -8620,8 +8615,7 @@ function createReviewElement(review) {
         
         // Video modal functionality
         function openVideoModal(videoId) {
-           
- const videos = {
+            const videos = {
     'lesson-1': {
         title: 'তালিমুল ইসলাম ১ম খন্ড',
         videoId: 'aayBBiCiYbY'
@@ -9106,14 +9100,6 @@ function createReviewElement(review) {
             document.querySelector('.volume-container').style.display = 'flex';
         }
 </script>
-
-
-
-
-
-
-
-
 
 </body>
 </html>
