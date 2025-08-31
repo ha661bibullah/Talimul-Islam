@@ -5407,6 +5407,15 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 
+
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ভিডিও প্লেয়ার</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Modal for Videos  */
         .container {
@@ -5713,11 +5722,25 @@ window.addEventListener('popstate', setActiveNavLink);
             max-width: 100%;
             border-radius: 0;
             height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .ios-fullscreen #video-container {
             height: 100%;
+            width: 100%;
             padding-bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ios-fullscreen #youtube-player {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-height: 100vh;
         }
         
         .ios-fullscreen .modal-content {
@@ -5728,6 +5751,9 @@ window.addEventListener('popstate', setActiveNavLink);
             border-radius: 0;
             padding: 0;
             background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .ios-fullscreen .modal-title,
@@ -5772,6 +5798,7 @@ window.addEventListener('popstate', setActiveNavLink);
             .skip-btn {
                 font-size: 12px;
                 padding: 4px 6px;
+                display: flex !important; /* Ensure skip buttons are visible on mobile */
             }
             
             .modal-content {
@@ -5790,6 +5817,20 @@ window.addEventListener('popstate', setActiveNavLink);
             }
             
             .fullscreen-btn-desktop {
+                display: none !important;
+            }
+            
+            /* Mobile controls visibility */
+            .custom-controls-overlay {
+                opacity: 1; /* Always show controls on mobile */
+            }
+            
+            .play-overlay {
+                opacity: 1; /* Always show play overlay on mobile */
+            }
+            
+            /* Hide volume controls on mobile */
+            .volume-container, #mute-unmute {
                 display: none !important;
             }
         }
@@ -5816,13 +5857,19 @@ window.addEventListener('popstate', setActiveNavLink);
             }
             
             .skip-btn {
-                display: none;
+                display: flex !important; /* Ensure skip buttons are visible on mobile */
+                padding: 3px 5px;
             }
             
             .play-overlay {
                 width: 60px;
                 height: 60px;
                 font-size: 24px;
+            }
+            
+            /* Hide volume controls on mobile */
+            .volume-container, #mute-unmute {
+                display: none !important;
             }
         }
 
@@ -5839,6 +5886,8 @@ window.addEventListener('popstate', setActiveNavLink);
             height: 100%;
         }
     </style>
+</head>
+<body>
     <!-- Modal for Videos -->
     <div id="videoModal" class="modal">
         <div class="modal-content">
@@ -5871,6 +5920,7 @@ window.addEventListener('popstate', setActiveNavLink);
                                             <button class="skip-btn" id="skip-forward">
                                                 ৩০সে <i class="fas fa-forward-step"></i>
                                             </button>
+                                            <!-- Volume controls will be hidden on mobile -->
                                             <button class="control-btn" id="mute-unmute">
                                                 <i class="fas fa-volume-high"></i>
                                             </button>
@@ -5916,441 +5966,21 @@ window.addEventListener('popstate', setActiveNavLink);
     <div class="custom-context-menu" id="custom-context-menu">
         রাইট ক্লিক ডিসেবল করা হয়েছে
     </div>
+    
+    <!-- Lesson buttons for testing -->
+    <div style="padding: 20px; text-align: center;">
+        <h2>ভিডিও লেসন নির্বাচন করুন</h2>
+        <button onclick="openVideoModal('lesson-1')">লেসন 1</button>
+        <button onclick="openVideoModal('lesson-2')">লেসন 2</button>
+    </div>
 
-    <script>
-        // ===============================
-        // YouTube IFrame API প্লেয়ার তৈরি
-        // ===============================
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        
-        // ভিডিও প্লেয়ার ভেরিয়েবল
-        var player;
-        var isPlaying = false;
-        var isMuted = false;
-        var updateInterval;
-        var currentVideoId = '';
-        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        
-        // DOM elements
-        const playPauseBtn = document.getElementById('play-pause');
-        const muteUnmuteBtn = document.getElementById('mute-unmute');
-        const volumeSlider = document.getElementById('volume-slider');
-        const currentTimeEl = document.getElementById('current-time');
-        const durationEl = document.getElementById('duration');
-        const progressBar = document.getElementById('progress-bar');
-        const progressContainer = document.getElementById('progress-container');
-        const fullscreenBtn = document.getElementById('fullscreen-btn');
-        const fullscreenBtnMobile = document.getElementById('fullscreen-btn-mobile');
-        const playOverlay = document.getElementById('play-overlay');
-        const skipForwardBtn = document.getElementById('skip-forward');
-        const skipBackwardBtn = document.getElementById('skip-backward');
-        const customContextMenu = document.getElementById('custom-context-menu');
-        const videoModal = document.getElementById('videoModal');
-        
-        // Video modal functionality
-        function openVideoModal(videoId) {
-            const videos = {
-                'lesson-1': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'VEBtNGm_ym8' },
-                'lesson-2': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'EOBPhxxZuW4' },
-                'lesson-3': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'SanXg2ceFw8' },
-                'lesson-4': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'xKhNXaaLEKU' },
-                'lesson-5': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'HEpfSTU2Plg' },
-                'lesson-6': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'oxvD4c3s4iI' },
-                'lesson-7': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '0j-Z_x2uneE' },
-                'lesson-8': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'EJTC01RNLmQ' },
-                'lesson-9': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '2vPcYWKxazw' },
-                'lesson-10': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'k3gyGG_96rg' },
-                'lesson-11': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'ZKh82ukuEzc' },
-                'lesson-12': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '-m56LAv_UYo' },
-                'lesson-13': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'wU7JyybwTyI' },
-                'lesson-14': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'tAc1uY0cSS4' },
-                'lesson-15': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'QpHxkw8xxMs' },
-                'lesson-16': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '-CBqG5MZgAU' },
-                'lesson-17': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '1ITrzc1QLKQ' },
-                'lesson-18': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '1SiY9t44wCQ' },
-                'lesson-19': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'PPGL5n5iCfw' },
-                'lesson-20': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'X7aKXTYSBsM' },
-                'lesson-21': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'PgfsPq4XKgM' },
-                'lesson-22': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'PEUKoLDEg70' },
-                'lesson-23': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'ophAu7Tsykg' },
-                'lesson-24': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '6wHRr0AJAEg' }
-            };
+   
+</body>
+</html>
 
-            if (videos[videoId]) {
-                const video = videos[videoId];
-                document.getElementById('videoTitle').textContent = video.title;
-                currentVideoId = video.videoId;
-                
-                // YouTube প্লেয়ার লোড করুন
-                if (player) {
-                    player.loadVideoById(video.videoId);
-                }
-                
-                videoModal.style.display = 'block';
-                document.body.classList.add('modal-open');
-            }
-        }
+   
 
-        // Close modal
-        function closeModal(modalId) {
-            exitIOSFullscreen();
-            videoModal.style.display = 'none';
-            document.body.classList.remove('modal-open');
-            if (player) {
-                player.pauseVideo();
-            }
-        }
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target == videoModal) {
-                closeModal('videoModal');
-            }
-        }
-        
-        // কনটেক্সট মেনু (রাইট ক্লিক) ডিসেবল করুন
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            
-            // কাস্টম মেসেজ দেখান
-            customContextMenu.style.display = 'block';
-            customContextMenu.style.left = e.pageX + 'px';
-            customContextMenu.style.top = e.pageY + 'px';
-            
-            // 2 সেকেন্ড পর মেসেজ লুকিয়ে দিন
-            setTimeout(function() {
-                customContextMenu.style.display = 'none';
-            }, 2000);
-        });
-        
-        // YouTube Player API রেডি হলে এই ফাংশন কল হবে
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtube-player', {
-                height: '100%',
-                width: '100%',
-                videoId: currentVideoId || 'VEBtNGm_ym8',
-                playerVars: {
-                    'playsinline': 1,
-                    'modestbranding': 1,
-                    'rel': 0,
-                    'controls': 0,
-                    'showinfo': 0,
-                    'enablejsapi': 1
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-        
-        // প্লেয়ার রেডি হলে
-        function onPlayerReady(event) {
-            // ভিডিওর দৈর্ঘ্য সেট করুন
-            const duration = player.getDuration();
-            durationEl.textContent = formatTime(duration);
-            
-            // ভলিউম স্লাইডার সেট করুন
-            volumeSlider.value = player.getVolume();
-            
-            // নিয়মিতভাবে প্রোগ্রেস আপডেট করুন
-            updateInterval = setInterval(updateProgress, 100);
-            
-            // YouTube প্লেয়ারকে দৃশ্যমান করুন
-            document.getElementById('youtube-player').style.opacity = 1;
-            document.getElementById('youtube-player').style.pointerEvents = 'auto';
-            
-            // ডিফল্টভাবে প্লে বাটন দেখান
-            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-            playOverlay.innerHTML = '<i class="fas fa-play"></i>';
-        }
-        
-        // প্লেয়ার স্টেট পরিবর্তন হলে
-        function onPlayerStateChange(event) {
-            // ভিডিও প্লে হচ্ছে
-            if (event.data == YT.PlayerState.PLAYING) {
-                isPlaying = true;
-                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                playOverlay.innerHTML = '<i class="fas fa-pause"></i>';
-            } 
-            // ভিডিও পজ হয়েছে
-            else if (event.data == YT.PlayerState.PAUSED) {
-                isPlaying = false;
-                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                playOverlay.innerHTML = '<i class="fas fa-play"></i>';
-            } 
-            // ভিডিও শেষ হয়েছে
-            else if (event.data == YT.PlayerState.ENDED) {
-                isPlaying = false;
-                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                playOverlay.innerHTML = '<i class="fas fa-play"></i>';
-            }
-        }
-        
-        // সময় ফরম্যাট ফাংশন
-        function formatTime(seconds) {
-            if (isNaN(seconds)) return "0:00";
-            
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = Math.floor(seconds % 60);
-            return minutes + ':' + (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
-        }
-        
-        // প্রোগ্রেস বার আপডেট
-        function updateProgress() {
-            if (player && player.getCurrentTime) {
-                const currentTime = player.getCurrentTime();
-                const duration = player.getDuration();
-                
-                if (duration > 0) {
-                    const percent = (currentTime / duration) * 100;
-                    progressBar.style.width = percent + '%';
-                    currentTimeEl.textContent = formatTime(currentTime);
-                }
-            }
-        }
-        
-        // ভিডিও প্লে/পজ
-        function togglePlayPause() {
-            if (!player) return;
-            
-            if (isPlaying) {
-                player.pauseVideo();
-            } else {
-                player.playVideo();
-            }
-        }
-        
-        // ৩০ সেকেন্ড এগিয়ে যাওয়ার ফাংশন
-        function skipForward() {
-            if (!player) return;
-            
-            const currentTime = player.getCurrentTime();
-            const duration = player.getDuration();
-            const newTime = Math.min(currentTime + 30, duration);
-            
-            player.seekTo(newTime, true);
-            updateProgress();
-        }
-        
-        // ৩০ সেকেন্ড পিছিয়ে যাওয়ার ফাংশন
-        function skipBackward() {
-            if (!player) return;
-            
-            const currentTime = player.getCurrentTime();
-            const newTime = Math.max(currentTime - 30, 0);
-            
-            player.seekTo(newTime, true);
-            updateProgress();
-        }
-        
-        // ভলিউম কন্ট্রোল
-        function toggleMute() {
-            if (!player) return;
-            
-            if (isMuted) {
-                player.unMute();
-                muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
-                volumeSlider.value = player.getVolume();
-            } else {
-                player.mute();
-                muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                volumeSlider.value = 0;
-            }
-            
-            isMuted = !isMuted;
-        }
-        
-        // প্রোগ্রেস বার ক্লিক হ্যান্ডলার
-        function seekVideo(e) {
-            if (!player) return;
-            
-            const rect = progressContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const width = rect.width;
-            const percent = x / width;
-            const newTime = player.getDuration() * percent;
-            
-            player.seekTo(newTime, true);
-            updateProgress();
-        }
-        
-        // ফুলস্ক্রিন মোড - iOS ডিভাইসের জন্য বিশেষ হ্যান্ডলিং
-        function toggleFullscreen() {
-            const playerWrapper = document.querySelector('.player-wrapper');
-            
-            if (isIOS) {
-                // iOS ডিভাইসের জন্য কাস্টম ফুলস্ক্রিন
-                document.body.classList.add('ios-fullscreen');
-                playerWrapper.style.position = 'fixed';
-                playerWrapper.style.top = '0';
-                playerWrapper.style.left = '0';
-                playerWrapper.style.width = '100%';
-                playerWrapper.style.height = '100%';
-                playerWrapper.style.zIndex = '9999';
-                
-                // ভিডিও কন্টেইনার স্টাইল পরিবর্তন
-                document.getElementById('video-container').style.paddingBottom = '0';
-                document.getElementById('video-container').style.height = '100%';
-                
-                // iOS exit button দেখান
-                document.getElementById('ios-exit-fullscreen').style.display = 'flex';
-                
-                // ভিডিও রিসাইজ করার চেষ্টা করুন
-                if (player && player.setSize) {
-                    player.setSize(window.innerWidth, window.innerHeight);
-                }
-            } else {
-                // অন্যান্য ডিভাইসের জন্য স্ট্যান্ডার্ড ফুলস্ক্রিন
-                if (!document.fullscreenElement) {
-                    if (playerWrapper.requestFullscreen) {
-                        playerWrapper.requestFullscreen().catch(err => {
-                            console.error('Error attempting to enable fullscreen:', err);
-                        });
-                    } else if (playerWrapper.webkitRequestFullscreen) {
-                        playerWrapper.webkitRequestFullscreen();
-                    } else if (playerWrapper.msRequestFullscreen) {
-                        playerWrapper.msRequestFullscreen();
-                    }
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if (document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    } else if (document.msExitFullscreen) {
-                        document.msExitFullscreen();
-                    }
-                }
-            }
-        }
-        
-        // iOS ফুলস্ক্রিন থেকে প্রস্থান করার ফাংশন
-        function exitIOSFullscreen() {
-            document.body.classList.remove('ios-fullscreen');
-            const playerWrapper = document.querySelector('.player-wrapper');
-            playerWrapper.style.position = '';
-            playerWrapper.style.top = '';
-            playerWrapper.style.left = '';
-            playerWrapper.style.width = '';
-            playerWrapper.style.height = '';
-            playerWrapper.style.zIndex = '';
-            
-            document.getElementById('video-container').style.paddingBottom = '56.25%';
-            document.getElementById('video-container').style.height = '';
-            
-            document.getElementById('ios-exit-fullscreen').style.display = 'none';
-            
-            // ভিডিও রিসাইজ করুন
-            if (player && player.setSize) {
-                player.setSize('100%', '100%');
-            }
-        }
-        
-        // ফুলস্ক্রিন পরিবর্তন শনাক্ত করুন
-        document.addEventListener('fullscreenchange', function() {
-            if (!document.fullscreenElement) {
-                // ফুলস্ক্রিন মোড থেকে প্রস্থান করা হলে
-                exitIOSFullscreen();
-            }
-        });
-        
-        // ইভেন্ট লিসেনার
-        playPauseBtn.addEventListener('click', togglePlayPause);
-        muteUnmuteBtn.addEventListener('click', toggleMute);
-        playOverlay.addEventListener('click', togglePlayPause);
-        skipForwardBtn.addEventListener('click', skipForward);
-        skipBackwardBtn.addEventListener('click', skipBackward);
-        
-        volumeSlider.addEventListener('input', function() {
-            if (!player) return;
-            
-            player.setVolume(this.value);
-            
-            if (this.value == 0) {
-                muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                isMuted = true;
-            } else {
-                muteUnmuteBtn.innerHTML = '<i class="fas fa-volume-high"></i>';
-                isMuted = false;
-            }
-        });
-        
-        progressContainer.addEventListener('click', seekVideo);
-        fullscreenBtn.addEventListener('click', toggleFullscreen);
-        fullscreenBtnMobile.addEventListener('click', toggleFullscreen);
-        
-        // কীবোর্ড শর্টকাট
-        document.addEventListener('keydown', function(e) {
-            // শুধুমাত্র মডাল খোলা থাকলে শর্টকাট কাজ করবে
-            if (videoModal.style.display !== 'block') return;
-            
-            if (e.key === ' ' || e.key === 'k') {
-                e.preventDefault();
-                togglePlayPause();
-            } else if (e.key === 'm') {
-                e.preventDefault();
-                toggleMute();
-            } else if (e.key === 'f') {
-                e.preventDefault();
-                toggleFullscreen();
-            } else if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                if (player) {
-                    const newTime = player.getCurrentTime() + 5;
-                    player.seekTo(newTime, true);
-                }
-            } else if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                if (player) {
-                    const newTime = Math.max(player.getCurrentTime() - 5, 0);
-                    player.seekTo(newTime, true);
-                }
-            } else if (e.key === 'l' || e.key === 'L') {
-                e.preventDefault();
-                skipForward();
-            } else if (e.key === 'j' || e.key === 'J') {
-                e.preventDefault();
-                skipBackward();
-            } else if (e.key === 'Escape') {
-                e.preventDefault();
-                closeModal('videoModal');
-            }
-        });
-        
-        // রেস্পন্সিভ ভলিউম স্লাইডার
-        function handleVolumeSlider() {
-            if (window.innerWidth < 768) {
-                volumeSlider.style.width = '60px';
-            } else {
-                volumeSlider.style.width = '80px';
-            }
-        }
-        
-        window.addEventListener('resize', handleVolumeSlider);
-        handleVolumeSlider();
-        
-        // iOS ডিভাইসে ভিডিও রোটেশান হ্যান্ডলিং
-        function handleOrientationChange() {
-            if (isIOS) {
-                if (window.orientation === 90 || window.orientation === -90) {
-                    // ল্যান্ডস্কেপ মোডে ফুলস্ক্রিন অটো-এনাবল
-                    if (document.body.classList.contains('ios-fullscreen')) {
-                        // Already in fullscreen, resize video
-                        if (player && player.setSize) {
-                            player.setSize(window.innerWidth, window.innerHeight);
-                        }
-                    }
-                } else {
-                    // পোর্ট্রেট মোডে ফুলস্ক্রিন এক্সিট করার অপশন
-                }
-            }
-        }
-        
-        window.addEventListener('orientationchange', handleOrientationChange);
-    </script>
 
 
 
@@ -9172,7 +8802,7 @@ function createReviewElement(review) {
 </script>        
  
 <!-- / YouTube IFrame API প্লেয়ার তৈরি -->
-    <script>
+ <script>
         // ===============================
         // YouTube IFrame API প্লেয়ার তৈরি
         // ===============================
@@ -9188,6 +8818,9 @@ function createReviewElement(review) {
         var updateInterval;
         var currentVideoId = '';
         var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        var isAndroid = /Android/.test(navigator.userAgent);
+        var isMobile = isIOS || isAndroid;
+        var isFullscreen = false;
         
         // DOM elements
         const playPauseBtn = document.getElementById('play-pause');
@@ -9208,30 +8841,8 @@ function createReviewElement(review) {
         // Video modal functionality
         function openVideoModal(videoId) {
             const videos = {
-                'lesson-1': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'VEBtNGm_ym8' },
-                'lesson-2': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'EOBPhxxZuW4' },
-                'lesson-3': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'SanXg2ceFw8' },
-                'lesson-4': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'xKhNXaaLEKU' },
-                'lesson-5': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'HEpfSTU2Plg' },
-                'lesson-6': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'oxvD4c3s4iI' },
-                'lesson-7': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '0j-Z_x2uneE' },
-                'lesson-8': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'EJTC01RNLmQ' },
-                'lesson-9': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '2vPcYWKxazw' },
-                'lesson-10': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'k3gyGG_96rg' },
-                'lesson-11': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'ZKh82ukuEzc' },
-                'lesson-12': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '-m56LAv_UYo' },
-                'lesson-13': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'wU7JyybwTyI' },
-                'lesson-14': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'tAc1uY0cSS4' },
-                'lesson-15': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'QpHxkw8xxMs' },
-                'lesson-16': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '-CBqG5MZgAU' },
-                'lesson-17': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '1ITrzc1QLKQ' },
-                'lesson-18': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '1SiY9t44wCQ' },
-                'lesson-19': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'PPGL5n5iCfw' },
-                'lesson-20': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'X7aKXTYSBsM' },
-                'lesson-21': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'PgfsPq4XKgM' },
-                'lesson-22': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'PEUKoLDEg70' },
-                'lesson-23': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'ophAu7Tsykg' },
-                'lesson-24': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '6wHRr0AJAEg' }
+                'lesson-1': { title: 'উর্দু ভাষা শিক্ষা কোর্স - লেসন ১', videoId: 'VEBtNGm_ym8' },
+                'lesson-2': { title: 'উর্দু ভাষা শিক্ষা কোর্স - লেসন ২', videoId: 'EOBPhxxZuW4' }
             };
 
             if (videos[videoId]) {
@@ -9242,10 +8853,19 @@ function createReviewElement(review) {
                 // YouTube প্লেয়ার লোড করুন
                 if (player) {
                     player.loadVideoById(video.videoId);
+                } else {
+                    // If player is not ready, store the video ID and wait for API
+                    window.pendingVideoId = video.videoId;
                 }
                 
                 videoModal.style.display = 'block';
                 document.body.classList.add('modal-open');
+                
+                // মোবাইল ডিভাইসে স্কিপ বাটন দেখান
+                if (isMobile) {
+                    skipForwardBtn.style.display = 'flex';
+                    skipBackwardBtn.style.display = 'flex';
+                }
             }
         }
 
@@ -9286,7 +8906,7 @@ function createReviewElement(review) {
             player = new YT.Player('youtube-player', {
                 height: '100%',
                 width: '100%',
-                videoId: currentVideoId || 'VEBtNGm_ym8',
+                videoId: window.pendingVideoId || currentVideoId || 'VEBtNGm_ym8',
                 playerVars: {
                     'playsinline': 1,
                     'modestbranding': 1,
@@ -9321,6 +8941,18 @@ function createReviewElement(review) {
             // ডিফল্টভাবে প্লে বাটন দেখান
             playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
             playOverlay.innerHTML = '<i class="fas fa-play"></i>';
+            
+            // মোবাইল ডিভাইসে স্কিপ বাটন দেখান এবং ভলিউম কন্ট্রোল লুকান
+            if (isMobile) {
+                skipForwardBtn.style.display = 'flex';
+                skipBackwardBtn.style.display = 'flex';
+                document.getElementById('mute-unmute').style.display = 'none';
+                document.querySelector('.volume-container').style.display = 'none';
+            } else {
+                // ডেস্কটপে ভলিউম কন্ট্রোল দেখান
+                document.getElementById('mute-unmute').style.display = 'flex';
+                document.querySelector('.volume-container').style.display = 'flex';
+            }
         }
         
         // প্লেয়ার স্টেট পরিবর্তন হলে
@@ -9419,7 +9051,7 @@ function createReviewElement(review) {
             isMuted = !isMuted;
         }
         
-        // প্রোগ্রেস বার ক্লিক হ্যান্ডলার
+        // প্রোগ্রেস বার क्लিক হ্যান্ডলার
         function seekVideo(e) {
             if (!player) return;
             
@@ -9437,15 +9069,10 @@ function createReviewElement(review) {
         function toggleFullscreen() {
             const playerWrapper = document.querySelector('.player-wrapper');
             
-            if (isIOS) {
-                // iOS ডিভাইসের জন্য কাস্টম ফুলস্ক্রিন
+            if (isMobile) {
+                // মোবাইল ডিভাইসের জন্য কাস্টম ফুলস্ক্রিন
                 document.body.classList.add('ios-fullscreen');
-                playerWrapper.style.position = 'fixed';
-                playerWrapper.style.top = '0';
-                playerWrapper.style.left = '0';
-                playerWrapper.style.width = '100%';
-                playerWrapper.style.height = '100%';
-                playerWrapper.style.zIndex = '9999';
+                isFullscreen = true;
                 
                 // ভিডিও কন্টেইনার স্টাইল পরিবর্তন
                 document.getElementById('video-container').style.paddingBottom = '0';
@@ -9485,6 +9112,7 @@ function createReviewElement(review) {
         // iOS ফুলস্ক্রিন থেকে প্রস্থান করার ফাংশন
         function exitIOSFullscreen() {
             document.body.classList.remove('ios-fullscreen');
+            isFullscreen = false;
             const playerWrapper = document.querySelector('.player-wrapper');
             playerWrapper.style.position = '';
             playerWrapper.style.top = '';
@@ -9571,7 +9199,11 @@ function createReviewElement(review) {
                 skipBackward();
             } else if (e.key === 'Escape') {
                 e.preventDefault();
-                closeModal('videoModal');
+                if (isFullscreen) {
+                    exitIOSFullscreen();
+                } else {
+                    closeModal('videoModal');
+                }
             }
         });
         
@@ -9587,26 +9219,18 @@ function createReviewElement(review) {
         window.addEventListener('resize', handleVolumeSlider);
         handleVolumeSlider();
         
-        // iOS ডিভাইসে ভিডিও রোটেশান হ্যান্ডলিং
-        function handleOrientationChange() {
-            if (isIOS) {
-                if (window.orientation === 90 || window.orientation === -90) {
-                    // ল্যান্ডস্কেপ মোডে ফুলস্ক্রিন অটো-এনাবল
-                    if (document.body.classList.contains('ios-fullscreen')) {
-                        // Already in fullscreen, resize video
-                        if (player && player.setSize) {
-                            player.setSize(window.innerWidth, window.innerHeight);
-                        }
-                    }
-                } else {
-                    // পোর্ট্রেট মোডে ফুলস্ক্রিন এক্সিট করার অপশন
-                }
-            }
+        // মোবাইল ডিভাইসে স্কিপ বাটন দেখান এবং ভলিউম কন্ট্রোল লুকান
+        if (isMobile) {
+            skipForwardBtn.style.display = 'flex';
+            skipBackwardBtn.style.display = 'flex';
+            document.getElementById('mute-unmute').style.display = 'none';
+            document.querySelector('.volume-container').style.display = 'none';
+        } else {
+            // ডেস্কটপে ভলিউম কন্ট্রোল দেখান
+            document.getElementById('mute-unmute').style.display = 'flex';
+            document.querySelector('.volume-container').style.display = 'flex';
         }
-        
-        window.addEventListener('orientationchange', handleOrientationChange);
     </script>
-
 
 
 </body>
