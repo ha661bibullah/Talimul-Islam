@@ -4934,10 +4934,6 @@ window.addEventListener('popstate', setActiveNavLink);
 }
 
 @media (max-width: 480px) {
-    body {
-        padding: 8px;
-    }
-    
     .video-controls {
         padding: 8px;
     }
@@ -5409,8 +5405,367 @@ window.addEventListener('popstate', setActiveNavLink);
 </div>
     
 
-<!-- Modal for Videos -->
-<div id="videoModal" class="modal">
+
+
+    <style>
+        /* Modal for Videos  */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .player-wrapper {
+            position: relative;
+            width: 100%;
+            background: #000;
+        }
+
+        #video-container {
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            position: relative;
+        }
+
+        #youtube-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            opacity: 0; /* প্লেয়ার লুকানো */
+            pointer-events: none; /* ক্লিক ইভেন্ট নিষ্ক্রিয় */
+            z-index: 1;
+        }
+
+        /* Custom video controls overlay */
+        .custom-controls-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .player-wrapper:hover .custom-controls-overlay {
+            opacity: 1;
+        }
+
+        .video-controls {
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+            padding: 10px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* Progress percentage */
+            background: #ff0000;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .progress-handle {
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff0000;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .progress-bar-container:hover .progress-handle {
+            opacity: 1;
+        }
+
+        .controls-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .left-controls, .right-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .time-display {
+            font-size: 14px;
+            color: #fff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        /* Play button overlay */
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.6);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 5;
+        }
+
+        .player-wrapper:hover .play-overlay {
+            opacity: 1;
+        }
+
+        /* Skip buttons */
+        .skip-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .skip-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Custom context menu */
+        .custom-context-menu {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            z-index: 1000;
+            display: none;
+            pointer-events: none;
+        }
+
+        /* Modal for Videos */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .close-modal {
+            color: #5e35b1;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .close-modal:hover {
+            background: rgba(94, 53, 177, 0.1);
+            transform: rotate(90deg);
+        }
+        .modal-title {
+            margin-bottom: 25px;
+            color: #5e35b1;
+            font-size: 26px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(94, 53, 177, 0.2);
+        }
+        .modal-video {
+            width: 100%;
+            max-height: 70vh;
+            border-radius: 8px;
+        }
+
+        /* Fullscreen styles */
+        .player-wrapper:-webkit-full-screen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+        
+        .player-wrapper:-ms-fullscreen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+        
+        .player-wrapper:fullscreen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .volume-slider {
+                width: 60px;
+            }
+            
+            .control-btn {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .skip-btn {
+                font-size: 12px;
+                padding: 4px 6px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 15px;
+            }
+            
+            .modal-video {
+                height: 60vh;
+            }
+            
+            /* Mobile-specific fullscreen button styling */
+            .fullscreen-btn-mobile {
+                display: block !important;
+            }
+            
+            .fullscreen-btn-desktop {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 480px) {    
+            .video-controls {
+                padding: 8px;
+            }
+            
+            .left-controls, .right-controls {
+                gap: 8px;
+            }
+            
+            .volume-slider {
+                width: 40px;
+            }
+            
+            .time-display {
+                font-size: 12px;
+            }
+            
+            .skip-btn {
+                display: none;
+            }
+            
+            .play-overlay {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+        }
+
+        /* Mobile-specific fullscreen button */
+        .fullscreen-btn-mobile {
+            display: none;
+        }
+    </style>
+    <!-- Modal for Videos -->
+    <div id="videoModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
             <h2 class="modal-title" id="videoTitle">ভিডিও লেসন</h2>
@@ -5453,7 +5808,12 @@ window.addEventListener('popstate', setActiveNavLink);
                                         </div>
                                         
                                         <div class="right-controls">
-                                            <button class="control-btn" id="fullscreen-btn">
+                                            <!-- Desktop fullscreen button -->
+                                            <button class="control-btn fullscreen-btn-desktop" id="fullscreen-btn">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                            <!-- Mobile fullscreen button -->
+                                            <button class="control-btn fullscreen-btn-mobile" id="fullscreen-btn-mobile">
                                                 <i class="fas fa-expand"></i>
                                             </button>
                                         </div>
@@ -5470,11 +5830,14 @@ window.addEventListener('popstate', setActiveNavLink);
                 </div>
             </div>
         </div>
-</div>
-<!-- Custom context menu -->
-<div class="custom-context-menu" id="custom-context-menu">
-রাইট ক্লিক ডিসেবল করা হয়েছে
-</div>
+    </div>
+    <!-- Custom context menu -->
+    <div class="custom-context-menu" id="custom-context-menu">
+        রাইট ক্লিক ডিসেবল করা হয়েছে
+    </div>
+
+
+
 
 
 
@@ -8293,7 +8656,7 @@ function createReviewElement(review) {
 </script>        
  
 <!-- / YouTube IFrame API প্লেয়ার তৈরি -->
-<script>
+    <script>
         // ===============================
         // YouTube IFrame API প্লেয়ার তৈরি
         // ===============================
@@ -8318,6 +8681,7 @@ function createReviewElement(review) {
         const progressBar = document.getElementById('progress-bar');
         const progressContainer = document.getElementById('progress-container');
         const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const fullscreenBtnMobile = document.getElementById('fullscreen-btn-mobile');
         const playOverlay = document.getElementById('play-overlay');
         const skipForwardBtn = document.getElementById('skip-forward');
         const skipBackwardBtn = document.getElementById('skip-backward');
@@ -8326,104 +8690,31 @@ function createReviewElement(review) {
         // Video modal functionality
         function openVideoModal(videoId) {
             const videos = {
-    'lesson-1': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'VEBtNGm_ym8'
-    },
-    'lesson-2': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'EOBPhxxZuW4'
-    },
-    'lesson-3': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'SanXg2ceFw8'
-    },
-    'lesson-4': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'xKhNXaaLEKU'
-    },
-    'lesson-5': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'HEpfSTU2Plg'
-    },
-    'lesson-6': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'oxvD4c3s4iI'
-    },
-    'lesson-7': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '0j-Z_x2uneE'
-    },
-    'lesson-8': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'EJTC01RNLmQ'
-    },
-    'lesson-9': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '2vPcYWKxazw'
-    },
-    'lesson-10': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'k3gyGG_96rg'
-    },
-    'lesson-11': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'ZKh82ukuEzc'
-    },
-    'lesson-12': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '-m56LAv_UYo'
-    },
-    'lesson-13': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'wU7JyybwTyI'
-    },
-    'lesson-14': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'tAc1uY0cSS4'
-    },
-    'lesson-15': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'QpHxkw8xxMs'
-    },
-    'lesson-16': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '-CBqG5MZgAU'
-    },
-    'lesson-17': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '1ITrzc1QLKQ'
-    },
-    'lesson-18': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '1SiY9t44wCQ'
-    },
-    'lesson-19': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'PPGL5n5iCfw'
-    },
-    'lesson-20': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'X7aKXTYSBsM'
-    },
-    'lesson-21': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'PgfsPq4XKgM'
-    },
-    'lesson-22': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'PEUKoLDEg70'
-    },
-    'lesson-23': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'ophAu7Tsykg'
-    },
-    'lesson-24': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '6wHRr0AJAEg'
-    }
-};
-
+                'lesson-1': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'VEBtNGm_ym8' },
+                'lesson-2': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'EOBPhxxZuW4' },
+                'lesson-3': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'SanXg2ceFw8' },
+                'lesson-4': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'xKhNXaaLEKU' },
+                'lesson-5': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'HEpfSTU2Plg' },
+                'lesson-6': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'oxvD4c3s4iI' },
+                'lesson-7': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '0j-Z_x2uneE' },
+                'lesson-8': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'EJTC01RNLmQ' },
+                'lesson-9': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '2vPcYWKxazw' },
+                'lesson-10': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'k3gyGG_96rg' },
+                'lesson-11': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'ZKh82ukuEzc' },
+                'lesson-12': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '-m56LAv_UYo' },
+                'lesson-13': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'wU7JyybwTyI' },
+                'lesson-14': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'tAc1uY0cSS4' },
+                'lesson-15': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'QpHxkw8xxMs' },
+                'lesson-16': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '-CBqG5MZgAU' },
+                'lesson-17': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '1ITrzc1QLKQ' },
+                'lesson-18': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '1SiY9t44wCQ' },
+                'lesson-19': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'PPGL5n5iCfw' },
+                'lesson-20': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'X7aKXTYSBsM' },
+                'lesson-21': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'PgfsPq4XKgM' },
+                'lesson-22': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'PEUKoLDEg70' },
+                'lesson-23': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: 'ophAu7Tsykg' },
+                'lesson-24': { title: 'উর্দু ভাষা শিক্ষা কোর্স', videoId: '6wHRr0AJAEg' }
+            };
 
             if (videos[videoId]) {
                 const video = videos[videoId];
@@ -8629,28 +8920,88 @@ function createReviewElement(review) {
             updateProgress();
         }
         
-        // ফুলস্ক্রিন মোড
+        // ফুলস্ক্রিন মোড - মোবাইল ডিভাইসের জন্য সংশোধিত
         function toggleFullscreen() {
             const playerWrapper = document.querySelector('.player-wrapper');
             
             if (!document.fullscreenElement) {
+                // Enter fullscreen
                 if (playerWrapper.requestFullscreen) {
-                    playerWrapper.requestFullscreen();
-                } else if (playerWrapper.webkitRequestFullscreen) {
-                    playerWrapper.webkitRequestFullscreen();
-                } else if (playerWrapper.msRequestFullscreen) {
-                    playerWrapper.msRequestFullscreen();
+                    playerWrapper.requestFullscreen().catch(err => {
+                        console.error('Error attempting to enable fullscreen:', err);
+                        // Fallback for mobile devices
+                        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                            playerWrapper.style.position = 'fixed';
+                            playerWrapper.style.top = '0';
+                            playerWrapper.style.left = '0';
+                            playerWrapper.style.width = '100%';
+                            playerWrapper.style.height = '100%';
+                            playerWrapper.style.zIndex = '9999';
+                            
+                            // Add exit button for mobile
+                            if (!document.getElementById('mobile-exit-fullscreen')) {
+                                const exitBtn = document.createElement('button');
+                                exitBtn.id = 'mobile-exit-fullscreen';
+                                exitBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                                exitBtn.style.position = 'fixed';
+                                exitBtn.style.top = '15px';
+                                exitBtn.style.right = '15px';
+                                exitBtn.style.zIndex = '10000';
+                                exitBtn.style.background = 'rgba(0,0,0,0.5)';
+                                exitBtn.style.color = 'white';
+                                exitBtn.style.border = 'none';
+                                exitBtn.style.borderRadius = '50%';
+                                exitBtn.style.width = '40px';
+                                exitBtn.style.height = '40px';
+                                exitBtn.style.fontSize = '18px';
+                                exitBtn.onclick = exitMobileFullscreen;
+                                document.body.appendChild(exitBtn);
+                            }
+                        }
+                    });
                 }
             } else {
+                // Exit fullscreen
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
                 }
             }
         }
+        
+        // মোবাইল ফুলস্ক্রিন থেকে প্রস্থান করার ফাংশন
+        function exitMobileFullscreen() {
+            const playerWrapper = document.querySelector('.player-wrapper');
+            playerWrapper.style.position = '';
+            playerWrapper.style.top = '';
+            playerWrapper.style.left = '';
+            playerWrapper.style.width = '';
+            playerWrapper.style.height = '';
+            playerWrapper.style.zIndex = '';
+            
+            const exitBtn = document.getElementById('mobile-exit-fullscreen');
+            if (exitBtn) {
+                exitBtn.remove();
+            }
+        }
+        
+        // ফুলস্ক্রিন পরিবর্তন শনাক্ত করুন
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement) {
+                // ফুলস্ক্রিন মোড থেকে প্রস্থান করা হলে
+                const playerWrapper = document.querySelector('.player-wrapper');
+                playerWrapper.style.position = '';
+                playerWrapper.style.top = '';
+                playerWrapper.style.left = '';
+                playerWrapper.style.width = '';
+                playerWrapper.style.height = '';
+                playerWrapper.style.zIndex = '';
+                
+                const exitBtn = document.getElementById('mobile-exit-fullscreen');
+                if (exitBtn) {
+                    exitBtn.remove();
+                }
+            }
+        });
         
         // ইভেন্ট লিসেনার
         playPauseBtn.addEventListener('click', togglePlayPause);
@@ -8675,6 +9026,7 @@ function createReviewElement(review) {
         
         progressContainer.addEventListener('click', seekVideo);
         fullscreenBtn.addEventListener('click', toggleFullscreen);
+        fullscreenBtnMobile.addEventListener('click', toggleFullscreen);
         
         // কীবোর্ড শর্টকাট
         document.addEventListener('keydown', function(e) {
@@ -8725,7 +9077,7 @@ function createReviewElement(review) {
         
         window.addEventListener('resize', handleVolumeSlider);
         handleVolumeSlider();
-</script>
+    </script>
 
 
 
