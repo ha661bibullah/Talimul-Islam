@@ -4638,327 +4638,7 @@ window.addEventListener('popstate', setActiveNavLink);
 }
 
 </style>
-<style>
- /* Modal for Videos  */
-        .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
 
-.player-wrapper {
-    position: relative;
-    width: 100%;
-    background: #000;
-}
-
-#video-container {
-    width: 100%;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    position: relative;
-}
-
-#youtube-player {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    opacity: 0; /* প্লেয়ার লুকানো */
-    pointer-events: none; /* ক্লিক ইভেন্ট নিষ্ক্রিয় */
-    z-index: 1;
-}
-
-/* Custom video controls overlay */
-.custom-controls-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    z-index: 20;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-
-.player-wrapper:hover .custom-controls-overlay {
-    opacity: 1;
-}
-
-.video-controls {
-    width: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
-    padding: 10px 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.progress-bar-container {
-    width: 100%;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-    border-radius: 2px;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0%; /* Progress percentage */
-    background: #ff0000;
-    border-radius: 2px;
-    position: relative;
-}
-
-.progress-handle {
-    position: absolute;
-    right: -6px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #ff0000;
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-
-.progress-bar-container:hover .progress-handle {
-    opacity: 1;
-}
-
-.controls-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.left-controls, .right-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.control-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-}
-
-.control-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.time-display {
-    font-size: 14px;
-    color: #fff;
-    font-variant-numeric: tabular-nums;
-}
-
-.volume-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.volume-slider {
-    width: 80px;
-    height: 4px;
-    -webkit-appearance: none;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
-    outline: none;
-}
-
-.volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #fff;
-    cursor: pointer;
-}
-
-/* Play button overlay */
-.play-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.6);
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 36px;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: 5;
-}
-
-.player-wrapper:hover .play-overlay {
-    opacity: 1;
-}
-
-/* Skip buttons */
-.skip-btn {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 5px 8px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    transition: background-color 0.2s;
-}
-
-.skip-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-/* Custom context menu */
-.custom-context-menu {
-    position: fixed;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 4px;
-    font-size: 14px;
-    z-index: 1000;
-    display: none;
-    pointer-events: none;
-}
-
-/* Modal for Videos */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-}
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 25px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 800px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    position: relative;
-}
-.close-modal {
-    color: #5e35b1;
-    float: right;
-    font-size: 32px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-.close-modal:hover {
-    background: rgba(94, 53, 177, 0.1);
-    transform: rotate(90deg);
-}
-.modal-title {
-    margin-bottom: 25px;
-    color: #5e35b1;
-    font-size: 26px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(94, 53, 177, 0.2);
-}
-.modal-video {
-    width: 100%;
-    max-height: 70vh;
-    border-radius: 8px;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .volume-slider {
-        width: 60px;
-    }
-    
-    .control-btn {
-        width: 32px;
-        height: 32px;
-    }
-    
-    .skip-btn {
-        font-size: 12px;
-        padding: 4px 6px;
-    }
-    
-    .modal-content {
-        width: 95%;
-        margin: 10% auto;
-    }
-    
-    .modal-video {
-        height: 60vh;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 8px;
-    }
-    
-    .video-controls {
-        padding: 8px;
-    }
-    
-    .left-controls, .right-controls {
-        gap: 8px;
-    }
-    
-    .volume-slider {
-        width: 40px;
-    }
-    
-    .time-display {
-        font-size: 12px;
-    }
-    
-    .skip-btn {
-        display: none;
-    }
-}
-</style>
 <div class="container2">
         <header>
             <h1>উর্দু কায়দা </h1>
@@ -5409,8 +5089,477 @@ window.addEventListener('popstate', setActiveNavLink);
     
 
 
-<!-- Modal for Videos -->
-<div id="videoModal" class="modal">
+
+
+
+    <style>
+        /* Modal for Videos  */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .player-wrapper {
+            position: relative;
+            width: 100%;
+            background: #000;
+        }
+
+        #video-container {
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            position: relative;
+        }
+
+        #youtube-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            opacity: 0; /* প্লেয়ার লুকানো */
+            pointer-events: none; /* ক্লিক ইভেন্ট নিষ্ক্রিয় */
+            z-index: 1;
+        }
+
+        /* Custom video controls overlay */
+        .custom-controls-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .player-wrapper:hover .custom-controls-overlay {
+            opacity: 1;
+        }
+
+        .video-controls {
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+            padding: 10px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* Progress percentage */
+            background: #ff0000;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .progress-handle {
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff0000;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .progress-bar-container:hover .progress-handle {
+            opacity: 1;
+        }
+
+        .controls-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .left-controls, .right-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .time-display {
+            font-size: 14px;
+            color: #fff;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        /* Play button overlay */
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.6);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 5;
+        }
+
+        .player-wrapper:hover .play-overlay {
+            opacity: 1;
+        }
+
+        /* Skip buttons */
+        .skip-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .skip-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Custom context menu */
+        .custom-context-menu {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            z-index: 1000;
+            display: none;
+            pointer-events: none;
+        }
+
+        /* Modal for Videos */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .close-modal {
+            color: #5e35b1;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .close-modal:hover {
+            background: rgba(94, 53, 177, 0.1);
+            transform: rotate(90deg);
+        }
+        .modal-title {
+            margin-bottom: 25px;
+            color: #5e35b1;
+            font-size: 26px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(94, 53, 177, 0.2);
+        }
+        .modal-video {
+            width: 100%;
+            max-height: 70vh;
+            border-radius: 8px;
+        }
+
+        /* Fullscreen styles */
+        .player-wrapper:-webkit-full-screen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 0;
+        }
+        
+        .player-wrapper:-ms-fullscreen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 0;
+        }
+        
+        .player-wrapper:fullscreen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 0;
+        }
+
+        /* iOS specific fullscreen styles */
+        .ios-fullscreen .player-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            border-radius: 0;
+        }
+        
+        .ios-fullscreen .container {
+            max-width: 100%;
+            border-radius: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ios-fullscreen #video-container {
+            height: 100%;
+            width: 100%;
+            padding-bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ios-fullscreen #youtube-player {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-height: 100vh;
+        }
+        
+        .ios-fullscreen .modal-content {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            border-radius: 0;
+            padding: 0;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ios-fullscreen .modal-title,
+        .ios-fullscreen .close-modal {
+            display: none;
+        }
+        
+        /* iOS exit fullscreen button */
+        #ios-exit-fullscreen {
+            display: none;
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 10000;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        .ios-fullscreen #ios-exit-fullscreen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .volume-slider {
+                width: 60px;
+            }
+            
+            .control-btn {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .skip-btn {
+                font-size: 12px;
+                padding: 4px 6px;
+                display: flex !important; /* Ensure skip buttons are visible on mobile */
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 15px;
+            }
+            
+            .modal-video {
+                height: 60vh;
+            }
+            
+            /* Mobile-specific fullscreen button styling */
+            .fullscreen-btn-mobile {
+                display: block !important;
+            }
+            
+            .fullscreen-btn-desktop {
+                display: none !important;
+            }
+            
+            /* Mobile controls visibility */
+            .custom-controls-overlay {
+                opacity: 1; /* Always show controls on mobile */
+            }
+            
+            .play-overlay {
+                opacity: 1; /* Always show play overlay on mobile */
+            }
+            
+            /* Hide volume controls on mobile */
+            .volume-container, #mute-unmute {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-controls {
+                padding: 8px;
+            }
+            
+            .left-controls, .right-controls {
+                gap: 8px;
+            }
+            
+            .volume-slider {
+                width: 40px;
+            }
+            
+            .time-display {
+                font-size: 12px;
+            }
+            
+            .skip-btn {
+                display: flex !important; /* Ensure skip buttons are visible on mobile */
+                padding: 3px 5px;
+            }
+            
+            .play-overlay {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            /* Hide volume controls on mobile */
+            .volume-container, #mute-unmute {
+                display: none !important;
+            }
+        }
+
+        /* Mobile-specific fullscreen button */
+        .fullscreen-btn-mobile {
+            display: none;
+        }
+        
+        /* Prevent body scroll when modal is open */
+        body.modal-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <!-- Modal for Videos -->
+    <div id="videoModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('videoModal')">&times;</span>
             <h2 class="modal-title" id="videoTitle">ভিডিও লেসন</h2>
@@ -5441,6 +5590,7 @@ window.addEventListener('popstate', setActiveNavLink);
                                             <button class="skip-btn" id="skip-forward">
                                                 ৩০সে <i class="fas fa-forward-step"></i>
                                             </button>
+                                            <!-- Volume controls will be hidden on mobile -->
                                             <button class="control-btn" id="mute-unmute">
                                                 <i class="fas fa-volume-high"></i>
                                             </button>
@@ -5453,7 +5603,12 @@ window.addEventListener('popstate', setActiveNavLink);
                                         </div>
                                         
                                         <div class="right-controls">
-                                            <button class="control-btn" id="fullscreen-btn">
+                                            <!-- Desktop fullscreen button -->
+                                            <button class="control-btn fullscreen-btn-desktop" id="fullscreen-btn">
+                                                <i class="fas fa-expand"></i>
+                                            </button>
+                                            <!-- Mobile fullscreen button -->
+                                            <button class="control-btn fullscreen-btn-mobile" id="fullscreen-btn-mobile">
                                                 <i class="fas fa-expand"></i>
                                             </button>
                                         </div>
@@ -5470,11 +5625,26 @@ window.addEventListener('popstate', setActiveNavLink);
                 </div>
             </div>
         </div>
-</div>
-<!-- Custom context menu -->
-<div class="custom-context-menu" id="custom-context-menu">
-রাইট ক্লিক ডিসেবল করা হয়েছে
-</div>
+    </div>
+    
+    <!-- iOS Exit Fullscreen Button -->
+    <button id="ios-exit-fullscreen" onclick="exitIOSFullscreen()">
+        <i class="fas fa-compress"></i>
+    </button>
+    
+    <!-- Custom context menu -->
+    <div class="custom-context-menu" id="custom-context-menu">
+        রাইট ক্লিক ডিসেবল করা হয়েছে
+    </div>
+    
+    <!-- Lesson buttons for testing -->
+    <div style="padding: 20px; text-align: center;">
+        <h2>ভিডিও লেসন নির্বাচন করুন</h2>
+        <button onclick="openVideoModal('lesson-1')">লেসন 1</button>
+        <button onclick="openVideoModal('lesson-2')">লেসন 2</button>
+    </div>
+
+
 
 
 
@@ -8294,6 +8464,8 @@ function createReviewElement(review) {
 </script>        
 
 <!-- / YouTube IFrame API প্লেয়ার তৈরি -->
+
+
 <script>
         // ===============================
         // YouTube IFrame API প্লেয়ার তৈরি
@@ -8309,6 +8481,10 @@ function createReviewElement(review) {
         var isMuted = false;
         var updateInterval;
         var currentVideoId = '';
+        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        var isAndroid = /Android/.test(navigator.userAgent);
+        var isMobile = isIOS || isAndroid;
+        var isFullscreen = false;
         
         // DOM elements
         const playPauseBtn = document.getElementById('play-pause');
@@ -8319,14 +8495,16 @@ function createReviewElement(review) {
         const progressBar = document.getElementById('progress-bar');
         const progressContainer = document.getElementById('progress-container');
         const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const fullscreenBtnMobile = document.getElementById('fullscreen-btn-mobile');
         const playOverlay = document.getElementById('play-overlay');
         const skipForwardBtn = document.getElementById('skip-forward');
         const skipBackwardBtn = document.getElementById('skip-backward');
         const customContextMenu = document.getElementById('custom-context-menu');
+        const videoModal = document.getElementById('videoModal');
         
         // Video modal functionality
         function openVideoModal(videoId) {
-            const videos = {
+             const videos = {
     'lesson-1': {
         title: 'উর্দু ভাষা শিক্ষা কোর্স',
         videoId: 'VEBtNGm_ym8'
@@ -8435,16 +8613,26 @@ function createReviewElement(review) {
                 if (player) {
                     player.loadVideoById(video.videoId);
                 } else {
-                    // প্লেয়ার এখনও লোড হয়নি, API রেডি হলে এটি লোড হবে
+                    // If player is not ready, store the video ID and wait for API
+                    window.pendingVideoId = video.videoId;
                 }
                 
-                document.getElementById('videoModal').style.display = 'block';
+                videoModal.style.display = 'block';
+                document.body.classList.add('modal-open');
+                
+                // মোবাইল ডিভাইসে স্কিপ বাটন দেখান
+                if (isMobile) {
+                    skipForwardBtn.style.display = 'flex';
+                    skipBackwardBtn.style.display = 'flex';
+                }
             }
         }
 
         // Close modal
         function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
+            exitIOSFullscreen();
+            videoModal.style.display = 'none';
+            document.body.classList.remove('modal-open');
             if (player) {
                 player.pauseVideo();
             }
@@ -8452,14 +8640,8 @@ function createReviewElement(review) {
 
         // Close modal when clicking outside
         window.onclick = function(event) {
-            var modals = document.getElementsByClassName('modal');
-            for (var i = 0; i < modals.length; i++) {
-                if (event.target == modals[i]) {
-                    modals[i].style.display = 'none';
-                    if (player) {
-                        player.pauseVideo();
-                    }
-                }
+            if (event.target == videoModal) {
+                closeModal('videoModal');
             }
         }
         
@@ -8483,14 +8665,14 @@ function createReviewElement(review) {
             player = new YT.Player('youtube-player', {
                 height: '100%',
                 width: '100%',
-                videoId: currentVideoId || 'VEBtNGm_ym8',
+                videoId: window.pendingVideoId || currentVideoId || 'VEBtNGm_ym8',
                 playerVars: {
                     'playsinline': 1,
                     'modestbranding': 1,
                     'rel': 0,
                     'controls': 0,
                     'showinfo': 0,
-                    'enablejsapi': 1 // JavaScript API সক্ষম করা হয়েছে
+                    'enablejsapi': 1
                 },
                 events: {
                     'onReady': onPlayerReady,
@@ -8518,6 +8700,18 @@ function createReviewElement(review) {
             // ডিফল্টভাবে প্লে বাটন দেখান
             playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
             playOverlay.innerHTML = '<i class="fas fa-play"></i>';
+            
+            // মোবাইল ডিভাইসে স্কিপ বাটন দেখান এবং ভলিউম কন্ট্রোল লুকান
+            if (isMobile) {
+                skipForwardBtn.style.display = 'flex';
+                skipBackwardBtn.style.display = 'flex';
+                document.getElementById('mute-unmute').style.display = 'none';
+                document.querySelector('.volume-container').style.display = 'none';
+            } else {
+                // ডেস্কটপে ভলিউম কন্ট্রোল দেখান
+                document.getElementById('mute-unmute').style.display = 'flex';
+                document.querySelector('.volume-container').style.display = 'flex';
+            }
         }
         
         // প্লেয়ার স্টেট পরিবর্তন হলে
@@ -8616,7 +8810,7 @@ function createReviewElement(review) {
             isMuted = !isMuted;
         }
         
-        // প্রোগ্রেস বার ক্লিক হ্যান্ডলার
+        // প্রোগ্রেস বার क्लিক হ্যান্ডলার
         function seekVideo(e) {
             if (!player) return;
             
@@ -8630,28 +8824,80 @@ function createReviewElement(review) {
             updateProgress();
         }
         
-        // ফুলস্ক্রিন মোড
+        // ফুলস্ক্রিন মোড - iOS ডিভাইসের জন্য বিশেষ হ্যান্ডলিং
         function toggleFullscreen() {
             const playerWrapper = document.querySelector('.player-wrapper');
             
-            if (!document.fullscreenElement) {
-                if (playerWrapper.requestFullscreen) {
-                    playerWrapper.requestFullscreen();
-                } else if (playerWrapper.webkitRequestFullscreen) {
-                    playerWrapper.webkitRequestFullscreen();
-                } else if (playerWrapper.msRequestFullscreen) {
-                    playerWrapper.msRequestFullscreen();
+            if (isMobile) {
+                // মোবাইল ডিভাইসের জন্য কাস্টম ফুলস্ক্রিন
+                document.body.classList.add('ios-fullscreen');
+                isFullscreen = true;
+                
+                // ভিডিও কন্টেইনার স্টাইল পরিবর্তন
+                document.getElementById('video-container').style.paddingBottom = '0';
+                document.getElementById('video-container').style.height = '100%';
+                
+                // iOS exit button দেখান
+                document.getElementById('ios-exit-fullscreen').style.display = 'flex';
+                
+                // ভিডিও রিসাইজ করার চেষ্টা করুন
+                if (player && player.setSize) {
+                    player.setSize(window.innerWidth, window.innerHeight);
                 }
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                } else if (document.msExitFullscreen) {
-                    document.msExitFullscreen();
+                // অন্যান্য ডিভাইসের জন্য স্ট্যান্ডার্ড ফুলস্ক্রিন
+                if (!document.fullscreenElement) {
+                    if (playerWrapper.requestFullscreen) {
+                        playerWrapper.requestFullscreen().catch(err => {
+                            console.error('Error attempting to enable fullscreen:', err);
+                        });
+                    } else if (playerWrapper.webkitRequestFullscreen) {
+                        playerWrapper.webkitRequestFullscreen();
+                    } else if (playerWrapper.msRequestFullscreen) {
+                        playerWrapper.msRequestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
                 }
             }
         }
+        
+        // iOS ফুলস্ক্রিন থেকে প্রস্থান করার ফাংশন
+        function exitIOSFullscreen() {
+            document.body.classList.remove('ios-fullscreen');
+            isFullscreen = false;
+            const playerWrapper = document.querySelector('.player-wrapper');
+            playerWrapper.style.position = '';
+            playerWrapper.style.top = '';
+            playerWrapper.style.left = '';
+            playerWrapper.style.width = '';
+            playerWrapper.style.height = '';
+            playerWrapper.style.zIndex = '';
+            
+            document.getElementById('video-container').style.paddingBottom = '56.25%';
+            document.getElementById('video-container').style.height = '';
+            
+            document.getElementById('ios-exit-fullscreen').style.display = 'none';
+            
+            // ভিডিও রিসাইজ করুন
+            if (player && player.setSize) {
+                player.setSize('100%', '100%');
+            }
+        }
+        
+        // ফুলস্ক্রিন পরিবর্তন শনাক্ত করুন
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement) {
+                // ফুলস্ক্রিন মোড থেকে প্রস্থান করা হলে
+                exitIOSFullscreen();
+            }
+        });
         
         // ইভেন্ট লিসেনার
         playPauseBtn.addEventListener('click', togglePlayPause);
@@ -8676,11 +8922,12 @@ function createReviewElement(review) {
         
         progressContainer.addEventListener('click', seekVideo);
         fullscreenBtn.addEventListener('click', toggleFullscreen);
+        fullscreenBtnMobile.addEventListener('click', toggleFullscreen);
         
         // কীবোর্ড শর্টকাট
         document.addEventListener('keydown', function(e) {
             // শুধুমাত্র মডাল খোলা থাকলে শর্টকাট কাজ করবে
-            if (document.getElementById('videoModal').style.display !== 'block') return;
+            if (videoModal.style.display !== 'block') return;
             
             if (e.key === ' ' || e.key === 'k') {
                 e.preventDefault();
@@ -8711,7 +8958,11 @@ function createReviewElement(review) {
                 skipBackward();
             } else if (e.key === 'Escape') {
                 e.preventDefault();
-                closeModal('videoModal');
+                if (isFullscreen) {
+                    exitIOSFullscreen();
+                } else {
+                    closeModal('videoModal');
+                }
             }
         });
         
@@ -8726,8 +8977,19 @@ function createReviewElement(review) {
         
         window.addEventListener('resize', handleVolumeSlider);
         handleVolumeSlider();
+        
+        // মোবাইল ডিভাইসে স্কিপ বাটন দেখান এবং ভলিউম কন্ট্রোল লুকান
+        if (isMobile) {
+            skipForwardBtn.style.display = 'flex';
+            skipBackwardBtn.style.display = 'flex';
+            document.getElementById('mute-unmute').style.display = 'none';
+            document.querySelector('.volume-container').style.display = 'none';
+        } else {
+            // ডেস্কটপে ভলিউম কন্ট্রোল দেখান
+            document.getElementById('mute-unmute').style.display = 'flex';
+            document.querySelector('.volume-container').style.display = 'flex';
+        }
 </script>
-
 
 </body>
 </html>
