@@ -7,6 +7,10 @@
         <title>EduBangla - নেভিগেশন বার</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali&display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     </head>
 <body>
@@ -1975,51 +1979,6 @@
     // ====================
     // Language Toggle Module
     // ====================
-    const LanguageModule = (() => {
-        const languages = {
-            en: {
-                flag: 'https://flagcdn.com/w40/us.png',
-                name: 'English',
-                alt: 'English'
-            },
-            bn: {
-                flag: 'https://flagcdn.com/w40/bd.png',
-                name: 'বাংলা',
-                alt: 'বাংলা'
-            }
-        };
-
-        let currentLang = 'bn';
-
-        const toggleLanguage = () => {
-            currentLang = currentLang === 'en' ? 'bn' : 'en';
-            const lang = languages[currentLang];
-            
-            // Update mobile language switcher
-            const flag = document.getElementById('flag');
-            const langText = document.getElementById('lang');
-            if (flag && langText) {
-                flag.src = lang.flag;
-                flag.alt = lang.alt;
-                langText.textContent = lang.name;
-            }
-
-            // Update desktop language switcher
-            const desktopFlag = document.getElementById('desktopFlag');
-            const desktopLangText = document.getElementById('desktopLang');
-            if (desktopFlag && desktopLangText) {
-                desktopFlag.src = lang.flag;
-                desktopFlag.alt = lang.alt;
-                desktopLangText.textContent = lang.name;
-            }
-
-            console.log('Language switched to:', currentLang);
-        };
-
-        return {
-            toggleLanguage
-        };
-    })();
 
     // ====================
     // Theme Toggle Module
@@ -3470,6 +3429,413 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 
+<script>
+    // ====================
+    // Language Toggle Module - Updated
+    // ====================
+    const LanguageModule = (() => {
+        const languages = {
+            en: {
+                flag: 'https://flagcdn.com/w40/us.png',
+                name: 'English',
+                alt: 'English',
+                navLinkPadding: '7px 6px', // ইংরেজি ভাষার জন্য প্যাডিং
+                // Add translations for all text elements
+                translations: {
+                    // Navigation items
+                    'হোম': 'Home',
+                    'কোর্স': 'Courses',
+                    'সকল কোর্স': 'All Courses',
+                    'লাইভ কোর্স': 'Live Courses',
+                    'ইসলামিক আইন': 'Islamic Law',
+                    'আরবি ভাষা': 'Arabic Language',
+                    'ইসলামিক ইতিহাস': 'Islamic History',
+                    'ফিকহ শাস্ত্র': 'Fiqh Studies',
+                    'বই': 'Books',
+                    'শিক্ষক': 'Teachers',
+                    'উপদেষ্টা': 'Advisors',
+                    'ব্লগ': 'Blog',
+                    'সম্পর্কে': 'About',
+                    'যোগাযোগ': 'Contact',
+                    
+                    // Other UI elements
+                    'কোর্স বা বই খুঁজুন...': 'Search for courses or books...',
+                    'লগইন': 'Login',
+                    'প্রোফাইল তথ্য': 'Profile Info',
+                    'আমার কোর্স': 'My Courses',
+                    'লগআউট': 'Logout',
+                    'সকাল ১০টা - বিকাল ৫টা': '10 AM - 5 PM',
+                    
+                    // Login form texts
+                    'লগইন করুন': 'Login',
+                    'আপনার একাউন্ট সফলভাবে তৈরি হয়েছে। এখন লগইন করুন।': 'Your account has been created successfully. Please login now.',
+                    'ইমেইল': 'Email',
+                    'আপনার ইমেইল লিখুন': 'Enter your email',
+                    'অনুগ্রহ করে একটি সঠিক ইমেইল প্রদান করুন': 'Please provide a valid email',
+                    'পাসওয়ার্ড': 'Password',
+                    'আপনার পাসওয়ার্ড লিখুন': 'Enter your password',
+                    'পাসওয়ার্ড প্রয়োজন': 'Password required',
+                    'দেখুন': 'Show',
+                    'লুকান': 'Hide',
+                    'একাউন্ট নেই?': 'No account?',
+                    'নতুন একাউন্ট খুলুন': 'Create new account',
+                    'পাসওয়ার্ড ভুলে গেছেন?': 'Forgot password?',
+                    'নতুন একাউন্ট খুলুন': 'Create New Account',
+                    'এগিয়ে যান': 'Continue',
+                    'ইতিমধ্যে একাউন্ট আছে?': 'Already have an account?',
+                    'অটিপি যাচাইকরণ': 'OTP Verification',
+                    'আপনার ইমেইলে (<span id="userEmail"></span>) ৪ সংখ্যার অটিপি পাঠানো হয়েছে': 'A 4-digit OTP has been sent to your email (<span id="userEmail"></span>)',
+                    'অটিপি দিন': 'Enter OTP',
+                    'অনুগ্রহ করে সঠিক অটিপি দিন': 'Please enter the correct OTP',
+                    'বাকি সময়:': 'Time remaining:',
+                    'পুনরায় অটিপি পাঠান': 'Resend OTP',
+                    'যাচাই করুন': 'Verify',
+                    'ফিরে যান': 'Go back',
+                    'রেজিস্ট্রেশন সম্পন্ন করুন': 'Complete Registration',
+                    'পূর্ণ নাম': 'Full Name',
+                    'আপনার পূর্ণ নাম লিখুন': 'Enter your full name',
+                    'নাম প্রয়োজন': 'Name required',
+                    'একটি শক্তিশালী পাসওয়ার্ড লিখুন': 'Enter a strong password',
+                    'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে': 'Password must be at least 6 characters',
+                    'পাসওয়ার্ড নিশ্চিত করুন': 'Confirm Password',
+                    'পাসওয়ার্ড আবার লিখুন': 'Re-enter password',
+                    'পাসওয়ার্ড মিলছে না': 'Passwords do not match',
+                    'রেজিস্ট্রেশন সম্পন্ন করুন': 'Complete Registration',
+                    'পাসওয়ার্ড রিসেট করুন': 'Reset Password',
+                    'আপনার রেজিস্টার্ড ইমেইল': 'Your registered email',
+                    'OTP পাঠান': 'Send OTP',
+                    'লগইন পৃষ্ঠায় ফিরে যান': 'Back to login page',
+                    'নতুন পাসওয়ার্ড সেট করুন': 'Set New Password',
+                    'নতুন পাসওয়ার্ড লিখুন': 'Enter new password',
+                    'পাসওয়ার্ড পরিবর্তন করুন': 'Change Password',
+                    'অভিনন্দন!': 'Congratulations!',
+                    'আপনার রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে। এখন আপনি লগইন করতে পারেন।': 'Your registration has been completed successfully. You can now login.',
+                    'বুঝেছি ও লগইন করুন': 'OK & Login',
+                    'সফল!': 'Success!',
+                    'আপনার পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে। এখন আপনি নতুন পাসওয়ার্ড দিয়ে লগইন করতে পারেন।': 'Your password has been changed successfully. You can now login with your new password.',
+                    'লগইন পৃষ্ঠায় যান': 'Go to login page',
+                   // Featured Section
+    'আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা': 'Islamic Education in a Modern Way',
+    'আমাদের মাদ্রাসার অনলাইন কোর্সগুলোর মাধ্যমে ইসলামিক শিক্ষা এবং আরবি ভাষার গভীর জ্ঞান অর্জন করুন। অভিজ্ঞ শিক্ষকমণ্ডলী এবং আধুনিক শিক্ষা পদ্ধতির মাধ্যমে আপনার জ্ঞানের পথে এগিয়ে যান।': 'Gain deep knowledge of Islamic education and Arabic language through our online courses. Advance your learning journey with experienced teachers and modern teaching methods.',
+    'কোর্স দেখুন': 'View Courses',
+
+    // Courses Section
+    'কোরআন শিক্ষা কোর্স': 'Quran Education Course',
+    'কোর্স ফি: ৩,৫০০ টাকা': 'Course Fee: ৳3,500',
+    'শিক্ষক: মাওলানা আব্দুল্লাহ': 'Teacher: Maulana Abdullah',
+    'কোরআন তেলাওয়াত ও তাজবিদ শিক্ষা': 'Quran Recitation and Tajweed Education',
+    'এই কোর্সে আপনি শুদ্ধ কোরআন তেলাওয়াত ও তাজবিদের নিয়মাবলী শিখবেন। অভিজ্ঞ কারী দ্বারা পরিচালিত এই কোর্সে মাখরাজ, সিফাত, মাদ্দ, গুন্নাহ, ইখফা, ইদগাম, ইকলাব, ইযহার সহ সকল বিষয় বিস্তারিতভাবে শেখানো হবে। সপ্তাহে ৩ দিন ১ ঘন্টা করে অনলাইন ক্লাস।': 'In this course, you will learn correct Quran recitation and Tajweed rules. Conducted by an experienced teacher, covering all topics including Makharij, Sifat, Madd, Ghunna, Ikhfa, Idgham, Iqlab, Izhar. Online classes 3 days a week, 1 hour each.',
+    'বিস্তারিত দেখুন':'See details',
+
+    'আরবি ভাষা শিক্ষা': 'Arabic Language Education',
+    'কোর্স ফi: ৪,২০০ টাকা': 'Course Fee: ৳4,200',
+    'শিক্ষক: ড. নুরুল ইসলাম': 'Teacher: Dr. Nurul Islam',
+    'আরবি ভাষা শিক্ষা: বেসিক থেকে এডভান্সড': 'Arabic Language Education: Basic to Advanced',
+    'আরবি ভাষা শিক্ষার এই বিশেষ কোর্সে আপনি বর্ণমালা থেকে শুরু করে পূর্ণ বাক্য গঠন, ব্যাকরণ এবং কথোপকথন পর্যন্ত সবকিছু শিখবেন। কোর্সটি তিন মাসব্যাপী এবং শিক্ষার্থীদের প্রতিদিন অনুশীলনের জন্য বিশেষ কাজ দেওয়া হবে। প্রতি সপ্তাহে ৪ দিন অনলাইন ক্লাস।': 'In this special Arabic course, you will learn from alphabets to complete sentence construction, grammar, and conversation. The course lasts 3 months with daily exercises for students. Online classes 4 days a week.',
+
+    'হাদিস শিক্ষা': 'Hadith Education',
+    'কোর্স ফি: ৫,০০০ টাকা': 'Course Fee: ৳5,000',
+    'শিক্ষক: মাওলানা জাহিদুল ইসলাম': 'Teacher: Maulana Zahidul Islam',
+    'হাদিস শিক্ষা: সহিহ বুখারি ও মুসলিম': 'Hadith Education: Sahih Bukhari and Muslim',
+    'হাদিস শিক্ষার এই গভীর কোর্সে আপনি সহিহ বুখারি ও মুসলিমের নির্বাচিত হাদিস সম্পর্কে বিস্তারিত জানতে পারবেন। হাদিসের প্রেক্ষাপট, ব্যাখ্যা, এবং দৈনন্দিন জীবনে এর প্রয়োগ সম্পর্কে শিখবেন। কোর্সটি চার মাসব্যাপী এবং সপ্তাহে ৩ দিন অনলাইন ক্লাস।': 'In this comprehensive Hadith course, you will learn about selected Hadiths from Sahih Bukhari and Muslim, their context, explanations, and daily applications. The course lasts 4 months with online classes 3 days a week.',
+
+    // Sidebar Section
+    'আমাদের সম্পর্কে': 'About Us',
+    'মাদ্রাসা শিক্ষা একটি অনলাইন প্লাটফর্ম যেখানে আমরা আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা প্রদান করি। আমাদের লক্ষ্য হলো যেকোনো স্থান থেকে যেকোনো সময়ে সহজেই সবার জন্য উচ্চমানের ইসলামিক শিক্ষা সুলভ করা': 'Madrasa Shiksha is an online platform where we provide Islamic education in a modern way. Our goal is to make high-quality Islamic education easily accessible to everyone from anywhere at any time',
+
+    'জনপ্রিয় কোর্স': 'Popular Courses',
+    'ইসলামিক ফিকাহ শিক্ষা': 'Islamic Fiqh Education',
+    'কোর্স ফি: ৪,৫০০ টাকা': 'Course Fee: ৳4,500',
+    'সিরাতুন্নবী (সা.) পরিচিতি': 'Introduction to Sirat-un-Nabi (PBUH)',
+    'কোর্স ফি: ৩,৮০০ টাকা': 'Course Fee: ৳3,800',
+    'ইসলামিক আকিদা পরিচিতি': 'Introduction to Islamic Aqeedah',
+    'কোর্স ফি: ৩,৫০০ টাকা': 'Course Fee: ৳3,500',
+
+    // Course Categories
+    'কোর্স বিভাগ': 'Course Categories',
+    'কোরআন শিক্ষা': 'Quran Education',
+    'হাদিস শিক্ষা': 'Hadith Education',
+    'আরবি ভাষা': 'Arabic Language',
+    'ফিকাহ শিক্ষা': 'Fiqh Education',
+    'ইসলামিক ইতিহাস': 'Islamic History',
+    '৫': '5',
+    '৪': '4',
+    '৬': '6',
+    '३': '3',
+
+    // Tags / Topics
+    'টপিক সমূহ': 'Topics',
+    'কোরআন': 'Quran',
+    'হাদিস': 'Hadith',
+    'আরবি': 'Arabic',
+    'ফিকাহ': 'Fiqh',
+    'তাফসির': 'Tafsir',
+    'তাজবিদ': 'Tajweed',
+    'সিরাত': 'Seerah',
+    'আকিদা': 'Aqeedah',
+    'ইবাদাত': 'Ibadah',
+    'ইসলামিক স্টাডিজ': 'Islamic Studies',
+
+    // Course Registration Form
+    'কোর্স রেজিস্ট্রেশন': 'Course Registration',
+    'আপনার নাম': 'Your Name',
+    'আপনার ইমেইল': 'Your Email',
+    'আপনার মোবাইল নাম্বার': 'Your Mobile Number',
+    'কোর্সে ভর্তি হন': 'Enroll in Course',
+
+    // Newsletter Popup
+    'বিশেষ ডিসকাউন্ট অফার!': 'Special Discount Offer!',
+    'আমাদের নিউজলেটার সাবস্ক্রাইব করুন এবং যেকোনো কোর্সে ১৫% ডিসকাউন্ট পান! সীমিত সময়ের জন্য এই অফার চলবে।': 'Subscribe to our newsletter and get 15% off any course! This offer is valid for a limited time.',
+    'ডিসকাউন্ট পান': 'Get Discount',
+
+
+     // About Section ফুটার
+    'আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা এবং আরবি ভাষা শেখার জন্য আমাদের কোর্সগুলোতে আপনাকে স্বাগতম।': 'Welcome to our courses for Islamic education and Arabic language learning in a modern way.',
+
+    // Quick Links
+    'দ্রুত লিংক': 'Quick Links',
+    'হোম': 'Home',
+    'আমাদের সম্পর্কে': 'About Us',
+    'সকল কোর্স': 'All Courses',
+    'শিক্ষকমণ্ডলী': 'Teachers',
+    'ক্লাস সময়সূচি': 'Class Schedule',
+    'যোগাযোগ': 'Contact',
+
+    // Popular Courses
+    'জনপ্রিয় কোর্স': 'Popular Courses',
+    'কোরআন তেলাওয়াত': 'Quran Recitation',
+    'হাদিস শিক্ষা': 'Hadith Studies',
+    'আরবি ভাষা': 'Arabic Language',
+    'ফিকাহ শিক্ষা': 'Fiqh Studies',
+    'তাজবিদ': 'Tajweed',
+    'ইসলামিক ইতিহাস': 'Islamic History',
+
+    // Newsletter
+    'নিউজলেটার': 'Newsletter',
+    'নিউজলেটার সাবস্ক্রাইব করুন': 'Subscribe to Newsletter',
+    'আপনার ইমেইল': 'Your Email',
+    'সাবস্ক্রাইব': 'Subscribe',
+
+    // Contact Info
+    'ঠিকানা: আজিমপুর, ঢাকা-১২০৫': 'Address: Azimpur, Dhaka-1205',
+    'ফোন: +৮৮০১৯১১-৫৬৭৮৯০': 'Phone: +8801911-567890',
+    'ইমেইল: billaharif661@gmail.com': 'Email: billaharif661@gmail.com',
+
+    // Footer Bottom
+    '© ২০২৫ মাদ্রাসা শিক্ষা। সমস্ত অধিকার সংরক্ষিত।': '© 2025 Madrasa Education. All rights reserved.',
+    'প্রাইভেসি পলিসি': 'Privacy Policy',
+    'টার্মস অফ সার্ভিস': 'Terms of Service',
+    'কোর্স নীতিমালা': 'Course Policy'
+
+                }
+            },
+            bn: {
+                flag: 'https://flagcdn.com/w40/bd.png',
+                name: 'বাংলা',
+                alt: 'বাংলা',
+                navLinkPadding: '8px 10px', // বাংলা ভাষার জন্য প্যাডিং
+                translations: {} // Bengali doesn't need translations as it's the default
+            }
+        };
+
+        // Get current language from localStorage or default to Bengali
+        let currentLang = localStorage.getItem('selectedLanguage') || 'bn';
+
+        const toggleLanguage = () => {
+            // Toggle language
+            currentLang = currentLang === 'en' ? 'bn' : 'en';
+            
+            // Save to localStorage
+            localStorage.setItem('selectedLanguage', currentLang);
+            
+            // Update UI
+            updateLanguageUI();
+        };
+
+        const updateLanguageUI = () => {
+            const lang = languages[currentLang];
+            
+            // Update mobile language switcher
+            const flag = document.getElementById('flag');
+            const langText = document.getElementById('lang');
+            if (flag && langText) {
+                flag.src = lang.flag;
+                flag.alt = lang.alt;
+                langText.textContent = lang.name;
+            }
+
+            // Update desktop language switcher
+            const desktopFlag = document.getElementById('desktopFlag');
+            const desktopLangText = document.getElementById('desktopLang');
+            if (desktopFlag && desktopLangText) {
+                desktopFlag.src = lang.flag;
+                desktopFlag.alt = lang.alt;
+                desktopLangText.textContent = lang.name;
+            }
+
+            // Update navigation link padding based on language
+            updateNavLinkPadding(lang.navLinkPadding);
+
+            // Translate all text elements if switching to English
+            if (currentLang === 'en') {
+                translatePageToEnglish();
+            } else {
+                translatePageToBengali();
+            }
+        };
+
+        // নেভিগেশন লিঙ্কের প্যাডিং আপডেট করার ফাংশন
+        const updateNavLinkPadding = (padding) => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.style.padding = padding;
+            });
+        };
+
+        const translatePageToEnglish = () => {
+            const translations = languages.en.translations;
+            
+            // Get all text nodes in the document
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            let node;
+            const textNodes = [];
+            
+            while (node = walker.nextNode()) {
+                // Skip script and style elements
+                if (node.parentNode.nodeName !== 'SCRIPT' && 
+                    node.parentNode.nodeName !== 'STYLE' &&
+                    node.textContent.trim() !== '') {
+                    textNodes.push(node);
+                }
+            }
+            
+            // Translate each text node
+            textNodes.forEach(node => {
+                const text = node.textContent.trim();
+                if (translations[text]) {
+                    node.textContent = translations[text];
+                }
+            });
+            
+            // Also translate placeholder texts
+            const placeholders = document.querySelectorAll('[placeholder]');
+            placeholders.forEach(el => {
+                const placeholderText = el.getAttribute('placeholder');
+                if (translations[placeholderText]) {
+                    el.setAttribute('placeholder', translations[placeholderText]);
+                }
+            });
+            
+            // Translate button values
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                const buttonText = button.textContent.trim();
+                if (translations[buttonText]) {
+                    button.textContent = translations[buttonText];
+                }
+            });
+            
+            // Translate input values for submit buttons
+            const inputs = document.querySelectorAll('input[type="submit"], input[type="button"]');
+            inputs.forEach(input => {
+                const inputValue = input.getAttribute('value');
+                if (inputValue && translations[inputValue]) {
+                    input.setAttribute('value', translations[inputValue]);
+                }
+            });
+        };
+
+        const translatePageToBengali = () => {
+            const englishTranslations = languages.en.translations;
+            const bengaliTranslations = {};
+            
+            // Create reverse mapping (English to Bengali)
+            for (const key in englishTranslations) {
+                bengaliTranslations[englishTranslations[key]] = key;
+            }
+            
+            // Get all text nodes in the document
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            let node;
+            const textNodes = [];
+            
+            while (node = walker.nextNode()) {
+                // Skip script and style elements
+                if (node.parentNode.nodeName !== 'SCRIPT' && 
+                    node.parentNode.nodeName !== 'STYLE' &&
+                    node.textContent.trim() !== '') {
+                    textNodes.push(node);
+                }
+            }
+            
+            // Translate each text node back to Bengali
+            textNodes.forEach(node => {
+                const text = node.textContent.trim();
+                if (bengaliTranslations[text]) {
+                    node.textContent = bengaliTranslations[text];
+                }
+            });
+            
+            // Also translate placeholder texts back to Bengali
+            const placeholders = document.querySelectorAll('[placeholder]');
+            placeholders.forEach(el => {
+                const placeholderText = el.getAttribute('placeholder');
+                if (bengaliTranslations[placeholderText]) {
+                    el.setAttribute('placeholder', bengaliTranslations[placeholderText]);
+                }
+            });
+            
+            // Translate button values back to Bengali
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                const buttonText = button.textContent.trim();
+                if (bengaliTranslations[buttonText]) {
+                    button.textContent = bengaliTranslations[buttonText];
+                }
+            });
+            
+            // Translate input values for submit buttons back to Bengali
+            const inputs = document.querySelectorAll('input[type="submit"], input[type="button"]');
+            inputs.forEach(input => {
+                const inputValue = input.getAttribute('value');
+                if (inputValue && bengaliTranslations[inputValue]) {
+                    input.setAttribute('value', bengaliTranslations[inputValue]);
+                }
+            });
+        };
+
+        // Initialize language on page load
+        const initLanguage = () => {
+            updateLanguageUI();
+        };
+
+        return {
+            toggleLanguage,
+            initLanguage
+        };
+    })();
+
+    // DOM লোড হলে ভাষা সেটআপ ইনিশিয়ালাইজ করুন
+    document.addEventListener('DOMContentLoaded', function() {
+        LanguageModule.initLanguage();
+        
+        // অন্যান্য ইভেন্ট লিসেনারস...
+    });
+</script>
+
+
 
 
 
@@ -3520,6 +3886,7 @@ window.addEventListener('popstate', setActiveNavLink);
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', 'Noto Serif Bengali', sans-serif;
         }
         
         body {
@@ -3934,7 +4301,7 @@ window.addEventListener('popstate', setActiveNavLink);
             <div class="sidebar">
                 <div class="sidebar-widget">
                     <h3 class="widget-title">আমাদের সম্পর্কে</h3>
-                    <p>মাদ্রাসা শিক্ষা একটি অনলাইন প্লাটফর্ম যেখানে আমরা আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা প্রদান করি। আমাদের লক্ষ্য হলো যেকোনো স্থান থেকে যেকোনো সময়ে সহজেই সবার জন্য উচ্চমানের ইসলামিক শিক্ষা সুলভ করা。</p>
+                    <p>মাদ্রাসা শিক্ষা একটি অনলাইন প্লাটফর্ম যেখানে আমরা আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা প্রদান করি। আমাদের লক্ষ্য হলো যেকোনো স্থান থেকে যেকোনো সময়ে সহজেই সবার জন্য উচ্চমানের ইসলামিক শিক্ষা সুলভ করা</p>
                 </div>
                 
                 <div class="sidebar-widget">

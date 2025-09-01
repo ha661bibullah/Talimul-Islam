@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Base64 to PNG Downloader</title>
+</head>
+<body>
+<h2>Base64 থেকে PNG ডাউনলোড করুন</h2>
+
+<textarea id="base64Input" rows="10" cols="80" placeholder="এখানে base64 কোড পেস্ট করুন..."></textarea><br><br>
+
+<button onclick="downloadPNG()">ডাউনলোড করুন</button>
+
+<script>
+function downloadPNG() {
+    const base64Data = document.getElementById('base64Input').value.trim();
+
+    if (!base64Data) {
+        alert("অনুগ্রহ করে base64 কোড পেস্ট করুন।");
+        return;
+    }
+
+    // যদি data:image/jpeg;base64,... থাকে তবে শুধু base64 অংশ নিন
+    const parts = base64Data.split(',');
+    const base64 = parts.length > 1 ? parts[1] : parts[0];
+
+    // PNG হিসেবে ডাউনলোডের জন্য canvas ব্যবহার করা
+    const img = new Image();
+    img.onload = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        canvas.toBlob(function(blob) {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'image.png';
+            link.click();
+        }, 'image/png');
+    };
+    img.src = 'data:image/jpeg;base64,' + base64;
+}
+</script>
+</body>
+</html>

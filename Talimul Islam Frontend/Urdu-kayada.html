@@ -5016,12 +5016,12 @@ window.addEventListener('popstate', setActiveNavLink);
             </div>
             
             <div class="sidebar">
-                <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=250&fit=crop" alt="কোর্স ইমেজ" class="course-image">
+                <img src="img/urdu-kayda.png" alt="কোর্স ইমেজ" class="course-image">
                 
                 <div id="pricing-section" class="course-pricing">
                     <div class="price">
-                        <span class="current-price">৳ ১,৫০০</span>
-                        <span class="original-price">৳ ৩,০০০</span>
+                        <span class="current-price">৳ ৯৯</span>
+                        <span class="original-price">৳ ১২০</span>
                     </div>
                     <button class="buy-now-btn" onclick="showLoginAlert()">এখনই কিনুন</button>
                     <div class="course-stats">
@@ -8984,6 +8984,54 @@ function createReviewElement(review) {
             document.getElementById('mute-unmute').style.display = 'flex';
             document.querySelector('.volume-container').style.display = 'flex';
         }
+
+
+
+
+        // Modal বন্ধ করার ফাংশন
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+    
+    // ভিডিও প্লেয়ার বন্ধ করুন (যদি থাকে)
+    if (modalId === 'videoModal' && typeof player !== 'undefined' && player) {
+        player.pauseVideo();
+    }
+}
+
+// Modal বাইরে ক্লিক করলে বন্ধ হবে
+window.onclick = function(event) {
+    var modals = document.getElementsByClassName('modal');
+    for (var i = 0; i < modals.length; i++) {
+        if (event.target == modals[i]) {
+            modals[i].style.display = 'none';
+            
+            // ভিডিও প্লেয়ার বন্ধ করুন (যদি থাকে)
+            if (modals[i].id === 'videoModal' && typeof player !== 'undefined' && player) {
+                player.pauseVideo();
+            }
+        }
+    }
+}
+
+// DOM লোড হওয়ার পর close বাটনে ইভেন্ট লিসেনার যোগ করুন
+document.addEventListener('DOMContentLoaded', function() {
+    // সব close-modal ক্লাসের জন্য ইভেন্ট লিসেনার যোগ করুন
+    var closeButtons = document.getElementsByClassName('close-modal');
+    for (var i = 0; i < closeButtons.length; i++) {
+        closeButtons[i].addEventListener('click', function() {
+            // নিকটতম modal খুঁজে বের করুন
+            var modal = this.closest('.modal');
+            if (modal) {
+                modal.style.display = 'none';
+                
+                // ভিডিও প্লেয়ার বন্ধ করুন (যদি থাকে)
+                if (modal.id === 'videoModal' && typeof player !== 'undefined' && player) {
+                    player.pauseVideo();
+                }
+            }
+        });
+    }
+});
 </script>
 
 </body>

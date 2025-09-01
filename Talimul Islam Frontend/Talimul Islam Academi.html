@@ -2009,51 +2009,6 @@ gtag('config', 'G-TJNPXFQ953');
     // ====================
     // Language Toggle Module
     // ====================
-    const LanguageModule = (() => {
-        const languages = {
-            en: {
-                flag: 'https://flagcdn.com/w40/us.png',
-                name: 'English',
-                alt: 'English'
-            },
-            bn: {
-                flag: 'https://flagcdn.com/w40/bd.png',
-                name: 'বাংলা',
-                alt: 'বাংলা'
-            }
-        };
-
-        let currentLang = 'bn';
-
-        const toggleLanguage = () => {
-            currentLang = currentLang === 'en' ? 'bn' : 'en';
-            const lang = languages[currentLang];
-            
-            // Update mobile language switcher
-            const flag = document.getElementById('flag');
-            const langText = document.getElementById('lang');
-            if (flag && langText) {
-                flag.src = lang.flag;
-                flag.alt = lang.alt;
-                langText.textContent = lang.name;
-            }
-
-            // Update desktop language switcher
-            const desktopFlag = document.getElementById('desktopFlag');
-            const desktopLangText = document.getElementById('desktopLang');
-            if (desktopFlag && desktopLangText) {
-                desktopFlag.src = lang.flag;
-                desktopFlag.alt = lang.alt;
-                desktopLangText.textContent = lang.name;
-            }
-
-            console.log('Language switched to:', currentLang);
-        };
-
-        return {
-            toggleLanguage
-        };
-    })();
 
     // ====================
     // Theme Toggle Module
@@ -3503,7 +3458,497 @@ window.addEventListener('popstate', setActiveNavLink);
 </script>   
 
 
+<script>
+    // ====================
+    // Language Toggle Module - Updated
+    // ====================
+    const LanguageModule = (() => {
+        const languages = {
+            en: {
+                flag: 'https://flagcdn.com/w40/us.png',
+                name: 'English',
+                alt: 'English',
+                navLinkPadding: '7px 6px', // ইংরেজি ভাষার জন্য প্যাডিং
+                // Add translations for all text elements
+                translations: {
+                    // Navigation items
+                    'হোম': 'Home',
+                    'কোর্স': 'Courses',
+                    'সকল কোর্স': 'All Courses',
+                    'লাইভ কোর্স': 'Live Courses',
+                    'ইসলামিক আইন': 'Islamic Law',
+                    'আরবি ভাষা': 'Arabic Language',
+                    'ইসলামিক ইতিহাস': 'Islamic History',
+                    'ফিকহ শাস্ত্র': 'Fiqh Studies',
+                    'বই': 'Books',
+                    'শিক্ষক': 'Teachers',
+                    'উপদেষ্টা': 'Advisors',
+                    'ব্লগ': 'Blog',
+                    'সম্পর্কে': 'About',
+                    'যোগাযোগ': 'Contact',
+                    
+                    // Other UI elements
+                    'কোর্স বা বই খুঁজুন...': 'Search for courses or books...',
+                    'লগইন': 'Login',
+                    'প্রোফাইল তথ্য': 'Profile Info',
+                    'আমার কোর্স': 'My Courses',
+                    'লগআউট': 'Logout',
+                    'সকাল ১০টা - বিকাল ৫টা': '10 AM - 5 PM',
+                    
+                    // Login form texts
+                    'লগইন করুন': 'Login',
+                    'আপনার একাউন্ট সফলভাবে তৈরি হয়েছে। এখন লগইন করুন।': 'Your account has been created successfully. Please login now.',
+                    'ইমেইল': 'Email',
+                    'আপনার ইমেইল লিখুন': 'Enter your email',
+                    'অনুগ্রহ করে একটি সঠিক ইমেইল প্রদান করুন': 'Please provide a valid email',
+                    'পাসওয়ার্ড': 'Password',
+                    'আপনার পাসওয়ার্ড লিখুন': 'Enter your password',
+                    'পাসওয়ার্ড প্রয়োজন': 'Password required',
+                    'দেখুন': 'Show',
+                    'লুকান': 'Hide',
+                    'একাউন্ট নেই?': 'No account?',
+                    'নতুন একাউন্ট খুলুন': 'Create new account',
+                    'পাসওয়ার্ড ভুলে গেছেন?': 'Forgot password?',
+                    'নতুন একাউন্ট খুলুন': 'Create New Account',
+                    'এগিয়ে যান': 'Continue',
+                    'ইতিমধ্যে একাউন্ট আছে?': 'Already have an account?',
+                    'অটিপি যাচাইকরণ': 'OTP Verification',
+                    'আপনার ইমেইলে (<span id="userEmail"></span>) ৪ সংখ্যার অটিপি পাঠানো হয়েছে': 'A 4-digit OTP has been sent to your email (<span id="userEmail"></span>)',
+                    'অটিপি দিন': 'Enter OTP',
+                    'অনুগ্রহ করে সঠিক অটিপি দিন': 'Please enter the correct OTP',
+                    'বাকি সময়:': 'Time remaining:',
+                    'পুনরায় অটিপি পাঠান': 'Resend OTP',
+                    'যাচাই করুন': 'Verify',
+                    'ফিরে যান': 'Go back',
+                    'রেজিস্ট্রেশন সম্পন্ন করুন': 'Complete Registration',
+                    'পূর্ণ নাম': 'Full Name',
+                    'আপনার পূর্ণ নাম লিখুন': 'Enter your full name',
+                    'নাম প্রয়োজন': 'Name required',
+                    'একটি শক্তিশালী পাসওয়ার্ড লিখুন': 'Enter a strong password',
+                    'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে': 'Password must be at least 6 characters',
+                    'পাসওয়ার্ড নিশ্চিত করুন': 'Confirm Password',
+                    'পাসওয়ার্ড আবার লিখুন': 'Re-enter password',
+                    'পাসওয়ার্ড মিলছে না': 'Passwords do not match',
+                    'রেজিস্ট্রেশন সম্পন্ন করুন': 'Complete Registration',
+                    'পাসওয়ার্ড রিসেট করুন': 'Reset Password',
+                    'আপনার রেজিস্টার্ড ইমেইল': 'Your registered email',
+                    'OTP পাঠান': 'Send OTP',
+                    'লগইন পৃষ্ঠায় ফিরে যান': 'Back to login page',
+                    'নতুন পাসওয়ার্ড সেট করুন': 'Set New Password',
+                    'নতুন পাসওয়ার্ড লিখুন': 'Enter new password',
+                    'পাসওয়ার্ড পরিবর্তন করুন': 'Change Password',
+                    'অভিনন্দন!': 'Congratulations!',
+                    'আপনার রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে। এখন আপনি লগইন করতে পারেন।': 'Your registration has been completed successfully. You can now login.',
+                    'বুঝেছি ও লগইন করুন': 'OK & Login',
+                    'সফল!': 'Success!',
+                    'আপনার পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে। এখন আপনি নতুন পাসওয়ার্ড দিয়ে লগইন করতে পারেন।': 'Your password has been changed successfully. You can now login with your new password.',
+                    'লগইন পৃষ্ঠায় যান': 'Go to login page',
+                   
 
+                'সর্বাধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষা গ্রহণ করুন অনলাইনে': 'Learn Madrasa Education Online with Modern Methods',
+    'ঘরে বসেই ইসলামের বিষয়ভিত্তিক কোর্সে অংশ নিতে পারবেন সকল শ্রেণির পেশাজীবি। তালিমুল ইসলাম একাডেমি নিয়ে এসেছে সহজ, নিরাপদ ও মানসম্মত শিক্ষণ পদ্ধতি, যোগ্য উস্তাদদের তত্ত্বাবধানে।': 'All professionals can take subject-based Islamic courses from home. Talimul Islam Academy offers an easy, safe, and quality learning system under qualified teachers.',
+    'ফ্রি কোর্স': 'Free Course',
+    'পেইড কোর্স': 'Paid Course',
+    'কুরআন বুঝলে জীবনের মানে বদলে যায়': 'Understanding Quran Changes the Meaning of Life',
+    'আপনি হয়তো কুরআন পড়েন, কিন্তু বুঝেন না। আজ থেকে প্রতিটি আয়াত বোঝার চেষ্টা করুন। কারণ, কুরআন শুধু তিলাওয়াতের জন্য নয়, বাঁচার পথ শেখার জন্য।': 'You may read the Quran but do not understand it. Start understanding each verse today. Quran is not just for recitation, but for learning the way of life.',
+    'কুরআন না শিখে বেঁচে থাকা মানে, অন্ধকারে হাঁটা': 'Living Without Learning Quran Means Walking in Darkness',
+    'যেমন একজন পথিক মানচিত্র ছাড়া পথ হারায়, তেমনই কুরআন ছাড়া মানুষ জীবনের মূল উদ্দেশ্য হারিয়ে ফেলে। কুরআন জানলে আপনি জানবেন—কেন আপনি এই পৃথিবীতে?': 'Just as a traveler loses his way without a map, a person loses life’s purpose without Quran. Knowing Quran helps you understand why you are in this world.',
+    'ইন্টারনেটের মাধ্যমে হোক দীনের আলো ঘরে ঘরে': 'Let the Light of Deen Reach Every Home via Internet',
+    'যেখানে আপনি আছেন, সেখান থেকেই শুরু হোক কুরআন শেখার যাত্রা—ঘরে বসেই অনলাইন মাদ্রাসায়': 'Wherever you are, start your Quran learning journey from home through online Madrasa.',
+    'সেজদার এই মুহূর্তেই আল্লাহর নিকট সবচেয়ে কাছাকাছি': 'In Prostration, You Are Closest to Allah',
+    'যে মাথা আল্লাহর সামনে ঝুকে যায়, সেই হৃদয় কখনো ভেঙে যায় না।': 'The heart of the one who bows before Allah never breaks.',
+    'আমাদের বিভাগ সমূহ': 'Our Categories',
+    'কওমী মাদ্রাসা': 'Qawmi Madrasa',
+    'আলিয়া মাদ্রাসা': 'Alia Madrasa',
+    'মহিলা মাদ্রাসা': 'Women’s Madrasa',
+    'মক্তব আফটার স্কুল': 'Maktab After School',
+    'নৈশ্য মাদ্রাসা': 'Night Madrasa',
+    'মাদানী নেসাব': 'Madani Nizab',
+    'নতুন কোরআন': 'New Quran',
+    'কোরআন তিলাওয়াত': 'Quran Recitation',
+    'কুরবানী': 'Qurbani',
+    'জনপ্রিয় কোর্স': 'Popular Courses',
+    'বিশেষ কোর্স': 'Special Courses',
+    'সহীহ উচ্চারণে কুরআন পড়া শিখুন': 'Learn Quran with Correct Pronunciation',
+    'সহজ ভাষায় উর্দু শিখুন': 'Learn Urdu in Simple Language',
+    'সহজ ভাষায় শিখুন': 'Learn in Simple Language',
+    'সহজ উর্দু শিখুন': 'Learn Easy Urdu',
+    'আমাদের কোর্সসমূহ': 'Our Courses',
+    'বিশুদ্ধ কুরআন শিক্ষা': 'Pure Quran Education',
+    'বেসিক': 'Basic',
+    'মধ্যবর্তী': 'Intermediate',
+    'অ্যাডভান্সড': 'Advanced',
+    'ক্লাস': 'Classes',
+    'ঘন্টা': 'Hours',
+    'টি নোট': 'Notes',
+    'দেখুন': 'View',
+    'আরো দেখুন': 'View More',
+    'শিক্ষার্থী': 'Students',
+    'শিক্ষক': 'Teachers',
+    'ফ্রি কোর্স': 'Free Courses',
+    'পেইড কোর্স': 'Paid Courses',
+    'জনপ্রিয় কোর্স': 'Popular Courses',
+    'কোরআন শিক্ষা': 'Quran Education',
+    'সহীহ উচ্চারণে কুরআন পড়া শিখুন': 'Learn to recite the Quran with correct pronunciation',
+    'উর্দু কায়দা': 'Urdu Kayda',
+    'সহজ ভাষায় উর্দু শিখুন': 'Learn Urdu easily',
+    'তালিমুল ইসলাম ১ম খন্ড': 'Talimul Islam Volume 1',
+    'সহজ ভাষায় শিখুন': 'Learn in simple language',
+    'উর্দু কি পেহেলি কিতাব': 'Urdu Ki Peheli Kitab',
+    'বিশেষ কোর্স': 'Special Courses',
+    'কুরআন তিলাওয়াতের নিয়মকানুন': 'Rules of Quran Recitation',
+    'তালিমুল ইসলাম ২য় খন্ড': 'Talimul Islam Volume 2',
+    'তালিমুল ইসলাম ৩য় খন্ড': 'Talimul Islam Volume 3',
+    'সহজ উর্দু শিখুন': 'Learn Urdu easily',
+     'আমাদের কোর্সসমূহ': 'Our Courses',
+    'হিফজুল কুরআন কোর্স বিস্তারিত': 'Hifzul Quran Course Details',
+    'বেসিক': 'Beginner',
+    'মধ্যবর্তী': 'Intermediate',
+    'অ্যাডভান্সড': 'Advanced',
+    'বিশুদ্ধ কুরআন শিক্ষা': 'Pure Quran Education',
+    '২৪ ক্লাস': '24 Classes',
+    '৭ ঘন্টা': '7 Hours',
+    '১ টি নোট': '1 Note',
+    'দেখুন': 'View',
+
+    'উর্দু কায়দা': 'Urdu Kayda',
+    '১৮ ক্লাস': '18 Classes',
+    '৫ ঘন্টা': '5 Hours',
+    '২ টি নোট': '2 Notes',
+
+    'তালিমুল ইসলাম ১ম খন্ড': 'Talimul Islam Volume 1',
+    '৩০ ক্লাস': '30 Classes',
+    '১০ ঘন্টা': '10 Hours',
+    '৩ টি নোট': '3 Notes',
+
+    'তালিমুল ইসলাম ২ম খন্ড': 'Talimul Islam Volume 2',
+    '২০ ক্লাস': '20 Classes',
+    '৮ ঘন্টা': '8 Hours',
+    'তালিমুল ইসলাম ৩ম খন্ড': 'Talimul Islam Volume 3',
+    '২২ ক্লাস': '22 Classes',
+    '৯ ঘন্টা': '9 Hours',
+
+    'উর্দু কি পহেলি': 'Urdu Ki Paheli',
+    '২০ ক্লাস': '20 Classes',
+    '৮ ঘন্টা': '8 Hours',
+
+    'তালিমুল ইসলাম ২য় খন্ড': 'Talimul Islam Volume 2',
+    '১৮ ক্লাস': '18 Classes',
+    '৬ ঘন্টা': '6 Hours',
+    '৩ টি নোট': '3 Notes',
+
+    'উর্দু কি পেহেলি কিতাব': 'Urdu Ki Peheli Kitab',
+    '১৫ ক্লাস': '15 Classes',
+    '৫ ঘন্টা': '5 Hours',
+
+    '১২ ক্লাস': '12 Classes',
+    '৪ ঘন্টা': '4 Hours',
+
+    '১৬ ক্লাস': '16 Classes',
+
+    'আরো দেখুন': 'View More',
+
+     'আপনি কি শিখতে চান?': 'What do you want to learn?',
+    'আপনার পছন্দের বিষয় বেছে নিন': 'Choose your preferred subject',
+
+    'কুরআন': 'Quran',
+    'হাদিস': 'Hadith',
+    'ফিকহ': 'Fiqh',
+    'আরবি': 'Arabic',
+    'তাফসির': 'Tafsir',
+    'ইসলামিক স্টাডিজ': 'Islamic Studies',
+    'সিরাত': 'Seerah',
+    'ইতিহাস': 'History',
+    'মাসাইল ও গবেষণা': 'Masail and Research',
+
+    'কোর্স': 'Courses',
+
+    'আরও দেখুন': 'Show More',
+
+
+
+    'কেন মাদ্রাসা অনলাইন বেছে নিবেন': 'Why Choose Madrasa Online',
+  'বাংলাদেশ থেকে শুরু, লক্ষ্য বিশ্বজুড়ে ইসলামী শিক্ষা ছড়িয়ে দেওয়া।': 'Starting from Bangladesh, aiming to spread Islamic education worldwide.',
+  'সম্পূর্ণ পাঠ্যক্রম': 'Complete Curriculum',
+  '১ম শ্রেণী থেকে দাওরায়ে হাদীস পর্যন্ত সম্পূর্ণ মাদ্রাসা পাঠ্যক্রমে প্রবেশাধিকার পান।': 'Access the full madrasa curriculum from primary to Dawra-e-Hadith.',
+  'যোগ্য শিক্ষকগণ': 'Qualified Teachers',
+  'অভিজ্ঞ এবং প্রত্যয়িত শিক্ষকদের কাছ থেকে শিখুন যাদের শিক্ষাদান অভিজ্ঞতা বছরের পর বছর।': 'Learn from experienced and certified teachers with years of teaching expertise.',
+  'নমনীয় শিক্ষা': 'Flexible Learning',
+  'আপনার নিজের গতিতে নিজের সময়ে অধ্যয়ন করুন। ক্রয়কৃত কোর্সগুলিতে আজীবন অ্যাক্সেস।': 'Study at your own pace and time. Lifetime access to purchased courses.',
+  'সহায়ক সম্প্রদায়': 'Supportive Community',
+  'আপনার শিক্ষা সম্প্রদায়ে অন্যান্য শিক্ষার্থী এবং শিক্ষকদের সাথে সংযোগ করুন।': 'Connect with other students and teachers within your learning community.',
+'আমাদের শিক্ষার্থীরা কী বলেন?': 'What Our Students Say',
+  // 'আমাদের প্ল্যাটফর্ম কীভাবে বদলে দিয়েছে শিক্ষার্থীদের ইসলামী জীবনধারা, তা জানুন।': 'Learn how our platform has transformed students\' Islamic lifestyle.',
+
+  'আহমেদ র.': 'Ahmed R.',
+  'আহ': 'A',
+  'হিফজ কোর্স শিক্ষার্থী': 'Hifz Course Student',
+  'পাঠ্যক্রমটি ব্যাপক এবং সুসংহত। আমি পূর্ণ সময়ের কাজ করার সময় আমার কোরআন শিক্ষা চালিয়ে যেতে পারি। শিক্ষকরা অত্যন্ত জ্ঞানী এবং সহায়ক।': 'The curriculum is comprehensive and well-structured. I can continue my Quran learning while working full-time. The teachers are very knowledgeable and supportive.',
+
+  'ফাতিমা হ.': 'Fatima H.',
+  'ফা':'F',
+  'আরবি ভাষা শিক্ষার্থী': 'Arabic Language Student',
+  'নিয়মিত স্কুলের একজন শিক্ষার্থী হিসাবে, আমি এখন আমার একাডেমিক পড়াশুনার পাশাপাশি দ্বীনও শিখতে পারি। প্লাটফর্মটি ব্যবহার করা খুব সহজ!': 'As a regular school student, I can now learn Deen alongside my academic studies. The platform is very easy to use!',
+
+  'মোহাম্মদ র.': 'Mohammad R.',
+  'মো':'M',
+  'দাওরায়ে হাদীস শিক্ষার্থী': 'Dawra-e-Hadith Student',
+  'দাওরা শ্রেণীর পাঠ্যক্রম অসাধারণ। জ্ঞানের গভীরতা এবং শিক্ষার গুণমান এমন যে আমি ভৌত ক্লাসরুমে যে উপকার পেতাম তা আমি এখানে পাচ্ছি।': 'The Dawra class curriculum is excellent. The depth of knowledge and quality of education here is equivalent to what I would receive in a physical classroom.',
+
+  'রাফিয়া আ.': 'Rafia A.',
+  'রা':'R',
+  'ফিকাহ কোর্স শিক্ষার্থী': 'Fiqh Course Student',
+  'অনলাইন কোর্সগুলি আমার দ্বীনি শিক্ষার যাত্রায় অপরিহার্য হয়ে উঠেছে। ঘরে বসে এরকম গুণমান সম্পন্ন শিক্ষা পাওয়া অসাধারণ।': 'Online courses have become essential in my journey of Islamic learning. Receiving such quality education from home is amazing.',
+
+
+  'কোর্স কিভাবে কিনবেন?': 'How to Buy a Course?',
+  'পছন্দের কোর্সে ক্লিক করে "কিনুন" বাটনে চাপ দিন এবং নির্দিষ্ট পেমেন্ট পদ্ধতিতে টাকা পাঠিয়ে রেজিস্ট্রেশন সম্পন্ন করুন। ✅': 'Click on your preferred course, press the "Buy" button, and complete the registration by sending the payment through the specified method. ✅',
+  'Video Thumbnail': 'Video Thumbnail',
+     // About Section ফুটার
+    'আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা এবং আরবি ভাষা শেখার জন্য আমাদের কোর্সগুলোতে আপনাকে স্বাগতম।': 'Welcome to our courses for Islamic education and Arabic language learning in a modern way.',
+
+    // Quick Links
+    'দ্রুত লিংক': 'Quick Links',
+    'হোম': 'Home',
+    'আমাদের সম্পর্কে': 'About Us',
+    'সকল কোর্স': 'All Courses',
+    'শিক্ষকমণ্ডলী': 'Teachers',
+    'ক্লাস সময়সূচি': 'Class Schedule',
+    'যোগাযোগ': 'Contact',
+
+    // Popular Courses
+    'জনপ্রিয় কোর্স': 'Popular Courses',
+    'কোরআন তেলাওয়াত': 'Quran Recitation',
+    'হাদিস শিক্ষা': 'Hadith Studies',
+    'আরবি ভাষা': 'Arabic Language',
+    'ফিকাহ শিক্ষা': 'Fiqh Studies',
+    'তাজবিদ': 'Tajweed',
+    'ইসলামিক ইতিহাস': 'Islamic History',
+
+    // Newsletter
+    'নিউজলেটার': 'Newsletter',
+    'নিউজলেটার সাবস্ক্রাইব করুন': 'Subscribe to Newsletter',
+    'আপনার ইমেইল': 'Your Email',
+    'সাবস্ক্রাইব': 'Subscribe',
+
+    // Contact Info
+    'ঠিকানা: আজিমপুর, ঢাকা-১২০৫': 'Address: Azimpur, Dhaka-1205',
+    'ফোন: +৮৮০১৯১১-৫৬৭৮৯০': 'Phone: +8801911-567890',
+    'ইমেইল: billaharif661@gmail.com': 'Email: billaharif661@gmail.com',
+
+    // Footer Bottom
+    '© ২০২৫ মাদ্রাসা শিক্ষা। সমস্ত অধিকার সংরক্ষিত।': '© 2025 Madrasa Education. All rights reserved.',
+    'প্রাইভেসি পলিসি': 'Privacy Policy',
+    'টার্মস অফ সার্ভিস': 'Terms of Service',
+    'কোর্স নীতিমালা': 'Course Policy'
+
+                }
+            },
+            bn: {
+                flag: 'https://flagcdn.com/w40/bd.png',
+                name: 'বাংলা',
+                alt: 'বাংলা',
+                navLinkPadding: '8px 10px', // বাংলা ভাষার জন্য প্যাডিং
+                translations: {} // Bengali doesn't need translations as it's the default
+            }
+        };
+
+        // Get current language from localStorage or default to Bengali
+        let currentLang = localStorage.getItem('selectedLanguage') || 'bn';
+
+        const toggleLanguage = () => {
+            // Toggle language
+            currentLang = currentLang === 'en' ? 'bn' : 'en';
+            
+            // Save to localStorage
+            localStorage.setItem('selectedLanguage', currentLang);
+            
+            // Update UI
+            updateLanguageUI();
+        };
+
+        const updateLanguageUI = () => {
+            const lang = languages[currentLang];
+            
+            // Update mobile language switcher
+            const flag = document.getElementById('flag');
+            const langText = document.getElementById('lang');
+            if (flag && langText) {
+                flag.src = lang.flag;
+                flag.alt = lang.alt;
+                langText.textContent = lang.name;
+            }
+
+            // Update desktop language switcher
+            const desktopFlag = document.getElementById('desktopFlag');
+            const desktopLangText = document.getElementById('desktopLang');
+            if (desktopFlag && desktopLangText) {
+                desktopFlag.src = lang.flag;
+                desktopFlag.alt = lang.alt;
+                desktopLangText.textContent = lang.name;
+            }
+
+            // Update navigation link padding based on language
+            updateNavLinkPadding(lang.navLinkPadding);
+
+            // Translate all text elements if switching to English
+            if (currentLang === 'en') {
+                translatePageToEnglish();
+            } else {
+                translatePageToBengali();
+            }
+        };
+
+        // নেভিগেশন লিঙ্কের প্যাডিং আপডেট করার ফাংশন
+        const updateNavLinkPadding = (padding) => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.style.padding = padding;
+            });
+        };
+
+        const translatePageToEnglish = () => {
+            const translations = languages.en.translations;
+            
+            // Get all text nodes in the document
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            let node;
+            const textNodes = [];
+            
+            while (node = walker.nextNode()) {
+                // Skip script and style elements
+                if (node.parentNode.nodeName !== 'SCRIPT' && 
+                    node.parentNode.nodeName !== 'STYLE' &&
+                    node.textContent.trim() !== '') {
+                    textNodes.push(node);
+                }
+            }
+            
+            // Translate each text node
+            textNodes.forEach(node => {
+                const text = node.textContent.trim();
+                if (translations[text]) {
+                    node.textContent = translations[text];
+                }
+            });
+            
+            // Also translate placeholder texts
+            const placeholders = document.querySelectorAll('[placeholder]');
+            placeholders.forEach(el => {
+                const placeholderText = el.getAttribute('placeholder');
+                if (translations[placeholderText]) {
+                    el.setAttribute('placeholder', translations[placeholderText]);
+                }
+            });
+            
+            // Translate button values
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                const buttonText = button.textContent.trim();
+                if (translations[buttonText]) {
+                    button.textContent = translations[buttonText];
+                }
+            });
+            
+            // Translate input values for submit buttons
+            const inputs = document.querySelectorAll('input[type="submit"], input[type="button"]');
+            inputs.forEach(input => {
+                const inputValue = input.getAttribute('value');
+                if (inputValue && translations[inputValue]) {
+                    input.setAttribute('value', translations[inputValue]);
+                }
+            });
+        };
+
+        const translatePageToBengali = () => {
+            const englishTranslations = languages.en.translations;
+            const bengaliTranslations = {};
+            
+            // Create reverse mapping (English to Bengali)
+            for (const key in englishTranslations) {
+                bengaliTranslations[englishTranslations[key]] = key;
+            }
+            
+            // Get all text nodes in the document
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            let node;
+            const textNodes = [];
+            
+            while (node = walker.nextNode()) {
+                // Skip script and style elements
+                if (node.parentNode.nodeName !== 'SCRIPT' && 
+                    node.parentNode.nodeName !== 'STYLE' &&
+                    node.textContent.trim() !== '') {
+                    textNodes.push(node);
+                }
+            }
+            
+            // Translate each text node back to Bengali
+            textNodes.forEach(node => {
+                const text = node.textContent.trim();
+                if (bengaliTranslations[text]) {
+                    node.textContent = bengaliTranslations[text];
+                }
+            });
+            
+            // Also translate placeholder texts back to Bengali
+            const placeholders = document.querySelectorAll('[placeholder]');
+            placeholders.forEach(el => {
+                const placeholderText = el.getAttribute('placeholder');
+                if (bengaliTranslations[placeholderText]) {
+                    el.setAttribute('placeholder', bengaliTranslations[placeholderText]);
+                }
+            });
+            
+            // Translate button values back to Bengali
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                const buttonText = button.textContent.trim();
+                if (bengaliTranslations[buttonText]) {
+                    button.textContent = bengaliTranslations[buttonText];
+                }
+            });
+            
+            // Translate input values for submit buttons back to Bengali
+            const inputs = document.querySelectorAll('input[type="submit"], input[type="button"]');
+            inputs.forEach(input => {
+                const inputValue = input.getAttribute('value');
+                if (inputValue && bengaliTranslations[inputValue]) {
+                    input.setAttribute('value', bengaliTranslations[inputValue]);
+                }
+            });
+        };
+
+        // Initialize language on page load
+        const initLanguage = () => {
+            updateLanguageUI();
+        };
+
+        return {
+            toggleLanguage,
+            initLanguage
+        };
+    })();
+
+    // DOM লোড হলে ভাষা সেটআপ ইনিশিয়ালাইজ করুন
+    document.addEventListener('DOMContentLoaded', function() {
+        LanguageModule.initLanguage();
+        
+        // অন্যান্য ইভেন্ট লিসেনারস...
+    });
+</script>  
 
 
 
@@ -5479,9 +5924,9 @@ window.addEventListener('popstate', setActiveNavLink);
         <div class="course-grid" id="courseGrid">
             <!-- কোর্স কার্ড 1 (সবসময় শো) -->
             <div class="course-card always-visible">
-                <a href="Course Details.html" class="course-card-link" aria-label="হিফজুল কুরআন কোর্স বিস্তারিত"></a>
+                <a href="#" class="course-card-link" aria-label="হিফজুল কুরআন কোর্স বিস্তারিত"></a>
                 <div class="course-thumbnail">
-                    <img src="https://cdn.pixabay.com/photo/2023/01/21/18/32/al-quran-7737560_1280.jpg" alt="হিফজুল কুরআন কোর্স">
+                    <img src="img/converted (1).png">
                     <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
@@ -5514,9 +5959,9 @@ window.addEventListener('popstate', setActiveNavLink);
 
             <!-- কোর্স কার্ড 2 (সবসময় শো) -->
             <div class="course-card always-visible">
-                <a href="Course Details.html" class="course-card-link" aria-label="উর্দু কায়দা"></a>
+                <a href="#" class="course-card-link" aria-label="উর্দু কায়দা"></a>
                 <div class="course-thumbnail">
-                    <img src="https://cdn.pixabay.com/photo/2023/01/21/18/32/al-quran-7737560_1280.jpg" alt="উর্দু কায়দা">
+                    <img src="img/urdu-kayda.png" alt="উর্দু কায়দা">
                     <div class="level-badge intermediate">মধ্যবর্তী</div>
                 </div>
                 <div class="course-info">
@@ -5549,9 +5994,9 @@ window.addEventListener('popstate', setActiveNavLink);
 
             <!-- কোর্স কার্ড 3 (সবসময় শো) -->
             <div class="course-card always-visible">
-                <a href="Course Details.html" class="course-card-link" aria-label="তালিমুল ইসলাম ১ম খন্ড"></a>
+                <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ১ম খন্ড"></a>
                 <div class="course-thumbnail">
-                    <img src="https://cdn.pixabay.com/photo/2016/07/19/08/49/holy-quran-1528446_1280.jpg" alt="তালিমুল ইসলাম ১ম খন্ড">
+                    <img src="img/Taleem-ul-Islam-1.png" alt="তালিমুল ইসলাম ১ম খন্ড">
                     <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
@@ -5584,9 +6029,9 @@ window.addEventListener('popstate', setActiveNavLink);
 
             <!-- কোর্স কার্ড 4 (সবসময় শো) -->
             <div class="course-card always-visible">
-                <a href="Course Details.html" class="course-card-link" aria-label="তালিমুল ইসলাম ২ম খন্ড"></a>
+                <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ২ম খন্ড"></a>
                 <div class="course-thumbnail">
-                    <img src="https://cdn.pixabay.com/photo/2023/01/21/18/32/al-quran-7737560_1280.jpg" alt="তালিমুল ইসলাম ২ম খন্ড">
+                    <img src="img/Taleem-ul-Islam-1.png" alt="তালিমুল ইসলাম ২ম খন্ড">
                     <div class="level-badge advanced">অ্যাডভান্সড</div>
                 </div>
                 <div class="course-info">
@@ -5594,7 +6039,7 @@ window.addEventListener('popstate', setActiveNavLink);
                     <div class="course-meta">
                         <div class="meta-item">
                             <i class="fas fa-video"></i>
-                            <span>২০ क्लास</span>
+                            <span>২০ ক্লাস</span>
                         </div>
                         <div class="meta-item">
                             <i class="fas fa-clock"></i>
@@ -5619,9 +6064,9 @@ window.addEventListener('popstate', setActiveNavLink);
 
             <!-- কোর্স কার্ড 5 (ডেস্কটপে শো, মোবাইলে হাইড) -->
             <div class="course-card desktop-visible">
-                <a href="Course Details.html" class="course-card-link" aria-label="তালিমুল ইসলাম ৩ম খন্ড"></a>
+                <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ৩ম খন্ড"></a>
                 <div class="course-thumbnail">
-                    <img src="https://cdn.pixabay.com/photo/2023/02/06/15/04/man-7757211_1280.png" alt="তালিমুল ইসলাম ৩ম খন্ড">
+                    <img src="img/Taleem-ul-Islam-1.png" alt="তালিমুল ইসলাম ৩ম খন্ড">
                     <div class="level-badge intermediate">মধ্যবর্তী</div>
                 </div>
                 <div class="course-info">
@@ -5654,9 +6099,9 @@ window.addEventListener('popstate', setActiveNavLink);
             
             <!-- নতুন কোর্স কার্ড 6: কোরআন শিক্ষা -->
             <div class="course-card hidden-course">
-                <a href="course-details.html?id=6" class="course-card-link" aria-label="উর্দু কি পহেলি"></a>
+                <a href="#" class="course-card-link" aria-label="উর্দু কি পহেলি"></a>
                 <div class="course-thumbnail">
-                    <img src="https://cdn.pixabay.com/photo/2023/01/21/18/32/al-quran-7737560_1280.jpg" alt="উর্দু কি পহেলি">
+                    <img src="img/Urdu-Paheli.png" alt="উর্দু কি পহেলি">
                     <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
@@ -5689,7 +6134,7 @@ window.addEventListener('popstate', setActiveNavLink);
             
             <!-- নতুন কোর্স কার্ড 7: তালিমুল ইসলাম ২য় খন্ড -->
             <div class="course-card hidden-course">
-                <a href="course-details.html?id=7" class="course-card-link" aria-label="তালিমুল ইসলাম ২য় খন্ড কোর্স বিস্তারিত"></a>
+                <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ২য় খন্ড কোর্স বিস্তারিত"></a>
                 <div class="course-thumbnail">
                     <img src="https://cdn.pixabay.com/photo/2023/01/21/18/32/al-quran-7737560_1280.jpg" alt="তালিমুল ইসলাম ২য় খন্ড কোর্স">
                     <div class="level-badge intermediate">মধ্যবর্তী</div>
@@ -5724,7 +6169,7 @@ window.addEventListener('popstate', setActiveNavLink);
             
             <!-- নতুন কোর্স কার্ড 8: উর্দু কি পেহেলি কিতাব -->
             <div class="course-card hidden-course">
-                <a href="course-details.html?id=8" class="course-card-link" aria-label="উর্দু কি পেহেলি কিতাব কোর্স বিস্তারিত"></a>
+                <a href="#" class="course-card-link" aria-label="উর্দু কি পেহেলি কিতাব কোর্স বিস্তারিত"></a>
                 <div class="course-thumbnail">
                     <img src="https://cdn.pixabay.com/photo/2018/05/17/16/12/mardin-3551714_1280.jpg" alt="উর্দু কি পেহেলি কোর্স">
                     <div class="level-badge beginner">বেসিক</div>
@@ -5759,7 +6204,7 @@ window.addEventListener('popstate', setActiveNavLink);
             
             <!-- নতুন কোর্স কার্ড 9: উর্দু কায়দা -->
             <div class="course-card hidden-course">
-                <a href="course-details.html?id=9" class="course-card-link" aria-label="উর্দু কায়দা কোর্স বিস্তারিত"></a>
+                <a href="#" class="course-card-link" aria-label="উর্দু কায়দা কোর্স বিস্তারিত"></a>
                 <div class="course-thumbnail">
                     <img src="https://cdn.pixabay.com/photo/2018/05/17/16/12/mardin-3551714_1280.jpg" alt="উর্দু কায়দা কোর্স">
                     <div class="level-badge beginner">বেসিক</div>
@@ -5794,13 +6239,13 @@ window.addEventListener('popstate', setActiveNavLink);
             
             <!-- নতুন কোর্স কার্ড 10: তালिमুল ইসলাম ১ম খন্ড -->
             <div class="course-card hidden-course">
-                <a href="course-details.html?id=10" class="course-card-link" aria-label="তালিমুল ইসলাম ১ম খন্ড কোর্স বিস্তারিত"></a>
+                <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ১ম খন্ড কোর্স বিস্তারিত"></a>
                 <div class="course-thumbnail">
                     <img src="https://cdn.pixabay.com/photo/2023/01/21/18/32/al-quran-7737560_1280.jpg" alt="তালিমুল ইসলাম ১ম খন্ড কোর্স">
                     <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
-                    <h3 class="course-title">তালिमুল ইসলাম ১ম খন্ড</h3>
+                    <h3 class="course-title">তালিমুল ইসলাম ১ম খন্ড</h3>
                     <div class="course-meta">
                         <div class="meta-item">
                             <i class="fas fa-video"></i>
@@ -5821,7 +6266,7 @@ window.addEventListener('popstate', setActiveNavLink);
                             <span class="original-price">৳১২০</span>
                         </div>
                         <div class="action-buttons">
-                            <a href="course-checkout.html?id=10" class="buy-now-btn">দেখুন</a>
+                            <a href="TalimulIslamVolume-1.html" class="buy-now-btn">দেখুন</a>
                         </div>
                     </div>
                 </div>

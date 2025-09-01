@@ -9,6 +9,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali&display=swap" rel="stylesheet">
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     </head>
 <body>
 
@@ -1560,7 +1564,14 @@
     }
 }
 
-</style>   
+
+
+
+
+
+
+</style>  
+
 <section class="header">
     <!-- Top Bar - Mobile Only -->
     <div class="top-bar" id="topBar">
@@ -1978,52 +1989,7 @@
     // ====================
     // Language Toggle Module
     // ====================
-    const LanguageModule = (() => {
-        const languages = {
-            en: {
-                flag: 'https://flagcdn.com/w40/us.png',
-                name: 'English',
-                alt: 'English'
-            },
-            bn: {
-                flag: 'https://flagcdn.com/w40/bd.png',
-                name: 'বাংলা',
-                alt: 'বাংলা'
-            }
-        };
-
-        let currentLang = 'bn';
-
-        const toggleLanguage = () => {
-            currentLang = currentLang === 'en' ? 'bn' : 'en';
-            const lang = languages[currentLang];
-            
-            // Update mobile language switcher
-            const flag = document.getElementById('flag');
-            const langText = document.getElementById('lang');
-            if (flag && langText) {
-                flag.src = lang.flag;
-                flag.alt = lang.alt;
-                langText.textContent = lang.name;
-            }
-
-            // Update desktop language switcher
-            const desktopFlag = document.getElementById('desktopFlag');
-            const desktopLangText = document.getElementById('desktopLang');
-            if (desktopFlag && desktopLangText) {
-                desktopFlag.src = lang.flag;
-                desktopFlag.alt = lang.alt;
-                desktopLangText.textContent = lang.name;
-            }
-
-            console.log('Language switched to:', currentLang);
-        };
-
-        return {
-            toggleLanguage
-        };
-    })();
-
+ 
     // ====================
     // Theme Toggle Module
     // ====================
@@ -3472,9 +3438,377 @@ window.addEventListener('popstate', setActiveNavLink);
 </script>   
 
 
-
     
 
+
+
+<script>
+    // ====================
+    // Language Toggle Module - Updated
+    // ====================
+    const LanguageModule = (() => {
+        const languages = {
+            en: {
+                flag: 'https://flagcdn.com/w40/us.png',
+                name: 'English',
+                alt: 'English',
+                navLinkPadding: '7px 6px', // ইংরেজি ভাষার জন্য প্যাডিং
+                // Add translations for all text elements
+                translations: {
+                    // Navigation items
+                    'হোম': 'Home',
+                    'কোর্স': 'Courses',
+                    'সকল কোর্স': 'All Courses',
+                    'লাইভ কোর্স': 'Live Courses',
+                    'ইসলামিক আইন': 'Islamic Law',
+                    'আরবি ভাষা': 'Arabic Language',
+                    'ইসলামিক ইতিহাস': 'Islamic History',
+                    'ফিকহ শাস্ত্র': 'Fiqh Studies',
+                    'বই': 'Books',
+                    'শিক্ষক': 'Teachers',
+                    'উপদেষ্টা': 'Advisors',
+                    'ব্লগ': 'Blog',
+                    'সম্পর্কে': 'About',
+                    'যোগাযোগ': 'Contact',
+                    
+                    // Other UI elements
+                    'কোর্স বা বই খুঁজুন...': 'Search for courses or books...',
+                    'লগইন': 'Login',
+                    'প্রোফাইল তথ্য': 'Profile Info',
+                    'আমার কোর্স': 'My Courses',
+                    'লগআউট': 'Logout',
+                    'সকাল ১০টা - বিকাল ৫টা': '10 AM - 5 PM',
+                    
+                    // Login form texts
+                    'লগইন করুন': 'Login',
+                    'আপনার একাউন্ট সফলভাবে তৈরি হয়েছে। এখন লগইন করুন।': 'Your account has been created successfully. Please login now.',
+                    'ইমেইল': 'Email',
+                    'আপনার ইমেইল লিখুন': 'Enter your email',
+                    'অনুগ্রহ করে একটি সঠিক ইমেইল প্রদান করুন': 'Please provide a valid email',
+                    'পাসওয়ার্ড': 'Password',
+                    'আপনার পাসওয়ার্ড লিখুন': 'Enter your password',
+                    'পাসওয়ার্ড প্রয়োজন': 'Password required',
+                    'দেখুন': 'Show',
+                    'লুকান': 'Hide',
+                    'একাউন্ট নেই?': 'No account?',
+                    'নতুন একাউন্ট খুলুন': 'Create new account',
+                    'পাসওয়ার্ড ভুলে গেছেন?': 'Forgot password?',
+                    'নতুন একাউন্ট খুলুন': 'Create New Account',
+                    'এগিয়ে যান': 'Continue',
+                    'ইতিমধ্যে একাউন্ট আছে?': 'Already have an account?',
+                    'অটিপি যাচাইকরণ': 'OTP Verification',
+                    'আপনার ইমেইলে (<span id="userEmail"></span>) ৪ সংখ্যার অটিপি পাঠানো হয়েছে': 'A 4-digit OTP has been sent to your email (<span id="userEmail"></span>)',
+                    'অটিপি দিন': 'Enter OTP',
+                    'অনুগ্রহ করে সঠিক অটিপি দিন': 'Please enter the correct OTP',
+                    'বাকি সময়:': 'Time remaining:',
+                    'পুনরায় অটিপি পাঠান': 'Resend OTP',
+                    'যাচাই করুন': 'Verify',
+                    'ফিরে যান': 'Go back',
+                    'রেজিস্ট্রেশন সম্পন্ন করুন': 'Complete Registration',
+                    'পূর্ণ নাম': 'Full Name',
+                    'আপনার পূর্ণ নাম লিখুন': 'Enter your full name',
+                    'নাম প্রয়োজন': 'Name required',
+                    'একটি শক্তিশালী পাসওয়ার্ড লিখুন': 'Enter a strong password',
+                    'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে': 'Password must be at least 6 characters',
+                    'পাসওয়ার্ড নিশ্চিত করুন': 'Confirm Password',
+                    'পাসওয়ার্ড আবার লিখুন': 'Re-enter password',
+                    'পাসওয়ার্ড মিলছে না': 'Passwords do not match',
+                    'রেজিস্ট্রেশন সম্পন্ন করুন': 'Complete Registration',
+                    'পাসওয়ার্ড রিসেট করুন': 'Reset Password',
+                    'আপনার রেজিস্টার্ড ইমেইল': 'Your registered email',
+                    'OTP পাঠান': 'Send OTP',
+                    'লগইন পৃষ্ঠায় ফিরে যান': 'Back to login page',
+                    'নতুন পাসওয়ার্ড সেট করুন': 'Set New Password',
+                    'নতুন পাসওয়ার্ড লিখুন': 'Enter new password',
+                    'পাসওয়ার্ড পরিবর্তন করুন': 'Change Password',
+                    'অভিনন্দন!': 'Congratulations!',
+                    'আপনার রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে। এখন আপনি লগইন করতে পারেন।': 'Your registration has been completed successfully. You can now login.',
+                    'বুঝেছি ও লগইন করুন': 'OK & Login',
+                    'সফল!': 'Success!',
+                    'আপনার পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে। এখন আপনি নতুন পাসওয়ার্ড দিয়ে লগইন করতে পারেন।': 'Your password has been changed successfully. You can now login with your new password.',
+                    'লগইন পৃষ্ঠায় যান': 'Go to login page',
+                     // Header
+                    'ম':'M',
+    'মাদ্রাসার ক্লাস কোর্সের মাধ্যমে বিক্রি': 'Selling through Madrasa Class Courses',
+    'শিক্ষার মাধ্যমে সফল বিক্রয় কৌশল - আধুনিক পদ্ধতিতে মাদ্রাসা শিক্ষার নতুন দিগন্ত': 'Successful Sales Strategies through Education - A New Horizon of Madrasa Learning in Modern Way',
+
+    // Featured Section
+    'মাদ্রাসা শিক্ষার মাধ্যমে বিক্রয় কৌশলের নতুন দিগন্ত': 'A New Horizon of Sales Strategies through Madrasa Education',
+    'মাদ্রাসা শিক্ষা ব্যবস্থাকে আধুনিক বিপণন কৌশলের সাথে সমন্বয় করে আমরা উন্নত করেছি একটি অভিনব পদ্ধতি। ঐতিহ্যবাহী জ্ঞান ও আধুনিক বিক্রয় কৌশলের সমন্বয়ে আমাদের কোর্সগুলি শিক্ষার্থীদেরকে দক্ষ বিক্রয় পেশাজীবী হিসেবে গড়ে তুলতে সহায়তা করে।': 'We have developed an innovative method by integrating Madrasa education with modern marketing strategies. Our courses combine traditional knowledge with modern sales techniques to train students as skilled sales professionals.',
+    'মাদ্রাসা ভিত্তিক শিক্ষা পদ্ধতির মূল্যবোধ ও নৈতিকতার সাথে বাণিজ্যিক দক্ষতার সমন্বয় করে আমরা তৈরি করেছি একটি অনন্য শিক্ষা ব্যবস্থা, যা শিক্ষার্থীদের বর্তমান বাজারে প্রতিযোগিতা করতে সক্ষম করে তোলে।': 'We have created a unique educational system combining the values and ethics of Madrasa-based learning with commercial skills, enabling students to compete in today’s market.',
+
+    // Features Grid
+    'নৈতিক বিক্রয় কৌশল': 'Ethical Sales Strategy',
+    'ঐতিহ্যগত মূল্যবোধের ভিত্তিতে আধুনিক বিক্রয় কৌশল শেখানো হয় যাতে নৈতিকতা বজায় রেখে সফল বিক্রয় সম্ভব হয়।': 'Modern sales strategies are taught based on traditional values to achieve successful sales while maintaining ethics.',
+    'যোগাযোগ দক্ষতা': 'Communication Skills',
+    'উন্নত যোগাযোগ দক্ষতা অর্জনের মাধ্যমে বিভিন্ন ধরণের ক্রেতাদের সাথে কার্যকরভাবে সংযোগ স্থাপন করতে শেখানো হয়।': 'Advanced communication skills help students effectively connect with different types of customers.',
+    'ডিজিটাল মার্কেটিং': 'Digital Marketing',
+    'আধুনিক ডিজিটাল মার্কেটিং কৌশল ও সোশ্যাল মিডিয়া ব্যবহার করে বিক্রয় বৃদ্ধি করার পদ্ধতি শেখানো হয়।': 'Methods to increase sales using modern digital marketing strategies and social media are taught.',
+    'বিশ্বাসযোগ্যতা অর্জন': 'Building Credibility',
+    'ক্রেতার বিশ্বাস অর্জন ও দীর্ঘমেয়াদি সম্পর্ক গড়ে তোলার কৌশল শেখানো হয় যা টেকসই ব্যবসা গড়তে সাহায্য করে।': 'Strategies to earn customer trust and build long-term relationships are taught to establish sustainable business.',
+    'সমস্যা সমাধান দক্ষতা': 'Problem-Solving Skills',
+    'ক্রেতার সমস্যা চিহ্নিত করে তার সমাধান প্রদানের মাধ্যমে বিক্রয় বৃদ্ধির কৌশল শেখানো হয়।': 'Sales growth strategies are taught by identifying customer problems and providing solutions.',
+    'টিমওয়ার্ক ও নেতৃত্ব': 'Teamwork and Leadership',
+    'দলগত কাজ ও নেতৃত্বের গুণাবলী বিকাশের মাধ্যমে সফল বিক্রয় টিম গঠনের দক্ষতা অর্জন করা যায়।': 'Skills to form successful sales teams through teamwork and leadership development are taught.',
+
+    // Testimonials
+    'আমাদের সফল শিক্ষার্থীদের অভিজ্ঞতা': 'Experiences of Our Successful Students',
+    '"মাদ্রাসা ভিত্তিক বিক্রয় কোর্স আমার জীবনে অভাবনীয় পরিবর্তন এনেছে। নৈতিক মূল্যবোধ বজায় রেখে বাণিজ্যিক সাফল্য অর্জন করতে পেরেছি যা আমি কখনো ভাবিনি।"': '"The Madrasa-based sales course has brought incredible change to my life. I achieved commercial success while maintaining ethical values, which I never imagined."',
+    '- আবদুল্লাহ হাসান, সফল ব্যবসায়ী': '- Abdullah Hasan, Successful Businessman',
+    '"এই কোর্সের মাধ্যমে আমি শিখেছি কিভাবে ঐতিহ্যগত মূল্যবোধ ও আধুনিক বিক্রয় কৌশল একসাথে ব্যবহার করে সাফল্য অর্জন করা যায়। এটি আমার ক্যারিয়ারে নতুন দিগন্ত খুলে দিয়েছে।"': '"Through this course, I learned how to combine traditional values with modern sales strategies to achieve success. It opened new horizons in my career."',
+    '- ফারহানা আক্তার, মার্কেটিং প্রফেশনাল': '- Farhana Akter, Marketing Professional',
+    '"সেলস ক্ষেত্রে আমার দক্ষতা বহুগুণে বৃদ্ধি পেয়েছে এই কোর্সের মাধ্যমে। বিশেষ করে নৈতিক উপায়ে ক্রেতার আস্থা অর্জন করতে শিখেছি যা দীর্ঘমেয়াদী সাফল্য নিয়ে এসেছে।"': '"My skills in sales have multiplied through this course. I especially learned how to gain customer trust ethically, which led to long-term success."',
+    '- মোহাম্মদ রাফি, সেলস এক্সিকিউটিভ': '- Mohammad Rafi, Sales Executive',
+
+    // Call to Action
+    'আজই যোগ দিন আমাদের অভিনব কোর্সে': 'Join Our Innovative Course Today',
+    'মাদ্রাসা ভিত্তিক বিক্রয় কোর্সের মাধ্যমে নৈতিক মূল্যবোধ ও আধুনিক বিক্রয় কৌশল একসাথে শিখুন। আমাদের বিশেষজ্ঞ শিক্ষকদের মাধ্যমে আপনার ক্যারিয়ারে নতুন উচ্চতা অর্জন করুন।': 'Learn ethical values and modern sales strategies together through our Madrasa-based sales course. Achieve new heights in your career with guidance from our expert teachers.',
+    'এখনই নিবন্ধন করুন': 'Register Now',
+     // About Section
+    'আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা এবং আরবি ভাষা শেখার জন্য আমাদের কোর্সগুলোতে আপনাকে স্বাগতম।': 'Welcome to our courses for Islamic education and Arabic language learning in a modern way.',
+
+    // Quick Links
+    'দ্রুত লিংক': 'Quick Links',
+    'হোম': 'Home',
+    'আমাদের সম্পর্কে': 'About Us',
+    'সকল কোর্স': 'All Courses',
+    'শিক্ষকমণ্ডলী': 'Teachers',
+    'ক্লাস সময়সূচি': 'Class Schedule',
+    'যোগাযোগ': 'Contact',
+
+    // Popular Courses
+    'জনপ্রিয় কোর্স': 'Popular Courses',
+    'কোরআন তেলাওয়াত': 'Quran Recitation',
+    'হাদিস শিক্ষা': 'Hadith Studies',
+    'আরবি ভাষা': 'Arabic Language',
+    'ফিকাহ শিক্ষা': 'Fiqh Studies',
+    'তাজবিদ': 'Tajweed',
+    'ইসলামিক ইতিহাস': 'Islamic History',
+
+    // Newsletter
+    'নিউজলেটার': 'Newsletter',
+    'নিউজলেটার সাবস্ক্রাইব করুন': 'Subscribe to Newsletter',
+    'আপনার ইমেইল': 'Your Email',
+    'সাবস্ক্রাইব': 'Subscribe',
+
+    // Contact Info
+    'ঠিকানা: আজিমপুর, ঢাকা-১২০৫': 'Address: Azimpur, Dhaka-1205',
+    'ফোন: +৮৮০১৯১১-৫৬৭৮৯০': 'Phone: +8801911-567890',
+    'ইমেইল: billaharif661@gmail.com': 'Email: billaharif661@gmail.com',
+
+    // Footer Bottom
+    '© ২০২৫ মাদ্রাসা শিক্ষা। সমস্ত অধিকার সংরক্ষিত।': '© 2025 Madrasa Education. All rights reserved.',
+    'প্রাইভেসি পলিসি': 'Privacy Policy',
+    'টার্মস অফ সার্ভিস': 'Terms of Service',
+    'কোর্স নীতিমালা': 'Course Policy'
+
+                }
+            },
+            bn: {
+                flag: 'https://flagcdn.com/w40/bd.png',
+                name: 'বাংলা',
+                alt: 'বাংলা',
+                navLinkPadding: '8px 10px', // বাংলা ভাষার জন্য প্যাডিং
+                translations: {} // Bengali doesn't need translations as it's the default
+            }
+        };
+
+        // Get current language from localStorage or default to Bengali
+        let currentLang = localStorage.getItem('selectedLanguage') || 'bn';
+
+        const toggleLanguage = () => {
+            // Toggle language
+            currentLang = currentLang === 'en' ? 'bn' : 'en';
+            
+            // Save to localStorage
+            localStorage.setItem('selectedLanguage', currentLang);
+            
+            // Update UI
+            updateLanguageUI();
+        };
+
+        const updateLanguageUI = () => {
+            const lang = languages[currentLang];
+            
+            // Update mobile language switcher
+            const flag = document.getElementById('flag');
+            const langText = document.getElementById('lang');
+            if (flag && langText) {
+                flag.src = lang.flag;
+                flag.alt = lang.alt;
+                langText.textContent = lang.name;
+            }
+
+            // Update desktop language switcher
+            const desktopFlag = document.getElementById('desktopFlag');
+            const desktopLangText = document.getElementById('desktopLang');
+            if (desktopFlag && desktopLangText) {
+                desktopFlag.src = lang.flag;
+                desktopFlag.alt = lang.alt;
+                desktopLangText.textContent = lang.name;
+            }
+
+            // Update navigation link padding based on language
+            updateNavLinkPadding(lang.navLinkPadding);
+
+            // Translate all text elements if switching to English
+            if (currentLang === 'en') {
+                translatePageToEnglish();
+            } else {
+                translatePageToBengali();
+            }
+        };
+
+        // নেভিগেশন লিঙ্কের প্যাডিং আপডেট করার ফাংশন
+        const updateNavLinkPadding = (padding) => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.style.padding = padding;
+            });
+        };
+
+        const translatePageToEnglish = () => {
+            const translations = languages.en.translations;
+            
+            // Get all text nodes in the document
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            let node;
+            const textNodes = [];
+            
+            while (node = walker.nextNode()) {
+                // Skip script and style elements
+                if (node.parentNode.nodeName !== 'SCRIPT' && 
+                    node.parentNode.nodeName !== 'STYLE' &&
+                    node.textContent.trim() !== '') {
+                    textNodes.push(node);
+                }
+            }
+            
+            // Translate each text node
+            textNodes.forEach(node => {
+                const text = node.textContent.trim();
+                if (translations[text]) {
+                    node.textContent = translations[text];
+                }
+            });
+            
+            // Also translate placeholder texts
+            const placeholders = document.querySelectorAll('[placeholder]');
+            placeholders.forEach(el => {
+                const placeholderText = el.getAttribute('placeholder');
+                if (translations[placeholderText]) {
+                    el.setAttribute('placeholder', translations[placeholderText]);
+                }
+            });
+            
+            // Translate button values
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                const buttonText = button.textContent.trim();
+                if (translations[buttonText]) {
+                    button.textContent = translations[buttonText];
+                }
+            });
+            
+            // Translate input values for submit buttons
+            const inputs = document.querySelectorAll('input[type="submit"], input[type="button"]');
+            inputs.forEach(input => {
+                const inputValue = input.getAttribute('value');
+                if (inputValue && translations[inputValue]) {
+                    input.setAttribute('value', translations[inputValue]);
+                }
+            });
+        };
+
+        const translatePageToBengali = () => {
+            const englishTranslations = languages.en.translations;
+            const bengaliTranslations = {};
+            
+            // Create reverse mapping (English to Bengali)
+            for (const key in englishTranslations) {
+                bengaliTranslations[englishTranslations[key]] = key;
+            }
+            
+            // Get all text nodes in the document
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            let node;
+            const textNodes = [];
+            
+            while (node = walker.nextNode()) {
+                // Skip script and style elements
+                if (node.parentNode.nodeName !== 'SCRIPT' && 
+                    node.parentNode.nodeName !== 'STYLE' &&
+                    node.textContent.trim() !== '') {
+                    textNodes.push(node);
+                }
+            }
+            
+            // Translate each text node back to Bengali
+            textNodes.forEach(node => {
+                const text = node.textContent.trim();
+                if (bengaliTranslations[text]) {
+                    node.textContent = bengaliTranslations[text];
+                }
+            });
+            
+            // Also translate placeholder texts back to Bengali
+            const placeholders = document.querySelectorAll('[placeholder]');
+            placeholders.forEach(el => {
+                const placeholderText = el.getAttribute('placeholder');
+                if (bengaliTranslations[placeholderText]) {
+                    el.setAttribute('placeholder', bengaliTranslations[placeholderText]);
+                }
+            });
+            
+            // Translate button values back to Bengali
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                const buttonText = button.textContent.trim();
+                if (bengaliTranslations[buttonText]) {
+                    button.textContent = bengaliTranslations[buttonText];
+                }
+            });
+            
+            // Translate input values for submit buttons back to Bengali
+            const inputs = document.querySelectorAll('input[type="submit"], input[type="button"]');
+            inputs.forEach(input => {
+                const inputValue = input.getAttribute('value');
+                if (inputValue && bengaliTranslations[inputValue]) {
+                    input.setAttribute('value', bengaliTranslations[inputValue]);
+                }
+            });
+        };
+
+        // Initialize language on page load
+        const initLanguage = () => {
+            updateLanguageUI();
+        };
+
+        return {
+            toggleLanguage,
+            initLanguage
+        };
+    })();
+
+    // DOM লোড হলে ভাষা সেটআপ ইনিশিয়ালাইজ করুন
+    document.addEventListener('DOMContentLoaded', function() {
+        LanguageModule.initLanguage();
+        
+        // অন্যান্য ইভেন্ট লিসেনারস...
+    });
+</script>
 
 
 
@@ -3516,10 +3850,12 @@ window.addEventListener('popstate', setActiveNavLink);
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', 'Noto Serif Bengali', sans-serif;
         }
         
         body {
             font-family: 'Noto Sans Bengali', sans-serif;
+            font-family: 'Poppins', 'Noto Serif Bengali', sans-serif;
             background-color: var(--light-bg);
             color: var(--text-color);
             line-height: 1.7;
@@ -4056,19 +4392,6 @@ window.addEventListener('popstate', setActiveNavLink);
             </div>
         </section>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- ফুটার সেকশন -->
 <footer class="footer">

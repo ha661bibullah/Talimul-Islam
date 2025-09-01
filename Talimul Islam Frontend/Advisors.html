@@ -7,7 +7,10 @@
         <title>উপদেষ্টা - ইসলামিক চিন্তাশীল</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali&display=swap" rel="stylesheet">
-
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     </head>
 <body>
 
@@ -1023,9 +1026,9 @@
     }
 
     .container {
-        background-color: white;
+        /* background-color: white; */
         border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
         width: 100%;
         max-width: 450px;
         padding: 20px 20px;
@@ -1979,52 +1982,6 @@
     // ====================
     // Language Toggle Module
     // ====================
-    const LanguageModule = (() => {
-        const languages = {
-            en: {
-                flag: 'https://flagcdn.com/w40/us.png',
-                name: 'English',
-                alt: 'English'
-            },
-            bn: {
-                flag: 'https://flagcdn.com/w40/bd.png',
-                name: 'বাংলা',
-                alt: 'বাংলা'
-            }
-        };
-
-        let currentLang = 'bn';
-
-        const toggleLanguage = () => {
-            currentLang = currentLang === 'en' ? 'bn' : 'en';
-            const lang = languages[currentLang];
-            
-            // Update mobile language switcher
-            const flag = document.getElementById('flag');
-            const langText = document.getElementById('lang');
-            if (flag && langText) {
-                flag.src = lang.flag;
-                flag.alt = lang.alt;
-                langText.textContent = lang.name;
-            }
-
-            // Update desktop language switcher
-            const desktopFlag = document.getElementById('desktopFlag');
-            const desktopLangText = document.getElementById('desktopLang');
-            if (desktopFlag && desktopLangText) {
-                desktopFlag.src = lang.flag;
-                desktopFlag.alt = lang.alt;
-                desktopLangText.textContent = lang.name;
-            }
-
-            console.log('Language switched to:', currentLang);
-        };
-
-        return {
-            toggleLanguage
-        };
-    })();
-
     // ====================
     // Theme Toggle Module
     // ====================
@@ -3473,6 +3430,385 @@ window.addEventListener('popstate', setActiveNavLink);
 </script>   
 
 
+
+<script>
+    // ====================
+    // Language Toggle Module - Updated
+    // ====================
+    const LanguageModule = (() => {
+        const languages = {
+            en: {
+                flag: 'https://flagcdn.com/w40/us.png',
+                name: 'English',
+                alt: 'English',
+                navLinkPadding: '7px 6px', // ইংরেজি ভাষার জন্য প্যাডিং
+                // Add translations for all text elements
+                translations: {
+                    // Navigation items
+                    'হোম': 'Home',
+                    'কোর্স': 'Courses',
+                    'সকল কোর্স': 'All Courses',
+                    'লাইভ কোর্স': 'Live Courses',
+                    'ইসলামিক আইন': 'Islamic Law',
+                    'আরবি ভাষা': 'Arabic Language',
+                    'ইসলামিক ইতিহাস': 'Islamic History',
+                    'ফিকহ শাস্ত্র': 'Fiqh Studies',
+                    'বই': 'Books',
+                    'শিক্ষক': 'Teachers',
+                    'উপদেষ্টা': 'Advisors',
+                    'ব্লগ': 'Blog',
+                    'সম্পর্কে': 'About',
+                    'যোগাযোগ': 'Contact',
+                    
+                    // Other UI elements
+                    'কোর্স বা বই খুঁজুন...': 'Search for courses or books...',
+                    'লগইন': 'Login',
+                    'প্রোফাইল তথ্য': 'Profile Info',
+                    'আমার কোর্স': 'My Courses',
+                    'লগআউট': 'Logout',
+                    'সকাল ১০টা - বিকাল ৫টা': '10 AM - 5 PM',
+                    
+                    // Login form texts
+                    'লগইন করুন': 'Login',
+                    'আপনার একাউন্ট সফলভাবে তৈরি হয়েছে। এখন লগইন করুন।': 'Your account has been created successfully. Please login now.',
+                    'ইমেইল': 'Email',
+                    'আপনার ইমেইল লিখুন': 'Enter your email',
+                    'অনুগ্রহ করে একটি সঠিক ইমেইল প্রদান করুন': 'Please provide a valid email',
+                    'পাসওয়ার্ড': 'Password',
+                    'আপনার পাসওয়ার্ড লিখুন': 'Enter your password',
+                    'পাসওয়ার্ড প্রয়োজন': 'Password required',
+                    'দেখুন': 'Show',
+                    'লুকান': 'Hide',
+                    'একাউন্ট নেই?': 'No account?',
+                    'নতুন একাউন্ট খুলুন': 'Create new account',
+                    'পাসওয়ার্ড ভুলে গেছেন?': 'Forgot password?',
+                    'নতুন একাউন্ট খুলুন': 'Create New Account',
+                    'এগিয়ে যান': 'Continue',
+                    'ইতিমধ্যে একাউন্ট আছে?': 'Already have an account?',
+                    'অটিপি যাচাইকরণ': 'OTP Verification',
+                    'আপনার ইমেইলে (<span id="userEmail"></span>) ৪ সংখ্যার অটিপি পাঠানো হয়েছে': 'A 4-digit OTP has been sent to your email (<span id="userEmail"></span>)',
+                    'অটিপি দিন': 'Enter OTP',
+                    'অনুগ্রহ করে সঠিক অটিপি দিন': 'Please enter the correct OTP',
+                    'বাকি সময়:': 'Time remaining:',
+                    'পুনরায় অটিপি পাঠান': 'Resend OTP',
+                    'যাচাই করুন': 'Verify',
+                    'ফিরে যান': 'Go back',
+                    'রেজিস্ট্রেশন সম্পন্ন করুন': 'Complete Registration',
+                    'পূর্ণ নাম': 'Full Name',
+                    'আপনার পূর্ণ নাম লিখুন': 'Enter your full name',
+                    'নাম প্রয়োজন': 'Name required',
+                    'একটি শক্তিশালী পাসওয়ার্ড লিখুন': 'Enter a strong password',
+                    'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে': 'Password must be at least 6 characters',
+                    'পাসওয়ার্ড নিশ্চিত করুন': 'Confirm Password',
+                    'পাসওয়ার্ড আবার লিখুন': 'Re-enter password',
+                    'পাসওয়ার্ড মিলছে না': 'Passwords do not match',
+                    'রেজিস্ট্রেশন সম্পন্ন করুন': 'Complete Registration',
+                    'পাসওয়ার্ড রিসেট করুন': 'Reset Password',
+                    'আপনার রেজিস্টার্ড ইমেইল': 'Your registered email',
+                    'OTP পাঠান': 'Send OTP',
+                    'লগইন পৃষ্ঠায় ফিরে যান': 'Back to login page',
+                    'নতুন পাসওয়ার্ড সেট করুন': 'Set New Password',
+                    'নতুন পাসওয়ার্ড লিখুন': 'Enter new password',
+                    'পাসওয়ার্ড পরিবর্তন করুন': 'Change Password',
+                    'অভিনন্দন!': 'Congratulations!',
+                    'আপনার রেজিস্ট্রেশন সফলভাবে সম্পন্ন হয়েছে। এখন আপনি লগইন করতে পারেন।': 'Your registration has been completed successfully. You can now login.',
+                    'বুঝেছি ও লগইন করুন': 'OK & Login',
+                    'সফল!': 'Success!',
+                    'আপনার পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে। এখন আপনি নতুন পাসওয়ার্ড দিয়ে লগইন করতে পারেন।': 'Your password has been changed successfully. You can now login with your new password.',
+                    'লগইন পৃষ্ঠায় যান': 'Go to login page',
+                   // HERO SECTION
+    'ইসলামিক পরামর্শ ও মার্গদর্শন': 'Islamic Guidance & Consultation',
+    'আধুনিক জীবনের চ্যালেঞ্জ মোকাবেলায় ইসলামিক দৃষ্টিকোণ থেকে পরামর্শ': 'The best among you is the one who learns the Quran and teaches it to others.',
+    'আমাদের সাথে যোগাযোগ করুন': 'Contact Us',
+
+    // QUOTE SECTION
+    'তোমাদের মধ্যে সর্বোত্তম ব্যক্তি সেই যে নিজে কুরআন শিক্ষা করে এবং অন্যকে শিক্ষা দেয়।': 'The best among you is the one who learns the Quran and teaches it to others.',
+    'সহীহ বুখারী': 'Sahih Bukhari',
+
+    // SERVICES SECTION
+    'আমাদের সেবাসমূহ': 'Our Services',
+    'আধুনিক জীবনের বিভিন্ন ক্ষেত্রে ইসলামিক পরামর্শ ও মার্গদর্শন': 'Islamic guidance in various aspects of modern life',
+    'কুরআন ও হাদিস শিক্ষা': 'Quran & Hadith Education',
+    'বিশেষজ্ঞ শিক্ষকদের দ্বারা কুরআন ও হাদিস শিক্ষার ব্যবস্থা। অনলাইন ও অফলাইন ক্লাসের মাধ্যমে সঠিক উচ্চারণ ও অর্থ শিখুন।': 'Learn Quran and Hadith from expert teachers. Online and offline classes to master proper pronunciation and meaning.',
+    'আরো জানুন': 'Learn More',
+
+    'ইবাদত সংক্রান্ত পরামর্শ': 'Worship-related Guidance',
+    'নামাজ, রোজা, হজ্জ, যাকাত সহ বিভিন্ন ইবাদত সম্পর্কে সঠিক নিয়ম ও পদ্ধতি জানুন। সকল প্রশ্নের উত্তর পাবেন।': 'Learn proper rules and methods for prayers, fasting, Hajj, Zakat and other acts of worship. Get answers to all your questions.',
+
+    'পারিবারিক পরামর্শ': 'Family Guidance',
+    'বিবাহ, সন্তান লালন-পালন, পারিবারিক সম্পর্ক বজায় রাখার ক্ষেত্রে ইসলামিক দৃষ্টিকোণ থেকে পরামর্শ।': 'Guidance on marriage, child-rearing, and maintaining family relations from an Islamic perspective.',
+
+    'অর্থনৈতিক পরামর্শ': 'Financial Guidance',
+    'হালাল উপার্জন, বিনিয়োগ, সুদমুক্ত লেনদেন সহ বিভিন্ন অর্থনৈতিক বিষয়ে ইসলামিক গাইডলাইন।': 'Islamic guidelines on halal income, investment, and interest-free transactions.',
+
+    'মানসিক স্বাস্থ্য ও আধ্যাত্মিকতা': 'Mental Health & Spirituality',
+    'আধুনিক জীবনের চাপ, মানসিক সমস্যা এবং আধ্যাত্মিক উন্নয়নের জন্য ইসলামিক পরামর্শ।': 'Islamic advice for stress, mental health issues, and spiritual development.',
+
+    'ইসলামিক শিক্ষা': 'Islamic Education',
+    'শিশু, কিশোর ও প্রাপ্তবয়স্কদের জন্য বিভিন্ন বয়স উপযোগী ইসলামিক শিক্ষা কার্যক্রম।': 'Age-appropriate Islamic education programs for children, teenagers, and adults.',
+
+    // CONTACT SECTION
+    'যোগাযোগ করুন': 'Contact Us',
+    'আপনার প্রশ্ন বা পরামর্শের জন্য আমাদের সাথে যোগাযোগ করুন': 'Get in touch for your questions or guidance',
+    'আমাদের সাথে সরাসরি যোগাযোগ করুন': 'Contact Us Directly',
+    'আপনার যেকোনো প্রশ্ন বা পরামর্শের জন্য আমরা সবসময় প্রস্তুত আছি। আমাদের সাথে যোগাযোগ করতে নিচের তথ্য ব্যবহার করুন।': 'We are always ready for your questions or guidance. Use the information below to contact us.',
+    '১২৩ ইসলামিক সেন্টার রোড, ঢাকা, বাংলাদেশ': '123 Islamic Center Road, Dhaka, Bangladesh',
+    '+৮৮০ ১৭১২৩৪৫৬৭৮': '+880 1712345678',
+    'info@islamicadvisor.com': 'info@islamicadvisor.com',
+
+    'নাম': 'Name',
+    'ইমেইল': 'Email',
+    'বিষয়': 'Subject',
+    'আপনার বার্তা': 'Your Message',
+    'বার্তা পাঠান': 'Send Message',
+
+
+     // About Section ফুটার
+    'আধুনিক পদ্ধতিতে ইসলামিক শিক্ষা এবং আরবি ভাষা শেখার জন্য আমাদের কোর্সগুলোতে আপনাকে স্বাগতম।': 'Welcome to our courses for Islamic education and Arabic language learning in a modern way.',
+
+    // Quick Links
+    'দ্রুত লিংক': 'Quick Links',
+    'হোম': 'Home',
+    'আমাদের সম্পর্কে': 'About Us',
+    'সকল কোর্স': 'All Courses',
+    'শিক্ষকমণ্ডলী': 'Teachers',
+    'ক্লাস সময়সূচি': 'Class Schedule',
+    'যোগাযোগ': 'Contact',
+
+    // Popular Courses
+    'জনপ্রিয় কোর্স': 'Popular Courses',
+    'কোরআন তেলাওয়াত': 'Quran Recitation',
+    'হাদিস শিক্ষা': 'Hadith Studies',
+    'আরবি ভাষা': 'Arabic Language',
+    'ফিকাহ শিক্ষা': 'Fiqh Studies',
+    'তাজবিদ': 'Tajweed',
+    'ইসলামিক ইতিহাস': 'Islamic History',
+
+    // Newsletter
+    'নিউজলেটার': 'Newsletter',
+    'নিউজলেটার সাবস্ক্রাইব করুন': 'Subscribe to Newsletter',
+    'আপনার ইমেইল': 'Your Email',
+    'সাবস্ক্রাইব': 'Subscribe',
+
+    // Contact Info
+    'ঠিকানা: আজিমপুর, ঢাকা-১২০৫': 'Address: Azimpur, Dhaka-1205',
+    'ফোন: +৮৮০১৯১১-৫৬৭৮৯০': 'Phone: +8801911-567890',
+    'ইমেইল: billaharif661@gmail.com': 'Email: billaharif661@gmail.com',
+
+    // Footer Bottom
+    '© ২০২৫ মাদ্রাসা শিক্ষা। সমস্ত অধিকার সংরক্ষিত।': '© 2025 Madrasa Education. All rights reserved.',
+    'প্রাইভেসি পলিসি': 'Privacy Policy',
+    'টার্মস অফ সার্ভিস': 'Terms of Service',
+    'কোর্স নীতিমালা': 'Course Policy'
+
+                }
+            },
+            bn: {
+                flag: 'https://flagcdn.com/w40/bd.png',
+                name: 'বাংলা',
+                alt: 'বাংলা',
+                navLinkPadding: '8px 10px', // বাংলা ভাষার জন্য প্যাডিং
+                translations: {} // Bengali doesn't need translations as it's the default
+            }
+        };
+
+        // Get current language from localStorage or default to Bengali
+        let currentLang = localStorage.getItem('selectedLanguage') || 'bn';
+
+        const toggleLanguage = () => {
+            // Toggle language
+            currentLang = currentLang === 'en' ? 'bn' : 'en';
+            
+            // Save to localStorage
+            localStorage.setItem('selectedLanguage', currentLang);
+            
+            // Update UI
+            updateLanguageUI();
+        };
+
+        const updateLanguageUI = () => {
+            const lang = languages[currentLang];
+            
+            // Update mobile language switcher
+            const flag = document.getElementById('flag');
+            const langText = document.getElementById('lang');
+            if (flag && langText) {
+                flag.src = lang.flag;
+                flag.alt = lang.alt;
+                langText.textContent = lang.name;
+            }
+
+            // Update desktop language switcher
+            const desktopFlag = document.getElementById('desktopFlag');
+            const desktopLangText = document.getElementById('desktopLang');
+            if (desktopFlag && desktopLangText) {
+                desktopFlag.src = lang.flag;
+                desktopFlag.alt = lang.alt;
+                desktopLangText.textContent = lang.name;
+            }
+
+            // Update navigation link padding based on language
+            updateNavLinkPadding(lang.navLinkPadding);
+
+            // Translate all text elements if switching to English
+            if (currentLang === 'en') {
+                translatePageToEnglish();
+            } else {
+                translatePageToBengali();
+            }
+        };
+
+        // নেভিগেশন লিঙ্কের প্যাডিং আপডেট করার ফাংশন
+        const updateNavLinkPadding = (padding) => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.style.padding = padding;
+            });
+        };
+
+        const translatePageToEnglish = () => {
+            const translations = languages.en.translations;
+            
+            // Get all text nodes in the document
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            let node;
+            const textNodes = [];
+            
+            while (node = walker.nextNode()) {
+                // Skip script and style elements
+                if (node.parentNode.nodeName !== 'SCRIPT' && 
+                    node.parentNode.nodeName !== 'STYLE' &&
+                    node.textContent.trim() !== '') {
+                    textNodes.push(node);
+                }
+            }
+            
+            // Translate each text node
+            textNodes.forEach(node => {
+                const text = node.textContent.trim();
+                if (translations[text]) {
+                    node.textContent = translations[text];
+                }
+            });
+            
+            // Also translate placeholder texts
+            const placeholders = document.querySelectorAll('[placeholder]');
+            placeholders.forEach(el => {
+                const placeholderText = el.getAttribute('placeholder');
+                if (translations[placeholderText]) {
+                    el.setAttribute('placeholder', translations[placeholderText]);
+                }
+            });
+            
+            // Translate button values
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                const buttonText = button.textContent.trim();
+                if (translations[buttonText]) {
+                    button.textContent = translations[buttonText];
+                }
+            });
+            
+            // Translate input values for submit buttons
+            const inputs = document.querySelectorAll('input[type="submit"], input[type="button"]');
+            inputs.forEach(input => {
+                const inputValue = input.getAttribute('value');
+                if (inputValue && translations[inputValue]) {
+                    input.setAttribute('value', translations[inputValue]);
+                }
+            });
+        };
+
+        const translatePageToBengali = () => {
+            const englishTranslations = languages.en.translations;
+            const bengaliTranslations = {};
+            
+            // Create reverse mapping (English to Bengali)
+            for (const key in englishTranslations) {
+                bengaliTranslations[englishTranslations[key]] = key;
+            }
+            
+            // Get all text nodes in the document
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            let node;
+            const textNodes = [];
+            
+            while (node = walker.nextNode()) {
+                // Skip script and style elements
+                if (node.parentNode.nodeName !== 'SCRIPT' && 
+                    node.parentNode.nodeName !== 'STYLE' &&
+                    node.textContent.trim() !== '') {
+                    textNodes.push(node);
+                }
+            }
+            
+            // Translate each text node back to Bengali
+            textNodes.forEach(node => {
+                const text = node.textContent.trim();
+                if (bengaliTranslations[text]) {
+                    node.textContent = bengaliTranslations[text];
+                }
+            });
+            
+            // Also translate placeholder texts back to Bengali
+            const placeholders = document.querySelectorAll('[placeholder]');
+            placeholders.forEach(el => {
+                const placeholderText = el.getAttribute('placeholder');
+                if (bengaliTranslations[placeholderText]) {
+                    el.setAttribute('placeholder', bengaliTranslations[placeholderText]);
+                }
+            });
+            
+            // Translate button values back to Bengali
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                const buttonText = button.textContent.trim();
+                if (bengaliTranslations[buttonText]) {
+                    button.textContent = bengaliTranslations[buttonText];
+                }
+            });
+            
+            // Translate input values for submit buttons back to Bengali
+            const inputs = document.querySelectorAll('input[type="submit"], input[type="button"]');
+            inputs.forEach(input => {
+                const inputValue = input.getAttribute('value');
+                if (inputValue && bengaliTranslations[inputValue]) {
+                    input.setAttribute('value', bengaliTranslations[inputValue]);
+                }
+            });
+        };
+
+        // Initialize language on page load
+        const initLanguage = () => {
+            updateLanguageUI();
+        };
+
+        return {
+            toggleLanguage,
+            initLanguage
+        };
+    })();
+
+    // DOM লোড হলে ভাষা সেটআপ ইনিশিয়ালাইজ করুন
+    document.addEventListener('DOMContentLoaded', function() {
+        LanguageModule.initLanguage();
+        
+        // অন্যান্য ইভেন্ট লিসেনারস...
+    });
+</script>
+
     
 
 
@@ -3524,6 +3860,7 @@ window.addEventListener('popstate', setActiveNavLink);
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', 'Noto Serif Bengali', sans-serif;
         }
         
         body {
@@ -3703,10 +4040,8 @@ window.addEventListener('popstate', setActiveNavLink);
         }
         
         .quote-card {
-            background-color: var(--white);
             border-radius: 15px;
             padding: 3rem;
-            box-shadow: var(--shadow);
             position: relative;
             z-index: 2;
             text-align: center;
@@ -4132,8 +4467,8 @@ window.addEventListener('popstate', setActiveNavLink);
                 <div class="quote-icon">
                     <i class="fas fa-quote-right"></i>
                 </div>
-                <p class="quote-text">"তোমাদের মধ্যে সর্বোত্তম ব্যক্তি সেই যে নিজে কুরআন শিক্ষা করে এবং অন্যকে শিক্ষা দেয়।"</p>
-                <p class="quote-author">- সহীহ বুখারী</p>
+                <p class="quote-text">তোমাদের মধ্যে সর্বোত্তম ব্যক্তি সেই যে নিজে কুরআন শিক্ষা করে এবং অন্যকে শিক্ষা দেয়।</p>
+                <p class="quote-author"> সহীহ বুখারী</p>
             </div>
         </div>
     </section>
