@@ -1,46 +1,2625 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-<meta charset="UTF-8">
-<title>Base64 to PNG Downloader</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>শপিং - আপনার পছন্দের অনলাইন শপ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #f8f9fc;
+            --accent-color: #36b9cc;
+            --text-color: #5a5c69;
+            --dark-mode-bg: #1a1d21;
+            --dark-mode-card: #24272b;
+            --dark-mode-text: #e4e6eb;
+        }
+        
+        [data-theme="dark"] {
+            --primary-color: #6d8eff;
+            --secondary-color: #24272b;
+            --text-color: #e4e6eb;
+            --dark-mode-bg: #1a1d21;
+            --dark-mode-card: #2c2f33;
+        }
+        
+        body {
+            font-family: 'SolaimanLipi', 'Hind Siliguri', 'Arial', sans-serif;
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .dark-mode body {
+            background-color: var(--dark-mode-bg);
+            color: var(--dark-mode-text);
+        }
+        
+        .navbar {
+            background-color: var(--secondary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .navbar {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-banner {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 500px;
+            color: white;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .category-card {
+            transition: transform 0.3s;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--secondary-color);
+        }
+        
+        .dark-mode .category-card {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            background-color: var(--secondary-color);
+        }
+        
+        .dark-mode .product-card {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .carousel-item {
+            height: 300px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+        }
+        
+        .dark-mode .carousel-item {
+            background-color: var(--dark-mode-card);
+        }
+        
+        .carousel-img {
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 30px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            margin-top: 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5fc8;
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e74a3b;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            padding: 40px 0;
+            margin-top: 50px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode footer {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .search-form {
+            position: relative;
+        }
+        
+        .search-form input {
+            padding-right: 40px;
+            border-radius: 20px;
+        }
+        
+        .search-form button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            border: none;
+            background: transparent;
+            color: var(--primary-color);
+        }
+        
+        /* Cart Page Styles */
+        .cart-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .cart-items {
+            background: var(--secondary-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .cart-items {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cart-summary {
+            background: var(--secondary-color);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-self: start;
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .cart-summary {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cart-item {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        
+        .dark-mode .cart-item {
+            border-bottom: 1px solid #444;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        
+        .item-details {
+            flex-grow: 1;
+        }
+        
+        .item-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .item-price {
+            color: #4CAF50;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .quantity-btn {
+            background: #f0f0f0;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dark-mode .quantity-btn {
+            background: #444;
+            color: #fff;
+        }
+        
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            margin: 0 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .dark-mode .quantity-input {
+            background-color: #333;
+            border-color: #555;
+            color: #fff;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: #4CAF50;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .action-btn:hover {
+            text-decoration: underline;
+        }
+        
+        .action-btn.remove {
+            color: #f44336;
+        }
+        
+        .summary-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dark-mode .summary-title {
+            border-bottom: 1px solid #444;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .dark-mode .summary-total {
+            border-top: 1px solid #444;
+        }
+        
+        .checkout-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            background: #388E3C;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        .empty-cart p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .continue-shopping {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        /* Product Listing Styles */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .filters {
+            flex: 0 0 250px;
+            background: var(--secondary-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .filters {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .filter-section {
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        
+        .dark-mode .filter-section {
+            border-bottom: 1px solid #444;
+        }
+        
+        .filter-section h3 {
+            margin-bottom: 15px;
+            color: #444;
+            font-size: 18px;
+        }
+        
+        .dark-mode .filter-section h3 {
+            color: #ddd;
+        }
+        
+        .price-range {
+            width: 100%;
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .dark-mode .price-range {
+            background: #555;
+        }
+        
+        .price-value {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            color: #666;
+        }
+        
+        .dark-mode .price-value {
+            color: #aaa;
+        }
+        
+        .category-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .category-list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .category-list input {
+            margin-right: 10px;
+        }
+        
+        .rating-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .rating-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .rating-option input {
+            margin-right: 10px;
+        }
+        
+        .stars {
+            color: #ffc107;
+        }
+        
+        .products {
+            flex: 1;
+        }
+        
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .products-count {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .dark-mode .products-count {
+            color: #aaa;
+        }
+        
+        .sort-select {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        .dark-mode .sort-select {
+            background-color: var(--dark-mode-card);
+            border-color: #555;
+            color: var(--dark-mode-text);
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .product-listing-card {
+            background: var(--secondary-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .dark-mode .product-listing-card {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .product-listing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark-mode .product-listing-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .product-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dark-mode .product-image {
+            border-bottom: 1px solid #444;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-category {
+            color: #6a11cb;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .product-name {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .dark-mode .product-name {
+            color: #ddd;
+        }
+        
+        .product-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .dark-mode .product-price {
+            color: #ccc;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .product-stock {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: #27ae60;
+        }
+        
+        .out-of-stock {
+            color: #e74c3c;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            padding: 10px;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .add-to-cart:hover {
+            background: #2575fc;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 10px;
+        }
+        
+        .pagination button {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background: var(--secondary-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-color);
+        }
+        
+        .dark-mode .pagination button {
+            background-color: var(--dark-mode-card);
+            border-color: #555;
+            color: var(--dark-mode-text);
+        }
+        
+        .pagination button.active {
+            background: #6a11cb;
+            color: white;
+            border-color: #6a11cb;
+        }
+        
+        .pagination button:hover:not(.active) {
+            background: #f5f7fa;
+        }
+        
+        .dark-mode .pagination button:hover:not(.active) {
+            background: #3a3d41;
+        }
+        
+        /* Product Detail Styles */
+        .product-container {
+            background: var(--secondary-color);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .product-container {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .product-gallery {
+            position: relative;
+            padding: 20px;
+            background: var(--secondary-color);
+            border-right: 1px solid #eee;
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .product-gallery {
+            background-color: var(--dark-mode-card);
+            border-right: 1px solid #444;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            background: white;
+            padding: 10px;
+        }
+        
+        .dark-mode .main-image {
+            background: #333;
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+        
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .thumbnail:hover, .thumbnail.active {
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+        
+        .product-info-detail {
+            padding: 25px;
+        }
+        
+        .product-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .product-price-detail {
+            font-size: 28px;
+            font-weight: 800;
+            color: #e74a3b;
+            margin-bottom: 15px;
+        }
+        
+        .product-rating-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .rating-stars {
+            color: #ffc107;
+            margin-right: 10px;
+        }
+        
+        .product-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .stock-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .in-stock {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .low-stock {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .out-of-stock {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .btn-add-to-cart {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-add-to-cart:hover {
+            background-color: #2a75ff;
+            transform: translateY(-2px);
+        }
+        
+        .btn-buy-now {
+            background-color: #e74a3b;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-buy-now:hover {
+            background-color: #e0005e;
+            transform: translateY(-2px);
+        }
+        
+        .reviews-section {
+            background: var(--secondary-color);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .reviews-section {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .review-card {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: var(--secondary-color);
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .review-card {
+            background-color: var(--dark-mode-card);
+            border-color: #444;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .review-author {
+            font-weight: 600;
+        }
+        
+        .review-date {
+            color: #6c757d;
+        }
+        
+        .add-review-form {
+            background: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .add-review-form {
+            background-color: var(--dark-mode-card);
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            background: #8338ec;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Page Navigation */
+        .page-section {
+            display: none;
+        }
+        
+        .page-section.active {
+            display: block;
+        }
+        
+        /* Profile Page Styles */
+        .profile-card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            border-radius: 10px;
+            transition: transform 0.3s;
+            background-color: var(--secondary-color);
+        }
+        
+        .dark-mode .profile-card {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color);
+        }
+        
+        .nav-pills .nav-link {
+            color: #333;
+        }
+        
+        .dark-mode .nav-pills .nav-link {
+            color: #ddd;
+        }
+        
+        .order-status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .delivered {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+        }
+        
+        /* Checkout Page Styles */
+        .checkout-page-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .checkout-header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin-bottom: 20px;
+        }
+        
+        .checkout-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .checkout-form-section, .checkout-order-summary {
+            background: var(--secondary-color);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .checkout-form-section, 
+        .dark-mode .checkout-order-summary {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .checkout-form-section {
+            flex: 2;
+        }
+        
+        .checkout-order-summary {
+            flex: 1;
+        }
+        
+        .checkout-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .checkout-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+        
+        .dark-mode .checkout-form-group label {
+            color: #ddd;
+        }
+        
+        .checkout-form-group input, .checkout-form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border 0.3s;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        .dark-mode .checkout-form-group input, 
+        .dark-mode .checkout-form-group select {
+            background-color: var(--dark-mode-card);
+            border-color: #555;
+            color: var(--dark-mode-text);
+        }
+        
+        .checkout-form-group input:focus, .checkout-form-group select:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .checkout-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .checkout-row .checkout-form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background-color: var(--secondary-color);
+        }
+        
+        .dark-mode .payment-option {
+            background-color: var(--dark-mode-card);
+            border-color: #555;
+        }
+        
+        .payment-option:hover {
+            border-color: #3498db;
+            background-color: #f8fafd;
+        }
+        
+        .dark-mode .payment-option:hover {
+            background-color: #2a2d31;
+        }
+        
+        .payment-option input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .payment-option label {
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .payment-icon {
+            width: 40px;
+            margin-right: 10px;
+        }
+        
+        .checkout-order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dark-mode .checkout-order-item {
+            border-bottom: 1px solid #444;
+        }
+        
+        .checkout-order-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid #eee;
+        }
+        
+        .dark-mode .checkout-order-total {
+            border-top: 2px solid #444;
+        }
+        
+        .checkout-btn {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Auth Page Styles */
+        .auth-container {
+            width: 100%;
+            max-width: 440px;
+            background: var(--secondary-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            position: relative;
+            margin: 20px auto;
+            transition: background-color 0.3s;
+        }
+        
+        .dark-mode .auth-container {
+            background-color: var(--dark-mode-card);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .auth-header {
+            background: #4e54c8;
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            background: #f5f5f5;
+        }
+        
+        .dark-mode .auth-tabs {
+            background: #333;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 16px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .dark-mode .auth-tab {
+            color: #ddd;
+        }
+        
+        .auth-tab.active {
+            border-bottom: 3px solid #4e54c8;
+            color: #4e54c8;
+            background: white;
+        }
+        
+        .dark-mode .auth-tab.active {
+            background: var(--dark-mode-card);
+            color: #6d8eff;
+            border-bottom: 3px solid #6d8eff;
+        }
+        
+        .auth-form-container {
+            padding: 30px;
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .auth-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .auth-form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .dark-mode .auth-form-group label {
+            color: #ddd;
+        }
+        
+        .auth-form-group input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border 0.3s ease;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        .dark-mode .auth-form-group input {
+            background-color: var(--dark-mode-card);
+            border-color: #555;
+            color: var(--dark-mode-text);
+        }
+        
+        .auth-form-group input:focus {
+            border-color: #4e54c8;
+            outline: none;
+        }
+        
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            background: #4e54c8;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-btn:hover {
+            background: #3a3f99;
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        
+        .dark-mode .auth-footer {
+            color: #aaa;
+        }
+        
+        .auth-footer a {
+            color: #4e54c8;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Chatbot */
+        .chatbot-icon {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .chatbot-container {
+            position: fixed;
+            bottom: 140px;
+            right: 20px;
+            width: 320px;
+            height: 400px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .dark-mode .chatbot-container {
+            background-color: var(--dark-mode-card);
+        }
+        
+        .chatbot-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+        }
+        
+        .bot-message {
+            background-color: #f0f2f5;
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .dark-mode .bot-message {
+            background-color: #3a3b3c;
+            color: #e4e6eb;
+        }
+        
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .dark-mode .chatbot-input {
+            border-top: 1px solid #444;
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin-right: 10px;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        .dark-mode .chatbot-input input {
+            background-color: var(--dark-mode-card);
+            border-color: #444;
+            color: var(--dark-mode-text);
+        }
+        
+        .chatbot-input button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .filters {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-banner {
+                height: 300px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .checkout-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-<h2>Base64 থেকে PNG ডাউনলোড করুন</h2>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#" onclick="showPage('home')">
+                <h3 class="fw-bold text-primary">শপিং</h3>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('home')">হোম</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('products')">পণ্য</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('categories')">ক্যাটাগরি</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('deals')">অফার</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showPage('about')">আমাদের সম্পর্কে</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div class="search-form me-3">
+                        <input type="text" class="form-control" placeholder="এখানে সার্চ করুন...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary me-2" onclick="showPage('auth')">
+                        <i class="fas fa-user"></i>
+                    </a>
+                    <a href="#" class="btn btn-outline-primary me-2 position-relative" onclick="showPage('wishlist')">
+                        <i class="fas fa-heart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                    </a>
+                    <a href="#" class="btn btn-outline-primary position-relative" onclick="showPage('cart')">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">2</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-<textarea id="base64Input" rows="10" cols="80" placeholder="এখানে base64 কোড পেস্ট করুন..."></textarea><br><br>
+    <!-- Home Page -->
+    <div id="home" class="page-section active">
+        <div class="container">
+            <!-- Hero Banner -->
+            <div class="hero-banner mb-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1 class="display-4 fw-bold">বিশেষ অফার!</h1>
+                            <p class="lead">আজই কিনুন আপনার পছন্দের পণ্য এবং উপভোগ করুন ৫০% পর্যন্ত ডিসকাউন্ট</p>
+                            <button class="btn btn-primary btn-lg">এখনই কিনুন</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<button onclick="downloadPNG()">ডাউনলোড করুন</button>
+            <!-- Categories Section -->
+            <h2 class="section-title">ক্যাটাগরি</h2>
+            <div class="row mb-5">
+                <div class="col-md-3 mb-4">
+                    <div class="category-card card">
+                        <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="ফ্যাশন">
+                        <div class="card-body">
+                            <h5 class="card-title">ফ্যাশন</h5>
+                            <p class="card-text">সেরা ফ্যাশন পণ্য</p>
+                            <a href="#" class="btn btn-sm btn-primary" onclick="showPage('products')">ব্রাউজ করুন</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="category-card card">
+                        <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="ইলেকট্রনিক্স">
+                        <div class="card-body">
+                            <h5 class="card-title">ইলেকট্রনিক্স</h5>
+                            <p class="card-text">সবচেয়ে আধুনিক গ্যাজেট</p>
+                            <a href="#" class="btn btn-sm btn-primary" onclick="showPage('products')">ব্রাউজ করুন</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="category-card card">
+                        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="হোম অ্যান্ড লাইফস্টাইল">
+                        <div class="card-body">
+                            <h5 class="card-title">হোম অ্যান্ড লাইফস্টাইল</h5>
+                            <p class="card-text">ঘর সাজানোর পণ্য</p>
+                            <a href="#" class="btn btn-sm btn-primary" onclick="showPage('products')">ব্রাউজ করুন</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="category-card card">
+                        <img src="https://images.unsplash.com/photo-1605733513597-a8f8341084e6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="বিউটি">
+                        <div class="card-body">
+                            <h5 class="card-title">বিউটি</h5>
+                            <p class="card-text">সৌন্দর্য পণ্য</p>
+                            <a href="#" class="btn btn-sm btn-primary" onclick="showPage('products')">ব্রাউজ করুন</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<script>
-function downloadPNG() {
-    const base64Data = document.getElementById('base64Input').value.trim();
+            <!-- Featured Products -->
+            <h2 class="section-title">ফিচার্ড পণ্য</h2>
+            <div class="row mb-5">
+                <div class="col-md-3 mb-4">
+                    <div class="product-card card">
+                        <span class="discount-badge">-20%</span>
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="স্মার্টওয়াচ">
+                        <div class="card-body">
+                            <h5 class="card-title">স্মার্টওয়াচ</h5>
+                            <p class="card-text">৳ ৫,৯৯৯ <span class="text-muted text-decoration-line-through">৳ ৭,৪৯৯</span></p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-sm btn-outline-primary" onclick="showPage('product-detail')">বিস্তারিত</button>
+                                <button class="btn btn-sm btn-primary" onclick="addToCart()">কার্টে যোগ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="product-card card">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="স্পোর্টস শু">
+                        <div class="card-body">
+                            <h5 class="card-title">স্পোর্টস শু</h5>
+                            <p class="card-text">৳ ৩,৪৯৯</p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-sm btn-outline-primary" onclick="showPage('product-detail')">বিস্তারিত</button>
+                                <button class="btn btn-sm btn-primary" onclick="addToCart()">কার্টে যোগ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="product-card card">
+                        <span class="discount-badge">-15%</span>
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="হেডফোন">
+                        <div class="card-body">
+                            <h5 class="card-title">হেডফোন</h5>
+                            <p class="card-text">৳ ২,৯৯৯ <span class="text-muted text-decoration-line-through">৳ ৩,৪৯৯</span></p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-sm btn-outline-primary" onclick="showPage('product-detail')">বিস্তারিত</button>
+                                <button class="btn btn-sm btn-primary" onclick="addToCart()">কার্টে যোগ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="product-card card">
+                        <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="card-img-top" alt="স্পোর্টস জার্সি">
+                        <div class="card-body">
+                            <h5 class="card-title">স্পোর্টস জার্সি</h5>
+                            <p class="card-text">৳ ২,৪৯৯</p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-sm btn-outline-primary" onclick="showPage('product-detail')">বিস্তারিত</button>
+                                <button class="btn btn-sm btn-primary" onclick="addToCart()">কার্টে যোগ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    if (!base64Data) {
-        alert("অনুগ্রহ করে base64 কোড পেস্ট করুন।");
-        return;
-    }
+            <!-- Special Offers -->
+            <h2 class="section-title">বিশেষ অফার</h2>
+            <div id="offersCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <img src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="d-block w-100 carousel-img" alt="বিগ সেল">
+                            </div>
+                            <div class="col-md-6">
+                                <h2>বিগ সেল ডে!</h2>
+                                <p>আগামী ৭২ ঘন্টার মধ্যে সবচেয়ে বড় অফার উপভোগ করুন। ৭০% পর্যন্ত ডিসকাউন্ট!</p>
+                                <button class="btn btn-primary">এখনই কিনুন</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <img src="https://images.unsplash.com/photo-1605733513597-a8f8341084e6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" class="d-block w-100 carousel-img" alt="বিউটি সেল">
+                            </div>
+                            <div class="col-md-6">
+                                <h2>বিউটি বন্যার</h2>
+                                <p>সেরা বিউটি পণ্যে ৫০% পর্যন্ত ডিসকাউন্ট। সীমিত সময়ের অফার!</p>
+                                <button class="btn btn-primary">এখনই কিনুন</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#offersCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#offersCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-    // যদি data:image/jpeg;base64,... থাকে তবে শুধু base64 অংশ নিন
-    const parts = base64Data.split(',');
-    const base64 = parts.length > 1 ? parts[1] : parts[0];
+    <!-- Products Page -->
+    <div id="products" class="page-section">
+        <div class="container">
+            <div class="main-content">
+                <div class="filters">
+                    <h3>ফিল্টার</h3>
+                    
+                    <div class="filter-section">
+                        <h4>দাম রেঞ্জ</h4>
+                        <input type="range" class="form-range" min="0" max="50000" step="1000" id="priceRange">
+                        <div class="price-value">
+                            <span>৳0</span>
+                            <span>৳50,000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>ক্যাটেগরি</h4>
+                        <ul class="category-list">
+                            <li>
+                                <input type="checkbox" id="cat1">
+                                <label for="cat1">ফ্যাশন</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="cat2">
+                                <label for="cat2">ইলেকট্রনিক্স</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="cat3">
+                                <label for="cat3">হোম অ্যান্ড লাইফস্টাইল</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="cat4">
+                                <label for="cat4">বিউটি</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="cat5">
+                                <label for="cat5">স্পোর্টস</label>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>ব্র্যান্ড</h4>
+                        <ul class="category-list">
+                            <li>
+                                <input type="checkbox" id="brand1">
+                                <label for="brand1">স্যামসাং</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="brand2">
+                                <label for="brand2">এপল</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="brand3">
+                                <label for="brand3">শাওমি</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="brand4">
+                                <label for="brand4">নাইকি</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" id="brand5">
+                                <label for="brand5">এডিডাস</label>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h4>রেটিং</h4>
+                        <div class="rating-options">
+                            <div class="rating-option">
+                                <input type="radio" id="rating5" name="rating">
+                                <label for="rating5">
+                                    <span class="stars">★★★★★</span> ৫ স্টার
+                                </label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="rating4" name="rating">
+                                <label for="rating4">
+                                    <span class="stars">★★★★☆</span> ৪ স্টার ও উপরে
+                                </label>
+                            </div>
+                            <div class="rating-option">
+                                <input type="radio" id="rating3" name="rating">
+                                <label for="rating3">
+                                    <span class="stars">★★★☆☆</span> ৩ স্টার ও উপরে
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary w-100 mt-3">ফিল্টার প্রয়োগ করুন</button>
+                    <button class="btn btn-outline-secondary w-100 mt-2">রিসেট ফিল্টার</button>
+                </div>
+                
+                <div class="products">
+                    <div class="products-header">
+                        <div class="products-count">২৪টি পণ্য পাওয়া গেছে</div>
+                        <div class="sort-by">
+                            <select class="sort-select">
+                                <option>সর্বশেষ</option>
+                                <option>দাম: কম থেকে বেশি</option>
+                                <option>দাম: বেশি থেকে কম</option>
+                                <option>সর্বোচ্চ রেটেড</option>
+                                <option>সবচেয়ে বিক্রিত</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="product-grid">
+                        <div class="product-listing-card">
+                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="স্মার্টওয়াচ" class="product-image">
+                            <div class="product-info">
+                                <div class="product-category">ইলেকট্রনিক্স</div>
+                                <h3 class="product-name">স্মার্টওয়াচ প্রো</h3>
+                                <div class="product-price">৳৫,৯৯৯</div>
+                                <div class="product-rating">
+                                    <span class="stars">★★★★☆</span>
+                                    <span>(১২৩)</span>
+                                </div>
+                                <div class="product-stock">স্টকে আছে</div>
+                                <button class="add-to-cart" onclick="addToCart()">কার্টে যোগ করুন</button>
+                            </div>
+                        </div>
+                        
+                        <div class="product-listing-card">
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="স্পোর্টস শু" class="product-image">
+                            <div class="product-info">
+                                <div class="product-category">ফ্যাশন</div>
+                                <h3 class="product-name">স্পোর্টস শু এক্স১০</h3>
+                                <div class="product-price">৳৩,৪৯৯</div>
+                                <div class="product-rating">
+                                    <span class="stars">★★★★★</span>
+                                    <span>(৮৭)</span>
+                                </div>
+                                <div class="product-stock">স্টকে আছে</div>
+                                <button class="add-to-cart" onclick="addToCart()">কার্টে যোগ করুন</button>
+                            </div>
+                        </div>
+                        
+                        <div class="product-listing-card">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="হেডফোন" class="product-image">
+                            <div class="product-info">
+                                <div class="product-category">ইলেকট্রনিক্স</div>
+                                <h3 class="product-name">ওয়্যারলেস হেডফোন</h3>
+                                <div class="product-price">৳২,৯৯৯</div>
+                                <div class="product-rating">
+                                    <span class="stars">★★★★☆</span>
+                                    <span>(৫৬)</span>
+                                </div>
+                                <div class="product-stock">স্টকে আছে</div>
+                                <button class="add-to-cart" onclick="addToCart()">কার্টে যোগ করুন</button>
+                            </div>
+                        </div>
+                        
+                        <div class="product-listing-card">
+                            <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="স্পোর্টস জার্সি" class="product-image">
+                            <div class="product-info">
+                                <div class="product-category">ফ্যাশন</div>
+                                <h3 class="product-name">ফুটবল জার্সি</h3>
+                                <div class="product-price">৳২,৪৯৯</div>
+                                <div class="product-rating">
+                                    <span class="stars">★★★☆☆</span>
+                                    <span>(৩৪)</span>
+                                </div>
+                                <div class="product-stock">স্টকে আছে</div>
+                                <button class="add-to-cart" onclick="addToCart()">কার্টে যোগ করুন</button>
+                            </div>
+                        </div>
+                        
+                        <div class="product-listing-card">
+                            <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="সানগ্লাস" class="product-image">
+                            <div class="product-info">
+                                <div class="product-category">ফ্যাশন</div>
+                                <h3 class="product-name">ডিজাইনার সানগ্লাস</h3>
+                                <div class="product-price">৳১,৮৯৯</div>
+                                <div class="product-rating">
+                                    <span class="stars">★★★★☆</span>
+                                    <span>(৪৫)</span>
+                                </div>
+                                <div class="product-stock">স্টকে আছে</div>
+                                <button class="add-to-cart" onclick="addToCart()">কার্টে যোগ করুন</button>
+                            </div>
+                        </div>
+                        
+                        <div class="product-listing-card">
+                            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="হেডফোন" class="product-image">
+                            <div class="product-info">
+                                <div class="product-category">ইলেকট্রনিক্স</div>
+                                <h3 class="product-name">হেডফোন এইচ৯</h3>
+                                <div class="product-price">৳৪,২৯৯</div>
+                                <div class="product-rating">
+                                    <span class="stars">★★★★★</span>
+                                    <span>(১২১)</span>
+                                </div>
+                                <div class="product-stock">স্টকে আছে</div>
+                                <button class="add-to-cart" onclick="addToCart()">কার্টে যোগ করুন</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pagination">
+                        <button class="active">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button>→</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    // PNG হিসেবে ডাউনলোডের জন্য canvas ব্যবহার করা
-    const img = new Image();
-    img.onload = function() {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        canvas.toBlob(function(blob) {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'image.png';
-            link.click();
-        }, 'image/png');
-    };
-    img.src = 'data:image/jpeg;base64,' + base64;
-}
-</script>
+    <!-- Product Detail Page -->
+    <div id="product-detail" class="page-section">
+        <div class="container">
+            <div class="product-container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="product-gallery">
+                            <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="স্মার্টওয়াচ" class="main-image" id="mainImage">
+                            <div class="thumbnail-container">
+                                <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Thumbnail 1" class="thumbnail active" onclick="changeImage(this)">
+                                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Thumbnail 2" class="thumbnail" onclick="changeImage(this)">
+                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Thumbnail 3" class="thumbnail" onclick="changeImage(this)">
+                                <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Thumbnail 4" class="thumbnail" onclick="changeImage(this)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="product-info-detail">
+                            <h1 class="product-title">স্মার্টওয়াচ প্রো - সর্বশেষ মডেল</h1>
+                            <div class="product-price-detail">৳৫,৯৯৯</div>
+                            <div class="product-rating-detail">
+                                <span class="rating-stars">★★★★☆</span>
+                                <span>১২৩ রিভিউ</span>
+                                <span>|</span>
+                                <span>৫৪২ বিক্রিত</span>
+                            </div>
+                            <p class="product-description">
+                                এটি একটি হাই-এন্ড স্মার্টওয়াচ যা আপনার দৈনন্দিন জীবনকে আরও সহজ করে তুলবে। হার্ট রেট মনিটর, স্লিপ ট্র্যাকিং, ওয়ার্কআউট ট্র্যাকিং এবং আরও অনেক ফিচার সহ এটি আপনার জন্য পারফেক্ট পার্টনার।
+                            </p>
+                            <div class="stock-status in-stock">স্টকে আছে</div>
+                            
+                            <div class="action-buttons">
+                                <button class="btn-add-to-cart" onclick="addToCart()">
+                                    <i class="fas fa-shopping-cart"></i> কার্টে যোগ করুন
+                                </button>
+                                <button class="btn-buy-now" onclick="showPage('checkout')">
+                                    <i class="fas fa-bolt"></i> এখনই কিনুন
+                                </button>
+                            </div>
+                            
+                            <div class="product-meta">
+                                <p><strong>ব্র্যান্ড:</strong> টেকলাইফ</p>
+                                <p><strong>ক্যাটেগরি:</strong> ইলেকট্রনিক্স > স্মার্টওয়াচ</p>
+                                <p><strong>ওয়ারেন্টি:</strong> ১ বছর</p>
+                                <p><strong>ডেলিভারি:</strong> ২-৩ কার্যদিবস</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reviews-section">
+                <h2 class="section-title">গ্রাহক রিভিউ</h2>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="review-author">রহিম আহমেদ</span>
+                        <span class="review-date">১২ এপ্রিল, ২০২৩</span>
+                    </div>
+                    <div class="rating-stars">★★★★☆</div>
+                    <p>ওয়াচটি অনেক ভালো হয়েছে। ব্যাটারি লাইফ আশানুরূপ। তবে কিছু ফিচার আরও উন্নত হতে পারত। সামগ্রিকভাবে ভালো পণ্য।</p>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-header">
+                        <span class="review-author">সুমাইয়া আক্তার</span>
+                        <span class="review-date">৫ এপ্রিল, ২০২৩</span>
+                    </div>
+                    <div class="rating-stars">★★★★★</div>
+                    <p>অসাধারণ পণ্য! দামের তুলনায় অনেক ভালো ফিচার। ডেলিভারিও খুব দ্রুত হয়েছে।强烈推荐!</p>
+                </div>
+                
+                <div class="add-review-form">
+                    <h3>রিভিউ লিখুন</h3>
+                    <div class="mb-3">
+                        <label class="form-label">রেটিং</label>
+                        <div>
+                            <span class="rating-stars" id="reviewStars">
+                                <i class="far fa-star" data-rating="1"></i>
+                                <i class="far fa-star" data-rating="2"></i>
+                                <i class="far fa-star" data-rating="3"></i>
+                                <i class="far fa-star" data-rating="4"></i>
+                                <i class="far fa-star" data-rating="5"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">রিভিউ</label>
+                        <textarea class="form-control" rows="3"></textarea>
+                    </div>
+                    <button class="btn btn-primary">সাবমিট করুন</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Page -->
+    <div id="cart" class="page-section">
+        <div class="container">
+            <h2 class="mb-4">আপনার শপিং কার্ট</h2>
+            
+            <div class="cart-container">
+                <div class="cart-items">
+                    <h3 class="mb-4">পণ্য সমূহ (২)</h3>
+                    
+                    <div class="cart-item">
+                        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="স্মার্টওয়াচ" class="item-image">
+                        <div class="item-details">
+                            <div class="item-name">স্মার্টওয়াচ প্রো</div>
+                            <div class="item-price">৳৫,৯৯৯</div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1">
+                                <button class="quantity-btn">+</button>
+                            </div>
+                            <div class="item-actions">
+                                <button class="action-btn save"><i class="far fa-heart"></i> উইশলিস্টে রাখুন</button>
+                                <button class="action-btn remove"><i class="far fa-trash-alt"></i> মুছে ফেলুন</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-item">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="স্পোর্টস শু" class="item-image">
+                        <div class="item-details">
+                            <div class="item-name">স্পোর্টস শু এক্স১০</div>
+                            <div class="item-price">৳৩,৪৯৯</div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1">
+                                <button class="quantity-btn">+</button>
+                            </div>
+                            <div class="item-actions">
+                                <button class="action-btn save"><i class="far fa-heart"></i> উইশলিস্টে রাখুন</button>
+                                <button class="action-btn remove"><i class="far fa-trash-alt"></i> মুছে ফেলুন</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cart-summary">
+                    <h3 class="summary-title">অর্ডার সারাংশ</h3>
+                    
+                    <div class="summary-item">
+                        <span>সাবটোটাল</span>
+                        <span>৳৯,৪৯৮</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>ডেলিভারি চার্জ</span>
+                        <span>৳৮০</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>ট্যাক্স</span>
+                        <span>৳২৮৫</span>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span>ডিসকাউন্ট</span>
+                        <span class="text-danger">-৳৫০০</span>
+                    </div>
+                    
+                    <div class="summary-total">
+                        <span>মোট</span>
+                        <span>৳৯,৩৬৩</span>
+                    </div>
+                    
+                    <button class="checkout-btn" onclick="showPage('checkout')">চেকআউট</button>
+                    
+                    <div class="mt-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="কুপন কোড">
+                            <button class="btn btn-primary">প্রয়োগ করুন</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Page -->
+    <div id="checkout" class="page-section">
+        <div class="checkout-page-container">
+            <div class="checkout-header">
+                <h2><i class="fas fa-lock"></i> নিরাপদ চেকআউট</h2>
+                <p>আপনার অর্ডার সম্পূর্ণ করতে অনুগ্রহ করে নিচের তথ্যগুলো পূরণ করুন</p>
+            </div>
+            
+            <div class="checkout-container">
+                <div class="checkout-form-section">
+                    <h3>বিলিং তথ্য</h3>
+                    
+                    <div class="checkout-form-group">
+                        <label for="fullName">পুরো নাম *</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    
+                    <div class="checkout-form-group">
+                        <label for="email">ইমেইল *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <div class="checkout-form-group">
+                        <label for="phone">ফোন নম্বর *</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    
+                    <div class="checkout-form-group">
+                        <label for="address">ঠিকানা *</label>
+                        <input type="text" id="address" required>
+                    </div>
+                    
+                    <div class="checkout-row">
+                        <div class="checkout-form-group">
+                            <label for="city">শহর *</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        
+                        <div class="checkout-form-group">
+                            <label for="zip">জিপ কোড *</label>
+                            <input type="text" id="zip" required>
+                        </div>
+                    </div>
+                    
+                    <h3 class="mt-4">পেমেন্ট পদ্ধতি</h3>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-option">
+                            <input type="radio" id="bkash" name="payment" checked>
+                            <label for="bkash">
+                                <img src="https://seeklogo.com/images/B/bkash-logo-FD2D7F2A2C-seeklogo.com.png" alt="bKash" class="payment-icon">
+                                bKash
+                            </label>
+                        </div>
+                        
+                        <div class="payment-option">
+                            <input type="radio" id="nagad" name="payment">
+                            <label for="nagad">
+                                <img src="https://seeklogo.com/images/N/nagad-logo-4B6B5C1141-seeklogo.com.png" alt="Nagad" class="payment-icon">
+                                Nagad
+                            </label>
+                        </div>
+                        
+                        <div class="payment-option">
+                            <input type="radio" id="rocket" name="payment">
+                            <label for="rocket">
+                                <img src="https://www.dutchbanglabank.com/wp-content/uploads/2019/08/rocket-logo.png" alt="Rocket" class="payment-icon">
+                                Rocket
+                            </label>
+                        </div>
+                        
+                        <div class="payment-option">
+                            <input type="radio" id="cod" name="payment">
+                            <label for="cod">
+                                <i class="fas fa-money-bill-wave payment-icon"></i>
+                                ক্যাশ অন ডেলিভারি
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button class="checkout-btn mt-4">অর্ডার নিশ্চিত করুন</button>
+                </div>
+                
+                <div class="checkout-order-summary">
+                    <h3>আপনার অর্ডার</h3>
+                    
+                    <div class="checkout-order-item">
+                        <div>স্মার্টওয়াচ প্রো x 1</div>
+                        <div>৳৫,৯৯৯</div>
+                    </div>
+                    
+                    <div class="checkout-order-item">
+                        <div>স্পোর্টস শু এক্স১০ x 1</div>
+                        <div>৳৩,৪৯৯</div>
+                    </div>
+                    
+                    <div class="checkout-order-item">
+                        <div>সাবটোটাল</div>
+                        <div>৳৯,৪৯৮</div>
+                    </div>
+                    
+                    <div class="checkout-order-item">
+                        <div>শিপিং</div>
+                        <div>৳৮০</div>
+                    </div>
+                    
+                    <div class="checkout-order-item">
+                        <div>ট্যাক্স</div>
+                        <div>৳২৮৫</div>
+                    </div>
+                    
+                    <div class="checkout-order-item">
+                        <div>ডিসকাউন্ট</div>
+                        <div class="text-danger">-৳৫০০</div>
+                    </div>
+                    
+                    <div class="checkout-order-total">
+                        <div>মোট</div>
+                        <div>৳৯,৩৬৩</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Page -->
+    <div id="auth" class="page-section">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2>আপনার অ্যাকাউন্টে অ্যাক্সেস করুন</h2>
+                <p>লগ ইন করুন বা নতুন অ্যাকাউন্ট তৈরি করুন</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchAuthTab('login')">লগ ইন</div>
+                <div class="auth-tab" onclick="switchAuthTab('register')">রেজিস্টার</div>
+            </div>
+            
+            <div class="auth-form-container">
+                <form class="auth-form active" id="loginForm">
+                    <div class="auth-form-group">
+                        <label for="loginEmail">ইমেইল</label>
+                        <input type="email" id="loginEmail" required>
+                    </div>
+                    
+                    <div class="auth-form-group">
+                        <label for="loginPassword">পাসওয়ার্ড</label>
+                        <input type="password" id="loginPassword" required>
+                    </div>
+                    
+                    <div class="auth-form-group">
+                        <div class="form-check">
+                            <input type="checkbox" id="rememberMe" class="form-check-input">
+                            <label for="rememberMe" class="form-check-label">আমাকে মনে রাখুন</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">লগ ইন</button>
+                    
+                    <div class="auth-footer">
+                        <a href="#">পাসওয়ার্ড ভুলে গেছেন?</a>
+                    </div>
+                </form>
+                
+                <form class="auth-form" id="registerForm">
+                    <div class="auth-form-group">
+                        <label for="registerName">পুরো নাম</label>
+                        <input type="text" id="registerName" required>
+                    </div>
+                    
+                    <div class="auth-form-group">
+                        <label for="registerEmail">ইমেইল</label>
+                        <input type="email" id="registerEmail" required>
+                    </div>
+                    
+                    <div class="auth-form-group">
+                        <label for="registerPhone">ফোন নম্বর</label>
+                        <input type="tel" id="registerPhone" required>
+                    </div>
+                    
+                    <div class="auth-form-group">
+                        <label for="registerPassword">পাসওয়ার্ড</label>
+                        <input type="password" id="registerPassword" required>
+                    </div>
+                    
+                    <div class="auth-form-group">
+                        <label for="registerConfirmPassword">পাসওয়ার্ড নিশ্চিত করুন</label>
+                        <input type="password" id="registerConfirmPassword" required>
+                    </div>
+                    
+                    <div class="auth-form-group">
+                        <div class="form-check">
+                            <input type="checkbox" id="termsAgree" class="form-check-input" required>
+                            <label for="termsAgree" class="form-check-label">আমি <a href="#">শর্তাবলী</a> এবং <a href="#">গোপনীয়তা নীতি</a> সাথে সম্মত</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="auth-btn">অ্যাকাউন্ট তৈরি করুন</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile" class="page-section">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="profile-card card mb-4">
+                        <div class="card-body text-center">
+                            <img src="https://via.placeholder.com/150" alt="avatar" class="rounded-circle profile-img mb-3">
+                            <h5 class="my-3">রহিম আহমেদ</h5>
+                            <p class="text-muted mb-1">ডায়মন্ড মেম্বার</p>
+                            <p class="text-muted mb-4">ঢাকা, বাংলাদেশ</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <button type="button" class="btn btn-primary">প্রোফাইল এডিট</button>
+                                <button type="button" class="btn btn-outline-primary ms-1">লগ আউট</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-card card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">পুরো নাম</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">রহিম আহমেদ</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">ইমেইল</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">rahim@example.com</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">ফোন</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">০১৭১২৩৪৫৬৭৮</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">ঠিকানা</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">মিরপুর, ঢাকা</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-8">
+                    <div class="profile-card card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">অর্ডার হিস্ট্রি</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <h6 class="mb-0">অর্ডার #12345</h6>
+                                            <span class="order-status delivered">ডেলিভার্ড</span>
+                                        </div>
+                                        <p class="text-muted mb-0">স্মার্টওয়াচ প্রো x 1</p>
+                                        <small class="text-muted">১২ এপ্রিল, ২০২৩</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <h6 class="mb-0">অর্ডার #12346</h6>
+                                            <span class="order-status pending">পেন্ডিং</span>
+                                        </div>
+                                        <p class="text-muted mb-0">স্পোর্টস শু এক্স১০ x 1</p>
+                                        <small class="text-muted">১০ এপ্রিল, ২০২৩</small>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <h6 class="mb-0">অর্ডার #12347</h6>
+                                            <span class="order-status cancelled">ক্যান্সেল</span>
+                                        </div>
+                                        <p class="text-muted mb-0">হেডফোন x 1</p>
+                                        <small class="text-muted">৫ এপ্রিল, ২০২৩</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-card card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">পেমেন্ট মেথড</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img src="https://seeklogo.com/images/B/bkash-logo-FD2D7F2A2C-seeklogo.com.png" alt="bKash" height="30" class="me-2">
+                                        <span>০১৭１２****６７８</span>
+                                        <button class="btn btn-sm btn-outline-primary ms-auto">এডিট</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-card card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">ঠিকানা</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="mb-3">
+                                        <h6 class="mb-0">বাসা</h6>
+                                        <p class="text-muted mb-0">১২৩/বি, মিরপুর রোড, ঢাকা-১২১৬</p>
+                                        <button class="btn btn-sm btn-outline-primary mt-2">এডিট</button>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <h6 class="mb-0">অফিস</h6>
+                                        <p class="text-muted mb-0">৪৫৬/সি, গুলশান, ঢাকা-১২১২</p>
+                                        <button class="btn btn-sm btn-outline-primary mt-2">এডিট</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5>শপিং</h5>
+                    <p>বাংলাদেশের সেরা ই-কমার্স প্ল্যাটফর্ম। আমরা আপনাকে提供最好的产品和服务。</p>
+                    <div class="d-flex">
+                        <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>ক্যাটেগরি</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none">ফ্যাশন</a></li>
+                        <li><a href="#" class="text-decoration-none">ইলেকট্রনিক্স</a></li>
+                        <li><a href="#" class="text-decoration-none">হোম অ্যান্ড লাইফস্টাইল</a></li>
+                        <li><a href="#" class="text-decoration-none">বিউটি</a></li>
+                        <li><a href="#" class="text-decoration-none">স্পোর্টস</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>গুরুত্বপূর্ণ লিংক</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none">আমাদের সম্পর্কে</a></li>
+                        <li><a href="#" class="text-decoration-none">যোগাযোগ</a></li>
+                        <li><a href="#" class="text-decoration-none">প্রাইভেসি পলিসি</a></li>
+                        <li><a href="#" class="text-decoration-none">রিটার্ন পলিসি</a></li>
+                        <li><a href="#" class="text-decoration-none">শর্তাবলী</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>যোগাযোগ</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> ১২৩/বি, মিরপুর, ঢাকা</li>
+                        <li><i class="fas fa-phone me-2"></i> +৮৮০ ১৭১২ ৩৪৫৬৭৮</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@shopping.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center pt-3 border-top">
+                <p>© ২০২৩ শপিং। সকল অধিকার সংরক্ষিত।</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Chatbot Icon -->
+    <div class="chatbot-icon" onclick="toggleChatbot()">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbot">
+        <div class="chatbot-header">
+            <h6 class="mb-0">কাস্টমার সাপোর্ট</h6>
+            <button class="btn btn-sm btn-light" onclick="toggleChatbot()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chatbot-messages">
+            <div class="message bot-message">
+                হ্যালো! আমি আপনার কিভাবে সাহায্য করতে পারি?
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="এখানে আপনার মেসেজ লিখুন...">
+            <button><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        পণ্যটি কার্টে যোগ করা হয়েছে!
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Page Navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.querySelector('.theme-toggle i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        // Chatbot Toggle
+        function toggleChatbot() {
+            const chatbot = document.getElementById('chatbot');
+            chatbot.style.display = chatbot.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Auth Tab Switch
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => {
+                t.classList.remove('active');
+            });
+            document.querySelectorAll('.auth-form').forEach(f => {
+                f.classList.remove('active');
+            });
+            
+            if (tab === 'login') {
+                document.querySelector('.auth-tab:first-child').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelector('.auth-tab:last-child').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        // Add to Cart Function
+        function addToCart() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Product Image Change
+        function changeImage(element) {
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            element.classList.add('active');
+            document.getElementById('mainImage').src = element.src;
+        }
+
+        // Review Stars
+        const stars = document.querySelectorAll('#reviewStars i');
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = star.getAttribute('data-rating');
+                stars.forEach(s => {
+                    if (s.getAttribute('data-rating') <= rating) {
+                        s.classList.remove('far');
+                        s.classList.add('fas');
+                    } else {
+                        s.classList.remove('fas');
+                        s.classList.add('far');
+                    }
+                });
+            });
+        });
+
+        // Form Submissions
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showPage('home');
+            Swal.fire({
+                icon: 'success',
+                title: 'লগইন সফল!',
+                text: 'আপনি সফলভাবে লগইন করেছেন।',
+                confirmButtonText: 'ঠিক আছে'
+            });
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showPage('home');
+            Swal.fire({
+                icon: 'success',
+                title: 'রেজিস্ট্রেশন সফল!',
+                text: 'আপনার অ্যাকাউন্ট তৈরি হয়েছে।',
+                confirmButtonText: 'ঠিক আছে'
+            });
+        });
+    </script>
 </body>
 </html>
