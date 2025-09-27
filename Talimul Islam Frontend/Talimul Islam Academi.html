@@ -24,6 +24,23 @@ gtag('config', 'G-TJNPXFQ953');
 <title>তালিমুল ইসলাম একাডেমি - অনলাইন ইসলামিক শিক্ষা প্ল্যাটফর্ম</title>
 <link rel="icon" href="img/favicon-v2.png" type="image/png">
 
+<!-- ════⚡ Meta Pixel Code) ════ -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '751813064504905');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=751813064504905&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -5914,8 +5931,27 @@ window.addEventListener('popstate', setActiveNavLink);
         from { transform: translateX(0); opacity: 1; }
         to { transform: translateX(100%); opacity: 0; }
     }
+       .course-thumbnail {
+    width: 100%;
+    max-width: 600px;        /* container এর সর্বোচ্চ প্রস্থ */
+    padding: 15px;           /* চারপাশে ফাঁকা জায়গা */
+    background: #f9f9f9;     /* হালকা ব্যাকগ্রাউন্ড */
+    border-radius: 12px;     /* কোণাগুলো গোলাকার (সুন্দর লুকের জন্য) */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* হালকা ছায়া */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-</style> 
+.course-thumbnail img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;     /* ছবিটি কাটা যাবে না */
+    display: block;
+    border-radius: 8px;      /* ছবির কোণাগুলোও কিছুটা গোলাকার */
+}
+
+</style>  
 <div class="container1">
         <div class="section-header"  id="coursesSection">
             <h2>আমাদের কোর্সসমূহ</h2>
@@ -5927,7 +5963,6 @@ window.addEventListener('popstate', setActiveNavLink);
                 <a href="#" class="course-card-link" aria-label="হিফজুল কুরআন কোর্স বিস্তারিত"></a>
                 <div class="course-thumbnail">
                     <img src="img/converted (1).png">
-                    <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">বিশুদ্ধ কুরআন শিক্ষা</h3>
@@ -5962,7 +5997,6 @@ window.addEventListener('popstate', setActiveNavLink);
                 <a href="#" class="course-card-link" aria-label="উর্দু কায়দা"></a>
                 <div class="course-thumbnail">
                     <img src="img/urdu-kayda.png" alt="উর্দু কায়দা">
-                    <div class="level-badge intermediate">মধ্যবর্তী</div>
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">উর্দু কায়দা</h3>
@@ -5997,7 +6031,6 @@ window.addEventListener('popstate', setActiveNavLink);
                 <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ১ম খন্ড"></a>
                 <div class="course-thumbnail">
                     <img src="img/Taleem-ul-Islam-1.png" alt="তালিমুল ইসলাম ১ম খন্ড">
-                    <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">তালিমুল ইসলাম ১ম খন্ড</h3>
@@ -6032,7 +6065,6 @@ window.addEventListener('popstate', setActiveNavLink);
                 <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ২ম খন্ড"></a>
                 <div class="course-thumbnail">
                     <img src="img/talimul-islam2.png" alt="তালিমুল ইসলাম ২ম খন্ড">
-                    <div class="level-badge advanced">অ্যাডভান্সড</div>
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">তালিমুল ইসলাম ২ম খন্ড</h3>
@@ -6067,7 +6099,6 @@ window.addEventListener('popstate', setActiveNavLink);
                 <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ৩ম খন্ড"></a>
                 <div class="course-thumbnail">
                     <img src="img/Taleem-ul-Islam-1.png" alt="তালিমুল ইসলাম ৩ম খন্ড">
-                    <div class="level-badge intermediate">মধ্যবর্তী</div>
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">তালিমুল ইসলাম ৩ম খন্ড</h3>
@@ -6101,8 +6132,7 @@ window.addEventListener('popstate', setActiveNavLink);
             <div class="course-card hidden-course">
                 <a href="#" class="course-card-link" aria-label="উর্দু কি পহেলি"></a>
                 <div class="course-thumbnail">
-                    <img src="img/Urdu-Paheli.png" alt="উর্দু কি পহেলি">
-                    <div class="level-badge beginner">বেসিক</div>
+                    <img src="img/উর্দু পহেলী.png" alt="উর্দু কি পহেলি">
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">উর্দু কি পহেলি</h3>
@@ -6137,7 +6167,6 @@ window.addEventListener('popstate', setActiveNavLink);
                 <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ২য় খন্ড কোর্স বিস্তারিত"></a>
                 <div class="course-thumbnail">
                     <img src="https://cdn.pixabay.com/photo/2023/01/21/18/32/al-quran-7737560_1280.jpg" alt="তালিমুল ইসলাম ২য় খন্ড কোর্স">
-                    <div class="level-badge intermediate">মধ্যবর্তী</div>
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">তালিমুল ইসলাম ২য় খন্ড</h3>
@@ -6171,8 +6200,7 @@ window.addEventListener('popstate', setActiveNavLink);
             <div class="course-card hidden-course">
                 <a href="#" class="course-card-link" aria-label="উর্দু কি পেহেলি কিতাব কোর্স বিস্তারিত"></a>
                 <div class="course-thumbnail">
-                    <img src="https://cdn.pixabay.com/photo/2018/05/17/16/12/mardin-3551714_1280.jpg" alt="উর্দু কি পেহেলি কোর্স">
-                    <div class="level-badge beginner">বেসিক</div>
+                    <img src="img/উর্দু পহেলি.jpg" alt="উর্দু কি পেহেলি কোর্স">
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">উর্দু কি পেহেলি কিতাব</h3>
@@ -6207,7 +6235,6 @@ window.addEventListener('popstate', setActiveNavLink);
                 <a href="#" class="course-card-link" aria-label="উর্দু কায়দা কোর্স বিস্তারিত"></a>
                 <div class="course-thumbnail">
                     <img src="https://cdn.pixabay.com/photo/2018/05/17/16/12/mardin-3551714_1280.jpg" alt="উর্দু কায়দা কোর্স">
-                    <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">উর্দু কায়দা</h3>
@@ -6242,7 +6269,6 @@ window.addEventListener('popstate', setActiveNavLink);
                 <a href="#" class="course-card-link" aria-label="তালিমুল ইসলাম ১ম খন্ড কোর্স বিস্তারিত"></a>
                 <div class="course-thumbnail">
                     <img src="https://cdn.pixabay.com/photo/2023/01/21/18/32/al-quran-7737560_1280.jpg" alt="তালিমুল ইসলাম ১ম খন্ড কোর্স">
-                    <div class="level-badge beginner">বেসিক</div>
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">তালিমুল ইসলাম ১ম খন্ড</h3>
