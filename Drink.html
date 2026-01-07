@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লাইভ কোর্স ল্যান্ডিং পেজ</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <main class="max-w-6xl mx-auto px-4 py-8 md:py-12">
+        <div class="grid md:grid-cols-3 gap-12">
+            
+            <!-- মূল কন্টেন্ট সেকশন -->
+            <section class="md:col-span-2 space-y-8">
+                
+                <!-- ব্র্যান্ডিং এবং লাইভ জয়েন কার্ড (নেভিগেশনের বিকল্প) -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 relative overflow-hidden">
+                    <!-- ব্যাকগ্রাউন্ড ডেকোরেশন -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full -mr-16 -mt-16 opacity-50"></div>
+                    
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-blue-600 p-3 rounded-2xl text-white shadow-lg shadow-blue-200">
+                                <i data-lucide="video" size="32"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-800">LiveClass</h2>
+                                <p class="text-sm text-blue-600 font-semibold tracking-wide uppercase">সরাসরি অনলাইন ক্লাস</p>
+                            </div>
+                        </div>
+                        
+                        <a id="body-zoom-link" href="#" target="_blank" class="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-xl shadow-blue-100 hover:scale-[1.02] active:scale-[0.98]">
+                            <i data-lucide="play-circle" size="24"></i> জয়েন লাইভ ক্লাস
+                        </a>
+                    </div>
+                </div>
+
+                <!-- কোর্স শিরোনাম এবং তথ্য -->
+                <div class="space-y-6">
+                    <div class="inline-block bg-green-100 text-green-700 px-4 py-1 rounded-full text-sm font-bold">
+                        🔴 বর্তমানে ক্লাস চলছে
+                    </div>
+                    <h1 id="course-title" class="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+                        অ্যাডভান্সড ওয়েব ডেভেলপমেন্ট লাইভ কোর্স
+                    </h1>
+                    <p id="course-subtitle" class="text-xl text-slate-500 max-w-2xl">
+                        জুমের মাধ্যমে সরাসরি শিখুন এবং প্রজেক্ট তৈরি করুন। কোনো প্রশ্ন থাকলে সরাসরি শিক্ষককে জিজ্ঞাসা করুন।
+                    </p>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+                            <div class="bg-blue-50 p-3 rounded-xl text-blue-600">
+                                <i data-lucide="calendar"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">পরবর্তী ক্লাস</p>
+                                <p id="next-class-date" class="font-bold">১০ই অক্টোবর, ২০২৪</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4">
+                            <div class="bg-indigo-50 p-3 rounded-xl text-indigo-600">
+                                <i data-lucide="clock"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400">সময়</p>
+                                <p id="next-class-time" class="font-bold">রাত ০৮:০০ টা</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- কোর্স বিবরণ -->
+                <div id="about" class="pt-4 space-y-6">
+                    <h2 class="text-2xl font-bold flex items-center gap-2 text-slate-800">
+                        <i data-lucide="book-open" class="text-blue-600"></i> কোর্স সম্পর্কে বিস্তারিত
+                    </h2>
+                    <p id="course-desc" class="text-slate-600 leading-relaxed text-lg bg-slate-100/50 p-6 rounded-2xl border-l-4 border-slate-300">
+                        এই কোর্সটি সাজানো হয়েছে একদম জিরো থেকে অ্যাডভান্সড লেভেল পর্যন্ত। প্রতি সপ্তাহে ৩টি লাইভ ক্লাস এবং সরাসরি মেন্টর সাপোর্ট পাবেন।
+                    </p>
+                    
+                    <div id="features-list" class="grid sm:grid-cols-2 gap-4">
+                        <!-- Features dynamically injected -->
+                    </div>
+                </div>
+
+                <!-- ক্লাস শিডিউল -->
+                <div id="schedule" class="pt-4">
+                    <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                        <i data-lucide="calendar-check" class="text-blue-600"></i> নিয়মিত সময়সূচী
+                    </h2>
+                    <div class="bg-white rounded-3xl shadow-sm overflow-hidden border border-slate-100">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-50 border-b border-slate-100">
+                                <tr>
+                                    <th class="px-6 py-4 font-bold text-slate-700">দিন</th>
+                                    <th class="px-6 py-4 font-bold text-slate-700">আলোচ্য বিষয়</th>
+                                    <th class="px-6 py-4 font-bold text-slate-700 text-right">সময়</th>
+                                </tr>
+                            </thead>
+                            <tbody id="schedule-body">
+                                <!-- Schedule dynamically injected -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- সাইডবার (ইনস্ট্রাক্টর কার্ড) -->
+            <aside class="space-y-6">
+                <div id="instructor" class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 text-center sticky top-8">
+                    <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center text-blue-600 overflow-hidden">
+                        <i data-lucide="user" size="48"></i>
+                    </div>
+                    <h3 id="instructor-name" class="font-bold text-xl mb-1 text-slate-800">মোঃ আব্দুল্লাহ</h3>
+                    <p class="text-blue-600 text-sm font-medium mb-4">সিনিয়র সফটওয়্যার ইঞ্জিনিয়ার</p>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-6">
+                        বিগত ৫ বছর ধরে তিনি ৫০০০+ শিক্ষার্থীকে ওয়েব ডেভেলপমেন্ট শিখিয়েছেন এবং মেন্টরশিপ দিয়েছেন।
+                    </p>
+                    
+                    <div class="space-y-3">
+                        <button class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold hover:bg-slate-900 transition flex items-center justify-center gap-2">
+                            <i data-lucide="mail" size="18"></i> মেসেজ পাঠান
+                        </button>
+                        <button class="w-full border-2 border-slate-100 text-slate-600 py-3 rounded-xl font-bold hover:bg-slate-50 transition">
+                            প্রোফাইল দেখুন
+                        </button>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-slate-100">
+                        <h4 class="font-bold text-slate-700 mb-4 text-sm uppercase tracking-wider text-left">জরুরী যোগাযোগ</h4>
+                        <button class="w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-xl font-bold transition flex justify-center items-center gap-2 shadow-lg shadow-green-100">
+                            <i data-lucide="phone-call" size="20"></i> WhatsApp সাপোর্ট
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-10 mt-12">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+            <div>
+                <div class="flex items-center gap-2 justify-center md:justify-start mb-2">
+                    <i data-lucide="video" class="text-blue-600" size="20"></i>
+                    <span class="font-bold text-lg">LiveClass</span>
+                </div>
+                <p class="text-slate-400 text-sm italic">আপনার ক্যারিয়ার গড়ার বিশ্বস্ত সঙ্গী</p>
+            </div>
+            <p class="text-slate-400 text-sm">© ২০২৪ সর্বস্বত্ব সংরক্ষিত - লাইভ ক্লাস প্ল্যাটফর্ম</p>
+            <div class="flex gap-6 text-sm text-slate-500 font-medium">
+                <a href="#" class="hover:text-blue-600">গাইডলাইন</a>
+                <a href="#" class="hover:text-blue-600">সাহায্য</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const courseData = {
+            title: "অ্যাডভান্সড ওয়েব ডেভেলপমেন্ট লাইভ কোর্স",
+            subtitle: "জুমের মাধ্যমে সরাসরি শিখুন এবং প্রজেক্ট তৈরি করুন",
+            instructor: "মোঃ আব্দুল্লাহ",
+            zoomLink: "https://zoom.us/j/your_meeting_id", 
+            nextClass: "১০ই অক্টোবর, ২০২৪",
+            nextTime: "রাত ০৮:০০ টা",
+            description: "এই কোর্সটি সাজানো হয়েছে একদম জিরো থেকে অ্যাডভান্সড লেভেল পর্যন্ত। প্রতি সপ্তাহে ৩টি লাইভ ক্লাস এবং সরাসরি মেন্টর সাপোর্ট পাবেন। আমাদের সাথে যুক্ত হয়ে আপনার স্কিলকে পরবর্তী ধাপে নিয়ে যান।",
+            features: [
+                "সরাসরি জুম লাইভ ক্লাস",
+                "ক্লাস রেকর্ডিং সুবিধা",
+                "লাইভ প্রজেক্ট সেশন",
+                "২৪/৭ সাপোর্ট গ্রুপ",
+                "কোর্স শেষে সার্টিফিকেট",
+                "জব প্লেসমেন্ট গাইডলাইন"
+            ],
+            schedule: [
+                { day: "রবিবার", topic: "HTML ও CSS এর গভীর ধারণা", time: "রাত ০৮:০০" },
+                { day: "মঙ্গলবার", topic: "জাভাস্ক্রিপ্ট এবং ডম ম্যানিপুলেশন", time: "রাত ০৮:০০" },
+                { day: "বৃহস্পতিবার", topic: "রিঅ্যাক্ট ফ্রেমওয়ার্ক পরিচিতি", time: "রাত ০৮:০০" }
+            ]
+        };
+
+        function initPage() {
+            document.getElementById('course-title').innerText = courseData.title;
+            document.getElementById('course-subtitle').innerText = courseData.subtitle;
+            document.getElementById('next-class-date').innerText = courseData.nextClass;
+            document.getElementById('next-class-time').innerText = courseData.nextTime;
+            document.getElementById('course-desc').innerText = courseData.description;
+            document.getElementById('instructor-name').innerText = courseData.instructor;
+            document.getElementById('body-zoom-link').href = courseData.zoomLink;
+
+            const featuresContainer = document.getElementById('features-list');
+            courseData.features.forEach(feature => {
+                const div = document.createElement('div');
+                div.className = "flex items-start gap-3 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm";
+                div.innerHTML = `
+                    <i data-lucide="check" class="text-blue-500 mt-1 shrink-0 bg-blue-50 p-1 rounded-full" size="18"></i>
+                    <span class="font-medium text-slate-700">${feature}</span>
+                `;
+                featuresContainer.appendChild(div);
+            });
+
+            const scheduleBody = document.getElementById('schedule-body');
+            courseData.schedule.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-slate-50 hover:bg-blue-50/20 transition";
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-semibold text-blue-600">${item.day}</td>
+                    <td class="px-6 py-4 text-slate-700">${item.topic}</td>
+                    <td class="px-6 py-4 text-slate-500 text-right font-medium">${item.time}</td>
+                `;
+                scheduleBody.appendChild(tr);
+            });
+
+            lucide.createIcons();
+        }
+
+        window.onload = initPage;
+    </script>
+</body>
+</html>
