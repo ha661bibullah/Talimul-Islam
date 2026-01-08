@@ -5064,157 +5064,183 @@ window.addEventListener('popstate', setActiveNavLink);
     
 
 
-    <style>
+  <style>
+    .container-wrapper {
+        max-width: 1200px;
+        width: 100%;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
 
-        .container-wrapper {
-            max-width: 1200px;
-            width: 100%;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+    .grid-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
 
-        .grid-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
+    .course-section {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.8s forwards ease-out;
+    }
 
-        .course-section {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s forwards ease-out;
-        }
+    .header-title {
+        font-size: 2rem;
+        color: var(--text-color);
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+    }
 
-        .header-title {
-            font-size: 2rem;
-            color: var(--text-color);
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: relative;
-        }
+    .header-title::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: var(--primary-gradient);
+        border-radius: 2px;
+    }
 
-        .header-title::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: var(--primary-gradient);
-            border-radius: 2px;
-        }
+    .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
 
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
+    .modern-card {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 160px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
 
+    /* কার্ডের ওপর ডার্ক/কালার ওভারলে */
+    .modern-card::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.95) 100%);
+        z-index: 1;
+        transition: 0.4s;
+    }
+
+    .modern-card:hover::after {
+        background: linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.85) 100%);
+    }
+
+    .modern-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 45px rgba(102, 126, 234, 0.2);
+    }
+
+    .card-content, .card-footer {
+        position: relative;
+        z-index: 2;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1a202c;
+        margin: 0 0 10px 0;
+        text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+    }
+
+    .card-desc {
+        font-size: 0.95rem;
+        color: #4a5568;
+        margin: 0;
+        line-height: 1.5;
+        font-weight: 500;
+    }
+
+    .btn-arrow {
+        width: 35px;
+        height: 35px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s;
+        color: #667eea;
+    }
+
+    .modern-card:hover .btn-arrow {
+        background: #667eea;
+        color: white;
+        transform: rotate(-45deg);
+    }
+
+    .floating-icon {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        opacity: 0.15;
+        z-index: 2;
+        transition: 0.3s;
+    }
+
+    .modern-card:hover .floating-icon {
+        opacity: 0.3;
+        transform: scale(1.2);
+    }
+
+    @keyframes fadeInUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 992px) {
+        .grid-layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+        .cards-grid { grid-template-columns: 1fr; }
+        
+        /* মোবাইল ডিভাইসে ব্যাকগ্রাউন্ড ইমেজ দেখানোর জন্য */
         .modern-card {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 160px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            background-size: cover;
-            background-position: center;
-            border: 1px solid rgba(0,0,0,0.05);
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            min-height: 180px;
         }
-
-        /* কার্ডের ওপর ডার্ক/কালার ওভারলে */
+        
+        /* মোবাইলে ওভারলে হালকা রাখা */
         .modern-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.95) 100%);
-            z-index: 1;
-            transition: 0.4s;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.97) 100%) !important;
         }
-
+        
         .modern-card:hover::after {
-            background: linear-gradient(to bottom, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.85) 100%);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.93) 100%) !important;
         }
-
-        .modern-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 45px rgba(102, 126, 234, 0.2);
-        }
-
-        .card-content, .card-footer {
-            position: relative;
-            z-index: 2;
-        }
-
+        
+        /* মোবাইলে কার্ড কন্টেন্ট আরও পড়া সহজ করতে */
         .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #1a202c;
-            margin: 0 0 10px 0;
-            text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+            font-size: 1.3rem;
         }
-
+        
         .card-desc {
-            font-size: 0.95rem;
-            color: #4a5568;
-            margin: 0;
-            line-height: 1.5;
-            font-weight: 500;
+            font-size: 1rem;
         }
-
-        .btn-arrow {
-            width: 35px;
-            height: 35px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            color: #667eea;
-        }
-
-        .modern-card:hover .btn-arrow {
-            background: #667eea;
-            color: white;
-            transform: rotate(-45deg);
-        }
-
-        .floating-icon {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            opacity: 0.15;
-            z-index: 2;
-            transition: 0.3s;
-        }
-
-        .modern-card:hover .floating-icon {
-            opacity: 0.3;
-            transform: scale(1.2);
-        }
-
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 992px) {
-            .grid-layout { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 600px) {
-            .cards-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    }
+</style>
     <div class="container-wrapper">
         <div class="grid-layout">
             
@@ -5298,7 +5324,7 @@ window.addEventListener('popstate', setActiveNavLink);
                         <i data-lucide="mic" class="floating-icon"></i>
                     </a>
 
-                    <a href="TalimulIslamVolume-2.html" class="modern-card" style="background-image: url('https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80&w=400');">
+                    <a href="TalimulIslamVolume-2.html" class="modern-card" style="background-image: url('https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80&w=400');">
                         <div class="card-content">
                             <p class="card-title">তালিমুল ইসলাম ২য়</p>
                             <p class="card-desc">আকাইদ ও মাসায়েল সম্পর্কে বিস্তারিত জ্ঞান।</p>
