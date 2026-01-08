@@ -9,7 +9,7 @@
 <!-- Socket.IO CDN -->
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 
-<!-- Meta Pixel Code উর্দু কায়দা -->
+<!-- Meta Pixel Code উর্দু দোসরী -->
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -26,7 +26,7 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1390769329407399&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
-<title>উর্দু কায়দা </title>
+<title>উর্দু দোসরী </title>
 </head>
 <body>
 
@@ -3493,7 +3493,7 @@ window.addEventListener('popstate', setActiveNavLink);
 
 
 
-<!-- <h1>উর্দু কায়দা </h1> -->
+<!-- <h1>উর্দু দোসরী </h1> -->
 <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
         * {
@@ -4651,7 +4651,7 @@ window.addEventListener('popstate', setActiveNavLink);
 </style> 
 <div class="container2">
         <header>
-            <h1>উর্দু কায়দা </h1>
+            <h1>উর্দু দোসরী </h1>
         </header>
         
         <div class="tab-container">
@@ -5026,7 +5026,7 @@ window.addEventListener('popstate', setActiveNavLink);
             </div>
             
             <div class="sidebar">
-                <img src="img/উর্দূ কায়দা2.png" alt="কোর্স ইমেজ" class="course-image">
+                <img src="img/urdu-kayda.png" alt="কোর্স ইমেজ" class="course-image">
                 
                 <div id="pricing-section" class="course-pricing">
                     <div class="price">
@@ -5788,8 +5788,8 @@ const paymentAccounts = {
 
 // Current course information
 const currentCourse = {
-    id: "Urdu-kayada",
-    name: "উর্দু কায়দা "
+    id: "Urdu-Dosari.html",
+    name: "উর্দু দোসরী "
 };
 
 // Function to update payment info in modal
@@ -6510,7 +6510,7 @@ function submitReview() {
     }
     
     const reviewData = {
-        courseId: 'Urdu-kayada', // কোর্স আইডি যোগ করা হয়েছে
+        courseId: 'Urdu-Dosari.html', // কোর্স আইডি যোগ করা হয়েছে
         reviewerName: currentUser.name,
         reviewerEmail: currentUser.email,
         rating: rating,
@@ -6612,7 +6612,7 @@ function setupReviewForm() {
     
     // চেক করুন ব্যবহারকারীর কোর্স অ্যাক্সেস আছে কিনা
     const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    const hasAccess = userAccess[currentUser.email]?.['Urdu-kayada1']?.accessGranted;
+    const hasAccess = userAccess[currentUser.email]?.['Urdu-Dosari.html1']?.accessGranted;
     
     if (hasAccess) {
         // কোর্স অ্যাক্সেস থাকলে ফর্ম দেখান
@@ -6646,7 +6646,7 @@ function loadExistingReviews() {
     
     // শুধুমাত্র বর্তমান কোর্স এবং ব্যবহারকারীর রিভিউ ফিল্টার করুন
     const userReviews = reviews.filter(review => 
-        review.courseId === 'Urdu-kayada' && 
+        review.courseId === 'Urdu-Dosari.html' && 
         review.userId === currentUser.id
     );
     
@@ -6837,11 +6837,11 @@ function showLoginAlert() {
 // পেমেন্ট ফর্ম সাবমিশন হ্যান্ডলার
 // Handle payment form submission
 // পেমেন্ট ফর্ম সাবমিশন
-// Urdu-kayada.html ফাইলের script অংশে নিচের কোড যোগ করুন
+// Urdu-Dosari.html.html ফাইলের script অংশে নিচের কোড যোগ করুন
 
 // পেমেন্ট ফর্ম সাবমিশন হ্যান্ডলার
-// Urdu-kayada.html-এ পেমেন্ট ফর্ম সাবমিশন আপডেট করুন
-// Urdu-kayada.html-এ পেমেন্ট ফর্ম সাবমিশন আপডেট করুন
+// Urdu-Dosari.html.html-এ পেমেন্ট ফর্ম সাবমিশন আপডেট করুন
+// Urdu-Dosari.html.html-এ পেমেন্ট ফর্ম সাবমিশন আপডেট করুন
 document.getElementById('manualPaymentForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -6857,7 +6857,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', async fu
         email: currentUser.email,
         phone: this.phone.value,
         courseId: this.courseId.value,
-        courseName: "উর্দু কায়দা ",
+        courseName: "উর্দু দোসরী ",
         paymentMethod: this.paymentMethod.value,
         txnId: this.txnId.value,
         amount: 900,
@@ -6943,7 +6943,7 @@ function checkCourseAccess() {
     if (!user) return;
 
     const userCourses = user.courses || [];
-    if (userCourses.includes('Urdu-kayada')) {
+    if (userCourses.includes('Urdu-Dosari.html')) {
         unlockCourseContent();
     }
 }
@@ -6964,7 +6964,7 @@ async function unlockCourse(paymentId) {
             },
             body: JSON.stringify({
                 paymentId,
-                courseId: 'Urdu-kayada'
+                courseId: 'Urdu-Dosari.html'
             })
         });
 
@@ -7151,7 +7151,7 @@ document.getElementById('manualPaymentForm').addEventListener('submit', function
         name: currentUser.name,
         email: currentUser.email,
         phone: formData.get('phone'),
-        courseName: "উর্দু কায়দা ", // Course title
+        courseName: "উর্দু দোসরী ", // Course title
         courseId: formData.get('courseId'),
         paymentMethod: formData.get('paymentMethod'),
         txnId: formData.get('txnId'),
@@ -7228,7 +7228,7 @@ function checkAccess() {
     if (!currentUser) return;
 
     const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    const courseId = 'Urdu-kayada'; // আপনার কোর্স আইডি
+    const courseId = 'Urdu-Dosari.html'; // আপনার কোর্স আইডি
 
     if (userAccess[currentUser.email]?.includes(courseId)) {
         unlockCourseContent();
@@ -7284,7 +7284,7 @@ function checkAndUnlockCourse() {
     if (!currentUser) return;
 
     const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    const courseAccess = userAccess[currentUser.email]?.['Urdu-kayada']; // Replace with your course ID
+    const courseAccess = userAccess[currentUser.email]?.['Urdu-Dosari.html']; // Replace with your course ID
     
     if (courseAccess?.accessGranted) {
         unlockCourseContent();
@@ -7325,7 +7325,7 @@ window.addEventListener('storage', (e) => {
         const data = JSON.parse(e.newValue);
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         
-        if (currentUser && currentUser.email === data.email && data.courseId === 'Urdu-kayada') {
+        if (currentUser && currentUser.email === data.email && data.courseId === 'Urdu-Dosari.html') {
             unlockCourseContent();
         }
     }
@@ -7337,7 +7337,7 @@ setInterval(() => {
     if (refreshData) {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         
-        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'Urdu-kayada') {
+        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'Urdu-Dosari.html') {
             unlockCourseContent();
             localStorage.removeItem('refreshCourseAccess');
         }
@@ -7358,7 +7358,7 @@ function checkAndUnlockCourse() {
     if (!currentUser) return;
 
     const userAccess = JSON.parse(localStorage.getItem('userCourseAccess')) || {};
-    const courseAccess = userAccess[currentUser.email]?.['Urdu-kayadaume-3'];
+    const courseAccess = userAccess[currentUser.email]?.['Urdu-Dosari.htmlume-3'];
     
     if (courseAccess?.accessGranted) {
         unlockCourseContent();
@@ -7406,7 +7406,7 @@ window.addEventListener('storage', (e) => {
         const data = JSON.parse(e.newValue);
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         
-        if (currentUser && currentUser.email === data.email && data.courseId === 'Urdu-kayada') {
+        if (currentUser && currentUser.email === data.email && data.courseId === 'Urdu-Dosari.html') {
             unlockCourseContent();
         }
     }
@@ -7418,7 +7418,7 @@ setInterval(() => {
     if (refreshData) {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         
-        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'Urdu-kayadat') {
+        if (currentUser && currentUser.email === refreshData.email && refreshData.courseId === 'Urdu-Dosari.htmlt') {
             unlockCourseContent();
             localStorage.removeItem('refreshCourseAccess');
         }
@@ -7628,8 +7628,8 @@ function checkCourseAccess(courseId) {
            userAccess[userEmail][courseId].accessGranted;
 }
 
-// ব্যবহার: Urdu-kayada কোর্স চেক করতে:
-if (checkCourseAccess('Urdu-kayada')) {
+// ব্যবহার: Urdu-Dosari.html কোর্স চেক করতে:
+if (checkCourseAccess('Urdu-Dosari.html')) {
     // কোর্স অ্যাক্সেস দেওয়া আছে
 }
 
@@ -7745,13 +7745,13 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
 // Listen for course access updates
-// ক্লায়েন্ট সাইড (Urdu-kayada.html)
+// ক্লায়েন্ট সাইড (Urdu-Dosari.html.html)
 if (typeof io !== 'undefined') {
     const socket = io('https://t-islamacademy.onrender.com');
 
     socket.on('courseAccessUpdated', (data) => {
         const user = JSON.parse(localStorage.getItem('currentUser'));
-        if (user && user.email === data.email && data.courseId === 'Urdu-kayada') {
+        if (user && user.email === data.email && data.courseId === 'Urdu-Dosari.html') {
             unlockCourseContent();
             showPopup('আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য', 'success');
         }
@@ -7763,7 +7763,7 @@ if (typeof io !== 'undefined') {
             const data = JSON.parse(e.newValue);
             const user = JSON.parse(localStorage.getItem('currentUser'));
 
-            if (user && user.email === data.email && data.courseId === 'Urdu-kayada') {
+            if (user && user.email === data.email && data.courseId === 'Urdu-Dosari.html') {
                 unlockCourseContent();
                 showPopup('আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য', 'success');
             }
@@ -7778,8 +7778,8 @@ if (typeof io !== 'undefined') {
 const user = JSON.parse(localStorage.getItem('currentUser'));
 if (user) {
     if (!user.courses) user.courses = [];
-    if (!user.courses.includes('Urdu-kayada')) {
-        user.courses.push('Urdu-kayada');
+    if (!user.courses.includes('Urdu-Dosari.html')) {
+        user.courses.push('Urdu-Dosari.html');
         localStorage.setItem('currentUser', JSON.stringify(user));
     }
 }
@@ -7788,7 +7788,7 @@ if (user) {
 
 
 
-// Urdu-kayada.html ফাইলে
+// Urdu-Dosari.html.html ফাইলে
 function showSuccessMessage() {
     const successModal = document.getElementById('successModal');
     successModal.style.display = 'block';
@@ -7828,7 +7828,7 @@ function setupCourseAccessListener() {
         
         socket.on('courseAccessUpdated', (data) => {
             const user = JSON.parse(localStorage.getItem('currentUser'));
-            if (user && user.email === data.email && data.courseId === 'Urdu-kayada') {
+            if (user && user.email === data.email && data.courseId === 'Urdu-Dosari.html') {
                 unlockCourseContent();
                 showPopup('success', 'আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য');
             }
@@ -7841,7 +7841,7 @@ function setupCourseAccessListener() {
             const data = JSON.parse(e.newValue);
             const user = JSON.parse(localStorage.getItem('currentUser'));
             
-            if (user && user.email === data.email && data.courseId === 'Urdu-kayadaume-3') {
+            if (user && user.email === data.email && data.courseId === 'Urdu-Dosari.htmlume-3') {
                 unlockCourseContent();
                 showPopup('success', 'আপনার পেমেন্ট অনুমোদিত হয়েছে! কোর্স এখন এক্সেসযোগ্য');
             }
@@ -7882,7 +7882,7 @@ let socket;
                 socket.on('courseAccessUpdated', (data) => {
                     console.log('Course access update received:', data);
                     
-                    if (currentUser && data.email === currentUser.email && data.courseId === 'Urdu-kayada') {
+                    if (currentUser && data.email === currentUser.email && data.courseId === 'Urdu-Dosari.html') {
                         console.log('Course unlocked for current user!');
                         unlockCourseContent();
                         showCourseUnlockedNotification(data);
@@ -7919,12 +7919,12 @@ let socket;
                 
                 console.log('User courses:', userCourses);
                 
-                if (userCourses.includes('Urdu-kayada')) {
-                    console.log('User has access to Urdu-kayada course');
+                if (userCourses.includes('Urdu-Dosari.html')) {
+                    console.log('User has access to Urdu-Dosari.html course');
                     unlockCourseContent();
                     return true;
                 } else {
-                    console.log('User does not have access to Urdu-kayada course');
+                    console.log('User does not have access to Urdu-Dosari.html course');
                     return false;
                 }
                 
@@ -7933,7 +7933,7 @@ let socket;
                 
                 // Fallback: check localStorage
                 const localUser = JSON.parse(localStorage.getItem('currentUser'));
-                if (localUser && localUser.courses && localUser.courses.includes('Urdu-kayada')) {
+                if (localUser && localUser.courses && localUser.courses.includes('Urdu-Dosari.html')) {
                     unlockCourseContent();
                     return true;
                 }
@@ -8313,7 +8313,7 @@ const ReviewSystem = {
 document.addEventListener('DOMContentLoaded', function() {
     loadReviews();
     // Initialize review system
-    const courseId = 'Urdu-kayada'; // Replace with actual course ID
+    const courseId = 'Urdu-Dosari.html'; // Replace with actual course ID
     ReviewSystem.loadReviews(courseId);
     
     const reviewForm = document.getElementById('reviewForm');
@@ -8357,7 +8357,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Load reviews for the course
 // পেজ লোড হলে রিভিউ লোড করুন
 function loadReviews() {
-    fetch('https://t-islamacademy.onrender.com/api/reviews/Urdu-kayada')
+    fetch('https://t-islamacademy.onrender.com/api/reviews/Urdu-Dosari.html')
     .then(response => response.json())
     .then(data => {
         if (data.success && data.reviews) {
@@ -8502,103 +8502,42 @@ function createReviewElement(review) {
         // Video modal functionality
         function openVideoModal(videoId) {
              const videos = {
-    'lesson-1': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'VEBtNGm_ym8'
-    },
-    'lesson-2': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'EOBPhxxZuW4'
-    },
-    'lesson-3': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'SanXg2ceFw8'
-    },
-    'lesson-4': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'xKhNXaaLEKU'
-    },
-    'lesson-5': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'HEpfSTU2Plg'
-    },
-    'lesson-6': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'oxvD4c3s4iI'
-    },
-    'lesson-7': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '0j-Z_x2uneE'
-    },
-    'lesson-8': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'EJTC01RNLmQ'
-    },
-    'lesson-9': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '2vPcYWKxazw'
-    },
-    'lesson-10': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'k3gyGG_96rg'
-    },
-    'lesson-11': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'ZKh82ukuEzc'
-    },
-    'lesson-12': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '-m56LAv_UYo'
-    },
-    'lesson-13': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'wU7JyybwTyI'
-    },
-    'lesson-14': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'tAc1uY0cSS4'
-    },
-    'lesson-15': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'QpHxkw8xxMs'
-    },
-    'lesson-16': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '-CBqG5MZgAU'
-    },
-    'lesson-17': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '1ITrzc1QLKQ'
-    },
-    'lesson-18': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '1SiY9t44wCQ'
-    },
-    'lesson-19': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'PPGL5n5iCfw'
-    },
-    'lesson-20': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'X7aKXTYSBsM'
-    },
-    'lesson-21': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'PgfsPq4XKgM'
-    },
-    'lesson-22': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'PEUKoLDEg70'
-    },
-    'lesson-23': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: 'ophAu7Tsykg'
-    },
-    'lesson-24': {
-        title: 'উর্দু ভাষা শিক্ষা কোর্স',
-        videoId: '6wHRr0AJAEg'
-    }
+    'lesson-1': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'pnDS-TNeuYI' },
+    'lesson-2': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'zKjUQElWZGc' },
+    'lesson-3': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: '9jqBiu6nsPI' },
+    'lesson-4': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: '3yQYnLhQQYY' },
+    'lesson-5': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'fWn9rYJ18Hk' },
+    'lesson-6': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'jPsm7103W1g' },
+    'lesson-7': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'ak93cf0b_Ho' },
+    'lesson-8': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'bsyKCDXf1nc' },
+    'lesson-9': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: '3XaqJGm901s' },
+    'lesson-10': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'LyCV2YYgfj0' },
+    'lesson-11': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'OSvbMvFweiY' },
+    'lesson-12': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'CgnHfhSk5e8' },
+    'lesson-13': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: '6yZqgb11BOU' },
+    'lesson-14': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'YOa1aZLoL-g' },
+    'lesson-15': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'Tovq7qm6E20' },
+    'lesson-16': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'Aekgqqn5h_c' },
+    'lesson-17': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'zbsGEe4fvf8' },
+    'lesson-18': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'KnX87EXiL8A' },
+    'lesson-19': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'EGCuuvX-V3o' },
+    'lesson-20': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'ft_Y1fGJf8w' },
+    'lesson-21': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'wBTGm5frw3Y' },
+    'lesson-22': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'sp_VrTWMgH0' },
+    'lesson-23': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: '5q09H36qeuw' },
+    'lesson-24': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: '5q09H36qeuw' },
+    'lesson-25': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'SUzp_TQi8BI' },
+    'lesson-26': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: '4feeU7k4BlM' },
+    'lesson-27': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: '0np4SxEmDAU' },
+    'lesson-28': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'BPHU-p2FCds' },
+    'lesson-29': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'eMVCshUWuWQ' },
+    'lesson-30': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'DId5IbhBSc4' },
+    'lesson-31': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'zcJFM-heiuQ' },
+    'lesson-32': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'ya9M_WJMwjM' },
+    'lesson-33': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'NWUrKyYi0lI' },
+    'lesson-34': { title: 'উর্দু দোসরী শিক্ষা কোর্স', videoId: 'OAadCJgLC4k' }
 };
+
 
 
             if (videos[videoId]) {
