@@ -5541,17 +5541,7 @@ window.addEventListener('popstate', setActiveNavLink);
           overflow: hidden;
           height: 160px;
         }
-        
-        .course-thumbnail img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.5s ease;
-        }
-        
-        .course-card:hover .course-thumbnail img {
-          transform: scale(1.05);
-        }
+    
         
         /* লেভেল ব্যাজ */
         .level-badge {
@@ -5891,7 +5881,148 @@ window.addEventListener('popstate', setActiveNavLink);
         font-size: 13px !important;
     }
 }
-</style>   
+
+.course-thumbnail {
+    position: relative;
+    overflow: hidden;
+    height: 160px;
+    width: 100%; /* পুরো প্রস্থ নিতে বাধ্য করুন */
+    padding: 0 !important; /* সব প্যাডিং রিমুভ */
+    margin: 0 !important; /* সব মার্জিন রিমুভ */
+    background: none !important; /* ব্যাকগ্রাউন্ড রিমুভ */
+    border-radius: 0 !important; /* শুধুমাত্র কার্ডের উপরের অংশে রাউন্ড করব */
+    box-shadow: none !important; /* ছায়া রিমুভ */
+    display: block; /* flex থেকে block */
+    border-bottom: 1px solid #f0f0f0; /* ছবি এবং কন্টেন্টের মধ্যে সীমানা */
+}
+
+.course-thumbnail img {
+    width: 100%;
+    height: 160px; /* নির্দিষ্ট উচ্চতা */
+    object-fit: cover; /* ছবি ক্রপ হবে কিন্তু অনুপাত ঠিক থাকবে */
+    object-position: center; /* সেন্টার থেকে ক্রপ */
+}
+
+/* কোর্স কার্ডের উপরের বাম ও ডান কোণা গোল করার জন্য */
+.course-card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden; /* এইটা গুরুত্বপূর্ণ, যাতে ছবি কার্ডের বর্ডার রেডিয়াস মান্য করে */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: default;
+}
+
+/* মোবাইলের জন্য আরও অপটিমাইজেশন */
+@media (max-width: 768px) {
+    .course-thumbnail {
+        height: 130px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .course-thumbnail {
+        height: 110px !important;
+    }
+}
+
+
+.course-thumbnail {
+    position: relative;
+    overflow: hidden;
+    height: 160px;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    border-radius: 10px 10px 0 0 !important; /* শুধু উপরের অংশ গোলাকার */
+    box-shadow: none !important;
+    display: block;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: #f8f9fa; /* ছবি কন্টেইনারের জন্য হালকা ব্যাকগ্রাউন্ড */
+}
+
+.course-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* ছবি সম্পূর্ণ দেখা যাবে, কাটা যাবে না */
+    object-position: center center; /* ছবি সেন্টারে থাকবে */
+    background-color: #f8f9fa; /* ছবির পেছনে একই ব্যাকগ্রাউন্ড */
+}
+
+/* মোবাইল ডিভাইসেও একই স্টাইল বজায় রাখা */
+@media (max-width: 768px) {
+    .course-thumbnail {
+        height: 130px;
+    }
+    
+    .course-thumbnail img {
+        object-fit: contain; /* মোবাইলেও contain বজায় রাখা */
+    }
+}
+
+@media (max-width: 480px) {
+    .course-thumbnail {
+        height: 110px;
+    }
+    
+    .course-thumbnail img {
+        object-fit: contain; /* ছোট মোবাইলেও contain বজায় রাখা */
+    }
+}
+
+
+/* থাম্বনেইল কন্টেইনার ফিক্স */
+.course-thumbnail {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    /* একটি আদর্শ ১৬:৯ অনুপাত বজায় রাখার জন্য */
+    aspect-ratio: 16 / 9; 
+    height: auto; /* ফিক্সড হাইট সরিয়ে অটো করা হয়েছে */
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: #f8f9fa;
+    border-radius: 10px 10px 0 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ইমেজ স্টাইল ফিক্স */
+.course-thumbnail img {
+    width: 100%;
+    height: 100%;
+    /* 'cover' দিলে ছবি পুরো বক্স জুড়ে থাকবে, কাটবে না কিন্তু জুম হতে পারে */
+    /* 'contain' দিলে পুরো ছবি দেখাবে কিন্তু পাশে খালি জায়গা থাকতে পারে */
+    object-fit: cover; 
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+/* কার্ড হোভার করলে ইমেজ হালকা জুম হবে (ঐচ্ছিক) */
+.course-card:hover .course-thumbnail img {
+    transform: scale(1.05);
+}
+
+/* মোবাইল ডিভাইসের জন্য স্পেশাল ফিক্স */
+@media (max-width: 768px) {
+    .course-thumbnail {
+        aspect-ratio: 16 / 9; /* মোবাইলেও অনুপাত ঠিক থাকবে */
+    }
+}
+
+@media (max-width: 480px) {
+    .course-thumbnail {
+        aspect-ratio: 4 / 3; /* ছোট মোবাইলে ছবি একটু বড় দেখানোর জন্য */
+    }
+}
+</style>      
 <div class="container1">
         <div class="section-header"  id="coursesSection">
             <h2>আমাদের কোর্সসমূহ</h2>
@@ -5936,7 +6067,7 @@ window.addEventListener('popstate', setActiveNavLink);
             <div class="course-card always-visible">
                 <a href="#" class="course-card-link" aria-label="উর্দু কায়দা"></a>
                 <div class="course-thumbnail">
-                    <img src="img/urdu-kayda.png" alt="উর্দু কায়দা">
+                    <img src="img/উর্দূ কায়দা.png" alt="উর্দু কায়দা">
                 </div>
                 <div class="course-info">
                     <h3 class="course-title">উর্দু কায়দা</h3>
