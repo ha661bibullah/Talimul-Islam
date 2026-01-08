@@ -6022,6 +6022,45 @@ window.addEventListener('popstate', setActiveNavLink);
         aspect-ratio: 4 / 3; /* ছোট মোবাইলে ছবি একটু বড় দেখানোর জন্য */
     }
 }
+
+
+
+/* ১. থাম্বনেইল কন্টেইনার আপডেট */
+.course-thumbnail {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    /* উচ্চতা নির্দিষ্ট না করে অনুপাত সেট করা */
+    aspect-ratio: 16 / 9; 
+    height: auto !important; /* আগের সব ফিক্সড হাইট ওভাররাইড করবে */
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: #f8f9fa;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* ২. ইমেজ প্রপার্টি আপডেট */
+.course-thumbnail img {
+    width: 100%;
+    height: 100%;
+    /* ছবি যাতে কেটে না যায় সেজন্য 'contain' ব্যবহার করুন */
+    /* যদি চান পুরো বক্স ভরে থাকুক তবে 'cover' দিন */
+    object-fit: contain; 
+    object-position: center;
+}
+
+/* ৩. মোবাইল মিডিয়া কুয়েরি থেকে ফিক্সড হাইট রিমুভ করুন */
+@media (max-width: 768px) {
+    .course-thumbnail {
+        height: auto !important; /* ফিক্সড ১১০ বা ১৩০ পিক্সেল রাখা যাবে না */
+    }
+}
+
+@media (max-width: 480px) {
+    .course-thumbnail {
+        height: auto !important;
+    }
+}
 </style>      
 <div class="container1">
         <div class="section-header"  id="coursesSection">
