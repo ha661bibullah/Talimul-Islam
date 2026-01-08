@@ -3691,7 +3691,12 @@ window.addEventListener('popstate', setActiveNavLink);
                 margin-right: 10px;
             }
         }
-</style>
+
+        .subject-list a.subject-text {
+    text-decoration: none;
+    color: #333;
+}
+</style> 
 <div class="containerA">
         <div class="headerC">
             <h1>কওমী মাদ্রাসা</h1>
@@ -3743,38 +3748,67 @@ window.addEventListener('popstate', setActiveNavLink);
                 <span>জামাত: উর্দু</span>
                 <span class="toggle-icon">+</span>
             </button>
-            <div class="faq-answer" id="urdu">
-                <div class="subject-list">
-                    <div class="subject-item">
-                        <span class="subject-number">১.</span>
-                        <span class="subject-text">উর্দু কায়দা পেহেলি ও দোসরী</span>
-                    </div>
-                    <div class="subject-item">
-                        <span class="subject-number">২.</span>
-                        <span class="subject-text">তালিমুল ইসলাম (১-৩)</span>
-                    </div>
-                    <div class="subject-item">
-                        <span class="subject-number">৩.</span>
-                        <span class="subject-text">বাংলা আদর্শ পাঠ (৪র্থ)</span>
-                    </div>
-                    <div class="subject-item">
-                        <span class="subject-number">৪.</span>
-                        <span class="subject-text">প্রাথমিক গণিত (৪র্থ)</span>
-                    </div>
-                    <div class="subject-item">
-                        <span class="subject-number">৫.</span>
-                        <span class="subject-text">ইতিহাস পাঠ (৪র্থ)</span>
-                    </div>
-                    <div class="subject-item">
-                        <span class="subject-number">৬.</span>
-                        <span class="subject-text">ভূগোল ও সমাজ পরিচিতি (৪র্থ)</span>
-                    </div>
-                    <div class="subject-item">
-                        <span class="subject-number">৭.</span>
-                        <span class="subject-text">My English book (part 4) and grammar</span>
-                    </div>
-                </div>
-            </div>
+           <div class="faq-answer" id="urdu">
+    <div class="subject-list">
+        <!-- 1. উর্দু কায়দা পেহেলি ও দোসরী -->
+        <div class="subject-item">
+            <span class="subject-number">১.</span>
+            <a href="Urdu-kayada.html" class="subject-text">উর্দু কায়দা</a>
+        </div>
+        <div class="subject-item">
+            <span class="subject-number">২.</span>
+            <a href="Urdu-Paheli.html" class="subject-text">উর্দু পেহেলি</a>
+        </div>
+        <div class="subject-item">
+            <span class="subject-number">৩.</span>
+            <a href="#" class="subject-text">উর্দু দোসরী</a>
+        </div>
+
+        <!-- 2. তালিমুল ইসলাম (১-৩) -->
+        <div class="subject-item">
+            <span class="subject-number">৪.</span>
+            <a href="TalimulIslamVolume-1.html" class="subject-text">তালিমুল ইসলাম ১</a>
+        </div>
+        <div class="subject-item">
+            <span class="subject-number">৫.</span>
+            <a href="TalimulIslamVolume-2.html" class="subject-text">তালিমুল ইসলাম ২</a>
+        </div>
+        <div class="subject-item">
+            <span class="subject-number">৬.</span>
+            <a href="TalimulIslamVolume-3.html" class="subject-text">তালিমুল ইসলাম ৩</a>
+        </div>
+
+        <!-- 3. বাংলা আদর্শ পাঠ (৪র্থ) -->
+        <div class="subject-item">
+            <span class="subject-number">৭.</span>
+            <a href="#" class="subject-text">বাংলা আদর্শ পাঠ (৪র্থ)</a>
+        </div>
+
+        <!-- 4. প্রাথমিক গণিত (৪র্থ) -->
+        <div class="subject-item">
+            <span class="subject-number">৮.</span>
+            <a href="#" class="subject-text">প্রাথমিক গণিত (৪র্থ)</a>
+        </div>
+
+        <!-- 5. ইতিহাস পাঠ (৪র্থ) -->
+        <div class="subject-item">
+            <span class="subject-number">৯.</span>
+            <a href="#" class="subject-text">ইতিহাস পাঠ (৪র্থ)</a>
+        </div>
+
+        <!-- 6. ভূগোল ও সমাজ পরিচিতি (৪র্থ) -->
+        <div class="subject-item">
+            <span class="subject-number">১০.</span>
+            <a href="#" class="subject-text">ভূগোল ও সমাজ পরিচিতি (৪র্থ)</a>
+        </div>
+
+        <!-- 7. My English book (part 4) and grammar -->
+        <div class="subject-item">
+            <span class="subject-number">১১.</span>
+            <a href="#" class="subject-text">My English book (part 4) and grammar</a>
+        </div>
+    </div>
+</div>
         </div>
 
         <!-- জামাত: তাইসির -->
